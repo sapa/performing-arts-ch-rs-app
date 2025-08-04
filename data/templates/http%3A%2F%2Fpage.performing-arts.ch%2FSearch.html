@@ -1,0 +1,99 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+</ol>
+
+<div class="page">
+
+  <div class='sapa-component panel-home-browse page__body'>
+
+    [[> component-search showEverything=(urlParam "browse")]]
+    [[#if (urlParam "browse")]]
+    [[else]]
+      <!--
+      <div class="float-right">
+        <semantic-link iri="[[resolvePrefix "sapa:Search"]]" urlqueryparam-browse="true">[[i18n "SearchShowEverything" bundle="performing-arts-ch"]]</semantic-link>
+      </div>
+      -->
+    [[/if]]
+  </div>
+</div>
+
+[[#*inline "component-search"]]
+
+[[#> sapaModule:BaseSearch searchAllDomains="true"]]    
+    [[> component-keyword-search]]
+[[/ sapaModule:BaseSearch]]
+
+[[/inline]]
+
+[[#*inline "component-keyword-search"]]
+
+<semantic-search-query-keyword 
+id='keywordQuery-[[#if domain]][[domain]][[else]]global[[/if]]'
+domain="[[#if domain]]<[[resolvePrefix domain]]>[[else]]<http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity>[[/if]]"
+tokenize-lucene-query="false"
+[[#if showEverything]]
+  default-query='SELECT DISTINCT ?subject WHERE {
+    [[#if domain]]
+      BIND([[domain]] as ?__domain__)
+    [[else]]
+      VALUES(?__domain__) {
+        (frbroo:F25_Performance_Plan)
+        (crm:E21_Person)
+        (crm:E74_Group)
+        (crm:E40_Legal_Body)
+        (crm:E22_Man-Made_Object)
+        (crm:E53_Place)
+      }
+    [[/if]]
+    ?subject rdf:type ?__domain__ .
+    MINUS {
+      FILTER NOT EXISTS {
+        ?subject rdfs:label ?label .
+      }
+    }
+  }'
+[[/if]]
+query='SELECT DISTINCT ?subject WHERE {
+  [[#if domain]]
+    BIND([[domain]] as ?__domain__)
+  [[else]]
+    VALUES(?__domain__) {
+      (frbroo:F25_Performance_Plan)
+      (crm:E21_Person)
+      (crm:E74_Group)
+      (crm:E40_Legal_Body)
+      (crm:E22_Man-Made_Object)
+      (crm:E53_Place)
+    }
+  [[/if]]
+  ?subject rdf:type|rdf:type/rdfs:subClassOf ?__domain__ . 
+  FILTER(!CONTAINS(STR(?subject), "/u/") && !CONTAINS(STR(?subject), "/x/"))
+  OPTIONAL { 
+    ?subject crm:P2_has_type ?crmtype . 
+    FILTER(?__domain__ != crm:E22_Man-Made_Object || ?crmtype = spav:dwmkn )
+  }
+  {
+    ?subject rdfs:label|(crm:P131_is_identified_by/rdf:value)|(crm:P102_has_title/rdf:value) ?label .
+  } UNION {
+    ?subject crm:P3_has_note ?note .
+        ?note a crm:E62_String ;
+          crm:P2_has_type <http://vocab.performing-arts.ch/eoept>; 
+            rdf:value ?label .
+  }
+  SERVICE <http://www.bigdata.com/rdf/search#search> {
+    ?label bds:search ?__token__ ;
+    bds:minRelevance "0.1" ;
+    bds:relevance ?score ; 
+    bds:matchAllTerms "true" .
+  }
+}'
+placeholder='[[i18n "SearchPrompt" bundle="performing-arts-ch" escapeHTML=false]]'
+min-search-term-length='1'
+debounce='600'
+>
+
+</semantic-search-query-keyword>
+[[/inline]]

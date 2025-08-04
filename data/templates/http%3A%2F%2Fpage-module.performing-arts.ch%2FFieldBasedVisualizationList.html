@@ -1,0 +1,18 @@
+<div>
+  {{#each fields as |field|}}
+    {{#if field.values}}
+      <div>
+        [[!-- {{log field}} --]] 
+        <h5>{{#each field.label}}{{this.value}}{{/each}}</h5>
+        <ul class="list-unstyled">
+          {{#each field.values as |value|}}
+              <li>
+                [[!-- show include: [[> sapaModule:FieldValueVisualization]] --]]
+                {{> sapaModule:FieldValueVisualization field=field value=value }}
+              </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+  {{/each}}
+</div>

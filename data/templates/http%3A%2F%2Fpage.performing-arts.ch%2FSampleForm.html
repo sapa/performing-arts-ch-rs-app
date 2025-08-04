@@ -1,0 +1,173 @@
+[[> sapaModule:FieldDefinitions]]
+
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+</ol>
+
+<div class="page">
+  <div class='page__body'>
+    <h2>Musterformular</h2>
+    <ul style="padding-top: 12px; padding-bottom: 12px; ">
+        <li>Für alle Felder kann definert werden, wie oft sie mindestens und maximal verwendet werden sollen.</li>
+        <li>Mindestens eine Eingabe ist ein Pflichtfeld mit Sternchen.</li>
+        <li>Wenn die Maximalverwendung nicht beschränkt ist, erscheint unten rechts eine Option, um ein weiteres Feld anzulegen.</li>
+    </ul>
+    <div data-flex-layout='row top-stretch'>
+        <semantic-form 
+            new-subject-template='http://data.performing-arts.ch/sample/{{UUID}}'
+            post-action="redirect"
+            browser-persistence=true
+            persistence='ldp' 
+            form-id='sample'
+            fields='[
+                [[> RDFtype]],
+                [[> ThingIdentifier]],
+                [[> RecordResourceName]],
+                [[> PersonBirthDate]],
+                [[> PersonMiscAppellation]],
+                [[> RecordResourceHistory]],
+                [[> RecordSetType]],
+                [[> ThingPhysicalUsability]],
+                [[> Website]],
+                [[> ThingTermsProtection]],
+                [[> RecordResourcePacking]],
+                [[> GroupMember]],
+                [[> RecordResourcePlace]],
+                [[> PlaceFallsWithin]],
+                [[> SameAs]]
+            ]'>
+          <bs-panel>
+            <semantic-form-recover-notification></semantic-form-recover-notification>
+            <bs-row>
+                <bs-col sm='12'>
+                    <h3>Freitexteingabe</H3>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Einzeilige Texteingabe mit und ohne Sprachwahl</p>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-text-input for="ThingIdentifier"></semantic-form-text-input>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-text-input for="RecordResourceName" languages='["en", "de", "fr", "it"]'></semantic-form-text-input>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Einzeilige Texteingabe mit Formatbeschränkungen und Tooltips</p>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-text-input for="PersonBirthDate"></semantic-form-text-input>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-text-input for="Website"></semantic-form-text-input>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Mehrzeilige Texteingabe</p>
+                </bs-col>
+                <bs-col sm='8'>
+                    <semantic-form-text-input for="RecordResourceHistory" multiline=true></semantic-form-text-input>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='12'>
+                    <h3>Auswahlfelder</H3>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Einfachauswahl per Dropdown für Felder mit beschränkten Optionen, von denen nur eine ausgewählt werden kann</p>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-select-input for="RecordSetType"></semantic-form-select-input>
+                </bs-col>
+                <bs-col sm='4'>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Einfachauswahl per Radio Buttons für Felder mit beschränkten Optionen</p>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-checklist-input type='radio' clearable=true row=true for="ThingTermsProtection"></semantic-form-checklist-input>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-checklist-input type='radio' clearable=true for="ThingPhysicalUsability"></semantic-form-checklist-input>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Mehrfachauswahl per Check Boxes für Felder mit beschränkten Optionen</p>
+                </bs-col>
+                <bs-col sm='8'>
+                    <semantic-form-checklist-input row=true for="RecordResourcePacking"></semantic-form-checklist-input>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Verknüpfung mit anderen Datensätzen über Suche, optional mit der Möglichkeit einen Datensatz (wie hier eine Person) direkt nue anzulegen.</p>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-autocomplete-input for="GroupMember"></semantic-form-autocomplete-input>            
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-autocomplete-input for="GroupMember">
+                        <semantic-form new-subject-template="http://data.performing-arts.ch/a/{{UUID}}" fields='[
+                        [[> RDFtype]],
+                        [[> PersonCommonAppellation]]
+                        ]'>
+                            <div style="display: none;">
+                                <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E21_Person"]]", "[[resolvePrefix "rico:Person"]]"]'></semantic-form-hidden-input>
+                            </div>
+                            <semantic-form-text-input for="PersonCommonAppellation" languages='["en","de","fr","it"]'></semantic-form-text-input>
+                            <button name="submit" class="btn btn-secondary">Create Person</button>
+                        </semantic-form>
+                    </semantic-form-autocomplete-input>            
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;">Verknüpfung mit anderen, hierarchisch aufgebauten Datensätzen über Suche und Baumnavigation</p>
+                </bs-col>
+                <bs-col sm='4'>
+                    <semantic-form-tree-picker-input for="RecordResourcePlace"></semantic-form-tree-picker-input>
+                </bs-col>
+                <bs-col sm='4'>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='12'>
+                    <h3>Kombinationsfelder</H3>
+                </bs-col>
+            </bs-row>
+            <bs-row>
+                <bs-col sm='4'>
+                    <p style="margin-top: 16px;"></p>
+                </bs-col>
+                <bs-col sm='8'>
+                    <semantic-form-composite-input for="PersonMiscAppellation" new-subject-template='http://data.performing-arts.ch/x/{{UUID}}' fields='[
+                    [[> PersonMiscAppellationValue]],
+                    [[> PersonMiscAppellationType]]
+                    ]'>
+                        <bs-row>
+                            <bs-col sm='8'>
+                                <semantic-form-text-input for="PersonMiscAppellationValue" languages='["en","de","fr","it"]'></semantic-form-text-input>
+                            </bs-col>
+                            <bs-col sm='4'>
+                                <semantic-form-checklist-input type='checkbox' for="PersonMiscAppellationType"></semantic-form-checklist-input>
+                            </bs-col>
+                        </bs-row>
+                    </semantic-form-composite-input>
+                </bs-col>
+            </bs-row>
+        </bs-panel>
+        </semantic-form>
+      </div>    
+  </div>
+</div>

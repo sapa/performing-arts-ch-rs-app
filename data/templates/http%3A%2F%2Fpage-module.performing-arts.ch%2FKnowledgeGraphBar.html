@@ -1,0 +1,108 @@
+<style>
+  .knowledgeGraphBar__thumbnail img{
+    max-width: 120px !important;
+  }
+</style>
+<div class="knowledgeGraphBar">
+  <div class='knowledgeGraphBar__thumbnail' >
+    [[#if thumbnail]]
+      <img src="[[thumbnail]]" >
+      
+    [[else]]
+      <semantic-query 
+        query='SELECT ?icon
+        WHERE {
+          ?? a ?type .
+          VALUES (?type ?icon) {
+            (frbroo:F25_Performance_Plan "../assets/icons/solid/theater-masks.svg")
+            (frbroo:F31_Performance "../assets/icons/solid/theater-masks.svg")
+            (crm:E4_Period "../assets/icons/solid/calendar-alt.svg")
+            (crm:E22_Man-Made_Object "../assets/icons/solid/landmark.svg")
+            (crm:E21_Person "../assets/icons/solid/user.svg")
+            (crm:E74_Group "../assets/icons/solid/users.svg")
+            (crm:E40_Legal_Body "../assets/icons/solid/users.svg")
+            (crm:E53_Place "../assets/icons/solid/map-marker-alt.svg")
+            (rico:Concept "../assets/icons/solid/comment-lines.svg")
+            (rico:Record "../assets/icons/solid/file-alt.svg")
+            (rico:RecordSet "../assets/icons/solid/folder-open.svg")
+            (frbroo:F26_Recording "../assets/icons/solid/camcorder-solid.svg")
+            (spao:ArchivalPlace "../assets/icons/solid/archive.svg")
+          }
+        }'
+        template='<div>{{#each bindings}}<mp-resource-thumbnail no-image-uri="{{icon.value}}" iri="[[this]]" style=" height:75% padding: 10px;"></mp-resource-thumbnail> {{/each}} </div>'>
+      </semantic-query>
+    [[/if]]
+
+
+  </div>
+  
+  <div class="knowledgeGraphBar__summary">
+    <div class='knowledgeGraphBar__summaryTitle'>
+      <h1>
+        <mp-popover>
+          <mp-popover-trigger placement='bottom' trigger='["hover"]'>
+            <span class='knowledgeGraphBar__summaryLabel'><mp-label iri="[[this]]"></mp-label></span>
+          </mp-popover-trigger>
+          <mp-popover-content>
+            <mp-label iri="[[this]]"></mp-label>
+          </mp-popover-content>
+        </mp-popover>
+      </h1>
+    </div>
+    <div class='knowledgeGraphBar__bottomRow'>
+      <div class='knowledgeGraphBar__graphInfos'>
+        <semantic-query 
+          query="SELECT ?description WHERE {
+            ?? a ?class .
+            FILTER(CONTAINS(STR(?class), 'RiC') || CONTAINS(STR(?class), 'frbroo'))
+            OPTIONAL { ?? crm:P2_has_type ?crmtype . }
+            OPTIONAL { ?? crm:P4_has_time-span ?timespan . }
+            OPTIONAL {
+              ?work frbroo:R12_is_realised_in ?? ;
+                  crm:P2_has_type ?genre .
+            }
+            OPTIONAL { ?? rico:hasRecordSetType ?record_set_type . }
+            BIND(IF(BOUND(?timespan), ?timespan, IF(BOUND(?genre), ?genre, IF(BOUND(?crmtype), ?crmtype, IF(BOUND(?record_set_type), ?record_set_type, ?class)))) AS ?description)
+          }"
+          template="{{> template}}">
+          <template id="template">
+            <p>
+              {{#each bindings}}
+                <mp-label iri='{{description.value}}'></mp-label>
+                {{#unless @last}},&nbsp;{{/unless}}
+              {{/each}}
+            </p>
+          </template>
+      </semantic-query>
+      <semantic-query 
+          query="SELECT ?uri ?button WHERE {
+            GRAPH ?graph {
+              ?? a ?type .
+              OPTIONAL { ?? <http://example.com/resource> ?null }
+            }
+            BIND(?? as ?uri)
+            BIND('true'^^xsd:boolean as ?button)
+            #BIND(IF(CONTAINS(STR(?graph), '/temp-context'), 'not yet permanent', ??) AS ?uri) 
+            #BIND(IF(CONTAINS(STR(?graph), '/temp-context'), ?null, 'true'^^xsd:boolean) AS ?button)
+          } LIMIT 1"
+          template="<div class='knowledgeGraphBar__uriRow'>{{#each bindings}}{{log this}}<b>URI</b>: <i>{{uri.value}}</i>{{#if button.value}}<mp-copy-to-clipboard text='{{uri.value}}'><button class='btn btn-secondary knowledgeGraphBar__copyIri'></button></mp-copy-to-clipboard>{{/if}}{{/each}}</div>">
+      </semantic-query>
+      <semantic-query 
+          query='SELECT ?value WHERE {
+            ?? a crm:E21_Person; 
+              owl:sameAs ?wikiId . 
+            SERVICE <https://query.wikidata.org/sparql> {
+                ?wikiId wdt:P18 ?wikimedia_image_raw . 
+              FILTER (STRSTARTS(str(?wikiId), "http://www.wikidata.org/entity/"))
+              }
+              BIND(REPLACE(STR(?wikimedia_image_raw), "%3A", ":") as ?wikimedia_image)
+              BIND(CONCAT("https://commons.wikimedia.org/wiki/File:", STRAFTER(STR(?wikimedia_image), "FilePath/")) as ?value) 
+          } LIMIT 1'
+          template="<div class='knowledgeGraphBar__uriRow'>{{#each bindings}}<b>Image Source</b>: <a href='{{value.value}}' target='_blank'><i> Wikimedia Commons </i> </a>{{/each}}</div>">
+      </semantic-query>
+    
+    </div>
+  </div>
+  
+</div>
+  

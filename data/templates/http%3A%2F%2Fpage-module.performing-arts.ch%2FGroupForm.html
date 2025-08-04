@@ -1,0 +1,179 @@
+[[> sapaModule:FieldDefinitions]]
+
+<div data-flex-layout='row top-stretch'>
+<semantic-form 
+ [[#if create]]
+    new-subject-template='http://data.performing-arts.ch/a/{{UUID}}'
+    post-action="redirect"
+  [[else]]
+    subject='[[this]]'
+    post-action="reload"
+ [[/if]]
+      browser-persistence=true
+      form-id='groups'
+       persistence='ldp'             
+       fields='[
+        [[> GroupRDFType]],
+        [[> GroupCommonAppellation]],
+        [[> GroupCommonAppellationType]],
+        [[> GroupAltName]],
+        [[> GroupAcronym]],
+        [[> Description]],
+        [[> Byline]],
+        [[> GroupType]],
+        [[> ActorResidence]],
+        [[> GroupGenre]],
+        [[> GroupPredecessor]],
+        [[> GroupBeginning]],
+        [[> GroupEnd]],
+        [[> GroupController]],
+        [[> Website]],
+        [[> GroupVenue]],
+        [[> GroupMember]],
+        [[> GroupAssociation]],
+        [[> SameAs]],
+        [[> GroupHistory]],
+        [[> AgentBibliography]],
+        [[> NotePublic]],
+        [[> NoteInternal]],
+        [[> GroupRepertories]],
+        [[> ReplacedBy]]
+      ]'>
+      <bs-panel>
+        <semantic-form-recover-notification></semantic-form-recover-notification>
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionIdentification" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row><bs-col sm='12'><semantic-form-checklist-input for="GroupRDFType" type="radio"  default-values='["[[resolvePrefix "crm:E74_Group"]]", "[[resolvePrefix "rico:Group"]]"]' row=true></semantic-form-checklist-input></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="GroupCommonAppellation" languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-checklist-input type='radio' clearable=true row=true for="GroupCommonAppellationType" default-value='[[resolvePrefix "spav:yanuj"]]'></semantic-form-checklist-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-text-input for="GroupAcronym" languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="GroupAltName" languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="Byline"></semantic-form-text-input>
+          </bs-col>
+        </bs-row> 
+        <hr />
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionDescription" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='3'>
+            <semantic-form-tree-picker-input for="GroupGenre"></semantic-form-tree-picker-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-tree-picker-input for="GroupType"></semantic-form-tree-picker-input>
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="Description"></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='4'>
+            <semantic-form-tree-picker-input for="ActorResidence"></semantic-form-tree-picker-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-text-input for="GroupBeginning"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-text-input for="GroupEnd"></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='4'>
+            <semantic-form-autocomplete-input for="GroupPredecessor"></semantic-form-autocomplete-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-autocomplete-input for="GroupController"></semantic-form-autocomplete-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-autocomplete-input for="GroupAssociation"></semantic-form-autocomplete-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-autocomplete-input for="GroupMember">
+              <semantic-form new-subject-template="http://data.performing-arts.ch/a/{{UUID}}" fields='[
+                  [[> RDFtype]],
+                  [[> PersonCommonAppellation]]
+              ]'>
+                  <div style="display: none;">
+                      <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E21_Person"]]", "[[resolvePrefix "rico:Person"]]"]'></semantic-form-hidden-input>
+                  </div>
+                  <semantic-form-text-input for="PersonCommonAppellation" languages='["en","de","fr","it"]'></semantic-form-text-input>
+                  <button name="submit" class="btn btn-secondary">Create Person</button>
+                </semantic-form>
+              </semantic-form-autocomplete-input>            
+          </bs-col>
+          <bs-col sm='6'>            
+            <semantic-form-autocomplete-input for="GroupVenue">
+              <semantic-form new-subject-template="http://data.performing-arts.ch/o/{{UUID}}" fields='[
+                  [[> RDFtype]],
+                  [[> CIDOCtype]],
+                  [[> VenueCommonTitle]]
+              ]'>
+                  <div style="display: none;">
+                    <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E22_Man-Made_Object"]]", "[[resolvePrefix "rico:Thing"]]"]'></semantic-form-hidden-input>
+                      <semantic-form-hidden-input for="CIDOCtype" default-value='[[resolvePrefix "spav:dwmkn"]]'></semantic-form-hidden-input>
+                  </div>
+                  <semantic-form-text-input for="VenueCommonTitle"></semantic-form-text-input>
+                  <button name="submit" class="btn btn-secondary">[[i18n "FormCreateVenue" bundle="performing-arts-ch"]]</button>
+              </semantic-form>            
+            </semantic-form-autocomplete-input>            
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-text-input for="GroupHistory" multiline=true languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-text-input for="AgentBibliography" multiline=true languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionAddInfo" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="Website"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        <bs-row><bs-col sm='12'><div class='form-section'>[[i18n "FormSectionNotes" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm="6">
+            <semantic-form-text-input for="NotePublic" multiline=true></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm="5">
+            <semantic-form-text-input for="NoteInternal" multiline=true></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm="1">
+            <semantic-form-checkbox-input for="GroupRepertories"></semantic-form-checkbox-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        [[> sapaModule:FormSectionReplacedBy]]
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-errors></semantic-form-errors>
+            <!-- save and reset button for form -->
+            <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+            <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+          </bs-col>
+          <bs-col sm='6'>
+          </bs-col>
+        </bs-row>
+      </bs-panel>
+    </semantic-form>
+  </div>

@@ -1,0 +1,115 @@
+<ol class="page-breadcrumb">
+  <li>
+      <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+      Archive Plan
+  </li>
+</ol>
+
+<div class="page rs-page">
+  <div class='page__body'>
+    <h3 style="margin-top: 2em; margin-bottom: 1em;">Archive Plan</h3>
+    <div style="height: 1000px">
+    <semantic-lazy-tree escape-lucene-syntax='false'
+        tokenize-lucene-query="false"
+        roots-query='
+          SELECT DISTINCT ?item ?index ?hasChildren WHERE {
+            VALUES (?item) { (<http://data.performing-arts.ch/r/sapa>) }
+            OPTIONAL { ?child rico:isOrWasIncludedIn ?item }
+            BIND(IF(BOUND(?child), true, false) AS ?hasChildren)
+            OPTIONAL { ?item olo:index ?index }
+            OPTIONAL {
+              ?item rico:name ?l .
+              BIND(LCASE(?l) AS ?label)             
+            }
+          }'
+        children-query='
+          SELECT DISTINCT ?item ?index ?hasChildren WHERE {
+            ?item rico:isOrWasIncludedIn ?parent .
+            OPTIONAL { ?child rico:isOrWasIncludedIn ?item }
+            BIND(IF(BOUND(?child), true, false) AS ?hasChildren)
+            OPTIONAL { ?item olo:index ?index }
+            OPTIONAL { ?item rico:identifier ?identifier }
+            OPTIONAL {
+              ?item rico:name ?l .
+              BIND(LCASE(?l) AS ?label)             
+            }
+            OPTIONAL {
+              ?item rico:hasOrHadIdentifier ?identifierTec .
+              ?identifierTec a rico:Identifier ;
+                    crm:P2_has_type spav:idtec ;
+                    rdf:value ?idTecValue .
+                    BIND(xsd:integer(STRAFTER(?idTecValue, "-")) AS ?idTecPart2)
+                    BIND(xsd:integer(STRBEFORE(?idTecValue, "-")) AS ?idTecPart1)
+                  
+            }
+          } ORDER BY ?idTecPart1 ?idTecPart2 ?identifier ?index ?la'
+        parents-query='
+          SELECT ?item ?parent WHERE {
+            ?item rico:isOrWasIncludedIn ?parent .
+          }'
+        search-query='
+          SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+            { 
+              ?item a rico:RecordSet 
+            } UNION { 
+              ?item a rico:Record 
+            }
+            {
+              ?item rico:name ?label
+            } UNION {
+              ?item rico:identifier ?label
+            } UNION {
+              ?item rico:descriptiveNote ?label
+            } UNION {
+              ?item rico:history ?label
+            } UNION {
+              ?item spao:deliveryNumber ?label
+            } UNION {
+              ?item spao:hasNote ?label
+            } UNION {
+              ?item rico:hasOrHadIdentifier ?identifier .
+              ?identifier a rico:Identifier ;
+                rdf:value ?label .
+            }
+            SERVICE <http://www.bigdata.com/rdf/search#search> {
+              ?label bds:search ?__token__ ;
+              bds:minRelevance "0.06" ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
+            }
+            BIND(false AS ?hasChildren)
+            FILTER((LANGMATCHES(LANG(?label), "")) || (LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)))
+            BIND(REPLACE(STR(?__token__), "\\*", "") AS ?clean_token) 
+            FILTER(CONTAINS(LCASE(STR(?label)), LCASE(?clean_token)))
+          } ORDER BY DESC (?score) (?label) LIMIT 500'
+        node-data-query='
+          SELECT DISTINCT ?item ?identifier ?level ?valueIDunique {
+            OPTIONAL { ?item rico:hasRecordSetType ?rslevel . }
+            BIND(IF(BOUND(?rslevel), ?rslevel, spav:rsitm) AS ?level)
+            OPTIONAL { 
+              ?item rico:hasOrHadIdentifier ?idCon .
+              ?idCon a rico:Identifier ;
+                crm:P2_has_type spav:idcon ;
+                rdf:value ?identifier .
+            }
+            OPTIONAL { 
+                ?item rico:hasOrHadIdentifier ?idUni .
+                ?idUni a rico:Identifier ;
+                    crm:P2_has_type spav:iduni ;
+                    rdf:value ?valueIDunique .
+            }
+          } ORDER BY (?identifier)'
+        placeholder='Select or search for a name or signature ...'
+        node-template='{{>node}}'
+        >
+        <template id='node'>
+          <span>
+            {{#if data.identifier}}{{data.identifier.value}}: {{/if}}<semantic-link uri="{{iri}}">{{label}}</semantic-link>{{#if data.valueIDunique}} ({{data.valueIDunique.value}}){{/if}}{{#if data.level}} (<mp-label iri="{{data.level.value}}"></mp-label>){{/if}}
+          </span>
+        </template>
+      </semantic-lazy-tree>
+    </div>
+  </div>
+</div>

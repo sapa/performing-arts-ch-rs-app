@@ -1,0 +1,34 @@
+<!-- iiif Manifest -->
+<semantic-query
+ query="SELECT ?manifest WHERE {
+    ?? rico:hasInstantiation ?manifest .
+    ?manifest rico:hasCarrierType spav:fvman .
+ }"
+ template="{{> template-manifest}}">
+    <template id="template-manifest">            
+        <p>
+            {{#each bindings}}
+                <div>
+                    <clover-viewer
+                    id="{{manifest.value}}"
+                    options='{
+                        "canvasHeight": "400px",
+                        "informationPanel": {
+                            "open": false,
+                            "renderToggle": false
+                        },
+                        "openSeadragon": {
+                            "showRotationControl": false,
+                            "showFullPageControl": true,
+                            "showNavigator": false,
+                            "showNavigationControl": true,
+                            "showZoomControl": false,
+                            "showHomeControl": false
+                        }
+                    }'
+                    ></clover-viewer>
+                </div>
+            {{/each}}
+        </p>
+    </template>
+ </semantic-query>

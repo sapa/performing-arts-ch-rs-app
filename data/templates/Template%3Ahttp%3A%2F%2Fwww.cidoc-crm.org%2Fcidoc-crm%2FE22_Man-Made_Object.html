@@ -1,0 +1,258 @@
+[[> sapaModule:FieldDefinitions]]
+
+<div class="page">
+
+    <bs-tabs id='record-tabs' class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
+        <bs-tab event-key='about' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
+        <bs-row>
+        <bs-col sm="4">
+
+            <!-- official name -->
+            <semantic-query 
+                query='SELECT ?officialtitle ?addendum
+                WHERE {
+                    ?? crm:P102_has_title ?title .
+                    ?title a crm:E35_Title ; 
+                        crm:P2_has_type spav:yanuj ;
+                        rdf:value ?officialtitle .
+                    OPTIONAL {
+                        ?? crm:P131_is_identified_by [
+                            a crm:E41_Appellation ; 
+                            crm:P2_has_type spav:yaztb ;
+                            rdf:value ?addvalue
+                        ]
+                        BIND(CONCAT("&lt;", ?addvalue, "&gt;") AS ?addendum)
+                    }
+                } LIMIT 1'
+            template='<p>{{#each bindings}}<strong>{{officialtitle.value}}</strong>{{#if addendum}} {{addendum.value}}{{/if}}{{/each}}</p>'>
+            </semantic-query>
+
+            <!-- alternative names -->
+            <semantic-query 
+                query='SELECT DISTINCT ?title ?type ?typesort
+                WHERE {
+                    VALUES (?type ?typesort) { (spav:yasis 1) (spav:yamqk 2) (spav:yavtx 3) }
+                    ?? crm:P102_has_title ?title .
+                    ?title a crm:E35_Title ; 
+                        crm:P2_has_type ?type ;
+                        rdf:value ?value .
+                    FILTER(?type IN (spav:yasis, spav:yamqk, spav:yavtx))
+                } ORDER BY ?typesort'
+                template='<p>{{#each bindings}}{{#if @first}}<mp-label iri="{{title.value}}"></mp-label> (<mp-label iri="{{type.value}}"></mp-label>)
+                    {{else}}<br><mp-label iri="{{title.value}}"></mp-label> (<mp-label iri="{{type.value}}"></mp-label>){{/if}}{{/each}}</p>'
+                >
+            </semantic-query>
+
+            <!-- byline -->
+            <semantic-query 
+                query="SELECT ?byline
+                WHERE {
+                    ?? crm:P131_is_identified_by ?byline .
+                    ?byline a crm:E41_Appellation ;
+                    crm:P2_has_type spav:yauzw .
+                } LIMIT 1"
+                template='<p>{{#each bindings}}<mp-label iri="{{byline.value}}"></mp-label>{{/each}}</p>'>
+            </semantic-query>
+
+            <!-- description -->
+            <semantic-query 
+                query="SELECT ?description
+                WHERE {
+                    ?? crm:P3_has_note ?description.
+                    ?description crm:P2_has_type spav:eoept .
+                } LIMIT 1"
+                template='<p>{{#each bindings}}<mp-label iri="{{description.value}}"></mp-label>{{/each}}</p>'>
+            </semantic-query>
+
+            <!-- place -->
+            <semantic-query 
+                query="SELECT ?place
+                WHERE {
+                    ?? crm:P156_occupies ?p .
+                    ?p crm:P89_falls_within ?place .
+                }"
+                template='<p>{{#each bindings}}{{#if @first}}<semantic-link iri="{{place.value}}">{{label.value}}</semantic-link>{{else}}, <semantic-link iri="{{place.value}}">{{label.value}}</semantic-link>{{/if}}{{/each}}</p>'>
+            </semantic-query>
+
+            <!-- dates -->
+            <semantic-query 
+                query='SELECT ?dates
+                WHERE {
+                    OPTIONAL {
+                        ?? rico:hasBeginningDate [ rico:normalizedDateValue ?beginning ]
+                    }
+                    OPTIONAL {
+                        ?? rico:hasEndDate [ rico:normalizedDateValue ?end ]
+                    }
+                    BIND(CONCAT(COALESCE(?beginning, "X"), "-", COALESCE(?end, "X")) AS ?predates)
+                    BIND(REPLACE(REPLACE(?predates, "X-X", ""), "X", "") AS ?dates)
+                }'
+                template='{{#each bindings}}<p>{{dates.value}}</p>{{/each}}'>
+            </semantic-query>
+
+            <!-- managed by / part of / contains -->
+            <mp-field-visualization
+                subject='[[this]]'
+                fields='[
+                    [[> VenueContains]],
+                    [[> VenueManagement]],
+                    [[> VenueIsPartOf]]
+                ]'
+                template='{{> sapaModule:FieldBasedVisualizationList subject="[[this]]"}}' 
+                >
+            </mp-field-visualization> 
+
+        </bs-col>
+
+        <bs-col sm="4">
+            <mp-field-visualization
+                subject='[[this]]'
+                fields='[
+                    [[> NotePublic]]
+                ]'
+                template='{{> sapaModule:FieldBasedVisualizationList subject="[[this]]"}}' 
+            >
+            </mp-field-visualization> 
+
+            [[#if (hasPermission "forms:ldp:*")]]
+            <mp-field-visualization
+                subject='[[this]]'
+                fields='[
+                    [[> NoteInternal]]
+                ]'
+                template='{{> sapaModule:FieldBasedVisualizationList subject="[[this]]"}}' 
+            >
+            </mp-field-visualization> 
+            [[/if]]
+        
+            <!-- record sets -->
+            <semantic-query 
+                query='SELECT ?label  WHERE {
+            VALUES (?label) { ( "[[i18n "field_archival_holdings" bundle="sapa-fields"]]") }
+        
+                    ?record rico:hasOrHadSubject ?? .
+                } LIMIT 1'
+                template='<h5>{{#each bindings}}{{label.value}}{{/each}}</h5>'>
+            </semantic-query>
+            <semantic-tree
+                query='SELECT DISTINCT ?node ?parent ?identifier ?level WHERE {
+                    {
+                        ?record rico:hasOrHadSubject ?? ;
+                            rico:isOrWasIncludedIn* ?node .
+                        MINUS { ?record a rico:RecordPart . }
+                    } UNION {
+                        ?recordpart rico:hasOrHadSubject ?? ;
+                            a rico:RecordPart ;
+                            rico:isOrWasConstituentOf ?record .
+                        ?record rico:isOrWasIncludedIn* ?node .
+                    }
+                    FILTER(ISIRI(?node))
+                    FILTER(CONTAINS(STR(?node), "/r/"))
+                    OPTIONAL { ?node rico:isOrWasIncludedIn ?parent. FILTER(ISIRI(?parent)) }
+                    OPTIONAL { ?node rico:identifier ?identifier }
+                    OPTIONAL { ?node rico:hasRecordSetType ?rslevel . }
+                    BIND(IF(BOUND(?rslevel), ?rslevel, spav:rsitm) AS ?level)
+                }'
+                tuple-template='{{>node}}'> 
+                <template id='node'>
+                    <span>
+                    {{#if identifier}}{{identifier.value}}: {{/if}}<semantic-link uri="{{node.value}}">{{label}}</semantic-link>{{#if level}} (<mp-label iri="{{level.value}}"></mp-label>){{/if}}
+                    </span>
+                </template>
+            </semantic-tree>
+    
+        </bs-col>
+
+        <bs-col sm="4">
+            [[> sapaModule:ExternalResources]]
+        </bs-col>
+
+        </bs-row>
+
+    </bs-tab>
+    <bs-tab event-key='producers' title='[[i18n "TabProducers" bundle="performing-arts-ch"]]'>
+        <semantic-chart type='donut' types='["pie", "donut"]'
+            query='SELECT ?producer (COUNT(?plan) AS ?plancount)
+            WHERE {
+                ?genericperformance crm:P8_took_place_on_or_within ?? ;
+                    a frbroo:F31_Performance ;
+                frbroo:R25_performed ?plan .
+                ?expressioncreation frbroo:R17_created ?plan ;
+                    crm:P9_consists_of ?production .
+                ?production crm:P2_has_type spav:muwgo ;
+                    crm:P14_carried_out_by ?producer .
+                FILTER(CONTAINS(STR(?producer), "/a/"))
+            } GROUP BY ?producer
+            ORDER BY DESC(?plancount)'
+            sets='[{"dataSetName": "Productions", "category": "producer", "value": "plancount"}]'
+            styles='[{
+            "provider": "chartjs",
+            "style": {
+                "data": {
+                    "datasets": [
+                        { 
+                        "borderColor": "rgb(255, 255, 255, 1)",
+                        "borderWidth": "2"
+                        }
+                    ]
+                },
+                "options": {
+                    "layout": {
+                        "padding": {
+                            "top": "0"
+                        }
+                    },
+                    "legend": {
+                        "position": "none"
+                    }
+                }
+            }
+            }]'
+        ></semantic-chart>
+
+        <semantic-query 
+            query='SELECT ?label ?producer (COUNT(?plan) AS ?plancount) WHERE {
+            VALUES (?label) { ( "[[i18n "field_producers" bundle="sapa-fields"]]") }
+        
+                ?genericperformance crm:P8_took_place_on_or_within ?? ;
+                    a frbroo:F31_Performance ;
+                frbroo:R25_performed ?plan .
+                ?expressioncreation frbroo:R17_created ?plan ;
+                    crm:P9_consists_of ?production .
+                ?production crm:P2_has_type spav:muwgo ;
+                    crm:P14_carried_out_by ?producer .
+                FILTER(CONTAINS(STR(?producer), "/a/"))
+            } GROUP BY ?label ?producer
+            ORDER BY DESC(?plancount)' 
+            template='{{> producer-list}}'>
+            <template id='producer-list'>
+                <div style="margin: 1em 0em;">
+                    {{#each bindings}}
+                    {{#if @first}}<h5>{{label.value}}</h5><semantic-link iri="{{producer.value}}"></semantic-link> ({{plancount.value}}){{else}}, <semantic-link iri="{{producer.value}}"></semantic-link> ({{plancount.value}}){{/if}}
+                    {{/each}}
+                </div>
+            </template>
+        </semantic-query>
+    </bs-tab>
+    <bs-tab event-key='productions' title='[[i18n "TabProductions" bundle="performing-arts-ch"]]'>
+
+        [[> sapaModule:VenueProductions]]
+
+    </bs-tab>
+
+    [[#if (hasPermission "forms:ldp:*")]] 
+    <bs-tab event-key='place editing' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+    [[> sapaModule:VenueForm]]
+    </bs-tab>
+    [[/if]]
+
+    [[#if (hasPermission "api:ldp:*:delete")]] 
+    <bs-tab event-key='delete' title='[[i18n "TabDelete" bundle="performing-arts-ch"]]'>
+        [[> sapaModule:DeleteEntity]]
+    </bs-tab>
+    [[/if]]
+
+    [[> sapaModule:AdminTabs]]
+
+  </bs-tabs>  
+</div>

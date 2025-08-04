@@ -1,0 +1,44 @@
+<ol class="page-breadcrumb">
+  <li>
+      <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+      About
+  </li>
+</ol>
+
+<div class="page rs-page">
+  <div class='page__body'>
+    <h3 style="margin-top: 2em;">[[i18n "AboutHeadline" bundle="performing-arts-ch"]]</h3>
+    <bs-row>
+      <bs-col sm="6">
+        [[i18n "AboutText" bundle="performing-arts-ch" escapeHTML=false]]
+        <h4 style="margin-top: 2em;">[[i18n "AboutData" bundle="performing-arts-ch"]]</h4>
+        [[i18n "AboutDataLicense" bundle="performing-arts-ch" escapeHTML=false]]
+        <bs-tabs id='data-tabs' default-active-key='1' unmount-on-exit=false style="margin-top: 1.2em;">
+          <bs-tab event-key='1' title='[[i18n "AboutDataPersonsTab" bundle="performing-arts-ch"]]'>
+            [[i18n "AboutDataPersonsText" bundle="performing-arts-ch" escapeHTML=false]]
+          </bs-tab>
+          <bs-tab event-key='2' title='[[i18n "AboutDataGroupsTab" bundle="performing-arts-ch"]]'>
+            [[i18n "AboutDataGroupsText" bundle="performing-arts-ch" escapeHTML=false]]
+          </bs-tab>
+          <bs-tab event-key='3' title='[[i18n "AboutDataVenuesTab" bundle="performing-arts-ch"]]'>
+            [[i18n "AboutDataVenuesText" bundle="performing-arts-ch" escapeHTML=false]]
+          </bs-tab>
+          <bs-tab event-key='4' title='[[i18n "AboutDataProductionsTab" bundle="performing-arts-ch"]]'>
+            [[i18n "AboutDataProductionsText" bundle="performing-arts-ch" escapeHTML=false]]
+            <semantic-query 
+              query='SELECT ?group ?group_label WHERE {
+                ?group <http://ontology.performing-arts.ch/isPartOfRepertories> true ;
+                  rdfs:label ?group_label .
+              } ORDER BY ASC(?group_label)' 
+              template='<ul>{{#each bindings}}<li><semantic-link iri="{{group.value}}">{{group_label.value}}</semantic-link></li>{{/each}}</ul>'>
+            </semantic-query>
+          </bs-tab>
+        </bs-tabs>
+      </bs-col>
+      <bs-col sm="6">
+      </bs-col>
+    </bs-row>
+  </div>
+</div>

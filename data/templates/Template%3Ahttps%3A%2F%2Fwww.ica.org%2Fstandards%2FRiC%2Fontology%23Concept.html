@@ -1,0 +1,77 @@
+<div class="page">
+  <bs-tabs class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
+    <bs-tab event-key='about' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
+
+        <bs-row>
+
+        <bs-col sm="4">
+
+            <!-- official name -->
+            <semantic-query 
+                query='SELECT ?appelation ?lang
+                WHERE {
+                    ?? crm:P131_is_identified_by [
+                        a crm:E75_Conceptual_Object_Appellation ; 
+                        rdf:value ?appelation ]
+                    BIND(LANG(?appelation) AS ?l)
+                    BIND(IF(STRLEN(?l)>0, CONCAT(" (", ?l, ")"), "") AS ?lang)
+                }'
+                template='<p>{{#each bindings}}{{#if @first}}{{else}}<br>{{/if}}<strong>{{appelation.value}}</strong>{{lang.value}}{{/each}}</p>'>
+            </semantic-query>
+
+            <!-- description -->
+            <semantic-query 
+                query='SELECT ?description WHERE { ?? crm:P3_has_note ?description. ?description crm:P2_has_type spav:eoept. } LIMIT 1'
+                template='<p>{{#each bindings}}<mp-label iri="{{description.value}}"></mp-label>{{/each}}</p>'>
+            </semantic-query>
+        </bs-col>
+
+        <bs-col sm="4">
+
+            <!-- record sets -->
+            <semantic-query 
+                query='SELECT ?label  WHERE {
+            VALUES (?label) { ( "[[i18n "field_archival_holdings" bundle="sapa-fields"]]") }
+        
+                        ?record rico:hasOrHadSubject ?? .
+                    } LIMIT 1'
+                template='<h5>{{#each bindings}}{{label.value}}{{/each}}</h5>'>
+            </semantic-query>
+            <semantic-tree
+                query='SELECT DISTINCT ?node ?parent WHERE {
+                    ?record rico:hasOrHadSubject ?? ;
+                        rico:isOrWasIncludedIn* ?node .
+                    FILTER(ISIRI(?node))
+                    FILTER(CONTAINS(STR(?node), "/r/"))
+                    OPTIONAL { ?node rico:isOrWasIncludedIn ?parent. FILTER(ISIRI(?parent)) }
+                }'
+                tuple-template='<span><semantic-link iri="{{data.node.value}}"></semantic-link></span>'> 
+            </semantic-tree>
+            
+        </bs-col>
+
+        <bs-col sm="4">
+            [[> sapaModule:ExternalResources]]
+        </bs-col>
+    
+    </bs-row>
+
+</bs-tab>
+
+
+[[#if (hasPermission "forms:ldp:*")]] 
+<bs-tab event-key='concept editing' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+[[> sapaModule:ConceptForm]]
+</bs-tab>
+[[/if]]
+
+[[#if (hasPermission "api:ldp:*:delete")]] 
+<bs-tab event-key='delete' title='[[i18n "TabDelete" bundle="performing-arts-ch"]]'>
+    [[> sapaModule:DeleteEntity]]
+</bs-tab>
+[[/if]]
+
+[[> sapaModule:AdminTabs]]
+
+</bs-tabs>  
+</div>

@@ -1,0 +1,118 @@
+[[> sapaModule:FieldDefinitions]]
+
+  <div data-flex-layout='row top-stretch'>
+    <semantic-form 
+     [[#if create]]
+        new-subject-template='http://data.performing-arts.ch/o/{{UUID}}'
+        post-action="redirect"
+      [[else]]
+        subject='[[this]]'
+        post-action="reload"
+     [[/if]]
+      
+      browser-persistence=true
+      persistence='ldp' 
+      form-id='venues'
+      fields='[
+        [[> RDFtype]],
+        [[> CIDOCtype]],
+        [[> VenueCommonTitle]],
+        [[> VenueCommonTitleType]],
+        [[> VenueAltTitle]],
+        [[> VenueAcronym]],
+        [[> Description]],
+        [[> Byline]],
+        [[> VenueContains]],
+        [[> VenueLocation]],
+        [[> VenueBeginning]],
+        [[> VenueEnd]],
+        [[> NotePublic]],
+        [[> NoteInternal]],
+        [[> SameAs]]
+      ]'>
+      <bs-panel>
+        <semantic-form-recover-notification></semantic-form-recover-notification>
+        <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E22_Man-Made_Object"]]", "[[resolvePrefix "rico:Thing"]]"]'></semantic-form-hidden-input>
+            <semantic-form-hidden-input for="CIDOCtype" default-value='[[resolvePrefix "spav:dwmkn"]]'></semantic-form-hidden-input>
+        </div>
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionIdentification" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="VenueCommonTitle" languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-checklist-input type='radio' clearable=true row=true for="VenueCommonTitleType" default-value='[[resolvePrefix "spav:yanuj"]]'></semantic-form-checklist-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-text-input for="VenueAcronym" languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="VenueAltTitle" languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="Byline"></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionDescription" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="Description"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm="3">
+            <semantic-form-text-input for="VenueBeginning"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm="3">
+            <semantic-form-text-input for="VenueEnd"></semantic-form-text-input>
+          </bs-col>        
+        </bs-row>
+        <bs-row>
+          <bs-col sm="6">
+            <semantic-form-tree-picker-input for="VenueLocation" ></semantic-form-tree-picker-input>
+          </bs-col>
+          <bs-col sm="6">
+            <semantic-form-autocomplete-input for="VenueContains">
+              <semantic-form new-subject-template="http://data.performing-arts.ch/o/{{UUID}}" fields='[
+                [[> RDFtype]],
+                [[> CIDOCtype]],
+                [[> VenueCommonTitle]],
+                [[> VenueCommonTitleType]]
+                ]'>
+                <div style="display: none;">
+                  <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E22_Man-Made_Object"]]", "[[resolvePrefix "rico:Thing"]]"]'></semantic-form-hidden-input>
+                  <semantic-form-hidden-input for="CIDOCtype" default-value='[[resolvePrefix "spav:dwmkn"]]'></semantic-form-hidden-input>
+                </div>
+                  <bs-row>
+                    <bs-col sm='8'>
+                      <semantic-form-text-input for="VenueCommonTitle" languages='["en","de","fr","it"]'></semantic-form-text-input>
+                    </bs-col>
+                    <bs-col sm='4'>
+                      <semantic-form-checklist-input type='radio' clearable=true for="VenueCommonTitleType" default-value='[[resolvePrefix "spav:yanuj"]]'></semantic-form-checklist-input>
+                    </bs-col>
+                  </bs-row>
+                <button name="submit" class="btn btn-secondary">[[i18n "FormCreateVenue" bundle="performing-arts-ch"]]</button>
+              </semantic-form>
+            </semantic-form-autocomplete-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionAddInfo" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="NotePublic" multiline=true></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="NoteInternal" multiline=true></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+        <semantic-form-errors></semantic-form-errors>
+        <!-- save and reset button for form -->
+        <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+        <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+      </bs-panel>
+    </semantic-form>
+  </div>

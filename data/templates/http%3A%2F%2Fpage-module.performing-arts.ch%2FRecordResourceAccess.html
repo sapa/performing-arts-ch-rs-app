@@ -1,0 +1,55 @@
+<!-- access conditions -->
+<semantic-query 
+    query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_conditions_of_access" bundle="sapa-fields"]]") }
+        
+        ?? rico:conditionsOfAccess ?value . }'
+    template='<div>
+        {{#ifCond bindings.length ">" 0}}
+            <h5>{{bindings.0.label.value}}</h5>
+        {{/ifCond}}
+        <div>{{#each bindings}}<p style="white-space: pre-line;">{{value.value}}</p>{{/each}}</div>
+    </div>'>
+</semantic-query>
+
+<!-- terms of protection -->
+<semantic-query 
+    query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_terms_of_protection" bundle="sapa-fields"]]") }
+        
+        ?? spao:hasTermsOfProtection ?value . }'
+    template='<div><h5>Terms of protection</h5><ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul></div>'>
+</semantic-query>
+
+<!-- permission -->
+<semantic-query 
+    query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_permission" bundle="sapa-fields"]]") }
+        
+        ?? spao:hasPermission ?value . }'
+    template='<div>
+        {{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+        <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul></div>'>
+</semantic-query>
+
+<!-- physical usability -->
+<semantic-query 
+    query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_physical_usability" bundle="sapa-fields"]]") }
+        
+        ?? spao:hasPhysicalUsability ?value . }'
+    template='<div>
+        {{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+        <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul></div>'>
+</semantic-query>
+
+<!-- accessibility -->
+<semantic-query 
+    query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_accessibility" bundle="sapa-fields"]]") }
+        
+        ?? spao:hasAccessibility ?value . }'
+    template='<div>
+        {{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+        <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul></div>'>
+</semantic-query>

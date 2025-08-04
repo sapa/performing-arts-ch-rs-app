@@ -1,0 +1,46 @@
+[[> sapaModule:FieldDefinitions]]
+
+  <div data-flex-layout='row top-stretch'>
+    <semantic-form 
+     [[#if create]]
+        new-subject-template='http://data.performing-arts.ch/p/{{UUID}}'
+        post-action="redirect"
+      [[else]]
+        subject='[[this]]'
+        post-action="reload"
+     [[/if]]
+      
+      browser-persistence=true
+      persistence='ldp' 
+      form-id='places'
+      fields='[
+        [[> RDFtype]],
+        [[> RDFSLabel]],
+        [[> ArchivalPlaceParent]],
+        [[> RecordResourcePacking]]
+      ]'>
+      <bs-panel>
+        <semantic-form-recover-notification></semantic-form-recover-notification>
+        <div style="display: none;">
+            <semantic-form-hidden-input for='RDFtype' default-values='["[[resolvePrefix "spao:ArchivalPlace"]]"]'></semantic-form-hidden-input>
+        </div>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="RDFSLabel"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-tree-picker-input for="ArchivalPlaceParent" ></semantic-form-tree-picker-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-checklist-input type='radio' clearable=true row=true for="RecordResourcePacking"></semantic-form-checklist-input>
+          </bs-col>
+        </bs-row>
+        <semantic-form-errors></semantic-form-errors>
+        <!-- save and reset button for form -->
+        <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+        <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+      </bs-panel>
+    </semantic-form>
+  </div>

@@ -1,0 +1,132 @@
+[[> sapaModule:FieldDefinitions]]
+
+  <div data-flex-layout='row top-stretch'>
+
+    <semantic-form 
+     [[#if create]]
+        new-subject-template='http://data.performing-arts.ch/a/{{UUID}}'
+        post-action='redirect'
+      [[else]]
+        subject='[[this]]'
+        post-action='reload'
+     [[/if]]
+      
+      browser-persistence=true
+      persistence='ldp' 
+      form-id='persons'
+      fields='[
+        [[> RDFtype]],
+        [[> PersonCommonAppellation]],
+        [[> PersonCommonAppellationType]],
+        [[> PersonMiscAppellation]],
+        [[> PersonGender]],
+        [[> PersonSwiss]],
+        [[> PersonBirthDate]],
+        [[> PersonBirthPlace]],
+        [[> PersonDeathDate]],
+        [[> PersonDeathPlace]],
+        [[> Description]],
+        [[> Website]],
+        [[> SameAs]],
+        [[> NotePublic]],
+        [[> NoteInternal]],
+        [[> PersonHistory]],
+        [[> AgentBibliography]],
+        [[> ReplacedBy]]
+      ]'>
+      <bs-panel>
+        <semantic-form-recover-notification></semantic-form-recover-notification>
+        <div style='display: none;'>
+          <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E21_Person"]]", "[[resolvePrefix "rico:Person"]]"]'></semantic-form-hidden-input>
+        </div>
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionIdentification" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="PersonCommonAppellation" languages='["en","de","fr","it"]'></semantic-form-text-input> 
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-checklist-input type='checkbox' row=true for="PersonCommonAppellationType"></semantic-form-checklist-input>
+          </bs-col>
+        </bs-row>
+        <semantic-form-composite-input for="PersonMiscAppellation" new-subject-template='http://data.performing-arts.ch/x/{{UUID}}' fields='[
+          [[> PersonMiscAppellationValue]],
+          [[> PersonMiscAppellationType]]
+        ]'>
+          <bs-row>
+            <bs-col sm='6'>
+                <semantic-form-text-input for="PersonMiscAppellationValue" languages='["en","de","fr","it"]'></semantic-form-text-input>
+            </bs-col>
+            <bs-col sm='6'>
+                <semantic-form-checklist-input type='checkbox' row=true for="PersonMiscAppellationType"></semantic-form-checklist-input>
+            </bs-col>
+          </bs-row>
+        </semantic-form-composite-input>
+        <hr />
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionDescription" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='9'>
+            <semantic-form-text-input for="Description"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='2'>
+            <semantic-form-checklist-input type='checkbox' row=true for="PersonGender"></semantic-form-checklist-input>
+          </bs-col>
+          <bs-col sm='1'>
+            <semantic-form-checkbox-input for="PersonSwiss"></semantic-form-checkbox-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='3'>
+            <semantic-form-text-input for="PersonBirthDate"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-tree-picker-input for="PersonBirthPlace"></semantic-form-tree-picker-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-text-input for="PersonDeathDate"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='3'>
+            <semantic-form-tree-picker-input for="PersonDeathPlace"></semantic-form-tree-picker-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-text-input for="PersonHistory" multiline=true languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-text-input for="AgentBibliography" multiline=true languages='["en","de","fr","it"]'></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        <bs-row><bs-col sm='12'><div class="form-section">[[i18n "FormSectionAddInfo" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="Website"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        <bs-row><bs-col sm='12'><div class='form-section'>[[i18n "FormSectionNotes" bundle="performing-arts-ch"]]</div></bs-col></bs-row>
+        <bs-row>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="NotePublic" multiline=true></semantic-form-text-input>            
+          </bs-col>
+          <bs-col sm='6'>
+            <semantic-form-text-input for="NoteInternal" multiline=true></semantic-form-text-input>            
+          </bs-col>
+        </bs-row>
+        <hr />
+        [[> sapaModule:FormSectionReplacedBy]]
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-errors></semantic-form-errors>
+            <button name='submit' class='btn btn-secondary'>[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+            <button name='reset' class='btn btn-secondary'>[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+          </bs-col>
+        </bs-row>
+      </bs-panel>
+    </semantic-form>
+  </div>

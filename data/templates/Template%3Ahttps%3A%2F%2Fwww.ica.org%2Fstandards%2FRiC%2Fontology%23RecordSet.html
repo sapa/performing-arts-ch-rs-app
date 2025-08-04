@@ -1,0 +1,575 @@
+<div class="page rs-page">
+  <bs-tabs class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
+    <bs-tab event-key='about' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
+
+        <bs-row>
+
+        <bs-col sm="4">
+
+            <!-- IDENTIFICATION -->
+
+            <!-- name -->
+            <semantic-query 
+                query='SELECT ?name WHERE { ?? rico:name ?name . }'
+                template='<div>{{#each bindings}}<p><strong>{{name.value}}</strong></p>{{/each}}</div>'>
+            </semantic-query>
+
+            <!-- level -->
+            <semantic-query 
+                query="SELECT ?level WHERE { ?? rico:hasRecordSetType ?level . }"
+                template='<div><ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{level.value}}"></mp-label></li>{{/each}}</ul></div>'>
+            </semantic-query>
+
+            [[> sapaModule:RecordResourceIdentifier]]
+
+            [[> sapaModule:RecordResourceDate]]
+
+            [[> sapaModule:RecordResourceExtent]]
+
+            <!-- physical characteristics -->
+            <semantic-query 
+                query="SELECT ?physical WHERE { ?? rico:physicalCharacteristics ?physical . } ORDER BY ASC (?physical)"
+                template='<div>
+                    <h5>Physical Characteristics</h5>
+                    <ul class="list-unstyled">{{#each bindings}}
+                        <li>{{physical.value}}</li>
+                    {{/each}}</ul></div>'>
+            </semantic-query>
+
+            <!-- PROVENANCE -->
+
+            [[> sapaModule:RecordResourceProvenance]]
+
+
+            <!-- CONTENT -->
+
+            <!-- content description -->
+            <semantic-query 
+                query="SELECT ?label ?content_description  WHERE {
+            VALUES (?label) { ( '[[i18n "field_content_description" bundle="sapa-fields"]]') }
+        
+                    ?? rico:descriptiveNote ?content_description . }"
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <div>{{#each bindings}}<p style="white-space: pre-line;">{{content_description.value}}</p>{{/each}}</div>
+                </div>'>
+            </semantic-query>        
+
+            <!-- creator -->
+            <semantic-query 
+                query='SELECT ?label ?value ?identified  WHERE {
+            VALUES (?label) { ( "[[i18n "field_creator" bundle="sapa-fields"]]") }
+        
+                    ?? rico:hasCreator ?value .
+                    BIND(IF(!CONTAINS(STR(?value), "/u/"), "true", "") AS ?identified)
+                }'
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}
+                        {{#if identified.value}} 
+                            <li><semantic-link iri="{{value.value}}"></semantic-link></li>
+                        {{else}}
+                            <li><mp-label iri="{{value.value}}"></mp-label></li>
+                        {{/if}}
+                    {{/each}}</ul></div>'>
+            </semantic-query>
+
+            <!-- subjects -->
+            <semantic-query 
+                query='SELECT ?label ?subject ?identified ?order ?type ?icon  WHERE {
+            VALUES (?label) { ( "[[i18n "field_subject" bundle="sapa-fields"]]") }
+        
+                    ?? rico:hasOrHadSubject ?subject .
+                    BIND(IF(!CONTAINS(STR(?subject), "/u/"), "true", "") AS ?identified)
+                    OPTIONAL {
+                        VALUES ( ?order ?type ?icon ) {
+                            ( 1 frbroo:F25_Performance_Plan "../assets/icons/solid/theater-masks.svg" ) 
+                            ( 2 frbroo:F31_Performance "../assets/icons/solid/theater-masks.svg" ) 
+                            ( 3 frbroo:F26_Recording "../assets/icons/solid/camcorder-solid.svg" ) 
+                            ( 4 rico:CorporateBody "../assets/icons/solid/users.svg" ) 
+                            ( 5 rico:Person "../assets/icons/solid/user.svg" ) 
+                            ( 6 rico:Place "../assets/icons/solid/map-marker-alt.svg" ) 
+                        }
+                        ?subject a ?type .
+                    }
+                } ORDER BY ?order'
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <ul class="list-unstyled">
+                    {{#each bindings}}
+                        <li>
+                            {{#if icon}}<mp-resource-thumbnail no-image-uri="{{icon.value}}" iri="[[this]]" style="height: 1.4em; width: 1.4em; padding-right:0.5em;"></mp-resource-thumbnail>{{/if}}
+                            {{#if identified.value}} 
+                                <semantic-link iri="{{subject.value}}"></semantic-link>
+                            {{else}}
+                                <mp-label iri="{{subject.value}}"></mp-label>
+                            {{/if}}
+                            
+                        </li>
+                    {{/each}}
+                    </ul>
+                </div>'>
+            </semantic-query>
+
+            <!-- places -->
+            <semantic-query 
+                query="SELECT ?label ?place ?identifier WHERE {
+            VALUES (?label) { ( '[[i18n "field_place" bundle="sapa-fields"]]') }
+        
+                    {
+                        ?? rico:isAssociatedWithPlace ?place .
+                    } UNION {
+                        ?part rico:isOrWasConstituentOf ?? ;
+                            rico:isAssociatedWithPlace ?place .
+                        OPTIONAL {
+                            ?part rico:identifier ?id .
+                            BIND(CONCAT(' (', STR(?id), ')') AS ?identifier)
+                        }
+                    }
+                } ORDER BY ASC(?identifier)"
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}
+                        <li><semantic-link iri="{{place.value}}"></semantic-link> {{identifier.value}}</li>
+                    {{/each}}</ul></div>'>
+            </semantic-query>
+
+            <!-- language -->
+            <semantic-query 
+                query="SELECT ?label ?language  WHERE {
+            VALUES (?label) { ( '[[i18n "field_language" bundle="sapa-fields"]]') }
+        
+                    ?? rico:hasOrHadLanguage ?language . }"
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{language.value}}"></mp-label></li>{{/each}}</ul>
+                </div>'>
+            </semantic-query>
+            
+            <!-- type of photographic print -->
+            <semantic-query 
+                query="SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( '[[i18n "field_type_of_print" bundle="sapa-fields"]]') }
+        
+                    ?? rico:hasRecordState ?value .
+                    ?value skos:inScheme spav:st .
+                }"
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul>
+                </div>'>
+            </semantic-query>
+
+            <!-- ASSESSMENT -->
+
+            <!-- cassation -->
+            <semantic-query 
+                query="SELECT ?label ?cassation  WHERE {
+            VALUES (?label) { ( '[[i18n "field_cassation" bundle="sapa-fields"]]') }
+        
+                    ?? spao:cassation ?cassation . }"
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <div>{{#each bindings}}<p style="white-space: pre-line;">{{cassation.value}}</p>{{/each}}</div></div>'>
+            </semantic-query>
+
+            <!-- documentary form -->
+            <semantic-query 
+                query="SELECT ?label ?documentary_form  WHERE {
+            VALUES (?label) { ( '[[i18n "field_documentary_form" bundle="sapa-fields"]]') }
+        
+                    ?? rico:hasOrHadAllMembersWithDocumentaryFormType ?documentary_form . }"
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}
+                        <h5>{{bindings.0.label.value}}</h5>
+                    {{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{documentary_form.value}}"></mp-label></li>{{/each}}</ul>
+                </div>'>
+            </semantic-query>
+
+            <!-- comment -->
+            <semantic-query 
+                query="SELECT ?label ?comment  WHERE {
+            VALUES (?label) { ( '[[i18n "field_comment" bundle="sapa-fields"]]') }
+        
+                    ?? rdfs:comment ?comment . }"
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    <div>{{#each bindings}}<p style="white-space: pre-line;">{{comment.value}}</p>{{/each}}</div></div>'>
+            </semantic-query>        
+
+            <!-- ACCESS -->
+
+            [[> sapaModule:RecordResourceAccess]]
+
+            <!-- copyright -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_copyright_notice" bundle="sapa-fields"]]") }
+        
+                    ?? schema:copyrightNotice ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div>{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            [[#if (hasPermission 'forms:ldp:*')]]
+                <!-- copyright declaration -->
+                <semantic-query 
+                    query='SELECT ?label ?value  WHERE {
+                VALUES (?label) { ( "[[i18n "field_copyright_declaration" bundle="sapa-fields"]]") }
+            
+                        ?? spao:hasCopyrightDeclaration ?value . }'
+                    template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                        {{#each bindings}}<div><mp-label iri="{{value.value}}"></mp-label></div>{{/each}}</div>'>
+                </semantic-query>
+            [[/if]]
+
+            <!-- use rights -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_conditions_of_use" bundle="sapa-fields"]]") }
+        
+                    ?? rico:conditionsOfUse ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div>{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            <!-- protection duration -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_protection_duration" bundle="sapa-fields"]]") }
+        
+                    ?? spao:hasProtectionDuration ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div>{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            [[#if (hasPermission 'forms:ldp:*')]]
+                <!-- use rights still -->
+                <semantic-query 
+                    query='SELECT ?label ?value  WHERE {
+                VALUES (?label) { ( "[[i18n "field_usage_rights_still" bundle="sapa-fields"]]") }
+            
+                        ?? spao:hasUsageRightsStill ?value . }'
+                    template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                        <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul></div>'>
+                </semantic-query>
+
+                <!-- use rights streaming -->
+                <semantic-query 
+                    query='SELECT ?label ?value  WHERE {
+                VALUES (?label) { ( "[[i18n "field_usage_rights_streaming" bundle="sapa-fields"]]") }
+            
+                        ?? spao:hasUsageRightsStreaming ?value . }'
+                    template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                        <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul></div>'>
+                </semantic-query>
+            [[/if]]
+
+            <!-- credit -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_credit" bundle="sapa-fields"]]") }
+        
+                    ?? spao:hasCredit ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div>{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+        </bs-col>
+
+        <bs-col sm="4">
+
+            [[> sapaModule:RecordResourceImages]]
+            
+            [[> sapaModule:IiifManifest]]
+            [[> sapaModule:PDFfromS3]]
+
+            <!-- INSTANTIATIONS -->
+
+            [[> sapaModule:RecordInstantiations]]
+
+
+        </bs-col>
+
+        <bs-col sm="4">
+
+            <!-- ALLIED MATERIALS -->
+
+            <!-- location -->
+            [[#if (hasPermission "forms:ldp:*")]]
+                [[> sapaModule:LocationHierarchy]]
+            [[/if]]
+
+            <!-- packing -->
+            <semantic-query 
+                query="SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( '[[i18n "field_packing" bundle="sapa-fields"]]') }
+        
+                    ?? spao:hasPacking ?value . }"
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}<li><mp-label iri="{{value.value}}"></mp-label></li>{{/each}}</ul></div>'>
+            </semantic-query>
+
+            <!-- doublets -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_doublets" bundle="sapa-fields"]]") }
+        
+                    ?? spao:hasDoublets ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div>{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            <semantic-query 
+                query='SELECT ?label WHERE { BIND ("[[i18n "field_record_hierarchy" bundle="sapa-fields"]]" AS ?label) . }'
+                template='<h5>{{#each bindings}}{{label.value}}{{/each}}</h5>'>
+            </semantic-query>
+            <details>
+                <summary></summary>
+                <semantic-tree
+                 query='SELECT DISTINCT ?label ?node ?parent ?name ?index ?identifier ?level ?valueIDunique ?idTecValue WHERE {
+                    { ?? rico:isOrWasIncludedIn* ?node }
+                    UNION
+                    { ?node rico:isOrWasIncludedIn ?? } 
+                    FILTER(ISIRI(?node))
+                    FILTER(CONTAINS(STR(?node), "/r/"))
+                    OPTIONAL {
+                        ?node rico:isOrWasIncludedIn ?parent.
+                        FILTER(ISIRI(?parent))
+                    }
+                    OPTIONAL { 
+                        ?node rico:hasOrHadIdentifier ?idCon .
+                        ?idCon a rico:Identifier ;
+                            crm:P2_has_type spav:idcon ;
+                            rdf:value ?identifier .
+                    }
+                    OPTIONAL { ?node rico:hasRecordSetType ?rslevel . }
+                    OPTIONAL { 
+                        ?node rico:hasOrHadIdentifier ?id .
+                        ?id a rico:Identifier ;
+                            crm:P2_has_type spav:iduni ;
+                            rdf:value ?valueIDunique .
+                    }
+                    OPTIONAL {
+                        ?node rico:hasOrHadIdentifier ?identifierTec .
+                        ?identifierTec a rico:Identifier ;
+                              crm:P2_has_type spav:idtec ;
+                              rdf:value ?idTecValue .
+                      }
+                    BIND(IF(BOUND(?rslevel), ?rslevel, spav:rsitm) AS ?level)
+                    OPTIONAL { ?node olo:index ?index }
+                  } ORDER BY ASC(?idTecValue) ASC(?index) ASC(?identifier)
+                  LIMIT 1000'
+               collapsed="true"
+               keys-opened='[[this]]'
+               parent-binding-name="parent"
+               node-binding-name="node"
+               tuple-template='{{> node}}'>
+                <template id='node'>
+                    <span>{{#if identifier}}{{identifier.value}}: {{/if}}<semantic-link uri="{{node.value}}"></semantic-link>{{#if valueIDunique}} ({{valueIDunique.value}}) {{/if}}{{#if level}} (<mp-label iri="{{level.value}}""></mp-label>){{/if}}</span>
+                </template>
+            </semantic-tree>
+            </details>
+            
+
+            <!-- related documents -->
+            [[> sapaModule:RecordRelatedDocuments]]
+
+            <!-- related material -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+                    VALUES (?label) { ( "[[i18n "field_related_material" bundle="sapa-fields"]]") }
+        
+                    ?? spao:isRelatedTo ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div>{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            <!-- see also -->
+            [[#if (hasPermission "forms:ldp:*")]]
+            <semantic-query
+                query='SELECT DISTINCT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_see_also" bundle="sapa-fields"]]") }
+        
+                    {
+                        ?? spao:seeAlso ?value .
+                        MINUS { ?value a rico:RecordPart . } 
+                    } UNION { 
+                        ?? spao:seeAlso ?r .
+                        ?r a rico:RecordPart ;
+                            rico:isOrWasConstituentOf ?value .
+                    }
+                }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}<li><semantic-link iri="{{value.value}}"></semantic-link></li>{{/each}}</ul></div>'>
+            </semantic-query>
+            [[else]]
+            <semantic-query
+                query='SELECT DISTINCT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_see_also" bundle="sapa-fields"]]") }
+        
+                    {
+                        ?? spao:seeAlso ?value .
+                        MINUS { ?value a rico:RecordPart . } 
+                        MINUS { ?value a rico:Instantiation . } 
+                        MINUS { ?value a premis:File . } 
+                        } UNION { 
+                        ?? spao:seeAlso ?r .
+                        ?r a rico:RecordPart ;
+                            rico:isOrWasConstituentOf ?value .
+                    }
+                }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}<li><semantic-link iri="{{value.value}}"></semantic-link></li>{{/each}}</ul></div>'>
+            </semantic-query>
+            [[/if]]
+
+            <!-- notes -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_anmerkung" bundle="sapa-fields"]]") }
+        
+                    ?? spao:hasNote ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div style="margin-top: 0.8em; white-space: pre-line;">{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            [[#if (hasPermission "forms:ldp:*")]] 
+            <!-- internal notes -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_internal_note" bundle="sapa-fields"]]") }
+        
+                    ?? spao:hasInternalNote ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div style="margin-top: 0.8em; white-space: pre-line;">{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            <!-- responsible employee -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_responsible_employee" bundle="sapa-fields"]]") }
+        
+                    ?? spao:hasResponsibleEmployee ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}<li>{{value.value}}</li>{{/each}}</ul></div>'>
+            </semantic-query>
+            [[/if]]
+
+            <!-- processing convention -->
+            <semantic-query 
+                query='SELECT ?label ?value  WHERE {
+            VALUES (?label) { ( "[[i18n "field_processing_convention" bundle="sapa-fields"]]") }
+        
+                    ?? spao:hasProcessingConvention ?value . }'
+                template='<div>{{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    {{#each bindings}}<div>{{value.value}}</div>{{/each}}</div>'>
+            </semantic-query>
+
+            <!-- processing date -->
+            <semantic-query 
+                query="SELECT DISTINCT ?label ?single_date ?single_qualifier ?single_certainty ?beginning_date ?beginning_qualifier ?beginning_certainty ?end_date ?end_qualifier ?end_certainty WHERE {
+            VALUES (?label) { ( '[[i18n "field_processing_date" bundle="sapa-fields"]]') }
+        
+                    ?? spao:hasProcessingDate ?date .
+                    {
+                        OPTIONAL { ?date rico:normalizedDateValue ?normalized_date. }
+                        OPTIONAL { ?date rico:expressedDate ?expressed_date. }
+                        BIND(IF(BOUND(?expressed_date), ?expressed_date, ?normalized_date) AS ?single_date)
+                        OPTIONAL { ?date rico:dateQualifier ?single_qualifier . }
+                        OPTIONAL { ?date rico:certainty ?single_certainty . }
+                    } UNION {
+                        ?date a rico:DateRange .
+                        OPTIONAL {
+                            ?date rico:hasBeginningDate ?b .
+                            ?b rico:normalizedDateValue ?beginning_date .
+                            OPTIONAL { ?b rico:dateQualifier ?beginning_qualifier . }
+                            OPTIONAL { ?b rico:certainty ?beginning_certainty . }
+                        }
+                        OPTIONAL {
+                            ?date rico:hasEndDate ?e .
+                            ?e rico:normalizedDateValue ?end_date .
+                            OPTIONAL { ?e rico:dateQualifier ?end_qualifier . }
+                            OPTIONAL { ?e rico:certainty ?end_certainty . }
+                        }
+                    }
+                }"
+                template='<div>
+                    {{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.label.value}}</h5>{{/ifCond}}
+                    <ul class="list-unstyled">{{#each bindings}}
+                        <li>
+                            {{#if single_date.value}}
+                                {{#if single_qualifier.value}}<mp-label iri="{{single_qualifier.value}}"></mp-label> {{/if}}
+                                {{single_date.value}}
+                                {{#if single_certainty.value}}<span> (<mp-label iri="{{single_certainty.value}}"></mp-label>)</span>{{/if}}
+                            {{else}}
+                                {{#if beginning_date.value}}
+                                    {{#if beginning_qualifier.value}}<mp-label iri="{{beginning_qualifier.value}}"></mp-label> {{/if}}
+                                    {{beginning_date.value}}
+                                    {{#if beginning_certainty.value}}<span> (<mp-label iri="{{beginning_certainty.value}}"></mp-label>)</span>{{/if}}
+                                {{/if}}
+                                <span> - </span>
+                                {{#if end_date.value}}
+                                    {{#if end_qualifier.value}}<mp-label iri="{{end_qualifier.value}}"></mp-label> {{/if}}
+                                    {{end_date.value}}
+                                    {{#if end_certainty.value}}<span> (<mp-label iri="{{end_certainty.value}}"></mp-label>)</span>{{/if}}
+                                {{/if}}
+                            {{/if}}
+                        </li>
+                    {{/each}}</ul></div>'
+                >
+            </semantic-query>
+            
+            [[#if (hasPermission "forms:ldp:*")]] 
+            <semantic-query 
+            query='SELECT ?user ?datetime WHERE {
+              GRAPH ?g {
+                ?? rico:name ?label .
+                Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?container .
+                ?container prov:generatedAtTime ?dt ;
+                           prov:wasAttributedTo ?user_uri .
+                BIND(STRAFTER(STR(?user_uri), "/user/") as ?user)
+                BIND(CONCAT(STR(DAY(?dt)), ".", STR(MONTH(?dt)), ".", STR(YEAR(?dt))) AS ?datetime)
+              }
+            } LIMIT 1'
+            template='<div><small>{{#each bindings}}{{user.value}}, {{datetime.value}}{{/each}}</small></div>'>
+            </semantic-query>
+            [[/if]]
+
+        </bs-col>
+
+    </bs-row>
+
+    </bs-tab>
+
+    [[#if (hasPermission "forms:ldp:*")]] 
+    <bs-tab event-key='record editing' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+    [[> sapaModule:RecordSetForm]]
+    </bs-tab>
+    [[/if]]
+
+    [[#if (hasPermission "api:ldp:*:delete")]] 
+    <bs-tab event-key='delete' title='[[i18n "TabDelete" bundle="performing-arts-ch"]]'>
+        [[> sapaModule:DeleteEntity]]
+    </bs-tab>
+    [[/if]]
+  
+
+[[> sapaModule:AdminTabs]]
+
+</bs-tabs>  
+</div>

@@ -1,0 +1,39 @@
+[[> sapaModule:ReplacedByNotice]]
+
+<div class="page">
+    <bs-tabs id='record-tabs' class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
+        <bs-tab event-key='about' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:GroupSummary]]
+        </bs-tab>
+
+      
+       [[#if (ask 'ASK {{ ?activity <http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by> ?? . ?activity a <http://www.cidoc-crm.org/cidoc-crm/E7_Activity>}}')]]
+
+        <bs-tab event-key='productions' title='[[i18n "TabProductions" bundle="performing-arts-ch"]]'>
+             
+            [[> sapaModule:GroupProductions]]
+       
+        </bs-tab>
+
+        [[/if]]
+
+        <bs-tab event-key="collections" title='[[i18n "TabCollections" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:Collections]]
+        </bs-tab>
+
+        [[#if (hasPermission "forms:ldp:*")]] 
+        <bs-tab event-key='group' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:GroupForm]]
+        </bs-tab>
+        [[/if]]
+
+        [[#if (hasPermission "api:ldp:*:delete")]] 
+        <bs-tab event-key='delete' title='[[i18n "TabDelete" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:DeleteEntity]]
+        </bs-tab>
+        [[/if]]
+
+        [[> sapaModule:AdminTabs]]
+
+    </bs-tabs>
+</div>

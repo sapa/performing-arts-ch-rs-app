@@ -1,0 +1,231 @@
+[[> sapaModule:FieldDefinitions]]
+[[> sapaModule:ReplacedByNotice]]
+
+<div class="page">
+  
+    <bs-tabs id='record-tabs' class='page__body-navtabs' default-active-key='Summary' unmount-on-exit=true>
+        <bs-tab event-key='Summary' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
+
+            <bs-row>
+
+            <bs-col sm="4">
+                <!-- common name -->
+                <semantic-query 
+                    query='SELECT ?appellation 
+                    WHERE {
+                        ?? crm:P131_is_identified_by ?appellation .
+                        ?appellation a crm:E82_Actor_Appellation ; 
+                            crm:P2_has_type spav:yatcx .
+                    } LIMIT 1'
+                template='<p><strong>{{#each bindings}}<mp-label iri="{{appellation.value}}"></mp-label>{{/each}}</strong></p>'>
+                </semantic-query>
+
+                <!-- alternative names -->
+                <semantic-query 
+                    query='SELECT ?appellation ?type ?typesort
+                    WHERE {
+                        ?? crm:P131_is_identified_by ?appellation .
+                        ?appellation a crm:E82_Actor_Appellation .
+                        MINUS {
+                            ?appellation crm:P2_has_type spav:yatcx .
+                        }
+                        OPTIONAL {
+                            ?appellation crm:P2_has_type ?type .
+                            VALUES (?type ?typesort) { (spav:yapvc 1) (spav:yadpx 2) (spav:yallb 3) (spav:yaajh 4) (spav:yavtx 5) }
+                        }
+                        BIND(IF(!BOUND(?typesort), 6, ?typesort) AS ?typesort)
+                    } ORDER BY ?typesort'
+                    template='<p>{{#each bindings}}{{#if @first}}<mp-label iri="{{appellation.value}}"></mp-label>{{#if type}} (<mp-label iri="{{type.value}}"></mp-label>){{/if}}{{else}}<br>
+                        <mp-label iri="{{appellation.value}}"></mp-label>{{#if type}} (<mp-label iri="{{type.value}}"></mp-label>){{/if}}{{/if}}{{/each}}</p>'>
+                </semantic-query>
+
+                <!-- description -->
+                <semantic-query 
+                    query='SELECT ?description WHERE { ?? crm:P3_has_note ?description. ?description crm:P2_has_type spav:eoept. } LIMIT 1'
+                    template='<p>{{#each bindings}}<mp-label iri="{{description.value}}"></mp-label>{{/each}}</p>'>
+                </semantic-query>
+
+                <p>
+                <!-- gender -->
+                <semantic-query 
+                    query='SELECT ?gendericon WHERE {
+                        ?? crm:P107i_is_current_or_former_member_of ?group .
+                        FILTER (CONTAINS(STR(?group), "/g/gender/"))
+                        VALUES (?group ?gendericon) { 
+                            (<http://data.performing-arts.ch/g/gender/f> "♀") 
+                            (<http://data.performing-arts.ch/g/gender/m> "♂") 
+                            (<http://data.performing-arts.ch/g/gender/d> "⚥") 
+                        }
+                    }'
+                    template='<span>{{#each bindings}}<span style="padding-right:0.6em;">{{gendericon.value}}</span>{{/each}}</span>'>
+                </semantic-query>
+
+                <!-- nationality -->
+                <semantic-query 
+                    query='SELECT ?nationality WHERE {
+                        BIND(EXISTS {?? crm:P107i_is_current_or_former_member_of <http://data.performing-arts.ch/g/nation/ch>} AS ?swiss)
+                        BIND(IF(?swiss = "true"^^xsd:boolean, "CH", "") AS ?nationality)
+                    }'
+                    template='<span>{{#each bindings}}<span style="padding-right:0.1em;" title="{{nationality.value}}">{{nationality.value}}</span>{{/each}}</span>'>
+                </semantic-query>
+                </p>
+
+                <!-- date and place of birth -->
+                <semantic-query 
+                    query='SELECT ?birthdate ?birthplace ?birthdateLength WHERE {
+                        OPTIONAL {
+                            ?? rico:birthDate ?b .
+                            ?b rico:normalizedDateValue ?birthdate .
+                            BIND(STRLEN(?birthdate) AS ?birthdateLength)
+                        }
+                        OPTIONAL {
+                            ?? crm:P98i_was_born ?birth .
+                            ?birth crm:P7_took_place_at ?birthplace .
+                            FILTER(!CONTAINS(STR(?birthplace), "wikidata"))
+                        }
+                    } LIMIT 1'
+                    template='<div>{{#each bindings}}{{#if birthdate}}* {{else}}{{#if birthplace}}* {{/if}}{{/if}}{{#if birthdate}}<span style="padding-right:0.1em;" title="{{birthdate.value}}">{{#ifCond birthdateLength.value "==" "4"}}{{dateTimeFormat birthdate.value "YYYY"}}{{else}}{{#ifCond birthdateLength.value "==" "7"}}{{dateTimeFormat birthdate.value "MM.YYYY"}}{{else}}{{dateTimeFormat birthdate.value "DD.MM.YYYY"}}{{/ifCond}}{{/ifCond}}</span>{{/if}}{{#if birthdate}}{{#if birthplace}}, {{/if}}{{/if}}
+                    {{#if birthplace}}<semantic-link iri="{{birthplace.value}}">{{birthplace.value}}</semantic-link>{{/if}}{{/each}}</div>'>
+                </semantic-query>
+
+                <!-- date and place of death -->
+                <semantic-query 
+                    query='SELECT ?deathdate ?deathplace ?deathdateLength WHERE {
+                        OPTIONAL {
+                            ?? rico:deathDate ?d .
+                            ?d rico:normalizedDateValue ?deathdate .
+                            BIND(STRLEN(?deathdate) AS ?deathdateLength)
+                        }
+                        OPTIONAL {
+                            ?? crm:P100i_died_in ?death .
+                            ?death crm:P7_took_place_at ?deathplace .
+                            FILTER(!CONTAINS(STR(?deathplace), "wikidata"))
+                        }
+                    } LIMIT 1'
+                    template='<div>{{#each bindings}}{{#if deathdate}}† {{else}}{{#if deathplace}}† {{/if}}{{/if}}{{#if deathdate}}<span style="padding-right:0.1em;" title="{{deathdate.value}}">{{#ifCond deathdateLength.value "==" "4"}}{{dateTimeFormat deathdate.value "YYYY"}}{{else}}{{#ifCond deathdateLength.value "==" "7"}}{{dateTimeFormat deathdate.value "MM.YYYY"}}{{else}}{{dateTimeFormat deathdate.value "DD.MM.YYYY"}}{{/ifCond}}{{/ifCond}}</span>{{/if}}{{#if deathdate}}{{#if deathplace}}, {{/if}}{{/if}}
+                        {{#if deathplace}}<semantic-link iri="{{deathplace.value}}">{{deathplace.value}}</semantic-link>{{/if}}{{/each}}</div>'>
+                </semantic-query>
+                <mp-field-visualization
+                    subject='[[this]]'
+                    fields='[
+                        [[> Website]]
+                    ]'
+                    template='{{> sapaModule:FieldBasedVisualizationList subject="[[this]]"}}' 
+                >
+                </mp-field-visualization> 
+                
+                <semantic-query 
+                    query='SELECT ?history ?rank WHERE {
+                        {
+                            ?? rico:history ?history . 
+                            FILTER(LANGMATCHES(LANG(?history), ?__userPreferredLanguage__))
+                            BIND(0 AS ?rank)
+                        } UNION {
+                            ?? rico:history ?history . 
+                            BIND(LANG(?history) AS ?lang)
+                            VALUES ( ?lang ?rank ) {
+                                ( "en" 1 )
+                                ( "de" 2 )
+                                ( "fr" 3 )
+                                ( "it" 4 )
+                                ( "" 5)
+                            }
+                        }                    
+                      } ORDER BY ASC ( ?rank )
+                      LIMIT 1'
+                    template='<div>{{#each bindings}}<div class="text-item" style="margin-top: 0.8em; white-space: pre-line;">{{history.value}}</div>{{/each}}</div>'>
+                </semantic-query>
+        
+                <semantic-query 
+                    query='SELECT ?label ?value ?rank  WHERE {
+            VALUES (?label) { ( "[[i18n "field_bibliography" bundle="sapa-fields"]]") }
+        
+                        {
+                            ?? spao:hasBibliography ?value .
+                            FILTER(LANGMATCHES(LANG(?value), ?__userPreferredLanguage__))
+                            BIND(0 AS ?rank)
+                        } UNION {
+                            ?? spao:hasBibliography ?value .
+                            BIND(LANG(?value) AS ?lang)
+                            VALUES ( ?lang ?rank ) {
+                                ( "en" 1 )
+                                ( "de" 2 )
+                                ( "fr" 3 )
+                                ( "it" 4 )
+                                ( "" 5)
+                            }
+                        }                        
+                    } ORDER BY ASC ( ?rank )
+                    LIMIT 1'
+                    template='<div>
+                        {{#ifCond bindings.length ">" 0}}
+                            <h5>{{bindings.0.label.value}}</h5>
+                        {{/ifCond}}
+                        {{#each bindings}}<div class="text-item" style="margin-top: 0.8em; white-space: pre-line;">{{value.value}}</div>{{/each}}</div>'>
+                </semantic-query>
+        
+            </bs-col>
+
+            <bs-col sm="4">
+
+                <mp-field-visualization
+                    subject='[[this]]'
+                    fields='[
+                        [[> PersonGroup]],
+                        [[> NotePublic]]
+                    ]'
+                    template='{{> sapaModule:FieldBasedVisualizationList subject="[[this]]"}}' 
+                    [[!-- show in include [[> sapaModule:FieldBasedVisualizationList ]] --]]
+                >
+                </mp-field-visualization> 
+                
+                [[#if (hasPermission "forms:ldp:*")]]
+                <mp-field-visualization
+                    subject='[[this]]'
+                    fields='[
+                        [[> NoteInternal]]
+                    ]'
+                    template='{{> sapaModule:FieldBasedVisualizationList subject="[[this]]"}}' 
+                    [[!-- show in include [[> sapaModule:FieldBasedVisualizationList ]] --]]
+                >
+                </mp-field-visualization> 
+                [[/if]]
+            
+            </bs-col>
+
+            <bs-col sm="4">
+                [[> sapaModule:ExternalResources]]
+            </bs-col>
+
+            </bs-row>
+
+        </bs-tab>
+
+        [[#if (ask "ASK { ?personactivity crm:P14_carried_out_by ?? . { ?referencecreation crm:P9_consists_of ?personactivity ; frbroo:R17_created ?reference . ?plan frbroo:R14_incorporates ?reference . } UNION { ?expressioncreation crm:P9_consists_of ?personactivity ; frbroo:R17_created ?plan . } UNION { ?genericperformance crm:P9_consists_of ?personactivity ; frbroo:R25_performed ?plan . } ?plan a frbroo:F25_Performance_Plan . }")]]
+            <bs-tab event-key='productions' title='[[i18n "TabProductions" bundle="performing-arts-ch"]]'>
+                [[> sapaModule:PersonProductions]]
+            </bs-tab>
+        [[/if]]
+
+        [[#if (ask "ASK { ?thing rico:hasOrHadSubject|rico:hasProvenance|rico:hasCreator ?? .}")]]
+            <bs-tab event-key="collections" title='[[i18n "TabCollections" bundle="performing-arts-ch"]]'>
+                [[> sapaModule:Collections]]
+            </bs-tab>
+        [[/if]]
+
+        [[#if (hasPermission "forms:ldp:*")]] 
+        <bs-tab event-key='person editing' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:PersonForm]]
+        </bs-tab>
+        [[/if]]
+
+        [[#if (hasPermission "api:ldp:*:delete")]] 
+        <bs-tab event-key='delete' title='[[i18n "TabDelete" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:DeleteEntity]]
+        </bs-tab>
+        [[/if]]
+
+        [[> sapaModule:AdminTabs]]
+
+    </bs-tabs>
+</div>

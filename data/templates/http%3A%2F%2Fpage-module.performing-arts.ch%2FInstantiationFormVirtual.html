@@ -1,0 +1,298 @@
+[[> sapaModule:FieldDefinitions]]
+
+  <div data-flex-layout='row top-stretch'>
+    <semantic-form 
+     [[#if create]]
+        new-subject-template='http://data.performing-arts.ch/o/{{UUID}}'
+        post-action="redirect"
+      [[else]]
+        subject='[[this]]'
+        post-action="reload"
+     [[/if]]
+      
+      browser-persistence=true
+      persistence='ldp' 
+      form-id='instantiaton'
+      fields='[
+        [[> RDFtype]],
+        [[> EbucoreDuration]],
+        [[> InstantiationRecord]],
+        [[> ThingTypedIdentifier]],
+        [[> InstantiationArchivalStatus]],
+        [[> InstantiationRepresentationType]],
+        [[> InstantiationCarrierType]],
+        [[> InstantiationRecordingSystem]],
+        [[> InstantiationHistory]],
+        [[> InstantiationDerivedFrom]],
+        [[> InstantiationCopyPath]],
+        [[> InstantiationCondition]],
+        [[> InstantiationIntegrity]],
+        [[> MediaResourceLastControl]],
+        [[> MediaResourceDisplayMode]],
+        [[> MediaResourceVideoDamage]],
+        [[> MediaResourceColor]],
+        [[> ThingNoteInternal]],
+        [[> ThingLocation]],
+        [[> RepresentationFile]],
+        [[> RecordResourceAcquisition]],
+        [[> RecordResourceResponsible]],
+        [[> InstantiationPreparationDate]],
+        [[> ThingAccessability]],
+        [[> ThingPermission]],
+        [[> ThingPhysicalUsability]],
+        [[> RecordResourceProtectionDuration]],
+        [[> RecordResourceDescription]],
+        [[> ThingTermsProtection]],
+        [[> ThingSeeAlso]],
+        [[> ThingNote]]
+      ]'>
+      <bs-panel>
+        <semantic-form-recover-notification></semantic-form-recover-notification>
+        <div style="display: none;">
+          <!-- TODO: Not all Instantiations are ebucore:MediaResource ! -->
+          <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "rico:Instantiation"]]", "[[resolvePrefix "premis:Representation"]]"]'></semantic-form-hidden-input>
+        </div>
+        <bs-row>
+          <bs-col sm='4'>
+            <semantic-form-composite-input 
+              for="ThingTypedIdentifier"
+              new-subject-template="http://data.performing-arts.ch/x/{{UUID}}"
+              fields='[
+                [[> RDFtype]],
+                [[> IdentifierType]],
+                [[> IdentifierValue]]
+              ]'>
+              <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "rico:Identifier"]]'></semantic-form-hidden-input>
+              <semantic-form-text-input for="IdentifierValue"></semantic-form-text-input>
+              <semantic-form-select-input for="IdentifierType"></semantic-form-select-input>
+            </semantic-form-composite-input>
+            <semantic-form-autocomplete-input for="InstantiationDerivedFrom"></semantic-form-autocomplete-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-select-input for="InstantiationRepresentationType"></semantic-form-select-input>
+            <semantic-form-tree-picker-input for="InstantiationCarrierType"></semantic-form-tree-picker-input>
+            <semantic-form-tree-picker-input for="InstantiationRecordingSystem"></semantic-form-tree-picker-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-select-input for="InstantiationArchivalStatus"></semantic-form-select-input>
+            <semantic-form-autocomplete-input for="InstantiationRecord"></semantic-form-autocomplete-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+        <bs-row>
+          <bs-col sm='4'>
+            <semantic-form-text-input for="InstantiationHistory" multiline=true></semantic-form-text-input>
+            <semantic-form-select-input for="RecordResourceAcquisition"></semantic-form-select-input>
+            <semantic-form-text-input for="RecordResourceDescription" multiline=true></semantic-form-text-input>
+            <semantic-form-text-input for="InstantiationCopyPath" multiline=true></semantic-form-text-input>
+            <semantic-form-text-input for="EbucoreDuration"></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-select-input for="InstantiationCondition"></semantic-form-select-input>
+            <semantic-form-text-input for="InstantiationIntegrity" multiline=true></semantic-form-text-input>
+            <semantic-form-text-input for="MediaResourceLastControl"></semantic-form-text-input>
+            <semantic-form-select-input for="MediaResourceDisplayMode"></semantic-form-select-input>
+            <semantic-form-select-input for="MediaResourceColor"></semantic-form-select-input>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-tree-picker-input for="ThingLocation"></semantic-form-tree-picker-input>
+            <semantic-form-tree-picker-input for="MediaResourceVideoDamage"></semantic-form-tree-picker-input>
+          </bs-col>
+        </bs-row>
+        <bs-row>
+          <bs-col sm='4'>
+            <semantic-form-text-input for="RecordResourceResponsible"></semantic-form-text-input>
+          </bs-col>          
+          <bs-col sm='4'>
+            <semantic-form-switch for="InstantiationPreparationDate" switch-on-field='RecordResourceDateType'>
+              <semantic-form-switch-case label='Single Date'>
+                <semantic-form-composite-input for="InstantiationPreparationDate" new-subject-template='http://data.performing-arts.ch/x/{{UUID}}' fields='[
+                  [[> RecordResourceDateType]],
+                  [[> RecordResourceDateValue]],
+                  [[> RecordResourceDateQualifier]],
+                  [[> RecordResourceDateCertainty]]
+                ]'>
+                  <semantic-form-hidden-input for="RecordResourceDateType" default-value='[[resolvePrefix "rico:SingleDate"]]'></semantic-form-hidden-input>
+                  <semantic-form-text-input for="RecordResourceDateValue"></semantic-form-text-input>
+                  <semantic-form-checklist-input row=true for="RecordResourceDateQualifier"></semantic-form-checklist-input>
+                  <semantic-form-checklist-input row=true for="RecordResourceDateCertainty"></semantic-form-checklist-input>
+                </semantic-form-composite-input>
+              </semantic-form-switch-case>
+              <semantic-form-switch-case label='Date Range'>
+                <semantic-form-composite-input for="InstantiationPreparationDate" new-subject-template='http://data.performing-arts.ch/x/{{UUID}}' fields='[
+                  [[> RecordResourceDateType]],
+                  [[> RecordResourceDateBeginning]],
+                  [[> RecordResourceDateEnd]]
+                ]'>
+                  <semantic-form-hidden-input for="RecordResourceDateType" default-value='[[resolvePrefix "rico:DateRange"]]'></semantic-form-hidden-input>
+                  <semantic-form-composite-input for="RecordResourceDateBeginning" new-subject-template='http://data.performing-arts.ch/x/{{UUID}}' fields='[
+                    [[> RecordResourceDateType]],
+                    [[> RecordResourceDateValue]],
+                    [[> RecordResourceDateQualifier]],
+                    [[> RecordResourceDateCertainty]]
+                  ]'>
+                    <semantic-form-hidden-input for="RecordResourceDateType" default-value='[[resolvePrefix "rico:SingleDate"]]'></semantic-form-hidden-input>
+                    <semantic-form-text-input for="RecordResourceDateValue"></semantic-form-text-input>
+                    <semantic-form-checklist-input row=true for="RecordResourceDateQualifier"></semantic-form-checklist-input>
+                    <semantic-form-checklist-input row=true for="RecordResourceDateCertainty"></semantic-form-checklist-input>
+                  </semantic-form-composite-input>   
+
+                  <semantic-form-composite-input for="RecordResourceDateEnd" new-subject-template='http://data.performing-arts.ch/x/{{UUID}}' fields='[
+                    [[> RecordResourceDateType]],
+                    [[> RecordResourceDateValue]],
+                    [[> RecordResourceDateQualifier]],
+                    [[> RecordResourceDateCertainty]]
+                  ]'>
+                    <semantic-form-hidden-input for="RecordResourceDateType" default-value='[[resolvePrefix "rico:SingleDate"]]'></semantic-form-hidden-input>
+                    <semantic-form-text-input for="RecordResourceDateValue"></semantic-form-text-input>
+                    <semantic-form-checklist-input row=true for="RecordResourceDateQualifier"></semantic-form-checklist-input>
+                    <semantic-form-checklist-input row=true for="RecordResourceDateCertainty"></semantic-form-checklist-input>
+                  </semantic-form-composite-input>
+                </semantic-form-composite-input>
+              </semantic-form-switch-case>
+              <semantic-form-switch-case label='No Date'>
+                <semantic-form-composite-input for="InstantiationPreparationDate" new-subject-template='http://data.performing-arts.ch/x/{{UUID}}' fields='[
+                  [[> RecordResourceDateType]],
+                  [[> RecordResourceDateNoValue]]
+                ]'>
+                  <semantic-form-hidden-input for="RecordResourceDateType" default-value='[[resolvePrefix "rico:Date"]]'></semantic-form-hidden-input>
+                  <semantic-form-checklist-input for="RecordResourceDateNoValue" type='radio' row=true default-value='[[resolvePrefix "spav:ndsd"]]'></semantic-form-checklist-input>
+                </semantic-form-composite-input>
+              </semantic-form-switch-case>
+            </semantic-form-switch>
+          </bs-col>
+          <bs-col sm='4'>
+            <semantic-form-autocomplete-input for="ThingSeeAlso"></semantic-form-autocomplete-input>
+          </bs-col>          
+        </bs-row>        <bs-row>
+          <bs-col sm='4'>
+            <semantic-form-text-input for="RecordResourceProtectionDuration"></semantic-form-text-input>
+            <semantic-form-text-input for="ThingNote" multiline=true></semantic-form-text-input>
+            <semantic-form-text-input for="ThingNoteInternal" multiline=true></semantic-form-text-input>
+          </bs-col>
+          <bs-col sm='2'>
+            <semantic-form-checklist-input type='radio' clearable=true for="ThingTermsProtection"></semantic-form-checklist-input>
+          </bs-col>
+          <bs-col sm='2'>
+            <semantic-form-checklist-input type='radio' clearable=true for="ThingPermission"></semantic-form-checklist-input>
+          </bs-col>
+          <bs-col sm='2'>
+            <semantic-form-checklist-input type='radio' clearable=true for="ThingPhysicalUsability"></semantic-form-checklist-input>
+          </bs-col>
+          <bs-col sm='2'>
+            <semantic-form-checklist-input type='radio' clearable=true for="ThingAccessability"></semantic-form-checklist-input>
+          </bs-col>
+        </bs-row>
+        <hr />
+
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-composite-input for="RepresentationFile" new-subject-template='http://data.performing-arts.ch/0/{{UUID}}' fields='[
+              [[> RDFtype]],
+              [[> FileOriginalName]],
+              [[> FileCompositionLevel]],
+              [[> FileSize]],
+              [[> FileFixity]],
+              [[> EbucoreDuration]],
+              [[> MediaResourceFormatContainer]],
+              [[> MediaResourceFormatVideo]],
+              [[> MediaResourceFormatAudio]],
+              [[> MediaResourceStandard]],
+              [[> MediaResourceColor]],
+              [[> MediaResourceFrameRate]],
+              [[> MediaResourceAspectRatio]],
+              [[> MediaResourceVideoDamage]],
+              [[> MediaResourceWidth]],
+              [[> MediaResourceHeight]],
+              [[> MediaResourceChannels]],
+              [[> MediaResourceSamplingRate]],
+              [[> MediaResourceScanningFormat]],
+              [[> MediaResourceScanningOrder]],
+              [[> InstantiationHistory]],
+              [[> InstantiationIntegrity]],
+              [[> MediaResourceLastControl]],
+              [[> ThingSeeAlso]]
+              ]'>
+              <!-- http://ontology.performing-arts.ch/lastControl -->
+              <div style='display: none;'>
+                <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "premis:File"]]"]'></semantic-form-hidden-input>
+              </div>
+              <bs-row>
+                <bs-col sm='2'>
+                  <semantic-form-text-input for="FileOriginalName"></semantic-form-text-input>                  
+                </bs-col>
+                <bs-col sm='2'>
+                  <semantic-form-text-input for="FileCompositionLevel"></semantic-form-text-input>                  
+                </bs-col>
+                <bs-col sm='2'>
+                  <semantic-form-text-input for="FileSize"></semantic-form-text-input>                  
+                </bs-col>
+                <bs-col sm='4'>
+                  <semantic-form-text-input for="FileFixity"></semantic-form-text-input>                  
+                </bs-col>
+                <bs-col sm='2'>
+                  <div class="sapa-component form-field-deprecated"><semantic-form-text-input for="EbucoreDuration"></semantic-form-text-input></div>
+                </bs-col>
+              </bs-row>
+
+              <bs-row>
+                <bs-col sm='2'>
+                  <semantic-form-select-input for="MediaResourceFormatContainer"></semantic-form-select-input>
+                </bs-col>
+                <bs-col sm='2'>
+                  <semantic-form-select-input for="MediaResourceFormatVideo"></semantic-form-select-input>
+                </bs-col>
+                <bs-col sm='2'>
+                  <semantic-form-select-input for="MediaResourceFormatAudio"></semantic-form-select-input>
+                </bs-col>
+                <bs-col sm='2'>
+                </bs-col>
+                <bs-col sm='2'>
+                </bs-col>
+                <bs-col sm='2'>
+                </bs-col>
+              </bs-row>
+              <bs-row>
+                <bs-col sm='2'>
+                  <semantic-form-select-input for="MediaResourceColor"></semantic-form-select-input>
+                  <semantic-form-checklist-input type='radio' clearable=true row=false for="MediaResourceStandard"></semantic-form-checklist-input>
+                </bs-col>
+                <bs-col sm='2'>
+                  <semantic-form-text-input for="MediaResourceWidth"></semantic-form-text-input>
+                  <semantic-form-text-input for="MediaResourceHeight"></semantic-form-text-input>
+                  <semantic-form-text-input for="MediaResourceAspectRatio"></semantic-form-text-input>
+                  <semantic-form-text-input for="MediaResourceFrameRate"></semantic-form-text-input>
+                </bs-col>
+                <bs-col sm='2'>
+                  <semantic-form-checklist-input type='radio' clearable=true row=false for="MediaResourceScanningFormat"></semantic-form-checklist-input>
+                  <semantic-form-checklist-input type='radio' clearable=true row=false for="MediaResourceScanningOrder"></semantic-form-checklist-input>
+                </bs-col>
+                <bs-col sm='2'>
+                  <semantic-form-text-input for="MediaResourceChannels"></semantic-form-text-input>
+                  <semantic-form-text-input for="MediaResourceSamplingRate"></semantic-form-text-input>
+                </bs-col>
+                <bs-col sm='4'>
+                  <div class="sapa-component form-field-deprecated"><semantic-form-tree-picker-input for="MediaResourceVideoDamage"></semantic-form-tree-picker-input></div>
+                </bs-col>
+              </bs-row>
+              <bs-row>
+                <bs-col sm='4'>
+                  <div class="sapa-component form-field-deprecated"><semantic-form-text-input for="InstantiationHistory" multiline=true></semantic-form-text-input></div>
+                </bs-col>
+                <bs-col sm='4'>
+                  <div class="sapa-component form-field-deprecated"><semantic-form-text-input for="InstantiationIntegrity" multiline=true></semantic-form-text-input></div>
+                  <div class="sapa-component form-field-deprecated"><semantic-form-text-input for="MediaResourceLastControl"></semantic-form-text-input></div>
+                </bs-col>
+                <bs-col sm='4'>
+                  <semantic-form-autocomplete-input for="ThingSeeAlso"></semantic-form-autocomplete-input>
+                </bs-col>
+              </bs-row>        
+          </semantic-form-composite-input>
+          <hr>
+        <semantic-form-errors></semantic-form-errors>
+        <!-- save and reset button for form -->
+        <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+        <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+      </bs-panel>
+    </semantic-form>
+  </div>

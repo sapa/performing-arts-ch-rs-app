@@ -1,0 +1,54 @@
+    <semantic-query 
+    query='SELECT ?fieldlabel ?value ?label WHERE {
+        ?? owl:sameAs ?value
+        VALUES (?fieldlabel) { ( "[[i18n "field_external_resources" bundle="sapa-fields"]]") }
+        VALUES (?prefix ?source ?order)
+        {
+          ("http://www.wikidata.org/entity/" "Wikidata" 0)
+          ("https://www.wikidata.org/entity/" "Wikidata" 0)
+          ("http://www.isni.org/" "ISNI" 1)
+          ("https://www.isni.org/" "ISNI" 1)
+          ("http://viaf.org/viaf/" "VIAF" 2)
+          ("https://viaf.org/viaf/" "VIAF" 2)
+          ("http://d-nb.info/gnd/" "GND" 3)
+          ("https://d-nb.info/gnd/" "GND" 3)
+          ("https://catalogue.bnf.fr/ark:/12148/cb" "BnF" 4)
+          ("http://geonames.org/" "Geonames" 5)
+          ("https://geonames.org/" "Geonames" 5)
+          ("http://classifications.data.admin.ch/municipality/" "[[i18n "ExternalResourcesSwissMunicipality" bundle="performing-arts-ch"]]" 6)
+          ("https://classifications.data.admin.ch/municipality/" "[[i18n "ExternalResourcesSwissMunicipality" bundle="performing-arts-ch"]]" 6)
+          ("http://classifications.data.admin.ch/canton/" "[[i18n "ExternalResourcesSwissMunicipality" bundle="performing-arts-ch"]]" 7)
+          ("https://classifications.data.admin.ch/canton/" "[[i18n "ExternalResourcesSwissMunicipality" bundle="performing-arts-ch"]]" 7)
+          ("http://tls.theaterwissenschaft.ch/wiki/" "[[i18n "ExternalResourcesTLS" bundle="performing-arts-ch"]]" 8)
+          ("https://tls.theaterwissenschaft.ch/wiki/" "[[i18n "ExternalResourcesTLS" bundle="performing-arts-ch"]]" 8)
+          ("https://www.tls.theaterwissenschaft.ch/wiki/" "[[i18n "ExternalResourcesTLS" bundle="performing-arts-ch"]]" 8)
+        }
+        FILTER(STRSTARTS(STR(?value), ?prefix))
+        BIND(STRAFTER(STR(?value), ?prefix) as ?localname)
+        BIND (IF(?order<8,
+        CONCAT(?source,": ",?localname) ,
+        ?source) as ?label)
+    } ORDER BY ASC(?order)'
+    template='<div style="margin-bottom:1.4em;">
+      {{#ifCond bindings.length ">" 0}}<h5>{{bindings.0.fieldlabel.value}}</h5>{{/ifCond}}
+      <ul class="list-unstyled">
+        {{#each bindings}}<li><a target="_blank" href="{{value.value}}">{{label.value}}</a></li>{{/each}}
+      </ul></div>'>
+    </semantic-query>
+
+    [[#if (hasPermission "forms:ldp:*")]] 
+    <semantic-query 
+    query='SELECT ?user ?datetime WHERE {
+      GRAPH ?g {
+        ?? rdfs:label ?label .
+        Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?container .
+        ?container prov:generatedAtTime ?dt ;
+                   prov:wasAttributedTo ?user_uri .
+        BIND(STRAFTER(STR(?user_uri), "/user/") as ?user)
+        BIND(CONCAT(STR(DAY(?dt)), ".", STR(MONTH(?dt)), ".", STR(YEAR(?dt))) AS ?datetime)
+
+      }
+    } LIMIT 1'
+    template='<div><small>{{#each bindings}}{{user.value}}, {{datetime.value}}{{/each}}</small></div>'>
+    </semantic-query>
+    [[/if]]
