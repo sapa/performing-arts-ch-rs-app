@@ -444,7 +444,7 @@
         <div style='flex: 1;'>
           <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
 
-            [[#if searchAllDomains]]
+         [[!--   [[#if searchAllDomains]]
             <semantic-search-result-holder>
               <semantic-search-result> 
                 <semantic-query
@@ -474,13 +474,13 @@
                 </semantic-query>
               <semantic-search-result> 
             </semantic-search-result-holder>
-          [[else]]
+          [[else]] --]]
             [[> sapaModule:SearchPersonsResults ]]
             [[> sapaModule:SearchProductionsResults ]]
             [[> sapaModule:SearchVenuesResults ]]
             [[> sapaModule:SearchGroupsResults ]]
             [[> sapaModule:SearchPlacesResults ]]
-          [[/if]]
+          [[!-- [[/if]] --]]
 
 
         </div>
