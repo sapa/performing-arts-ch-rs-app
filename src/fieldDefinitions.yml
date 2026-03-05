@@ -263,23 +263,23 @@ fields:
     domain: https://www.ica.org/standards/RiC/ontology#Concept
     queries:
       - select: 'SELECT $value WHERE {
-        $subject rdfs:label $value .
-      }'
+            $subject rdfs:label $value .
+          }'
       - insert: 'INSERT { 
-        $subject rdfs:label $value ;
-        crm:P131_is_identified_by $identifier .
-        $identifier a crm:E75_Conceptual_Object_Appellation ;
-        rdf:value $value .
-      } WHERE {
-        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "common_appellation")))) AS $identifier)
-      }'
+            $subject rdfs:label $value ;
+            crm:P131_is_identified_by $identifier .
+            $identifier a crm:E75_Conceptual_Object_Appellation ;
+            rdf:value $value .
+          } WHERE {
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "common_appellation")))) AS $identifier)
+          }'
       - delete: 'DELETE {
-        $subject rdfs:label $value ;
-        crm:P131_is_identified_by $identifier .
-        $identifier a crm:E75_Conceptual_Object_Appellation ;
-        crm:P2_has_type ?type ;
-        rdf:value ?value .
-      } WHERE {}'
+            $subject rdfs:label $value ;
+            crm:P131_is_identified_by $identifier .
+            $identifier a crm:E75_Conceptual_Object_Appellation ;
+            crm:P2_has_type ?type ;
+            rdf:value ?value .
+          } WHERE {}'
 
 
   - id: DeliveryNumber
@@ -301,24 +301,24 @@ fields:
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     queries:
       - select: 'SELECT ?value WHERE {
-        $subject crm:P3_has_note $note.
-        $note crm:P2_has_type spav:eoept ;
-        rdf:value $value.
-      }'
+            $subject crm:P3_has_note $note.
+            $note crm:P2_has_type spav:eoept ;
+            rdf:value $value.
+          }'
       - insert: 'INSERT {
-        $subject crm:P3_has_note $note.
-        $note a crm:E62_String ;
-        crm:P2_has_type spav:eoept ;
-        rdf:value $value.
-      } WHERE {
-        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), ?value)))) AS ?note)
-      }'
+            $subject crm:P3_has_note $note.
+            $note a crm:E62_String ;
+            crm:P2_has_type spav:eoept ;
+            rdf:value $value.
+          } WHERE {
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), ?value)))) AS ?note)
+          }'
       - delete: 'DELETE {
-        $subject crm:P3_has_note $note.
-        $note a crm:E62_String ;
-        crm:P2_has_type spav:eoept ;
-        rdf:value $value.
-      } WHERE {}'
+            $subject crm:P3_has_note $note.
+            $note a crm:E62_String ;
+            crm:P2_has_type spav:eoept ;
+            rdf:value $value.
+          } WHERE {}'
 
 
   - id: EbucoreDuration
@@ -358,21 +358,21 @@ fields:
     queries:
       - select: 'SELECT $value WHERE { $subject premis:fixity [ rdf:value $value ] . }'
       - insert: 'INSERT { 
-        $subject premis:fixity ?md5 .
-        ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
-        rdf:value $value . 
-      } WHERE {
-        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), $value)))) AS ?md5)
-      }'
+            $subject premis:fixity ?md5 .
+            ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
+            rdf:value $value . 
+          } WHERE {
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), $value)))) AS ?md5)
+          }'
       - delete: 'DELETE {
-        $subject premis:fixity ?md5 .
-        ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
-        rdf:value $value . 
-      } WHERE {
-        $subject premis:fixity ?md5 .
-        ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
-        rdf:value $value . 
-      }'
+            $subject premis:fixity ?md5 .
+            ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
+            rdf:value $value . 
+          } WHERE {
+            $subject premis:fixity ?md5 .
+            ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
+            rdf:value $value . 
+          }'
 
 
   - id: FileMD5
@@ -383,22 +383,22 @@ fields:
     domain: http://www.loc.gov/premis/rdf/v1#File
     queries:
       - select: 'SELECT $value WHERE {
-        $subject premis:fixity $fixity.
-        $fixity a crypHashFunc:md5 ;
-        rdf:value ?value.
-      }'
+            $subject premis:fixity $fixity.
+            $fixity a crypHashFunc:md5 ;
+            rdf:value ?value.
+          }'
       - insert: 'INSERT {
-        $subject premis:fixity $fixity.
-        $fixity a crypHashFunc:md5 ;
-        rdf:value ?value.
-      } WHERE {
-        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), "md5", STR(?value))))) AS $fixity)
-      }'
+            $subject premis:fixity $fixity.
+            $fixity a crypHashFunc:md5 ;
+            rdf:value ?value.
+          } WHERE {
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), "md5", STR(?value))))) AS $fixity)
+          }'
       - delete: 'DELETE {
-        $subject premis:fixity $fixity.
-        $fixity a crypHashFunc:md5 ;
-        rdf:value ?value.
-      } WHERE {}'
+            $subject premis:fixity $fixity.
+            $fixity a crypHashFunc:md5 ;
+            rdf:value ?value.
+          } WHERE {}'
 
 
   - id: FileOriginalName
@@ -411,13 +411,13 @@ fields:
     queries:
       - select: 'SELECT $value WHERE { $subject premis:originalName $value . }'
       - insert: 'INSERT {
-        $subject premis:originalName $value ;
-        rdfs:label $value .
-      } WHERE { }'
+            $subject premis:originalName $value ;
+            rdfs:label $value .
+          } WHERE { }'
       - delete: 'DELETE {
-        $subject premis:originalName $value ;
-        rdfs:label $value .
-      } WHERE {}'
+            $subject premis:originalName $value ;
+            rdfs:label $value .
+          } WHERE {}'
 
 
   - id: FileSize
@@ -442,25 +442,25 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
       - select: 'SELECT ?value ?label WHERE {
-        ?work frbroo:R12_is_realised_in $subject ;
-        crm:P2_has_type ?value.
-      }'
+            ?work frbroo:R12_is_realised_in $subject ;
+            crm:P2_has_type ?value.
+          }'
       - insert: 'INSERT {
-        ?work frbroo:R12_is_realised_in $subject ;
-        crm:P2_has_type ?value.
-      } WHERE {
-        BIND(IRI(CONCAT("http://data.performing-arts.ch/w/", MD5(STR(?value)))) AS ?work)
-      }'
+            ?work frbroo:R12_is_realised_in $subject ;
+            crm:P2_has_type ?value.
+          } WHERE {
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/w/", MD5(STR(?value)))) AS ?work)
+          }'
       - valueSet: 'SELECT $value WHERE {
-        $value a skos:Concept ;
-        skos:inScheme spav:mn .
-      } ORDER BY ?label'
+            $value a skos:Concept ;
+            skos:inScheme spav:mn .
+          } ORDER BY ?label'
       - autosuggestion: 'SELECT $value $label WHERE {
-        $value a skos:Concept ;
-        skos:inScheme spav:mn ;
-        skos:prefLabel ?label .
-        FILTER(REGEX(STR(?label), "?token", "i"))
-      } LIMIT 10'
+            $value a skos:Concept ;
+            skos:inScheme spav:mn ;
+            skos:prefLabel ?label .
+            FILTER(REGEX(STR(?label), "?token", "i"))
+          } LIMIT 10'
 
 
   - id: GroupAcronym
