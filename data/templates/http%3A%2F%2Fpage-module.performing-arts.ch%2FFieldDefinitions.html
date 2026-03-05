@@ -885,7 +885,7 @@ BIND(IF(BOUND(?parent_label), CONCAT(?venue_label, \" (\", ?parent_label, IF(BOU
             "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "domain" : "https://www.ica.org/standards/RiC/ontology#Instantiation",
-            "range" : ["https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordPart"],
+            "range" : ["https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordPart"],
                 "selectPattern" : "SELECT ?value WHERE { $value rico:hasInstantiation $subject . }",
                 "insertPattern" : "INSERT { $value rico:hasInstantiation $subject . } WHERE { }",
                 "deletePattern" : "DELETE { $value rico:hasInstantiation $subject . } WHERE { }",
@@ -1757,7 +1757,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
             "label": "[[i18n "field_premiere_type" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type', 'http://www.w3.org/2004/02/skos/core#Concept"],
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.w3.org/2004/02/skos/core#Concept"],
                 "selectPattern" : "SELECT ?value WHERE { $subject a frbroo:F31_Performance ; crm:P2_has_type ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type ?value. } WHERE {}",
         "iri" : "Premiere_Type"
@@ -1881,7 +1881,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
 
             "label": "[[i18n "field_documentary_form" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
-            "domain" : ["https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordPart"],
+            "domain" : "https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordPart",
             "range" : ["https://www.ica.org/standards/RiC/ontology#RecordResourceDocumentaryForm"],
             "treePatterns": {
                 "type": "full",
@@ -2398,7 +2398,6 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
                 "insertPattern" : "INSERT { $subject spao:hasPacking $value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject spao:hasPacking $value. } WHERE {}",
                 "valueSetPattern" : "SELECT $value WHERE { VALUES ( $value ) { ( spav:pkba4 ) ( spav:pkba5 ) ( spav:pkbag ) ( spav:pkbco ) ( spav:pkpst ) ( spav:pkpnt ) ( spav:pkdgf ) } }",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { SERVICE Repository:lookup { ?value lookup:token ?__token__ ; lookup:name ?label . } }",
         "iri" : "RecordResourcePacking"
     }
 [[/inline]]
@@ -2413,7 +2412,6 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
                 "insertPattern" : "INSERT { $subject spao:hasPacking $value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject spao:hasPacking $value. } WHERE {}",
                 "valueSetPattern" : "SELECT $value WHERE { VALUES ( $value ) { ( spav:pkba4 ) ( spav:pkba5 ) ( spav:pkbag ) ( spav:pkbco ) ( spav:pkpst ) ( spav:pkpnt ) ( spav:pkdgf ) } }",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { SERVICE Repository:lookup { ?value lookup:token ?__token__ ; lookup:name ?label . } }",
         "iri" : "RecordResourcePackingDepricated"
     }
 [[/inline]]
@@ -2536,7 +2534,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
 
             "label": "[[i18n "field_processing_date" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
-            "domain" : ["https://www.ica.org/standards/RiC/ontology#Instantiation', 'https://www.ica.org/standards/RiC/ontology#RecordResource"],
+            "domain" : "https://www.ica.org/standards/RiC/ontology#Instantiation, https://www.ica.org/standards/RiC/ontology#RecordResource",
                 "selectPattern" : "SELECT $value WHERE { $subject spao:hasProcessingDate $value . }",
                 "insertPattern" : "INSERT { $subject spao:hasProcessingDate $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject spao:hasProcessingDate $value . } WHERE {}",
@@ -2605,7 +2603,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
             "label": "[[i18n "field_subject" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
-            "range" : ["http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan', 'http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'https://www.ica.org/standards/RiC/ontology#Agent', 'https://www.ica.org/standards/RiC/ontology#Concept', 'https://www.ica.org/standards/RiC/ontology#Thing"],
+            "range" : ["http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing"],
                 "selectPattern" : "SELECT $value WHERE { $subject rico:hasOrHadSubject $value . }",
                 "insertPattern" : "INSERT { $subject rico:hasOrHadSubject $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject rico:hasOrHadSubject $value} WHERE {}",
@@ -2621,7 +2619,7 @@ VALUES (?type ?type_label_en ?type_label_de ?type_label_fr ?type_label_it) { (ri
             "label": "[[i18n "field_subject" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
-            "range" : ["http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan', 'http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'https://www.ica.org/standards/RiC/ontology#Agent', 'https://www.ica.org/standards/RiC/ontology#Concept', 'https://www.ica.org/standards/RiC/ontology#Thing"],
+            "range" : ["http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing"],
                 "selectPattern" : "SELECT $value WHERE { $subject rico:hasOrHadSubject $value . BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\" || ?type_indicator = \"r\" || ?type_indicator = \"w\"  || ?type_indicator = \"o\") }",
                 "insertPattern" : "INSERT { $subject rico:hasOrHadSubject $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject rico:hasOrHadSubject $value} WHERE {}",
@@ -2637,7 +2635,7 @@ VALUES (?type ?type_label_en ?type_label_de ?type_label_fr ?type_label_it) { (ri
             "label": "[[i18n "field_subjectu" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
-            "range" : ["http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan', 'http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'https://www.ica.org/standards/RiC/ontology#Agent', 'https://www.ica.org/standards/RiC/ontology#Concept', 'https://www.ica.org/standards/RiC/ontology#Thing"],
+            "range" : ["http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing"],
                 "selectPattern" : "SELECT $value WHERE { $subject rico:hasOrHadSubject $value . BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"u\") }",
                 "insertPattern" : "INSERT { $subject rico:hasOrHadSubject $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject rico:hasOrHadSubject $value} WHERE {}",
@@ -2741,7 +2739,7 @@ VALUES (?type ?type_label_en ?type_label_de ?type_label_fr ?type_label_it) { (ri
             "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "domain" : "https://www.ica.org/standards/RiC/ontology#RecordSet",
-            "range" : ["http://www.w3.org/2004/02/skos/core#Concept', 'https://www.ica.org/standards/RiC/ontology#RecordSetType"],
+            "range" : ["http://www.w3.org/2004/02/skos/core#Concept, https://www.ica.org/standards/RiC/ontology#RecordSetType"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject rico:hasRecordSetType ?value. }",
                 "insertPattern" : "INSERT { $subject rico:hasRecordSetType $value} WHERE {}",
                 "deletePattern" : "DELETE { $subject rico:hasRecordSetType $value} WHERE {}",
@@ -2755,7 +2753,7 @@ VALUES (?type ?type_label_en ?type_label_de ?type_label_fr ?type_label_it) { (ri
 
             "label": "[[i18n "field_virtual" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#boolean",
-            "domain" : ["https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordSet"],
+            "domain" : "https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordSet",
                 "selectPattern" : "SELECT $value WHERE { $subject <http://temp.performing-arts.ch/isVirtual> $value. }",
                 "insertPattern" : "INSERT { $subject <http://temp.performing-arts.ch/isVirtual> $value. } WHERE { }",
                 "deletePattern" : "DELETE { $subject <http://temp.performing-arts.ch/isVirtual> $value. } WHERE { }",
@@ -2914,7 +2912,7 @@ BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator != 
             "minOccurs" : "1",
             "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : ["https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordSet"],
+            "domain" : "https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordSet",
                 "selectPattern" : "SELECT $value WHERE { $subject rico:name $value . }",
                 "insertPattern" : "INSERT { $subject rico:name $value} WHERE {}",
                 "deletePattern" : "DELETE { $subject rico:name $value} WHERE {}",
@@ -3034,7 +3032,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "label": "[[i18n "field_accessibility" bundle="sapa-fields"]]",
             "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
-            "domain" : ["https://www.ica.org/standards/RiC/ontology#Instantiation', 'https://www.ica.org/standards/RiC/ontology#RecordResource"],
+            "domain" : "https://www.ica.org/standards/RiC/ontology#Instantiation, https://www.ica.org/standards/RiC/ontology#RecordResource",
             "range" : ["http://www.w3.org/2004/02/skos/core#Concept"],
                 "selectPattern" : "SELECT $value WHERE { $subject spao:hasAccessibility $value. }",
                 "insertPattern" : "INSERT { $subject spao:hasAccessibility $value. } WHERE { }",
