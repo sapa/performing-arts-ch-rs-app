@@ -218,7 +218,6 @@ fields:
     domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'http://www.cidoc-crm.org/cidoc-crm/E74_Group
     queries:
       - select: 'SELECT $value WHERE {
-        BIND(IRI(CONCAT ("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "byline")))) AS $identifier)
         $subject crm:P131_is_identified_by $identifier .
         $identifier a crm:E41_Appellation ;
         crm:P2_has_type spav:yauzw ;
@@ -1192,7 +1191,7 @@ fields:
 
   - id: InstantiationCondition
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationCondition
-    label: Condition
+    label: Condition (deprecated)
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1206,6 +1205,69 @@ fields:
       schemePattern: '?item <http://www.w3.org/2004/02/skos/core#inScheme> spav:cd '
       relationPattern: '?item skos:broader ?parent'
 
+  - id: InstantiationConditionStatement
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantationConditionStatement
+    label: Condition
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    domain: https://www.ica.org/standards/RiC/ontology#Instantiation
+    queries:
+      - select: 'SELECT ?value WHERE { 
+          $subject rico:isAssociatedWithEvent ?value . 
+          ?value spao:hasCondition ?type .
+          ?type skos:inScheme spav:cd .
+        }'
+      - insert: 'INSERT { 
+          $subject rico:isAssociatedWithEvent $value .
+          $value a rico:Event .
+        } WHERE {}'
+      - delete: 'DELETE { 
+          $subject rico:isAssociatedWithEvent $value .  
+          $value a rico:Event .
+        } WHERE {}'
+
+  - id: InstantiationConditionStatementCondition
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationConditionStatementCondition
+    label: Condition
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { 
+          $subject spao:hasCondition ?value .
+          ?value skos:inScheme spav:cd .
+        }'
+      - insert: 'INSERT { $subject spao:hasCondition $value . } WHERE {}'
+      - delete: 'DELETE { $subject spao:hasCondition $value . } WHERE {}'
+      - valueSet: 'SELECT $value WHERE { 
+          $value skos:inScheme spav:cd .
+        }'
+
+  - id: InstantiationConditionStatementDamage
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationConditionStatementDamage
+    label: Damage
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { 
+          $subject rico:hasEventType ?value .
+          ?value skos:inScheme spav:dm .
+        }'
+      - insert: 'INSERT { $subject rico:hasEventType $value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:hasEventType $value . } WHERE {}'
+    treePatterns:
+      type: simple
+      schemePattern: '?item <http://www.w3.org/2004/02/skos/core#inScheme> spav:dm '
+      relationPattern: '?item skos:broader ?parent'
+
+  - id: InstantiationConditionStatementHistory
+    label: History
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#string
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { 
+          $subject rico:history ?value .
+          }'
+      - insert: 'INSERT { $subject rico:history $value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:history $value . } WHERE {}'       
 
   - id: InstantiationCopyPath
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationCopyPath
@@ -2522,6 +2584,142 @@ fields:
       - insert: 'INSERT { $subject rico:history $value } WHERE { }'
       - delete: 'DELETE { $subject rico:history $value } WHERE { }'
 
+  - id: PersonManagement
+    label: Management
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#anyURI
+    queries:
+      - select: 'SELECT ?value WHERE {
+        $subject crm:P14i_performed ?value .
+        ?value a crm:E7_Activity ;
+          crm:P2_has_type spav:mufv .
+      }'
+      - insert: 'INSERT {
+        $subject crm:P14i_performed ?value .
+        ?value a crm:E7_Activity ;
+          crm:P2_has_type spav:mufv .
+      } WHERE {}'
+      - delete: 'DELETE {
+        $subject crm:P14i_performed ?value .
+        ?value a crm:E7_Activity ;
+          crm:P2_has_type spav:mufv .
+      } WHERE {}'
+  
+  - id: PersonManagementDateFrom
+    label: From
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $subject crm:P4_has_time-span ?timespan .
+          ?timespan a crm:E52_Time-Span ;
+            crm:P82a_begin_of_the_begin ?value_raw .
+          BIND(STR(?value_raw) AS ?value)
+          }'
+      - insert: 'INSERT {
+          $subject crm:P4_has_time-span ?timespan .
+          ?timespan a crm:E52_Time-Span ;
+            crm:P82a_begin_of_the_begin ?value_processed .
+        } WHERE {
+          BIND(
+              IF(
+                REGEX(STR(?value), "^[0-9]{4}$"),
+                CONCAT(STR(?value), "-01-01"),
+                IF(
+                  REGEX(STR(?value), "^[0-9]{4}-[0-9]{2}$"),
+                  CONCAT(STR(?value), "-01"),
+                  STR(?value)
+                )
+              )
+              AS ?date_lex
+            )
+            BIND(xsd:date(?date_lex) AS ?value_processed)
+          BIND(IRI(CONCAT(STR($subject), "/timespan")) AS ?timespan)
+        }'
+      - delete: 'DELETE {
+          $subject crm:P4_has_time-span ?timespan .
+          ?timespan a crm:E52_Time-Span ;
+            crm:P82a_begin_of_the_begin ?value .
+        } WHERE {}'
+      - ask: 'ASK { FILTER(REGEX($value, "^([\\\\+-]?\\\\d{4}(?!\\\\d{2}\\\\b))((-?)((0[1-9]|1[0-2])(\\\\3([12]\\\\d|0[1-9]|3[01]))?))?$")) }'
+
+
+  - id: PersonManagementDateTo
+    label: To
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $subject crm:P4_has_time-span ?timespan .
+          ?timespan a crm:E52_Time-Span ;
+            crm:P82b_end_of_the_end ?value .
+          }'
+      - insert: 'INSERT {
+          $subject crm:P4_has_time-span ?timespan .
+          ?timespan a crm:E52_Time-Span ;
+            crm:P82b_end_of_the_end ?value_processed .
+        } WHERE {
+          BIND(
+              IF(
+                REGEX(STR(?value), "^[0-9]{4}$"),
+                CONCAT(STR(?value), "-12-31"),
+                IF(
+                  REGEX(STR(?value), "^[0-9]{4}-[0-9]{2}$"),
+                  CONCAT(STR(?value), "-31"),
+                  STR(?value)
+                )
+              )
+              AS ?date_lex_common
+            )
+          BIND(SUBSTR(?date_lex_common, 6, 2) AS ?month)
+          BIND(
+            IF(
+              ?month = "02",
+              REPLACE(?date_lex_common, "-31$", "-28"),
+              IF(
+                ?month = "04" || ?month = "06" || ?month = "09" || ?month= "11",
+                REPLACE(?date_lex_common, "-31$", "-30"),
+                ?date_lex_common
+              )
+            )
+            AS ?date_lex
+          )
+          BIND(xsd:date(?date_lex) AS ?value_processed)
+          BIND(IRI(CONCAT(STR($subject), "/timespan")) AS ?timespan)
+        }'
+      - delete: 'DELETE {
+          $subject crm:P4_has_time-span ?timespan .
+          ?timespan a crm:E52_Time-Span ;
+            crm:P82b_end_of_the_end ?value .
+        } WHERE {}'
+      - ask: 'ASK { FILTER(REGEX($value, "^([\\\\+-]?\\\\d{4}(?!\\\\d{2}\\\\b))((-?)((0[1-9]|1[0-2])(\\\\3([12]\\\\d|0[1-9]|3[01]))?))?$")) }'
+
+  - id: PersonManagementInstitution
+    label: Institution
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $subject crm:P16_used_specific_object ?value .
+        }'
+      - insert: 'INSERT {
+          $subject crm:P16_used_specific_object ?value .
+        } WHERE {}'
+      - delete: 'DELETE {
+          $subject crm:P16_used_specific_object ?value .
+        } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+          $value a rico:CorporateBody ;
+              rdfs:label $label .
+        {
+          $label bds:search ?__token__ ;
+            bds:matchAllTerms "true" .
+        } UNION {
+          BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
+        }
+        FILTER(CONTAINS(STR(?value), "/a/"))
+      } LIMIT 10'
 
   - id: PersonMiscAppellation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonMiscAppellation
