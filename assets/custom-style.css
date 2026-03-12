@@ -12,7 +12,7 @@ body {
   font-weight: 400;
 }
 h2 {
-  margin: 0.25em 0 0.1em 0;
+  margin: 0.25em 0 0.1em;
 }
 h5 {
   font-size: 1em;
@@ -21,12 +21,12 @@ h5 {
 a {
   color: #0e619e;
 }
-a.unidentified {
-  color: black;
-}
 a:hover,
 a:focus {
   color: #158ce4;
+}
+a.unidentified {
+  color: black;
 }
 details {
   margin-bottom: 1rem;
@@ -63,22 +63,6 @@ div.form-section {
 pdfjs-viewer-element {
   height: 100%;
 }
-#sapa-parts-module {
-  background-color: rgba(220, 216, 230, 0.575);
-  padding-left: 2%;
-  padding-right: 2%;
-}
-#sapa-parts-module > h5:first-child {
-  padding-top: 0.5rem;
-  margin-bottom: 1rem;
-}
-#sapa-parts-module h6 {
-  margin-bottom: 1rem;
-}
-#sapa-parts-module h6 a {
-  font-weight: bold;
-  font-size: 1.1rem;
-}
 .sapa-component.font-bold {
   font-weight: bold;
 }
@@ -88,21 +72,21 @@ pdfjs-viewer-element {
 .sapa-component.domain-cards-tabs .nav {
   display: block;
 }
-.sapa-component.domain-cards-tabs .nav .nav-link {
+.sapa-component.domain-cards-tabs .nav-link {
   padding: 0;
 }
-.sapa-component.domain-cards-tabs .nav .nav-link.active {
+.sapa-component.domain-cards-tabs .nav-link.active {
   background: none;
   border: none;
 }
-.sapa-component.domain-cards-tabs .nav .nav-link.active button {
+.sapa-component.domain-cards-tabs .nav-link.active button {
   background-color: #008cba;
 }
 .sapa-component.panel-home-browse {
   padding-top: 3rem;
 }
 .sapa-component.panel-home-search {
-  padding: 3rem 0 1rem 0;
+  padding: 3rem 0 1rem;
 }
 .sapa-component.search-types .nav-link {
   padding: 0;
@@ -117,7 +101,7 @@ pdfjs-viewer-element {
   font-weight: 500 !important;
 }
 .page-holder {
-  padding-bottom: 4em ;
+  padding-bottom: 4em;
 }
 .page__header-description {
   padding-left: 1em;
@@ -129,6 +113,19 @@ pdfjs-viewer-element {
 .knowledgeGraphBar--expanded .knowledgeGraphBar__content {
   min-height: 8em !important;
 }
+.knowledgeGraphBar__content {
+  border-bottom-width: 0 !important;
+}
+.knowledgeGraphBar__description {
+  display: none;
+}
+.knowledgeGraphBar__graphInfos p {
+  font-size: 1em;
+  margin: 0 0 0.2em !important;
+}
+.knowledgeGraphBar__bottomRow {
+  padding-left: 0.2em !important;
+}
 .knowledgeGraphBar__summary {
   margin-top: 1em;
   margin-left: 0.9em;
@@ -139,24 +136,11 @@ pdfjs-viewer-element {
   line-height: 1.1em !important;
   margin: 0 !important;
 }
-.knowledgeGraphBar__bottomRow {
-  padding-left: 0.2em !important;
-}
-.knowledgeGraphBar__graphInfos p {
-  font-size: 1em ;
-  margin: 0 0 0.2em 0 !important;
-}
 .knowledgeGraphBar__uriRow {
   font-size: 0.8em;
 }
 .knowledgeGraphBar__toggle {
   display: none;
-}
-.knowledgeGraphBar__description {
-  display: none;
-}
-.knowledgeGraphBar__content {
-  border-bottom-width: 0 !important;
 }
 .domainCard h4 {
   font-size: 1.3em;
@@ -179,15 +163,14 @@ pdfjs-viewer-element {
 #application .metaphacts-header-navbar li a {
   font-weight: normal;
 }
+#application > div > .footer {
+  background-color: #083658;
+}
 .bg-primary {
   background-color: #083658 !important;
 }
 .bg-primary .dropdown-menu {
   background-color: #083658 !important;
-}
-.bg-primary .navbar-brand,
-.navbar-dark .navbar-nav .nav-link {
-  color: hsl(0, 0%, 80%);
 }
 .bg-primary .dropdown-menu .dropdown-item.active,
 .bg-primary .dropdown-menu .dropdown-item:focus,
@@ -195,18 +178,18 @@ pdfjs-viewer-element {
   color: hsl(0, 0%, 100%);
   background-color: #062b45 !important;
 }
-.bg-primary .navbar-brand:hover,
-.bg-primary .navbar-brand:focus {
-  color: hsl(0, 0%, 100%);
-}
 .bg-primary .dropdown-menu > .active > a,
 .bg-primary .dropdown-menu > .active > a:hover,
 .bg-primary .dropdown-menu > li > a:hover {
   background-color: #062b45 !important;
 }
-.bg-primary .navbar-nav > li > a:hover,
-.bg-primary .navbar-nav > li > a:focus {
-  background-color: #062b45 !important;
+.bg-primary .navbar-brand,
+.bg-primary .navbar-dark .navbar-nav .nav-link {
+  color: hsl(0, 0%, 80%);
+}
+.bg-primary .navbar-brand:hover,
+.bg-primary .navbar-brand:focus {
+  color: hsl(0, 0%, 100%);
 }
 .bg-primary .navbar-nav > li > a {
   color: hsl(0, 0%, 80%);
@@ -214,6 +197,7 @@ pdfjs-viewer-element {
 .bg-primary .navbar-nav > li > a:hover,
 .bg-primary .navbar-nav > li > a:focus {
   color: hsl(0, 0%, 100%);
+  background-color: #062b45 !important;
 }
 .nav-tabs > .nav-link,
 #tabs > .nav-tabs > li > a,
@@ -245,7 +229,7 @@ label {
   margin-bottom: 30px;
 }
 .pagination {
-  margin: 0px;
+  margin: 0;
 }
 .btn {
   padding: 6px 10px;
@@ -259,9 +243,7 @@ div.tree-view_children span.Tree--leafNode {
 div.facet-relations {
   margin-top: 0;
 }
-div.facet__category-selector-holder {
-  display: none;
-}
+div.facet__category-selector-holder,
 div.facet__relation__values__filter {
   display: none;
 }
@@ -271,9 +253,6 @@ div.SemanticTreeInput--inputAndButtons {
 .text-item {
   margin-bottom: 1rem;
 }
-#application > div > .footer {
-  background-color: #083658;
-}
 .ReorderableList--item-handle {
   z-index: 1000000;
 }
@@ -282,14 +261,14 @@ div.SemanticTreeInput--inputAndButtons {
   border-width: 0;
 }
 .footer > .footer__outer-flex-row {
-  padding: 16px 20px 16px 20px;
+  padding: 16px 20px;
   background-color: #083658;
 }
 .footer__links-col {
   font-size: 0.7em;
 }
 .page__body-navtabs a {
-  border-radius: 4px 4px 0px 0px !important;
+  border-radius: 4px 4px 0 0 !important;
 }
 .page__body-navtabs a[data-rb-event-key="ontodia"][aria-selected="false"],
 .page__body-navtabs a[data-rb-event-key="statements"][aria-selected="false"],
