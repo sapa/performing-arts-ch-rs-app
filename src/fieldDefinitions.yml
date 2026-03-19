@@ -2339,14 +2339,15 @@ fields:
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item a crm:E53_Place .
           FILTER(NOT EXISTS { ?item crm:P89_falls_within ?parent. })
-          FILTER(CONTAINS(STR(?item), "/p/"))
-          ?item rdfs:label ?label.
+            FILTER(CONTAINS(STR(?item), "/p/"))
+            ?item rdfs:label ?label.
           OPTIONAL { ?child crm:P89_falls_within ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
           ?item crm:P89_falls_within ?parent.
+          ?parent rdfs:label ?parentLabel.
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item crm:P89_falls_within ?parent.
