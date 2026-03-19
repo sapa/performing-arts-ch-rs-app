@@ -2,6 +2,7 @@
 
 // LESS Variables
 @base-color: @sapa-blue;
+@bg-color-header: #f9f9f9;
 @bs-blue: #008cba;
 @font: 'Roboto';
 @link: lighten(@sapa-blue, 15%);
@@ -337,7 +338,9 @@ div.tree-view_children {
     }
   }
   &.nav-tabs {
+    background-color: @bg-color-header;
     padding-left: @page-margin;
+    margin-top:0;
   }
 }
 
@@ -355,24 +358,22 @@ div.tree-view_children {
     border-radius: 4px 4px 0 0 !important;
   }
 
-  a[data-rb-event-key="about"][aria-selected="false"],
-  a[data-rb-event-key="groups"][aria-selected="false"],
-  a[data-rb-event-key="venues"][aria-selected="false"],
-  a[data-rb-event-key="persons"][aria-selected="false"],
-  a[data-rb-event-key="producers"][aria-selected="false"],
-  a[data-rb-event-key="productions"][aria-selected="false"],
-  a[data-rb-event-key="management"][aria-selected="false"],
-  a[data-rb-event-key="collections"][aria-selected="false"],
-  a[data-rb-event-key="video"][aria-selected="false"] {
-    border: 1px solid #ccc;
-    border-bottom: 1px solid #ddd;
-    background-color: #efefef;
+  a[aria-controls*="about"][aria-selected="false"],
+  a[aria-controls*="groups"][aria-selected="false"],
+  a[aria-controls*="venues"][aria-selected="false"],
+  a[aria-controls*="persons"][aria-selected="false"],
+  a[aria-controls*="producers"][aria-selected="false"],
+  a[aria-controls*="productions"][aria-selected="false"],
+  a[aria-controls*="management"][aria-selected="false"],
+  a[aria-controls*="collections"][aria-selected="false"],
+  a[aria-controls*="video"][aria-selected="false"] {
+    color: #000;
   }
 
-  a[data-rb-event-key="ontodia"][aria-selected="false"],
-  a[data-rb-event-key="statements"][aria-selected="false"],
-  a[data-rb-event-key*="editing"][aria-selected="false"],
-  a[data-rb-event-key="delete"][aria-selected="false"] {
+  a[aria-controls*="ontodia"][aria-selected="false"],
+  a[aria-controls*="statements"][aria-selected="false"],
+  a[aria-controls*="editing"][aria-selected="false"],
+  a[aria-controls*="delete"][aria-selected="false"] {
     color: #999 !important;
   }
 }
@@ -395,6 +396,7 @@ div.tree-view_children {
 }
 
 .sari-page-header {
+  background-color: @bg-color-header;
   .sari-page-header-thumbnail {
     width: (@page-margin - 1%);
     max-width: (@page-margin - 1%);

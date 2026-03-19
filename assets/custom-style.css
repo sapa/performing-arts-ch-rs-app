@@ -223,7 +223,9 @@ div.tree-view_children span.Tree--leafNode {
   background-color: hsl(0, 0%, 90%);
 }
 .nav.nav-tabs {
+  background-color: #f9f9f9;
   padding-left: 10%;
+  margin-top: 0;
 }
 .tab-content {
   max-width: calc(100% - (10% * 2));
@@ -235,23 +237,21 @@ div.tree-view_children span.Tree--leafNode {
 .page__body-navtabs a {
   border-radius: 4px 4px 0 0 !important;
 }
-.page__body-navtabs a[data-rb-event-key="about"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="groups"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="venues"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="persons"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="producers"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="productions"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="management"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="collections"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="video"][aria-selected="false"] {
-  border: 1px solid #ccc;
-  border-bottom: 1px solid #ddd;
-  background-color: #efefef;
+.page__body-navtabs a[aria-controls*="about"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="groups"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="venues"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="persons"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="producers"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="productions"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="management"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="collections"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="video"][aria-selected="false"] {
+  color: #000;
 }
-.page__body-navtabs a[data-rb-event-key="ontodia"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="statements"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key*="editing"][aria-selected="false"],
-.page__body-navtabs a[data-rb-event-key="delete"][aria-selected="false"] {
+.page__body-navtabs a[aria-controls*="ontodia"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="statements"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="editing"][aria-selected="false"],
+.page__body-navtabs a[aria-controls*="delete"][aria-selected="false"] {
   color: #999 !important;
 }
 .page__header-description {
@@ -266,6 +266,9 @@ div.tree-view_children span.Tree--leafNode {
 }
 .ReorderableList--item-handle {
   z-index: 1000000;
+}
+.sari-page-header {
+  background-color: #f9f9f9;
 }
 .sari-page-header .sari-page-header-thumbnail {
   width: 9%;
