@@ -222,6 +222,10 @@ div.tree-view_children span.Tree--leafNode {
 .nav > li > a:focus {
   background-color: hsl(0, 0%, 90%);
 }
+.tab-content {
+  max-width: 84%;
+  margin-left: 8%;
+}
 .page-holder {
   padding-bottom: 4em;
 }
