@@ -219,15 +219,6 @@ div.tree-view_children span.Tree--leafNode {
 .nav > li > a:focus {
   background-color: hsl(0, 0%, 90%);
 }
-.nav.nav-tabs {
-  background-color: #f9f9f9;
-  padding-left: 10%;
-  margin-top: 0;
-}
-.tab-content {
-  max-width: calc(100% - (10% * 2));
-  margin-left: 10%;
-}
 .page-holder {
   padding-bottom: 4em;
 }
@@ -272,6 +263,15 @@ div.tree-view_children span.Tree--leafNode {
   max-width: 9%;
   margin-left: 0.5%;
   margin-right: 0.5%;
+}
+.sari-page-header + #record-tabs .nav-tabs {
+  background-color: #f9f9f9;
+  padding-left: 10%;
+  margin-top: 0;
+}
+.sari-page-header + #record-tabs .tab-content {
+  max-width: calc(100% - (10% * 2));
+  margin-left: 10%;
 }
 .sapa-component.domain-cards-tabs .nav {
   display: block;

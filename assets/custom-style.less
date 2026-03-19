@@ -333,17 +333,8 @@ div.tree-view_children {
       background-color: hsl(0, 0%, 90%);
     }
   }
-  &.nav-tabs {
-    background-color: @bg-color-header;
-    padding-left: @page-margin;
-    margin-top:0;
-  }
 }
 
-.tab-content {
-  max-width: calc(100% - (@page-margin * 2));
-  margin-left: @page-margin;
-}
 
 .page-holder {
   padding-bottom: 4em;
@@ -398,6 +389,15 @@ div.tree-view_children {
     max-width: (@page-margin - 1%);
     margin-left: 0.5%;
     margin-right: 0.5%;
+  }
+  & + #record-tabs .nav-tabs {
+    background-color: @bg-color-header;
+    padding-left: @page-margin;
+    margin-top:0;
+  }
+  & + #record-tabs .tab-content {
+    max-width: calc(100% - (@page-margin * 2));
+    margin-left: @page-margin;
   }
 }
 
