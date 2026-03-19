@@ -444,7 +444,7 @@
         <div style='flex: 1;'>
           <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
 
-         [[!--   [[#if searchAllDomains]]
+            [[#if searchAllDomains]]
             <semantic-search-result-holder>
               <semantic-search-result> 
                 <semantic-query
@@ -474,13 +474,13 @@
                 </semantic-query>
               <semantic-search-result> 
             </semantic-search-result-holder>
-          [[else]] --]]
+          [[else]] 
             [[> sapaModule:SearchPersonsResults ]]
             [[> sapaModule:SearchProductionsResults ]]
             [[> sapaModule:SearchVenuesResults ]]
             [[> sapaModule:SearchGroupsResults ]]
             [[> sapaModule:SearchPlacesResults ]]
-          [[!-- [[/if]] --]]
+          [[/if]]
 
 
         </div>
@@ -490,47 +490,59 @@
 
   [[#*inline "searchTypeResultTemplate"]]
 
-    <bs-tab-container id="tabs-search-type-result">
-      <div>
-        <bs-nav variant="pills" class="flex-row">
-          {{#each bindings}}
-            <span class='domainItemWrap'>
-              <span data-flex-layout="row center-left">
-                <bs-nav-item class='domainItem' data-flex-layout="row center-left">
-                  <bs-nav-link event-key="{{typeTab.value}}"
-                    data-flex-layout="row center-left"
-                  >
-                    {{#if typeThumbnail.value}}
-                      <div class="domainItemThumbnail">
-                        <img src="{{typeThumbnail.value}}"/>
-                      </div>
-                    {{/if}}
-                    {{typeLabel.value}}
-                    ({{count.value}})
-                  </bs-nav-link>
-                </bs-nav-item>
-              </span>
-            </span>
-          {{/each}}
-        </bs-nav>
-        <bs-tab-content>
-          <bs-tab-pane event-key="tab-persons">
-            [[> sapaModule:SearchPersonsResults overrideDomain="true"]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="tab-productions">
-            [[> sapaModule:SearchProductionsResults overrideDomain="true"]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="tab-venues">
-            [[> sapaModule:SearchVenuesResults overrideDomain="true"]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="tab-groups">
-            [[> sapaModule:SearchGroupsResults overrideDomain="true"]]
-          </bs-tab-pane>
-          <bs-tab-pane event-key="tab-places">
-            [[> sapaModule:SearchPlacesResults overrideDomain="true"]]
-          </bs-tab-pane>
-        </bs-tab-content>
-      </div>
-    </bs-tab-container>
+    <bs-nav variant="pills" class="flex-row">
+      {{#each bindings}}
+        <span class='domainItemWrap'>
+          <span data-flex-layout="row center-left">
+            <bs-nav-item class='domainItem' data-flex-layout="row center-left">
+              <mp-event-trigger 
+                id="trigger-{{typeTab.value}}"
+                type="Component.TemplateUpdate"
+                targets='["search-results-renderer"]' 
+                data='{
+                  "render": "{{typeTab.value}}"
+                }'
+              >
+                <bs-nav-link event-key="{{typeTab.value}}"
+                  data-flex-layout="row center-left"
+                >
+                  {{#if typeThumbnail.value}}
+                    <div class="domainItemThumbnail">
+                      <img src="{{typeThumbnail.value}}"/>
+                    </div>
+                  {{/if}}
+                  {{typeLabel.value}}
+                  ({{count.value}})
+                </bs-nav-link>
+              </mp-event-trigger>
+            </bs-nav-item>
+          </span>
+        </span>
+      {{/each}}
+    </bs-nav>
+
+    <div>
+      <mp-event-target-template-render id="search-results-renderer" template="{{> search-results-template}}">
+        <template id="search-results-template">
+          {{#if render}}
+            {{#ifCond render "==" "tab-persons"}}
+              [[> sapaModule:SearchPersonsResults overrideDomain="true"]]
+            {{/ifCond}}
+            {{#ifCond render "==" "tab-productions"}}
+              [[> sapaModule:SearchProductionsResults overrideDomain="true"]]
+            {{/ifCond}}
+            {{#ifCond render "==" "tab-venues"}}
+              [[> sapaModule:SearchVenuesResults overrideDomain="true"]]
+            {{/ifCond}}
+            {{#ifCond render "==" "tab-groups"}}
+              [[> sapaModule:SearchGroupsResults overrideDomain="true"]]
+            {{/ifCond}}
+            {{#ifCond render "==" "tab-places"}}
+              [[> sapaModule:SearchPlacesResults overrideDomain="true"]]
+            {{/ifCond}}
+          {{/if}}
+        </template>
+      </mp-event-target-template-render>
+    </div>
   
   [[/inline]]
