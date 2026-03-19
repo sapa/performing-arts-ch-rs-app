@@ -154,9 +154,6 @@ div.form-section {
 div.semantic-form hr {
   border: 1px solid black;
 }
-div.SemanticTreeInput--inputAndButtons {
-  margin-bottom: 1em;
-}
 div.tree-view_children span.Tree--leafNode {
   margin-left: 20px;
 }
@@ -309,6 +306,9 @@ div.tree-view_children span.Tree--leafNode {
   background: none;
   border: none;
   font-weight: bold;
+}
+.semantic-form .panel {
+  padding: 10px;
 }
 .semantic-form-input-decorator__label {
   font-weight: 500 !important;
