@@ -1270,8 +1270,9 @@ fields:
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
           ?item skos:broader ?parent .
+          ?parent skos:prefLabel ?parentLabel.
         }'
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item skos:inScheme spav:dm ;
