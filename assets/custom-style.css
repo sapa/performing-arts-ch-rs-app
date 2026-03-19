@@ -222,6 +222,9 @@ div.tree-view_children span.Tree--leafNode {
 .nav > li > a:focus {
   background-color: hsl(0, 0%, 90%);
 }
+.nav.nav-tabs {
+  padding-left: 8%;
+}
 .tab-content {
   max-width: 84%;
   margin-left: 8%;
@@ -263,6 +266,12 @@ div.tree-view_children span.Tree--leafNode {
 }
 .ReorderableList--item-handle {
   z-index: 1000000;
+}
+.sari-page-header .sari-page-header-thumbnail {
+  width: 7%;
+  max-width: 7%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
 }
 .sapa-component.domain-cards-tabs .nav {
   display: block;

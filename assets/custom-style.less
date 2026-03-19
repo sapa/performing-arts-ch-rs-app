@@ -327,10 +327,15 @@ div.tree-view_children {
   }
 }
 
-.nav > li > a {
-  &:hover,
-  &:focus {
-    background-color: hsl(0, 0%, 90%);
+.nav {
+    > li > a {
+    &:hover,
+    &:focus {
+      background-color: hsl(0, 0%, 90%);
+    }
+  }
+  &.nav-tabs {
+    padding-left: 8%;
   }
 }
 
@@ -385,6 +390,15 @@ div.tree-view_children {
 
 .ReorderableList--item-handle {
   z-index: 1000000;
+}
+
+.sari-page-header {
+  .sari-page-header-thumbnail {
+    width: 7%;
+    max-width: 7%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+  }
 }
 
 .sapa-component {
