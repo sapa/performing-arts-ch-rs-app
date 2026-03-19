@@ -223,11 +223,11 @@ div.tree-view_children span.Tree--leafNode {
   background-color: hsl(0, 0%, 90%);
 }
 .nav.nav-tabs {
-  padding-left: 8%;
+  padding-left: 10%;
 }
 .tab-content {
-  max-width: 84%;
-  margin-left: 8%;
+  max-width: calc(100% - (10% * 2));
+  margin-left: 10%;
 }
 .page-holder {
   padding-bottom: 4em;
@@ -268,8 +268,8 @@ div.tree-view_children span.Tree--leafNode {
   z-index: 1000000;
 }
 .sari-page-header .sari-page-header-thumbnail {
-  width: 7%;
-  max-width: 7%;
+  width: 9%;
+  max-width: 9%;
   margin-left: 0.5%;
   margin-right: 0.5%;
 }

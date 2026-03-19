@@ -14,6 +14,8 @@
 @sapa-blue: rgb(8, 54, 88);
 @sapa-red: rgb(230, 55, 92);
 
+@page-margin: 10%;
+
 // SCSS
 :root {
   --breadcrumb-height: 40px;
@@ -335,13 +337,13 @@ div.tree-view_children {
     }
   }
   &.nav-tabs {
-    padding-left: 8%;
+    padding-left: @page-margin;
   }
 }
 
 .tab-content {
-  max-width: 84%;
-  margin-left: 8%
+  max-width: calc(100% - (@page-margin * 2));
+  margin-left: @page-margin;
 }
 
 .page-holder {
@@ -394,8 +396,8 @@ div.tree-view_children {
 
 .sari-page-header {
   .sari-page-header-thumbnail {
-    width: 7%;
-    max-width: 7%;
+    width: (@page-margin - 1%);
+    max-width: (@page-margin - 1%);
     margin-left: 0.5%;
     margin-right: 0.5%;
   }
