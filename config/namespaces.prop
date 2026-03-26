@@ -38,3 +38,4 @@ crypHashFunc = http://id.loc.gov/vocabulary/preservation/cryptographicHashFuncti
 lookup = http://www.researchspace.org/ontologies/platform/repository/lookup#
 ldp=http://www.w3.org/ns/ldp#
 wdt=http://www.wikidata.org/prop/direct/
+ql=http://qlever.cs.uni-freiburg.de/builtin-functions/
