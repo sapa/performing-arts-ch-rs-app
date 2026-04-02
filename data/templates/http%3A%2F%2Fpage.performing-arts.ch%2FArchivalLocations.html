@@ -34,12 +34,7 @@
           "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
               ?item a spao:ArchivalPlace ;
                 rdfs:label ?label .
-              SERVICE <http://www.bigdata.com/rdf/search#search> {
-                ?label bds:search ?__token__ ;
-                bds:minRelevance \"0.1\" ;
-                bds:relevance ?score ; 
-                bds:matchAllTerms \"true\" .
-              }
+              FILTER(REGEX(?label, ?__token__, "i"))
               BIND(false AS ?hasChildren)
             } ORDER BY DESC (?score) (?label) LIMIT 500"
         }'

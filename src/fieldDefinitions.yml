@@ -82,9 +82,7 @@ fields:
       - autosuggestion: 'SELECT ?value ?label WHERE {
             ?value a crm:E53_Place ;
               rdfs:label ?label .
-            ?label bds:search ?__token__ ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true"
+            FILTER(REGEX(?label, ?__token__, "i"))
           } LIMIT 100'
     treePatterns:
       type: full
@@ -117,9 +115,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item a crm:E53_Place ;
             rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
           FILTER(CONTAINS(STR(?item), "/p/"))
           OPTIONAL { ?child crm:P89_falls_within ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
@@ -187,9 +183,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item a spao:ArchivalPlace ;
             rdfs:label ?label .
-          ?label bds:search ?__token__ ;
-              bds:relevance ?score ; 
-              bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
           OPTIONAL { ?child rico:containedBy ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -542,8 +536,7 @@ fields:
           $value a rico:CorporateBody ;
               rdfs:label $label .
         {
-          $label bds:search ?__token__ ;
-            bds:matchAllTerms "true" .
+          FILTER(REGEX(?label, ?__token__, "i"))
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -761,9 +754,7 @@ fields:
           ?value a skos:Concept ;
             skos:inScheme spav:mn ;
             rdfs:label|skos:prefLabel ?label . 
-          ?label bds:search ?__token__ ;
-            bds:relevance ?score ;
-            bds:matchAllTerms "true" .
+          FILTER(REGEX(?label, ?__token__, "i"))
         } LIMIT 100'
     treePatterns:
       type: full
@@ -795,9 +786,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item skos:inScheme spav:mn ;
           skos:prefLabel ?label .
-        ?label bds:search ?__token__ ;
-          bds:matchAllTerms "true" ;
-          bds:relevance ?score .
+        FILTER(REGEX(?label, ?__token__, "i"))
         OPTIONAL { ?item skos:broader ?child. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
@@ -839,12 +828,7 @@ fields:
           crm:P131_is_identified_by [ rdf:value ?ll ] .
         FILTER(CONTAINS(STR(?value), "/a/"))
         {
-          SERVICE bds:search {
-            ?ll bds:search ?__token__ ;
-            bds:minRelevance "0.1" ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true" .
-          }
+          FILTER(REGEX(?ll, ?__token__, "i"))
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -965,9 +949,7 @@ fields:
       - autosuggestion: 'SELECT DISTINCT ?value ?label WHERE { 
         ?value skos:inScheme spav:vr ;
           skos:prefLabel ?label . 
-        ?label bds:search ?__token__ ;
-          bds:relevance ?score ;
-          bds:matchAllTerms "true" 
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 100'
     treePatterns:
       type: full
@@ -993,9 +975,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item skos:inScheme spav:vr ;
           skos:prefLabel ?label . 
-        ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
@@ -1034,12 +1014,7 @@ fields:
           ?value a crm:E22_Man-Made_Object ;
             crm:P2_has_type spav:dwmkn ;
             rdfs:label ?venue_label .
-        SERVICE <http://www.bigdata.com/rdf/search#search> {
-          ?venue_label bds:search ?__token__ ;
-          bds:minRelevance "0.1" ;
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true" .
-        }
+        FILTER(REGEX(?venue_label, ?__token__, "i"))
         FILTER(CONTAINS(STR(?value), "/o/"))
         OPTIONAL {
           ?parent crm:P46_is_composed_of ?value ;
@@ -1184,9 +1159,7 @@ fields:
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item a rico:CarrierType ; 
           (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label . 
-          ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -1277,9 +1250,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item skos:inScheme spav:dm ;
             skos:prefLabel ?label . 
-          ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -1457,9 +1428,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item skos:inScheme spav:zj ;
           skos:prefLabel ?label . 
-          ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -1509,9 +1478,7 @@ fields:
           }
           {
             $value rico:name ?name .
-            ?name bds:search ?__token__ ; 
-              bds:relevance ?score ; 
-              bds:matchAllTerms "true" 
+            FILTER(REGEX(?name, ?__token__, "i")) 
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
             ?value rico:name ?name .
@@ -1564,9 +1531,7 @@ fields:
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item skos:inScheme spav:zf ; 
           (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label . 
-          ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -1874,9 +1839,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item <http://www.w3.org/2004/02/skos/core#inScheme> spav:vd .
           ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label .
-          ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -2359,9 +2322,7 @@ fields:
       - autosuggestion: 'SELECT ?value ?label WHERE {
         ?value a crm:E53_Place ;
     rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 100'
     treePatterns:
       type: full
@@ -2388,9 +2349,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item a crm:E53_Place ;
           rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         FILTER(CONTAINS(STR(?item), "/p/"))
         OPTIONAL { ?child crm:P89_falls_within ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
@@ -2521,9 +2480,7 @@ fields:
       - autosuggestion: 'SELECT ?value ?label WHERE {
         ?value a crm:E53_Place ;
     rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 100'
     treePatterns:
       type: full
@@ -2550,9 +2507,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item a crm:E53_Place ;
           rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         FILTER(CONTAINS(STR(?item), "/p/"))
         OPTIONAL { ?child crm:P89_falls_within ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
@@ -2744,8 +2699,7 @@ fields:
           $value a rico:CorporateBody ;
               rdfs:label $label .
         {
-          $label bds:search ?__token__ ;
-            bds:matchAllTerms "true" .
+          FILTER(REGEX(?label, ?__token__, "i"))
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -2884,9 +2838,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item a crm:E53_Place ;
         rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ;
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
@@ -3142,8 +3094,7 @@ fields:
       - autosuggestion: 'SELECT DISTINCT ?value ?label  WHERE {
           ?value rico:hasDocumentaryFormType ?type .
           ?type rico:name ?label .
-          ?label bds:search ?__token__ ; bds:relevance ?score ;
-            bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
         } LIMIT 10'
     treePatterns:
       type: full
@@ -3179,9 +3130,7 @@ fields:
         BIND(?__userPreferredLanguage__ AS ?lang)
         ?item skos:inScheme spav:df .
         ?item rico:name ?searchTerm, ?label .
-          ?searchTerm bds:search ?__token__ ; 
-          bds:relevance ?score ; 		 	 
-          bds:matchAllTerms "true" .
+        FILTER(REGEX(?searchTerm, ?__token__, "i"))
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
         FILTER(LANG(?label) = ?lang)
@@ -3321,9 +3270,7 @@ fields:
           {
             ?value a rico:Person ;
               rdfs:label ?label .
-            ?label bds:search ?__token__ ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true"
+            FILTER(REGEX(?label, ?__token__, "i"))
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
             ?value a/rdfs:subClassOf* crm:E39_Actor ;
@@ -3349,9 +3296,7 @@ fields:
           {
             ?value a rico:Person ;
               rdfs:label ?label .
-            ?label bds:search ?__token__ ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true"
+            FILTER(REGEX(?label, ?__token__, "i"))
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
             ?value a/rdfs:subClassOf* crm:E39_Actor ;
@@ -3380,9 +3325,7 @@ fields:
           {
             ?value a/rdfs:subClassOf* crm:E39_Actor ;
               rdfs:label ?label .
-            ?label bds:search ?__token__ ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true"
+            FILTER(REGEX(?label, ?__token__, "i"))
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
             ?value a/rdfs:subClassOf* crm:E39_Actor ;
@@ -3732,8 +3675,7 @@ fields:
       - autosuggestion: 'SELECT $value ?label WHERE {
         $value skos:inScheme spav:lg ;
         rdfs:label|skos:prefLabel ?label .
-        ?label bds:search ?__token__ ;
-          bds:matchAllTerms "true" .
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 10'
     treePatterns:
       type: full
@@ -3767,8 +3709,7 @@ fields:
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item skos:inScheme spav:lg ;
         skos:prefLabel ?label .
-        ?label bds:search ?__token__ ; 
-        bds:relevance ?score ; bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
@@ -3881,9 +3822,7 @@ fields:
       SELECT DISTINCT ?value ?label WHERE {
         ?value a rico:RecordSet ;
     rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 100'
     treePatterns:
       type: full
@@ -3910,9 +3849,7 @@ fields:
         {
           ?item a rico:RecordSet ;
             rico:name ?label .
-          ?label bds:search ?__token__ ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
         } UNION {
           BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?item)
           ?item a rico:RecordSet .
@@ -4016,9 +3953,7 @@ fields:
       SELECT ?value ?label WHERE {
         ?value a rico:Place ;
     rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 100'
     treePatterns:
       type: full
@@ -4064,9 +3999,7 @@ fields:
       SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item a rico:Place ;
     rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         FILTER(CONTAINS(STR(?item), "/p/"))
         OPTIONAL { ?child crm:P89_falls_within ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
@@ -4124,8 +4057,7 @@ fields:
           ?value rdf:type/rdfs:subClassOf* rico:Agent .
           FILTER(CONTAINS(STR(?value), "/a/"))
           ?value rdfs:label ?label .
-          ?label bds:search ?__token__ ;
-            bds:matchAllTerms "true" .
+          FILTER(REGEX(?label, ?__token__, "i"))
          } UNION {
           BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
           ?value a/rdfs:subClassOf* rico:Agent ;
@@ -4186,8 +4118,7 @@ fields:
           ) AS ?type_label)
           {
             $value rdfs:label ?item_label .
-            ?item_label bds:search ?__token__ ;
-              bds:matchAllTerms "true" .
+            FILTER(REGEX(?item_label, ?__token__, "i"))
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
@@ -4237,8 +4168,7 @@ fields:
           ) AS ?type_label)
           {
             $value rdfs:label ?item_label .
-            ?item_label bds:search ?__token__ ;
-              bds:matchAllTerms "true" .
+            FILTER(REGEX(?item_label, ?__token__, "i"))
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
@@ -4287,8 +4217,7 @@ fields:
           ) AS ?type_label)
           {
             $value rdfs:label ?item_label .
-            ?item_label bds:search ?__token__ ;
-              bds:matchAllTerms "true" .
+            FILTER(REGEX(?item_label, ?__token__, "i"))
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
@@ -4437,9 +4366,7 @@ fields:
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item skos:inScheme spav:df ;
           rico:name ?label .
-          ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+          FILTER(REGEX(?label, ?__token__, "i"))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -4620,8 +4547,7 @@ fields:
 
           {
             $value rdfs:label ?item_label .
-            ?item_label bds:search ?__token__ ;
-              bds:matchAllTerms "true" .
+            FILTER(REGEX(?item_label, ?__token__, "i"))
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(REPLACE("?token", "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
@@ -4667,9 +4593,7 @@ fields:
           {
             ?value a frbroo:F26_Recording ;
               rdfs:label ?label .
-            ?label bds:search ?__token__ ; 
-              bds:relevance ?score ; 
-              bds:matchAllTerms "true" 
+            FILTER(REGEX(?label, ?__token__, "i"))
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
             ?value rdfs:label ?label .
@@ -5129,9 +5053,7 @@ fields:
       SELECT DISTINCT ?value ?label WHERE {
         ?value a spao:ArchivalPlace ;
     rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 100'
     treePatterns:
       type: full
@@ -5173,9 +5095,7 @@ fields:
       SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item a spao:ArchivalPlace;
           rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         OPTIONAL { ?child rico:containedBy ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
@@ -5737,9 +5657,7 @@ fields:
       - autosuggestion: 'SELECT ?value ?label WHERE {
         ?value a crm:E53_Place ;
     rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
       } LIMIT 100'
     treePatterns:
       type: full
@@ -5766,9 +5684,7 @@ fields:
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item a crm:E53_Place ;
           rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-        bds:relevance ?score ; 
-        bds:matchAllTerms "true"
+        FILTER(REGEX(?label, ?__token__, "i"))
         FILTER(CONTAINS(STR(?item), "/p/"))
         OPTIONAL { ?child crm:P89_falls_within ?item. }
         BIND(BOUND(?child) AS ?hasChildren)

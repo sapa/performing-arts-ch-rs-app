@@ -33,9 +33,9 @@
                         }
                         OPTIONAL {
                             ?appellation crm:P2_has_type ?type .
-                            VALUES (?type ?typesort) { (spav:yapvc 1) (spav:yadpx 2) (spav:yallb 3) (spav:yaajh 4) (spav:yavtx 5) }
+                            VALUES (?type ?typesort_raw) { (spav:yapvc 1) (spav:yadpx 2) (spav:yallb 3) (spav:yaajh 4) (spav:yavtx 5) }
                         }
-                        BIND(IF(!BOUND(?typesort), 6, ?typesort) AS ?typesort)
+                        BIND(IF(!BOUND(?typesort_raw), 6, ?typesort_raw) AS ?typesort)
                     } ORDER BY ?typesort'
                     template='<p>{{#each bindings}}{{#if @first}}<mp-label iri="{{appellation.value}}"></mp-label>{{#if type}} (<mp-label iri="{{type.value}}"></mp-label>){{/if}}{{else}}<br>
                         <mp-label iri="{{appellation.value}}"></mp-label>{{#if type}} (<mp-label iri="{{type.value}}"></mp-label>){{/if}}{{/if}}{{/each}}</p>'>

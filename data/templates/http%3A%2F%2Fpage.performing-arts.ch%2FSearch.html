@@ -84,10 +84,7 @@ query='SELECT DISTINCT ?subject WHERE {
             rdf:value ?label .
   }
   
-  [
-    ql:contains-word ?__token__ ;
-    ql:contains-entity ?label
-  ] .
+  FILTER(REGEX(?label, ?__token__, "i"))
 }'
 placeholder='[[i18n "SearchPrompt" bundle="performing-arts-ch" escapeHTML=false]]'
 min-search-term-length='1'

@@ -71,12 +71,7 @@
                 ?identifier a rico:Identifier ;
                   rdf:value ?label .
               }
-              SERVICE <http://www.bigdata.com/rdf/search#search> {
-                ?label bds:search ?__token__ ;
-                bds:minRelevance \"0.06\" ;
-                bds:relevance ?score ; 
-                bds:matchAllTerms \"true\" .
-              }
+              FILTER(REGEX(?label, ?__token__, "i"))
               BIND(false AS ?hasChildren)
               FILTER((LANGMATCHES(LANG(?label), \"\")) || (LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)))
               
