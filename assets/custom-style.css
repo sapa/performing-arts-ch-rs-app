@@ -352,3 +352,7 @@ span.Tree--leafNode {
 .transform.capitalize-first span::first-letter {
   text-transform: uppercase;
 }
+.vimeo-player {
+  width: 100%;
+  height: 600px;
+}
