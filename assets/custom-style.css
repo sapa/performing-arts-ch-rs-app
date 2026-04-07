@@ -310,6 +310,21 @@ div.tree-view_children span.Tree--leafNode {
 .semantic-form .panel {
   padding: 10px;
 }
+.semantic-form .modal {
+  position: fixed;
+  top: var(--breadcrumb-height);
+  bottom: auto;
+}
+.semantic-form .modal .modal-body {
+  display: block;
+}
+.semantic-form .modal-backdrop {
+  position: fixed;
+}
+.semantic-form .semantic-form-input-decorator__input button[title="Edit"],
+.semantic-form .semantic-form-input-decorator__input button[title="Edit in new draggable tab"] {
+  display: none;
+}
 .semantic-form-input-decorator__label {
   font-weight: 500 !important;
 }

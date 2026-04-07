@@ -457,6 +457,22 @@ div.tree-view_children {
   .panel {
     padding: 10px;
   }
+  .modal {
+    position: fixed;
+    top: var(--breadcrumb-height);
+    bottom: auto;
+    .modal-body {
+      display: block;
+    }
+  }
+  .modal-backdrop {
+    position: fixed;
+  }
+  .semantic-form-input-decorator__input {
+    button[title="Edit"], button[title="Edit in new draggable tab"] {
+      display: none;
+    }
+  }
 }
 
 .semantic-form-input-decorator__label {
