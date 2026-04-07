@@ -1,3 +1,9 @@
+<style>
+  .LazyTree--decoratedNodeBody {
+    display: none;
+  }
+</style>
+
 <ol class="page-breadcrumb">
   <li>
     <mp-link title="Home" url="/">Home</mp-link>
@@ -43,7 +49,11 @@
               BIND(false AS ?hasChildren)
             } ORDER BY DESC (?score) (?label) LIMIT 500"
         }'
+        info-template="{{> node-template}}"
       >
+        <template id="node-template">
+          <semantic-link iri="{{iri}}"></semantic-link>
+        </template>
       </semantic-lazy-tree>
     </div>
   </div>
