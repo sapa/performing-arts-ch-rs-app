@@ -242,6 +242,9 @@ div.tree-view_children span.Tree--leafNode {
 .page__body-navtabs a[aria-controls*="delete"][aria-selected="false"] {
   color: #999 !important;
 }
+.page__header {
+  background-color: #f9f9f9;
+}
 .page__header-description {
   padding-left: 1em;
   margin-bottom: 1.2em;
@@ -249,7 +252,10 @@ div.tree-view_children span.Tree--leafNode {
 .page__header-description p {
   margin: 0.4em 0;
 }
-.pagination {
+.page__header-thumbnail h2 i {
+  font-size: 3rem;
+}
+.page__heade .pagination {
   margin: 0;
 }
 .ReorderableList--item-handle {
