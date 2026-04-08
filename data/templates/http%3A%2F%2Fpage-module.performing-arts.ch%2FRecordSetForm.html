@@ -15,7 +15,6 @@
       form-id='recordsets'
       fields='[
         [[> RDFtype]],
-        [[> RDFSLabel]],
         [[> ThingTypedIdentifier]],
         [[> ThingLegacyIdentifier]],
         [[> ScopeID]],
@@ -210,11 +209,9 @@
             <semantic-form-autocomplete-input for="RecordResourceCreatorA"></semantic-form-autocomplete-input>
             <semantic-form-autocomplete-input for="RecordResourceCreatorU">
               <semantic-form new-subject-template="http://data.performing-arts.ch/u/{{UUID}}" fields='[
-                    [[> RDFtype]],
-                    [[> RDFSLabel]]
-                ]'
-                persistence="ldp"
-              >
+                  [[> RDFtype]],
+                  [[> RDFSLabel]]
+              ]'>
                   <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E39_Actor"]]"]'></semantic-form-hidden-input>
                   <semantic-form-text-input for="RDFSLabel"></semantic-form-text-input>
                   <button name="submit" class="btn btn-secondary">Create Person</button>

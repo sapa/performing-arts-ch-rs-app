@@ -10,16 +10,16 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
       - select: 'SELECT ?value WHERE {
-            $subject crm:P2_has_type $value.
-          }'
+      $subject crm:P2_has_type $value.
+      }'
       - insert: 'INSERT {
-            $subject crm:P2_has_type $value .
-          } WHERE {}'
+        $subject crm:P2_has_type $value .
+      } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
-            $value skos:inScheme spav:mu ;
-            skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), "?token", "i"))
-          } LIMIT 10'
+        $value skos:inScheme spav:mu ;
+        skos:prefLabel ?label .
+        FILTER(REGEX(STR(?label), "?token", "i"))
+      } LIMIT 10'
 
 
   - id: ActorActivity
@@ -30,30 +30,30 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E21_Person
     queries:
       - select: 'SELECT $value $index WHERE {
-            ?performance frbroo:R25_performed $subject ;
-            crm:P9_consists_of ?activity .
-            ?activity crm:P2_has_type spav:munib ;
-            olo:index $index ;
-            crm:P14_carried_out_by $value.
-          }'
+        ?performance frbroo:R25_performed $subject ;
+        crm:P9_consists_of ?activity .
+        ?activity crm:P2_has_type spav:munib ;
+        olo:index $index ;
+        crm:P14_carried_out_by $value.
+      }'
       - insert: 'INSERT {
-            ?performance frbroo:R25_performed $subject ;
-            a frbroo:F31_Performance ;
-            crm:P9_consists_of ?activity .
-            ?activity a crm:E7_Activity ;
-            crm:P2_has_type spav:munib ;
-            olo:index $index ;
-            crm:P14_carried_out_by $value.
-          } WHERE {
-            BIND(IRI(CONCAT(STR($subject), "/p")) AS ?performance)
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), STR(spav:munib), STR($index), STR(?value))))) AS ?activity)
-          }'
+        ?performance frbroo:R25_performed $subject ;
+        a frbroo:F31_Performance ;
+        crm:P9_consists_of ?activity .
+        ?activity a crm:E7_Activity ;
+        crm:P2_has_type spav:munib ;
+        olo:index $index ;
+        crm:P14_carried_out_by $value.
+      } WHERE {
+        BIND(IRI(CONCAT(STR($subject), "/p")) AS ?performance)
+        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), STR(spav:munib), STR($index), STR(?value))))) AS ?activity)
+      }'
       - autosuggestion: 'SELECT $value ?label WHERE {
-            $value a crm:E21_Person ;
-            rdfs:label ?label .
-            FILTER(CONTAINS(STR($value), "/a/"))
-            FILTER(REGEX(STR(?label), ?__token__, "i"))
-          } LIMIT 10'
+        $value a crm:E21_Person ;
+        rdfs:label ?label .
+        FILTER(CONTAINS(STR($value), "/a/"))
+        FILTER(REGEX(STR(?label), ?__token__, "i"))
+      } LIMIT 10'
 
 
   - id: ActorResidence
@@ -64,68 +64,67 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E53_Place
     queries:
       - select: 'SELECT ?value $label WHERE {
-            $subject crm:P74_has_current_or_former_residence $res .
-            $res crm:P89_falls_within ?value .
-          }'
+        $subject crm:P74_has_current_or_former_residence $res .
+        $res crm:P89_falls_within ?value .
+      }'
       - insert: 'INSERT {
-            $subject crm:P74_has_current_or_former_residence $res .
-            ?res a crm:E53_Place ;
-            crm:P89_falls_within ?value .
-          } WHERE {
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), STR(?value))))) as ?res)
-          }'
+        $subject crm:P74_has_current_or_former_residence $res .
+        ?res a crm:E53_Place ;
+        crm:P89_falls_within ?value .
+      } WHERE {
+        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), STR(?value))))) as ?res)
+      }'
       - delete: 'DELETE {
-            $subject crm:P74_has_current_or_former_residence $res .
-            ?res a crm:E53_Place ;
-            crm:P89_falls_within ?value .
-          } WHERE {}'
+        $subject crm:P74_has_current_or_former_residence $res .
+        ?res a crm:E53_Place ;
+        crm:P89_falls_within ?value .
+      } WHERE {}'
       - autosuggestion: 'SELECT ?value ?label WHERE {
-            ?value a crm:E53_Place ;
-              rdfs:label ?label .
-            ?label bds:search ?__token__ ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true"
-          } LIMIT 100'
+        ?value a crm:E53_Place ;
+    rdfs:label ?label .
+        ?label bds:search ?__token__ ;
+        bds:relevance ?score ; 
+        bds:matchAllTerms "true"
+      } LIMIT 100'
     treePatterns:
       type: full
       rootsQuery: 'PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        PREFIX rico: <https://www.ica.org/standards/RiC/ontology#>
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX dc: <http://purl.org/dc/elements/1.1/>
-        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          ?item a crm:E53_Place .
-          FILTER(NOT EXISTS { ?item crm:P89_falls_within ?parent. })
-          FILTER(CONTAINS(STR(?item), "/p/"))
-          ?item rdfs:label ?label.
-          OPTIONAL { ?child crm:P89_falls_within ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
-          ?item crm:P89_falls_within ?parent .
-          ?parent rdfs:label ?parentLabel.
-        }'
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX rico: <https://www.ica.org/standards/RiC/ontology#>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      PREFIX dc: <http://purl.org/dc/elements/1.1/>
+      SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+        ?item a crm:E53_Place .
+        FILTER(NOT EXISTS { ?item crm:P89_falls_within ?parent. })
+        FILTER(CONTAINS(STR(?item), "/p/"))
+        ?item rdfs:label ?label.
+        OPTIONAL { ?child crm:P89_falls_within ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+      ORDER BY (?label)'
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
+        ?item crm:P89_falls_within ?parent .
+      }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          ?item crm:P89_falls_within ?parent.
-          ?item rdfs:label ?label.
-          OPTIONAL { ?child crm:P89_falls_within ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY (?label)'
+        ?item crm:P89_falls_within ?parent.
+        ?item rdfs:label ?label.
+        OPTIONAL { ?child crm:P89_falls_within ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+      ORDER BY (?label)'
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
-          ?item a crm:E53_Place ;
-            rdfs:label ?label .
-        ?label bds:search ?__token__ ;
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
-          FILTER(CONTAINS(STR(?item), "/p/"))
-          OPTIONAL { ?child crm:P89_falls_within ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY DESC (?score) (?label)
-        LIMIT 200'
+        ?item a crm:E53_Place ;
+          rdfs:label ?label .
+      ?label bds:search ?__token__ ;
+        bds:relevance ?score ; 
+        bds:matchAllTerms "true"
+        FILTER(CONTAINS(STR(?item), "/p/"))
+        OPTIONAL { ?child crm:P89_falls_within ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+      ORDER BY DESC (?score) (?label)
+      LIMIT 200'
 
 
   - id: AgentBibliography
@@ -149,19 +148,19 @@ fields:
     range: http://ontology.performing-arts.ch/ArchivalPlace
     queries:
       - select: 'SELECT $value WHERE {
-            $subject rico:containedBy $value .
-          }'
+        $subject rico:containedBy $value .
+      }'
       - insert: 'INSERT {
-            $subject rico:containedBy $value .
-          } WHERE {}'
+        $subject rico:containedBy $value .
+      } WHERE {}'
       - delete: 'DELETE {
-            $subject rico:containedBy $value .
-          } WHERE {}'
+        $subject rico:containedBy $value .
+      } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
-            $value a spao:ArchivalPlace ;
-            rdfs:label $label .
-            FILTER REGEX($label, "?token", "i")
-          }'
+        $value a spao:ArchivalPlace ;
+        rdfs:label $label .
+        FILTER REGEX($label, "?token", "i")
+      }'
     treePatterns:
       type: full
       rootsQuery: 'SELECT DISTINCT ?item ?hasChildren WHERE {
@@ -180,9 +179,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT ?item ?parent WHERE {
           ?item rico:containedBy ?parent .
-          ?parent (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?parentLabel.
         }'
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item a spao:ArchivalPlace ;
@@ -206,9 +204,9 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
       - select: 'SELECT $value ?unidentified WHERE {
-            $value crm:P107i_is_current_or_former_member_of $subject .
-            BIND(IF(CONTAINS(STR($value), "/u/"), "true", "") AS ?unidentified)
-          }'
+        $value crm:P107i_is_current_or_former_member_of $subject .
+        BIND(IF(CONTAINS(STR($value), "/u/"), "true", "") AS ?unidentified)
+      }'
       - insert: 'INSERT { $value crm:P107i_is_current_or_former_member $subject } WHERE {}'
 
 
@@ -217,30 +215,30 @@ fields:
     label: Byline
     datatype: http://www.w3.org/2001/XMLSchema#string
     maxOccurs: 1
-    domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, http://www.cidoc-crm.org/cidoc-crm/E74_Group
+    domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'http://www.cidoc-crm.org/cidoc-crm/E74_Group
     queries:
       - select: 'SELECT $value WHERE {
-            $subject crm:P131_is_identified_by $identifier .
-            $identifier a crm:E41_Appellation ;
-            crm:P2_has_type spav:yauzw ;
-            rdf:value $value .
-          }'
+        $subject crm:P131_is_identified_by $identifier .
+        $identifier a crm:E41_Appellation ;
+        crm:P2_has_type spav:yauzw ;
+        rdf:value $value .
+      }'
       - insert: 'INSERT { 
-            $subject crm:P131_is_identified_by $identifier .
-            $identifier a crm:E41_Appellation ;
-            crm:P2_has_type spav:yauzw ;
-            rdf:value $value .
-          } WHERE {
-            BIND(IRI(CONCAT ("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "byline")))) AS $identifier)
-          }'
+        $subject crm:P131_is_identified_by $identifier .
+        $identifier a crm:E41_Appellation ;
+        crm:P2_has_type spav:yauzw ;
+        rdf:value $value .
+      } WHERE {
+        BIND(IRI(CONCAT ("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "byline")))) AS $identifier)
+      }'
       - delete: 'DELETE {
-            $subject crm:P131_is_identified_by $identifier .
-            $identifier a crm:E41_Appellation ;
-            crm:P2_has_type spav:yauzw ;
-            rdf:value $value .
-          } WHERE {
-            BIND(IRI(CONCAT ("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "byline")))) AS $identifier)
-          } '
+        $subject crm:P131_is_identified_by $identifier .
+        $identifier a crm:E41_Appellation ;
+        crm:P2_has_type spav:yauzw ;
+        rdf:value $value .
+      } WHERE {
+        BIND(IRI(CONCAT ("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "byline")))) AS $identifier)
+      } '
 
 
   - id: CIDOCtype
@@ -265,23 +263,23 @@ fields:
     domain: https://www.ica.org/standards/RiC/ontology#Concept
     queries:
       - select: 'SELECT $value WHERE {
-            $subject rdfs:label $value .
-          }'
+        $subject rdfs:label $value .
+      }'
       - insert: 'INSERT { 
-            $subject rdfs:label $value ;
-            crm:P131_is_identified_by $identifier .
-            $identifier a crm:E75_Conceptual_Object_Appellation ;
-            rdf:value $value .
-          } WHERE {
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "common_appellation")))) AS $identifier)
-          }'
+        $subject rdfs:label $value ;
+        crm:P131_is_identified_by $identifier .
+        $identifier a crm:E75_Conceptual_Object_Appellation ;
+        rdf:value $value .
+      } WHERE {
+        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "common_appellation")))) AS $identifier)
+      }'
       - delete: 'DELETE {
-            $subject rdfs:label $value ;
-            crm:P131_is_identified_by $identifier .
-            $identifier a crm:E75_Conceptual_Object_Appellation ;
-            crm:P2_has_type ?type ;
-            rdf:value ?value .
-          } WHERE {}'
+        $subject rdfs:label $value ;
+        crm:P131_is_identified_by $identifier .
+        $identifier a crm:E75_Conceptual_Object_Appellation ;
+        crm:P2_has_type ?type ;
+        rdf:value ?value .
+      } WHERE {}'
 
 
   - id: DeliveryNumber
@@ -303,24 +301,24 @@ fields:
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     queries:
       - select: 'SELECT ?value WHERE {
-            $subject crm:P3_has_note $note.
-            $note crm:P2_has_type spav:eoept ;
-            rdf:value $value.
-          }'
+        $subject crm:P3_has_note $note.
+        $note crm:P2_has_type spav:eoept ;
+        rdf:value $value.
+      }'
       - insert: 'INSERT {
-            $subject crm:P3_has_note $note.
-            $note a crm:E62_String ;
-            crm:P2_has_type spav:eoept ;
-            rdf:value $value.
-          } WHERE {
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), ?value)))) AS ?note)
-          }'
+        $subject crm:P3_has_note $note.
+        $note a crm:E62_String ;
+        crm:P2_has_type spav:eoept ;
+        rdf:value $value.
+      } WHERE {
+        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), ?value)))) AS ?note)
+      }'
       - delete: 'DELETE {
-            $subject crm:P3_has_note $note.
-            $note a crm:E62_String ;
-            crm:P2_has_type spav:eoept ;
-            rdf:value $value.
-          } WHERE {}'
+        $subject crm:P3_has_note $note.
+        $note a crm:E62_String ;
+        crm:P2_has_type spav:eoept ;
+        rdf:value $value.
+      } WHERE {}'
 
 
   - id: EbucoreDuration
@@ -360,21 +358,21 @@ fields:
     queries:
       - select: 'SELECT $value WHERE { $subject premis:fixity [ rdf:value $value ] . }'
       - insert: 'INSERT { 
-            $subject premis:fixity ?md5 .
-            ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
-            rdf:value $value . 
-          } WHERE {
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), $value)))) AS ?md5)
-          }'
+        $subject premis:fixity ?md5 .
+        ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
+        rdf:value $value . 
+      } WHERE {
+        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), $value)))) AS ?md5)
+      }'
       - delete: 'DELETE {
-            $subject premis:fixity ?md5 .
-            ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
-            rdf:value $value . 
-          } WHERE {
-            $subject premis:fixity ?md5 .
-            ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
-            rdf:value $value . 
-          }'
+        $subject premis:fixity ?md5 .
+        ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
+        rdf:value $value . 
+      } WHERE {
+        $subject premis:fixity ?md5 .
+        ?md5 a <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/md5> ;
+        rdf:value $value . 
+      }'
 
 
   - id: FileMD5
@@ -385,22 +383,22 @@ fields:
     domain: http://www.loc.gov/premis/rdf/v1#File
     queries:
       - select: 'SELECT $value WHERE {
-            $subject premis:fixity $fixity.
-            $fixity a crypHashFunc:md5 ;
-            rdf:value ?value.
-          }'
+        $subject premis:fixity $fixity.
+        $fixity a crypHashFunc:md5 ;
+        rdf:value ?value.
+      }'
       - insert: 'INSERT {
-            $subject premis:fixity $fixity.
-            $fixity a crypHashFunc:md5 ;
-            rdf:value ?value.
-          } WHERE {
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), "md5", STR(?value))))) AS $fixity)
-          }'
+        $subject premis:fixity $fixity.
+        $fixity a crypHashFunc:md5 ;
+        rdf:value ?value.
+      } WHERE {
+        BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), "md5", STR(?value))))) AS $fixity)
+      }'
       - delete: 'DELETE {
-            $subject premis:fixity $fixity.
-            $fixity a crypHashFunc:md5 ;
-            rdf:value ?value.
-          } WHERE {}'
+        $subject premis:fixity $fixity.
+        $fixity a crypHashFunc:md5 ;
+        rdf:value ?value.
+      } WHERE {}'
 
 
   - id: FileOriginalName
@@ -413,13 +411,13 @@ fields:
     queries:
       - select: 'SELECT $value WHERE { $subject premis:originalName $value . }'
       - insert: 'INSERT {
-            $subject premis:originalName $value ;
-            rdfs:label $value .
-          } WHERE { }'
+        $subject premis:originalName $value ;
+        rdfs:label $value .
+      } WHERE { }'
       - delete: 'DELETE {
-            $subject premis:originalName $value ;
-            rdfs:label $value .
-          } WHERE {}'
+        $subject premis:originalName $value ;
+        rdfs:label $value .
+      } WHERE {}'
 
 
   - id: FileSize
@@ -444,25 +442,25 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
       - select: 'SELECT ?value ?label WHERE {
-            ?work frbroo:R12_is_realised_in $subject ;
-            crm:P2_has_type ?value.
-          }'
+        ?work frbroo:R12_is_realised_in $subject ;
+        crm:P2_has_type ?value.
+      }'
       - insert: 'INSERT {
-            ?work frbroo:R12_is_realised_in $subject ;
-            crm:P2_has_type ?value.
-          } WHERE {
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/w/", MD5(STR(?value)))) AS ?work)
-          }'
+        ?work frbroo:R12_is_realised_in $subject ;
+        crm:P2_has_type ?value.
+      } WHERE {
+        BIND(IRI(CONCAT("http://data.performing-arts.ch/w/", MD5(STR(?value)))) AS ?work)
+      }'
       - valueSet: 'SELECT $value WHERE {
-            $value a skos:Concept ;
-            skos:inScheme spav:mn .
-          } ORDER BY ?label'
+        $value a skos:Concept ;
+        skos:inScheme spav:mn .
+      } ORDER BY ?label'
       - autosuggestion: 'SELECT $value $label WHERE {
-            $value a skos:Concept ;
-            skos:inScheme spav:mn ;
-            skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), "?token", "i"))
-          } LIMIT 10'
+        $value a skos:Concept ;
+        skos:inScheme spav:mn ;
+        skos:prefLabel ?label .
+        FILTER(REGEX(STR(?label), "?token", "i"))
+      } LIMIT 10'
 
 
   - id: GroupAcronym
@@ -778,9 +776,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY LCASE(?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
           ?item skos:broader ?parent .
-          ?parent rdfs:label|skos:prefLabel ?parentLabel.
       }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:broader ?parent . 
@@ -979,9 +976,8 @@ fields:
         BIND(BOUND(?child) AS ?hasChildren)
       }
       ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
           ?item skos:broader ?parent .
-          ?parent skos:prefLabel ?parentLabel.
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
         ?item skos:broader ?parent ;
@@ -1176,9 +1172,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
           ?item skos:broader ?parent .
-          ?parent (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?parentLabel.
         }'
       searchQuery: '
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
@@ -1259,32 +1254,9 @@ fields:
       - insert: 'INSERT { $subject rico:hasEventType $value . } WHERE {}'
       - delete: 'DELETE { $subject rico:hasEventType $value . } WHERE {}'
     treePatterns:
-      type: full
-      rootsQuery: 'SELECT DISTINCT ?item ?hasChildren WHERE {
-          spav:dm skos:hasTopConcept ?item .
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }'
-      childrenQuery: 'SELECT DISTINCT ?item ?hasChildren WHERE {
-          ?item skos:broader ?parent.
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
-          ?item skos:broader ?parent .
-          ?parent skos:prefLabel ?parentLabel.
-        }'
-      searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
-          ?item skos:inScheme spav:dm ;
-            skos:prefLabel ?label . 
-          ?label bds:search ?__token__ ; 
-          bds:relevance ?score ; 
-          bds:matchAllTerms "true"
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY DESC (?score) (?label)
-        LIMIT 200'
+      type: simple
+      schemePattern: '?item <http://www.w3.org/2004/02/skos/core#inScheme> spav:dm '
+      relationPattern: '?item skos:broader ?parent'
 
   - id: InstantiationConditionStatementHistory
     label: History
@@ -1497,7 +1469,7 @@ fields:
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
-    range: https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordPart
+    range: https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordPart
     queries:
       - select: 'SELECT ?value WHERE { $value rico:hasInstantiation $subject . }'
       - insert: 'INSERT { $value rico:hasInstantiation $subject . } WHERE { }'
@@ -1556,9 +1528,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
           ?item skos:broader ?parent .
-          ?parent (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?parentLabel.
         }'
       searchQuery: '
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
@@ -2368,15 +2339,14 @@ fields:
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item a crm:E53_Place .
           FILTER(NOT EXISTS { ?item crm:P89_falls_within ?parent. })
-            FILTER(CONTAINS(STR(?item), "/p/"))
-            ?item rdfs:label ?label.
+          FILTER(CONTAINS(STR(?item), "/p/"))
+          ?item rdfs:label ?label.
           OPTIONAL { ?child crm:P89_falls_within ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
           ?item crm:P89_falls_within ?parent.
-          ?parent rdfs:label ?parentLabel.
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item crm:P89_falls_within ?parent.
@@ -2536,9 +2506,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
         ?item crm:P89_falls_within ?parent.
-        ?parent rdfs:label ?parentLabel.
       }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item crm:P89_falls_within ?parent.
@@ -2877,9 +2846,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
         ?item crm:P89_falls_within ?parent.
-        ?parent rdfs:label ?parentLabel.
       }'
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item a crm:E53_Place ;
@@ -2951,7 +2919,7 @@ fields:
     label: Premiere Type
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance
-    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.w3.org/2004/02/skos/core#Concept
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type', 'http://www.w3.org/2004/02/skos/core#Concept
     queries:
       - select: 'SELECT ?value WHERE {
         $subject a frbroo:F31_Performance ; 
@@ -3129,7 +3097,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordDocumentaryForm
     label: Documentary form
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
-    domain: https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordPart
+    domain: https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordPart
     range: https://www.ica.org/standards/RiC/ontology#RecordResourceDocumentaryForm
     queries:
       - select: 'SELECT $value WHERE { $subject rico:hasDocumentaryFormType ?value . }'
@@ -3835,6 +3803,12 @@ fields:
         ( spav:pkdgf )
         }
       }'
+      - autosuggestion: 'SELECT ?value ?label WHERE {
+        SERVICE Repository:lookup {
+        ?value lookup:token ?__token__ ;
+    lookup:name ?label .
+        }
+      }'
 
 
   - id: RecordResourcePackingDepricated
@@ -3847,16 +3821,22 @@ fields:
       - insert: 'INSERT { $subject spao:hasPacking $value. } WHERE {}'
       - delete: 'DELETE { $subject spao:hasPacking $value. } WHERE {}'
       - valueSet: 'SELECT $value WHERE {
-            VALUES ( $value ) {
-            ( spav:pkba4 )
-            ( spav:pkba5 )
-            ( spav:pkbag )
-            ( spav:pkbco )
-            ( spav:pkpst )
-            ( spav:pkpnt )
-            ( spav:pkdgf )
-            }
-          }'
+        VALUES ( $value ) {
+        ( spav:pkba4 )
+        ( spav:pkba5 )
+        ( spav:pkbag )
+        ( spav:pkbco )
+        ( spav:pkpst )
+        ( spav:pkpnt )
+        ( spav:pkdgf )
+        }
+      }'
+      - autosuggestion: 'SELECT ?value ?label WHERE {
+        SERVICE Repository:lookup {
+        ?value lookup:token ?__token__ ;
+    lookup:name ?label .
+        }
+      }'
 
 
   - id: RecordResourceParent
@@ -3895,9 +3875,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
           ?item rico:isOrWasIncludedIn ?parent.
-          ?parent rico:name ?parentLabel.
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item rico:isOrWasIncludedIn ?parent.
@@ -4037,9 +4016,8 @@ fields:
         BIND(BOUND(?child) AS ?hasChildren)
       }
       ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
         ?item crm:P89_falls_within ?parent.
-        ?parent rdfs:label ?parentLabel.
       }'
       childrenQuery: 'PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -4090,7 +4068,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceProcessingDate
     label: Processing date
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
-    domain: https://www.ica.org/standards/RiC/ontology#Instantiation, https://www.ica.org/standards/RiC/ontology#RecordResource
+    domain: https://www.ica.org/standards/RiC/ontology#Instantiation', 'https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
       - select: 'SELECT $value WHERE { $subject spao:hasProcessingDate $value . }'
       - insert: 'INSERT { $subject spao:hasProcessingDate $value . } WHERE { }'
@@ -4160,7 +4138,7 @@ fields:
     label: Subject
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
-    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
+    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan', 'http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'https://www.ica.org/standards/RiC/ontology#Agent', 'https://www.ica.org/standards/RiC/ontology#Concept', 'https://www.ica.org/standards/RiC/ontology#Thing
     queries:
       - select: 'SELECT $value WHERE { $subject rico:hasOrHadSubject $value . }'
       - insert: 'INSERT { $subject rico:hasOrHadSubject $value . } WHERE {}'
@@ -4207,7 +4185,7 @@ fields:
     label: Subject
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
-    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
+    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan', 'http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'https://www.ica.org/standards/RiC/ontology#Agent', 'https://www.ica.org/standards/RiC/ontology#Concept', 'https://www.ica.org/standards/RiC/ontology#Thing
     queries:
       - select: 'SELECT $value WHERE {
           $subject rico:hasOrHadSubject $value . 
@@ -4257,7 +4235,7 @@ fields:
     label: SubjectU
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
-    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
+    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan', 'http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object', 'https://www.ica.org/standards/RiC/ontology#Agent', 'https://www.ica.org/standards/RiC/ontology#Concept', 'https://www.ica.org/standards/RiC/ontology#Thing
     queries:
       - select: 'SELECT $value WHERE {
           $subject rico:hasOrHadSubject $value . 
@@ -4427,11 +4405,10 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT ?item ?parent ?hasChildren ?parentLabel WHERE {
+      parentsQuery: 'SELECT ?item ?parent ?hasChildren WHERE {
         ?item skos:broader ?parent .
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
-        ?parent (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?parentLabel.
       }'
       searchQuery: '
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
@@ -4454,7 +4431,7 @@ fields:
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordSet
-    range: http://www.w3.org/2004/02/skos/core#Concept, https://www.ica.org/standards/RiC/ontology#RecordSetType
+    range: http://www.w3.org/2004/02/skos/core#Concept', 'https://www.ica.org/standards/RiC/ontology#RecordSetType
     queries:
       - select: 'SELECT ?value ?label WHERE {
         $subject rico:hasRecordSetType ?value.
@@ -4471,7 +4448,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordSetVirtual
     label: virtual
     datatype: http://www.w3.org/2001/XMLSchema#boolean
-    domain: https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordSet
+    domain: https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordSet
     queries:
       - select: 'SELECT $value WHERE {
         $subject <http://temp.performing-arts.ch/isVirtual> $value.
@@ -4813,7 +4790,7 @@ fields:
     datatype: http://www.w3.org/2001/XMLSchema#string
     minOccurs: 1
     maxOccurs: 1
-    domain: https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordSet
+    domain: https://www.ica.org/standards/RiC/ontology#Record', 'https://www.ica.org/standards/RiC/ontology#RecordSet
     queries:
       - select: 'SELECT $value WHERE { $subject rico:name $value . }'
       - insert: 'INSERT { $subject rico:name $value} WHERE {}'
@@ -5030,7 +5007,7 @@ fields:
     label: Accessibility
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     maxOccurs: 1
-    domain: https://www.ica.org/standards/RiC/ontology#Instantiation, https://www.ica.org/standards/RiC/ontology#RecordResource
+    domain: https://www.ica.org/standards/RiC/ontology#Instantiation', 'https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2004/02/skos/core#Concept
     queries:
       - select: 'SELECT $value WHERE { $subject spao:hasAccessibility $value. }'
@@ -5149,9 +5126,8 @@ fields:
         BIND(BOUND(?child) AS ?hasChildren)
       }
       ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
         ?item rico:containedBy ?parent.
-        ?parent rdfs:label ?parentLabel.
       }'
       childrenQuery: 'PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -5752,9 +5728,8 @@ fields:
           BIND(BOUND(?child) AS ?hasChildren)
         }
         ORDER BY (?label)'
-      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+      parentsQuery: 'SELECT DISTINCT ?item ?parent WHERE {
           ?item crm:P89_falls_within ?parent.
-          ?parent rdfs:label ?parentLabel.
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item crm:P89_falls_within ?parent.
