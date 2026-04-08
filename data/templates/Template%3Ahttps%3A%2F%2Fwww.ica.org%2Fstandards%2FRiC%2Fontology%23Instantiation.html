@@ -2,7 +2,7 @@
 
 <div class="page rs-page">
     [[> sapaModule:KnowledgePanel]]
-    <bs-tabs class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
+    <bs-tabs id="record-tabs" class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
         <bs-tab event-key='about' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
             <bs-row>
                 <bs-col sm="4">
@@ -804,26 +804,27 @@
 
             <bs-row>
 
-                <semantic-tree
-                    query='SELECT DISTINCT ?node ?parent WHERE {
-                        { ?? rico:hasDerivedInstantiation* ?node }
-                        UNION
-                        { ?node rico:hasDerivedInstantiation* ?? }
-                        UNION 
-                        { ?? rico:isDerivedFromInstantiation* ?node } 
-                        UNION 
-                        { ?node rico:isDerivedFromInstantiation* ?? } 
-                        UNION
-                        { BIND(?? AS ?node) }
-                        OPTIONAL { ?p rico:hasDerivedInstantiation ?node . }
-                        OPTIONAL { ?node rico:isDerivedFromInstantiation ?p . }
-                        OPTIONAL { ?record rico:hasInstantiation ?node . }
-                        BIND(IF(BOUND(?p), ?p, ?record) AS ?parent)
-                    }'
-                    provider='d3-dendrogram'
-                    >
-                </semantic-tree>
-
+                <bs-col sm="4">
+                    <semantic-tree
+                        query='SELECT DISTINCT ?node ?parent WHERE {
+                            { ?? rico:hasDerivedInstantiation* ?node }
+                            UNION
+                            { ?node rico:hasDerivedInstantiation* ?? }
+                            UNION 
+                            { ?? rico:isDerivedFromInstantiation* ?node } 
+                            UNION 
+                            { ?node rico:isDerivedFromInstantiation* ?? } 
+                            UNION
+                            { BIND(?? AS ?node) }
+                            OPTIONAL { ?p rico:hasDerivedInstantiation ?node . }
+                            OPTIONAL { ?node rico:isDerivedFromInstantiation ?p . }
+                            OPTIONAL { ?record rico:hasInstantiation ?node . }
+                            BIND(IF(BOUND(?p), ?p, ?record) AS ?parent)
+                        }'
+                        provider='d3-dendrogram'
+                        >
+                    </semantic-tree>
+                </bs-col>
             </bs-row>
             
         </bs-tab>
