@@ -187,29 +187,6 @@
             } GROUP BY ?producer
             ORDER BY DESC(?plancount)'
             sets='[{"dataSetName": "Productions", "category": "producer", "value": "plancount"}]'
-            styles='[{
-            "provider": "chartjs",
-            "style": {
-                "data": {
-                    "datasets": [
-                        { 
-                        "borderColor": "rgb(255, 255, 255, 1)",
-                        "borderWidth": "2"
-                        }
-                    ]
-                },
-                "options": {
-                    "layout": {
-                        "padding": {
-                            "top": "0"
-                        }
-                    },
-                    "legend": {
-                        "position": "none"
-                    }
-                }
-            }
-            }]'
         ></semantic-chart>
 
         <semantic-query 
