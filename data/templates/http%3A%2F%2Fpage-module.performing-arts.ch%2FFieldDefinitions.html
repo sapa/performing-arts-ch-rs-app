@@ -11,7 +11,7 @@
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), \"?token\", \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
         "iri" : "Activity_Type"
     }
 [[/inline]]
@@ -84,7 +84,7 @@
                 "selectPattern" : "SELECT $value WHERE { $subject rico:containedBy $value . }",
                 "insertPattern" : "INSERT { $subject rico:containedBy $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject rico:containedBy $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a spao:ArchivalPlace ; rdfs:label $label . FILTER REGEX($label, \"?token\", \"i\") }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a spao:ArchivalPlace ; rdfs:label $label . FILTER REGEX($label, $__token__, \"i\") }",
         "iri" : "ArchivalPlaceParent"
     }
 [[/inline]]
@@ -276,7 +276,7 @@
                 "selectPattern" : "SELECT ?value ?label WHERE { ?work frbroo:R12_is_realised_in $subject ; crm:P2_has_type ?value. }",
                 "insertPattern" : "INSERT { ?work frbroo:R12_is_realised_in $subject ; crm:P2_has_type ?value. } WHERE { BIND(IRI(CONCAT(\"http://data.performing-arts.ch/w/\", MD5(STR(?value)))) AS ?work) }",
                 "valueSetPattern" : "SELECT $value WHERE { $value a skos:Concept ; skos:inScheme spav:mn . } ORDER BY ?label",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept ; skos:inScheme spav:mn ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), \"?token\", \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept ; skos:inScheme spav:mn ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
         "iri" : "Genre"
     }
 [[/inline]]
@@ -393,7 +393,7 @@
             "range" : ["https://www.ica.org/standards/RiC/ontology#Group"],
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:controlledBy ?value. }",
                 "insertPattern" : "INSERT { $subject rico:controlledBy $value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { FILTER(REGEX(STR(?label), \"?token\", \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { FILTER(REGEX(STR(?label), $__token__, \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
         "iri" : "GroupController"
     }
 [[/inline]]
@@ -489,7 +489,7 @@
             "range" : ["https://www.ica.org/standards/RiC/ontology#Group"],
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:isSuccessorOf ?value. }",
                 "insertPattern" : "INSERT { $subject rico:isSuccessorOf $value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { FILTER(REGEX(STR(?label), \"?token\", \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { FILTER(REGEX(STR(?label), $__token__, \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
         "iri" : "GroupPredecessor"
     }
 [[/inline]]
@@ -768,7 +768,7 @@ BIND(IF(BOUND(?parent_label), CONCAT(?venue_label, \" (\", ?parent_label, IF(BOU
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:hasDerivedInstantiation ?value . }",
                 "insertPattern" : "INSERT { $subject rico:hasDerivedInstantiation $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject rico:hasDerivedInstantiation $value} WHERE { }",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { { $value a rico:Instantiation ; rico:identifier $label . FILTER(REGEX($label, \"?token\", \"i\")) } UNION { $value a rico:Instantiation ; rico:hasOrHadIdentifier ?identifier . ?identifier rdf:value $label . FILTER(REGEX($label, \"?token\", \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"),\"\\\\.$\", \"\")) AS ?value) $value a rico:Instantiation . OPTIONAL {?value rico:identifier|rico:hasOrHadIdentifier/rdf:value $label_raw .} BIND(COALESCE(?label_raw, ?value) AS ?label) } FILTER(!CONTAINS(STR(?value), \"/u/\")) }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { { $value a rico:Instantiation ; rico:identifier $label . FILTER(REGEX($label, $__token__, \"i\")) } UNION { $value a rico:Instantiation ; rico:hasOrHadIdentifier ?identifier . ?identifier rdf:value $label . FILTER(REGEX($label, $__token__, \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"),\"\\\\.$\", \"\")) AS ?value) $value a rico:Instantiation . OPTIONAL {?value rico:identifier|rico:hasOrHadIdentifier/rdf:value $label_raw .} BIND(COALESCE(?label_raw, ?value) AS ?label) } FILTER(!CONTAINS(STR(?value), \"/u/\")) }",
         "iri" : "InstantiationDerived"
     }
 [[/inline]]
@@ -783,7 +783,7 @@ BIND(IF(BOUND(?parent_label), CONCAT(?venue_label, \" (\", ?parent_label, IF(BOU
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:isDerivedFromInstantiation ?value . }",
                 "insertPattern" : "INSERT { $subject rico:isDerivedFromInstantiation $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject rico:isDerivedFromInstantiation $value} WHERE { }",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { { $value a rico:Instantiation ; rico:identifier $label . FILTER(REGEX($label, \"?token\", \"i\")) } UNION { $value a rico:Instantiation ; rico:hasOrHadIdentifier ?identifier . ?identifier rdf:value $label . FILTER(REGEX($label, \"?token\", \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"),\"\\\\.$\", \"\")) AS ?value) $value a rico:Instantiation . OPTIONAL {?value rico:identifier|rico:hasOrHadIdentifier/rdf:value $label_raw .} BIND(COALESCE(?label_raw, ?value) AS ?label) } FILTER(!CONTAINS(STR(?value), \"/u/\")) }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { { $value a rico:Instantiation ; rico:identifier $label . FILTER(REGEX($label, $__token__, \"i\")) } UNION { $value a rico:Instantiation ; rico:hasOrHadIdentifier ?identifier . ?identifier rdf:value $label . FILTER(REGEX($label, $__token__, \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"),\"\\\\.$\", \"\")) AS ?value) $value a rico:Instantiation . OPTIONAL {?value rico:identifier|rico:hasOrHadIdentifier/rdf:value $label_raw .} BIND(COALESCE(?label_raw, ?value) AS ?label) } FILTER(!CONTAINS(STR(?value), \"/u/\")) }",
         "iri" : "InstantiationDerivedFrom"
     }
 [[/inline]]
@@ -1353,7 +1353,7 @@ BIND(IF(BOUND(?parent_label), CONCAT(?venue_label, \" (\", ?parent_label, IF(BOU
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
                 "selectPattern" : "SELECT ?value WHERE { ?pw frbroo:R12_is_realised_in $subject ; <http://schema.org/inLanguage> $value. }",
                 "insertPattern" : "INSERT { ?pw frbroo:R12_is_realised_in $subject ; <http://schema.org/inLanguage> $value. } WHERE { BIND(IRI(CONCAT(\"http://data.performing-arts.ch/w/\", MD5(STR(?value)), \"/w\")) AS ?pw) }",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E55_Type ; skos:inScheme spav:lg ; skos:prefLabel ?label . FILTER REGEX(STR(?label), \"?token\",\"i\") } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E55_Type ; skos:inScheme spav:lg ; skos:prefLabel ?label . FILTER REGEX(STR(?label), $__token__,\"i\") } LIMIT 10",
         "iri" : "Performance_Language"
     }
 [[/inline]]
@@ -1398,7 +1398,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object"],
                 "selectPattern" : "SELECT ?value WHERE { ?perform frbroo:R25_performed $subject ; crm:P8_took_place_on_or_within ?value. }",
                 "insertPattern" : "INSERT { ?perform frbroo:R25_performed $subject ; crm:P8_took_place_on_or_within ?value. } WHERE { BIND(IRI(CONCAT(STR(?subject),\"/p\")) AS ?perform) }",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> FILTER REGEX(STR(?label), \"?token\",\"i\") } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> FILTER REGEX(STR(?label), $__token__,\"i\") } LIMIT 10",
         "iri" : "Performance_Venue"
     }
 [[/inline]]
@@ -1413,7 +1413,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject a crm:E7_Activity ; crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(REGEX(STR(?label), \"?token\", \"i\")) FILTER(CONTAINS(STR($value), \"/a/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) FILTER(CONTAINS(STR($value), \"/a/\")) } LIMIT 10",
         "iri" : "Performed_By"
     }
 [[/inline]]
@@ -1707,7 +1707,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
                 "selectPattern" : "SELECT $value WHERE { $subject crm:P89_falls_within $value . }",
                 "insertPattern" : "INSERT { $subject crm:P89_falls_within $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P89_falls_within $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a crm:E53_Place ; rdfs:label $label . FILTER REGEX($label, \"?token\", \"i\") }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a crm:E53_Place ; rdfs:label $label . FILTER REGEX($label, $__token__, \"i\") }",
         "iri" : "PlaceFallsWithin"
     }
 [[/inline]]
@@ -1911,7 +1911,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
                 "selectPattern" : "SELECT ?value WHERE { $subject premis:represents ?value . }",
                 "insertPattern" : "INSERT { $subject premis:represents $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject premis:represents $value} WHERE { }",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value rdf:type/rdfs:subClassOf* rico:RecordResource ; rico:identifier $label . FILTER(REGEX($label, \"?token\", \"i\")) }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value rdf:type/rdfs:subClassOf* rico:RecordResource ; rico:identifier $label . FILTER(REGEX($label, $__token__, \"i\")) }",
         "iri" : "RecordInstantiation"
     }
 [[/inline]]
@@ -1926,7 +1926,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
                 "selectPattern" : "SELECT $value $index WHERE { $value rico:isOrWasConstituentOf $subject . OPTIONAL { $value olo:index $index . } }",
                 "insertPattern" : "INSERT { $value rico:isOrWasConstituentOf $subject ; olo:index $index } WHERE {}",
                 "deletePattern" : "DELETE { $value rico:isOrWasConstituentOf $subject ; olo:index $index . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a rico:RecordPart ; rdfs:label $label . FILTER(REGEX($label, \"?token\", \"i\")) }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a rico:RecordPart ; rdfs:label $label . FILTER(REGEX($label, $__token__, \"i\")) }",
         "iri" : "RecordParts"
     }
 [[/inline]]
@@ -2728,7 +2728,7 @@ VALUES (?type ?type_label_en ?type_label_de ?type_label_fr ?type_label_it) { (ri
                 "insertPattern" : "INSERT { $subject rico:hasOrHadAllMembersWithDocumentaryFormType $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject rico:hasOrHadAllMembersWithDocumentaryFormType $value . } WHERE { }",
                 "valueSetPattern" : "SELECT $value WHERE { $value a rico:RecordResourceDocumentaryForm ; skos:inScheme spav:df . }",
-                "autosuggestionPattern" : "PREFIX rico: <https://www.ica.org/standards/RiC/ontology#> SELECT $value $label WHERE { $value a rico:RecordResourceDocumentaryForm ; skos:inScheme spav:df ; rico:name ?label . FILTER(REGEX(STR(?label), \"?token\",\"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "PREFIX rico: <https://www.ica.org/standards/RiC/ontology#> SELECT $value $label WHERE { $value a rico:RecordResourceDocumentaryForm ; skos:inScheme spav:df ; rico:name ?label . FILTER(REGEX(STR(?label), $__token__,\"i\")) } LIMIT 10",
         "iri" : "RecordSetDocumentaryForm"
     }
 [[/inline]]
@@ -2822,7 +2822,7 @@ VALUES (?type ?type_label_en ?type_label_de ?type_label_fr ?type_label_it) { (ri
                 "deletePattern" : "DELETE { GRAPH ?g { $subject frbroo:R14_incorporates $value . } } WHERE { BIND(URI(CONCAT(STR($subject), \"/container/context\")) as ?g) }",
                 "autosuggestionPattern" : "SELECT DISTINCT $value ?label WHERE { BIND(?__userPreferredLanguage__ AS ?lang)
 VALUES (?type ?type_label_en ?type_label_de ?type_label_fr ?type_label_it) { (frbroo:F25_Performance_Plan \"production\" \"Produktion\" \"production\" \"produzion\") } BIND( IF(?lang = \"de\", ?type_label_de, IF(?lang = \"fr\", ?type_label_fr, IF(?lang = \"it\", ?type_label_it, ?type_label_en) ) ) AS ?type_label)
-{ $value rdfs:label ?item_label . ?item_label bds:search ?__token__ ; bds:matchAllTerms \"true\" . $value rdf:type ?type . } UNION { BIND(URI(REPLACE(REPLACE(\"?token\", \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) ?value rdfs:label ?item_label . $value rdf:type ?type . }
+{ $value rdfs:label ?item_label . ?item_label bds:search ?__token__ ; bds:matchAllTerms \"true\" . $value rdf:type ?type . } UNION { BIND(URI(REPLACE(REPLACE($__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) ?value rdfs:label ?item_label . $value rdf:type ?type . }
 BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator != \"x\") FILTER(?type_indicator != \"u\") OPTIONAL { $value crm:P2_has_type ?crmtype. } FILTER((?type != crm:E22_Man-Made_Object) || (?crmtype = spav:dwmkn)) OPTIONAL { $value crm:P74_has_current_or_former_residence/crm:P89_falls_within/rdfs:label ?place_label . BIND(LANG(?place_label) AS ?place_label_lang) } FILTER(!BOUND(?place_label_lang) || ?place_label_lang = ?lang) BIND(CONCAT(?item_label, \" (\", ?type_label, IF(BOUND(?place_label), CONCAT(\", \", ?place_label), \"\"), \")\") AS ?label) } LIMIT 100",
         "iri" : "RecordingProduction"
     }
@@ -3023,7 +3023,7 @@ BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator != 
 }",
                 "insertPattern" : "INSERT {?pw frbroo:R12_is_realised_in $subject. ?pw <http://schema.org/subtitleLanguage> $value}
 WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) AS ?pw)}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E55_Type ; skos:inScheme spav:lg; skos:prefLabel ?label . FILTER REGEX(STR(?label), \"?token\",\"i\") } LIMIT 10 ",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E55_Type ; skos:inScheme spav:lg; skos:prefLabel ?label . FILTER REGEX(STR(?label), $__token__,\"i\") } LIMIT 10 ",
         "iri" : "Subtitle_Language"
     }
 [[/inline]]
@@ -3215,7 +3215,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT $value WHERE { $subject spao:seeAlso $value. }",
                 "insertPattern" : "INSERT { $subject spao:seeAlso $value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject spao:seeAlso $value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { { { $value a rico:Concept . } UNION { $value rdf:type/rdfs:subClassOf* rico:Agent . } UNION { $value rdf:type rico:RecordSet . } UNION { $value rdf:type rico:Record . } UNION { $value rdf:type rico:RecordPart . } UNION { $value rdf:type rico:Instantiation . } $value rdfs:label|rico:name $label . FILTER(REGEX($label, \"?token\", \"i\")) FILTER(!CONTAINS(STR(?value), \"/u/\")) } UNION { BIND(URI(REPLACE(REPLACE(\"?token\", \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) $value rdfs:label|rico:name $label ; a/rdfs:subClassOf* ?type . VALUES (?type) { ( rico:Concept ) ( rico:Agent ) ( rico:RecordSet ) ( rico:Record ) ( rico:RecordPart ) ( rico:Instantiation ) } } }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { { { $value a rico:Concept . } UNION { $value rdf:type/rdfs:subClassOf* rico:Agent . } UNION { $value rdf:type rico:RecordSet . } UNION { $value rdf:type rico:Record . } UNION { $value rdf:type rico:RecordPart . } UNION { $value rdf:type rico:Instantiation . } $value rdfs:label|rico:name $label . FILTER(REGEX($label, $__token__, \"i\")) FILTER(!CONTAINS(STR(?value), \"/u/\")) } UNION { BIND(URI(REPLACE(REPLACE($__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) $value rdfs:label|rico:name $label ; a/rdfs:subClassOf* ?type . VALUES (?type) { ( rico:Concept ) ( rico:Agent ) ( rico:RecordSet ) ( rico:Record ) ( rico:RecordPart ) ( rico:Instantiation ) } } }",
         "iri" : "ThingSeeAlso"
     }
 [[/inline]]
@@ -3230,7 +3230,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT $value WHERE { BIND(URI(CONCAT(STR($parent), \"/container/context\")) as ?g) GRAPH ?g { $subject spao:seeAlso $value. } }",
                 "insertPattern" : "INSERT { GRAPH ?g { $subject spao:seeAlso $value. } } WHERE { BIND(URI(CONCAT(STR($parent), \"/container/context\")) as ?g) }",
                 "deletePattern" : "DELETE { GRAPH ?g { $subject spao:seeAlso $value. } } WHERE { BIND(URI(CONCAT(STR($parent), \"/container/context\")) as ?g) }",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { { { $value a rico:Concept . } UNION { $value rdf:type/rdfs:subClassOf* rico:Agent . } UNION { $value rdf:type rico:RecordSet . } UNION { $value rdf:type rico:Record . } UNION { $value rdf:type rico:RecordPart . } UNION { $value rdf:type rico:Instantiation . } UNION { $value rdf:type frbroo:F26_Recording . } UNION { $value rdf:type frbroo:F31_Performance . } UNION { $value rdf:type frbroo:F25_Performance_Plan . } $value rdfs:label|rico:name|rico:hasOrHadIdentifier/rdf:value $label . FILTER(REGEX($label, \"?token\", \"i\")) FILTER(!CONTAINS(STR(?value), \"/u/\")) } UNION { BIND(URI(REPLACE(REPLACE(\"?token\", \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) $value rdfs:label|rico:name|rico:hasOrHadIdentifier/rdf:value $label ; a/rdfs:subClassOf* ?type . VALUES (?type) { ( rico:Concept ) ( rico:Agent ) ( rico:RecordSet ) ( rico:Record ) ( rico:RecordPart ) ( rico:Instantiation ) ( frbroo:F26_Recording ) ( frbroo:F31_Performance ) ( frbroo:F25_Performance_Plan ) } } }",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { { { $value a rico:Concept . } UNION { $value rdf:type/rdfs:subClassOf* rico:Agent . } UNION { $value rdf:type rico:RecordSet . } UNION { $value rdf:type rico:Record . } UNION { $value rdf:type rico:RecordPart . } UNION { $value rdf:type rico:Instantiation . } UNION { $value rdf:type frbroo:F26_Recording . } UNION { $value rdf:type frbroo:F31_Performance . } UNION { $value rdf:type frbroo:F25_Performance_Plan . } $value rdfs:label|rico:name|rico:hasOrHadIdentifier/rdf:value $label . FILTER(REGEX($label, $__token__, \"i\")) FILTER(!CONTAINS(STR(?value), \"/u/\")) } UNION { BIND(URI(REPLACE(REPLACE($__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) $value rdfs:label|rico:name|rico:hasOrHadIdentifier/rdf:value $label ; a/rdfs:subClassOf* ?type . VALUES (?type) { ( rico:Concept ) ( rico:Agent ) ( rico:RecordSet ) ( rico:Record ) ( rico:RecordPart ) ( rico:Instantiation ) ( frbroo:F26_Recording ) ( frbroo:F31_Performance ) ( frbroo:F25_Performance_Plan ) } } }",
         "iri" : "ThingSeeAlso_SPARQLMode"
     }
 [[/inline]]
@@ -3374,7 +3374,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT DISTINCT ?value ?label ?unidentified WHERE { $subject crm:P46_is_composed_of ?value . BIND(IF(CONTAINS(STR($value), \"/u/\"), \"true\", \"\") AS ?unidentified) }",
                 "insertPattern" : "INSERT { $subject crm:P46_is_composed_of $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P46_is_composed_of ?value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46_is_composed_of $value . } FILTER(REGEX(STR(?label), \"?token\", \"i\")) FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46_is_composed_of $value . } FILTER(REGEX(STR(?label), $__token__, \"i\")) FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
         "iri" : "VenueContains"
     }
 [[/inline]]
@@ -3406,7 +3406,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT DISTINCT ?value ?label ?unidentified WHERE { { $subject crm:P46i_forms_part_of ?value . } UNION { $value crm:P46_is_composed_of $subject . } BIND(IF(CONTAINS(STR($value), \"/u/\"), \"true\", \"\") AS ?unidentified) }",
                 "insertPattern" : "INSERT { $subject crm:P46i_forms_part_of $value . $value crm:P46_is_composed_of $subject . } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P46i_forms_part_of $value . $value crm:P46i_forms_part_of $subject . } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46i_forms_part_of $value . } FILTER(REGEX(STR(?label), \"?token\", \"i\")) FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46i_forms_part_of $value . } FILTER(REGEX(STR(?label), $__token__, \"i\")) FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
         "iri" : "VenueIsPartOf"
     }
 [[/inline]]
