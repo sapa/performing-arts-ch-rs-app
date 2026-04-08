@@ -30,33 +30,38 @@
 
             <bs-nav-dropdown title="Quick Links" id="bg-nested-dropdown">
                 <mp-anonymous-hidden>
-                    <mp-resource-link-container uri="http://www.researchspace.org/resource/assets/Ontologies">
+                    <mp-resource-link-container iri="http://www.researchspace.org/resource/NavigateToPage">
+                        <bs-menu-item>Navigate to resource</bs-menu-item>
+                    </mp-resource-link-container>
+                </mp-anonymous-hidden>
+                <mp-anonymous-hidden>
+                    <mp-resource-link-container iri="http://www.researchspace.org/resource/assets/Ontologies">
                         <bs-menu-item>Ontologies</bs-menu-item>
                     </mp-resource-link-container>
                 </mp-anonymous-hidden>
-                <mp-resource-link-container uri="http://page.performing-arts.ch/ArchivePlan">
+                <mp-resource-link-container iri="http://page.performing-arts.ch/ArchivePlan">
                     <bs-menu-item>Archive Plan</bs-menu-item>
                 </mp-resource-link-container>
                 <mp-anonymous-hidden>
-                    <mp-resource-link-container uri="http://page.performing-arts.ch/ArchivalLocations">
+                    <mp-resource-link-container iri="http://page.performing-arts.ch/ArchivalLocations">
                         <bs-menu-item>Archival Locations</bs-menu-item>
                     </mp-resource-link-container>
                 </mp-anonymous-hidden>
-                <mp-resource-link-container uri="http://page.performing-arts.ch/MediaSearch">
+                <mp-resource-link-container iri="http://page.performing-arts.ch/MediaSearch">
                     <bs-menu-item>Media Search</bs-menu-item>
                 </mp-resource-link-container>
                 <mp-anonymous-hidden>
-                    <mp-resource-link-container uri="http://page.performing-arts.ch/Log">
+                    <mp-resource-link-container iri="http://page.performing-arts.ch/Log">
                         <bs-menu-item>Log</bs-menu-item>
                     </mp-resource-link-container>
                 </mp-anonymous-hidden>
                 <mp-anonymous-hidden>
-                    <mp-resource-link-container uri="http://page.performing-arts.ch/ToDo">
+                    <mp-resource-link-container iri="http://page.performing-arts.ch/ToDo">
                         <bs-menu-item>To Do</bs-menu-item>
                     </mp-resource-link-container>
                 </mp-anonymous-hidden>
                 <mp-anonymous-hidden>
-                    <mp-resource-link-container uri="http://page.performing-arts.ch/SampleForm">
+                    <mp-resource-link-container iri="http://page.performing-arts.ch/SampleForm">
                         <bs-menu-item>Musterformular</bs-menu-item>
                     </mp-resource-link-container>
                 </mp-anonymous-hidden>
@@ -64,40 +69,40 @@
            
             <mp-has-permission permission='forms:ldp:*'>
                 <bs-nav-dropdown title="Create Entities" id="bg-nested-dropdown">
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createPerson'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createPerson'>
                         <bs-menu-item>Person</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createGroup'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createGroup'>
                         <bs-menu-item>Group</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createVenue'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createVenue'>
                         <bs-menu-item>Venue</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createConcept'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createConcept'>
                         <bs-menu-item>Concept</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createRecordSet'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createRecordSet'>
                         <bs-menu-item>Record Set</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createRecord'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createRecord'>
                         <bs-menu-item>Record</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createRecording'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createRecording'>
                         <bs-menu-item>Recording</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createPlace'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createPlace'>
                         <bs-menu-item>Place</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createProduction'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createProduction'>
                         <bs-menu-item>Production</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createArchivalPlace'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createArchivalPlace'>
                         <bs-menu-item>Archival Location</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createInstantiationPhysical'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createInstantiationPhysical'>
                         <bs-menu-item>Physical Instantiation</bs-menu-item>
                     </mp-resource-link-container>
-                    <mp-resource-link-container uri='http://page.performing-arts.ch/createInstantiationVirtual'>
+                    <mp-resource-link-container iri='http://page.performing-arts.ch/createInstantiationVirtual'>
                         <bs-menu-item>Virtual Instantiation</bs-menu-item>
                     </mp-resource-link-container>
                 </bs-nav-dropdown>
@@ -109,7 +114,7 @@
                 <li>
                     <bs-nav title='System Administration'>
                         <bs-nav-item>
-                            <mp-resource-link-container propagate-link="true" iri='http://www.metaphacts.com/resource/admin/'>
+                            <mp-resource-link-container propagate-link="true" iri='http://www.researchspace.org/resource/admin/'>
                                 <bs-nav-link><i class='fa fa-cog'></i></bs-nav-link>
                             </mp-resource-link-container>
                         </bs-nav-item>
