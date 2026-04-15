@@ -19,6 +19,7 @@
     <div style="height: 1000px">
       <semantic-lazy-tree
         type='query'
+        use-legacy-search='true'
         config='{
           "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE {
               VALUES (?item) { (<http://data.performing-arts.ch/r/sapa>) }
@@ -88,10 +89,35 @@
               
             } ORDER BY DESC (?score) (?label) LIMIT 500"
         }'
-        info-template="{{> node-template}}"
+        info-template="{{> info-template}}"
       >
-        <template id="node-template">
-          <semantic-link iri="{{iri}}"></semantic-link>
+        <template id="info-template">
+          <semantic-query
+            query="SELECT DISTINCT ?item ?identifier ?level ?valueIDunique {
+                BIND(<{{iri}}> AS ?item)
+                OPTIONAL { ?item rico:hasRecordSetType ?rslevel . }
+                BIND(IF(BOUND(?rslevel), ?rslevel, spav:rsitm) AS ?level)
+                OPTIONAL { 
+                  ?item rico:hasOrHadIdentifier ?idCon .
+                  ?idCon a rico:Identifier ;
+                    crm:P2_has_type spav:idcon ;
+                    rdf:value ?identifier .
+                }
+                OPTIONAL { 
+                    ?item rico:hasOrHadIdentifier ?idUni .
+                    ?idUni a rico:Identifier ;
+                        crm:P2_has_type spav:iduni ;
+                        rdf:value ?valueIDunique .
+                }
+              } ORDER BY (?identifier) LIMIT 1"
+              template="{{> node-template}}"
+          >
+            <template id='node-template'>
+              <span>
+                  {{#if bindings.0.identifier}}{{bindings.0.identifier.value}}: {{/if}}<semantic-link uri="{{bindings.0.item.value}}"></semantic-link>{{#if bindings.0.valueIDunique}} ({{bindings.0.valueIDunique.value}}){{/if}}{{#if bindings.0.level}} (<mp-label iri="{{bindings.0.level.value}}"></mp-label>){{/if}}
+              </span>
+            </template>
+          </semantic-query>
         </template>
       </semantic-lazy-tree>
     </div>
