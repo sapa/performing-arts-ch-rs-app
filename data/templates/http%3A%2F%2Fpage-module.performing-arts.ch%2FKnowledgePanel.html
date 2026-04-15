@@ -7,11 +7,16 @@
             <mp-label iri='[[this]]'></mp-label>
         </h1>
 
-        <p>
+        <p class="knowledge-panel__uri">
             <b>URI</b>:
             <a href='[[this]]' style="font-size: 12px; text-decoration: underline;" target='_blank'>
                 <span>[[this]]</span>
             </a>
+            <mp-copy-to-clipboard text='[[this]]'>
+                <button class='btn btn-link btn-sm knowledge-panel__uri-copy-button'>
+                    <i class='fa fa-clipboard'></i>
+                </button>
+            </mp-copy-to-clipboard>
         </p>
 
         <!--Types -->

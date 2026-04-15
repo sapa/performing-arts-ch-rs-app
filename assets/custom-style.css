@@ -188,6 +188,15 @@ div.tree-view_children span.Tree--leafNode {
 .footer__links-col {
   font-size: 0.7em;
 }
+.knowledge-panel__uri button {
+  opacity: 0;
+}
+.knowledge-panel__uri:hover button {
+  opacity: 1;
+}
+.knowledge-panel__uri-copy-button .fa-clipboard::before {
+  font-size: 0.8em;
+}
 .knowledgeGraphBar--expanded .knowledgeGraphBar__content {
   min-height: 8em !important;
 }
