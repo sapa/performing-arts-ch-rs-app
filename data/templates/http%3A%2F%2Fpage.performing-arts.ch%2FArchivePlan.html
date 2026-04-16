@@ -78,7 +78,8 @@
                 ?identifier a rico:Identifier ;
                   rdf:value ?label .
               }
-              FILTER(REGEX(?label, ?__token__, "i"))
+              ?search ql:contains-word ?__token__ ;
+                ql:contains-entity ?label .
               BIND(false AS ?hasChildren)
               FILTER((LANGMATCHES(LANG(?label), \"\")) || (LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)))
               
