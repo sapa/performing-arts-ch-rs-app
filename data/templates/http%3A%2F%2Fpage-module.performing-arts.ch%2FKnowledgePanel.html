@@ -7,11 +7,35 @@
             <mp-label iri='[[this]]'></mp-label>
         </h1>
 
+        <!--Description -->
         <p>
+            <semantic-query
+                query="SELECT ?description WHERE {
+                    ?? a ?class .
+                    FILTER(CONTAINS(STR(?class), 'RiC') || CONTAINS(STR(?class), 'frbroo'))
+                    OPTIONAL { ?? crm:P2_has_type ?crmtype . }
+                    OPTIONAL { ?? crm:P4_has_time-span ?timespan . }
+                    OPTIONAL {
+                        ?work frbroo:R12_is_realised_in ?? ;
+                            crm:P2_has_type ?genre .
+                    }
+                    OPTIONAL { ?? rico:hasRecordSetType ?record_set_type . }
+                    BIND(IF(BOUND(?timespan), ?timespan, IF(BOUND(?genre), ?genre, IF(BOUND(?crmtype), ?crmtype, IF(BOUND(?record_set_type), ?record_set_type, ?class)))) AS ?description)
+                    }"
+                template='{{#each bindings}}<mp-label iri="{{description.value}}"></mp-label>{{/each}}'>
+            </semantic-query>
+        </p>
+
+        <p class="knowledge-panel__uri">
             <b>URI</b>:
             <a href='[[this]]' style="font-size: 12px; text-decoration: underline;" target='_blank'>
                 <span>[[this]]</span>
             </a>
+            <mp-copy-to-clipboard text='[[this]]'>
+                <button class='btn btn-link btn-sm knowledge-panel__uri-copy-button'>
+                    <i class='fa fa-clipboard'></i>
+                </button>
+            </mp-copy-to-clipboard>
         </p>
 
         <!--Types -->
@@ -19,14 +43,6 @@
             <b>Type</b>: <semantic-query
                 query="SELECT DISTINCT ?type WHERE { <[[this]]> [[#if type]][[type]][[else]]a[[/if]] ?type }"
                 style="display:inline;"></semantic-query>
-        </p>
-
-        <!--Description -->
-        <p>
-            <semantic-query
-                query='SELECT ?description WHERE { <[[this]]> [[#if description]][[description]][[else]]crm:P2_has_type[[/if]] ?description } LIMIT 1'
-                template='{{#each bindings}}<span><b>Description</b>: <mp-label iri="{{description.value}}"></mp-label></span>{{/each}}'>
-            </semantic-query>
         </p>
     </div>
 </div>

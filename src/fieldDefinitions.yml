@@ -18,7 +18,7 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), "?token", "i"))
+            FILTER(REGEX(STR(?label), $__token__, "i"))
           } LIMIT 10'
 
 
@@ -156,7 +156,7 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
             $value a spao:ArchivalPlace ;
             rdfs:label $label .
-            FILTER REGEX($label, "?token", "i")
+            FILTER REGEX($label, $__token__, "i")
           }'
     treePatterns:
       type: full
@@ -455,7 +455,7 @@ fields:
             $value a skos:Concept ;
             skos:inScheme spav:mn ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), "?token", "i"))
+            FILTER(REGEX(STR(?label), $__token__, "i"))
           } LIMIT 10'
 
 
@@ -656,7 +656,7 @@ fields:
         ?value rdf:type/rdfs:subClassOf* rico:Group ;
         rdfs:label ?label .
         {
-          FILTER(REGEX(STR(?label), "?token", "i"))
+          FILTER(REGEX(STR(?label), $__token__, "i"))
         } UNION {
             BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -858,7 +858,7 @@ fields:
         ?value rdf:type/rdfs:subClassOf* rico:Group ;
         rdfs:label ?label .
         {
-          FILTER(REGEX(STR(?label), "?token", "i"))
+          FILTER(REGEX(STR(?label), $__token__, "i"))
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -1233,15 +1233,17 @@ fields:
       - delete: 'DELETE { $subject rico:hasEventType $value . } WHERE {}'
     treePatterns:
       type: full
-      rootsQuery: 'SELECT DISTINCT ?item ?hasChildren WHERE {
+      rootsQuery: 'SELECT DISTINCT ?item ?hasChildren ?label WHERE {
           spav:dm skos:hasTopConcept ?item .
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
+          ?item skos:prefLabel ?label .
         }'
-      childrenQuery: 'SELECT DISTINCT ?item ?hasChildren WHERE {
+      childrenQuery: 'SELECT DISTINCT ?item ?hasChildren ?label WHERE {
           ?item skos:broader ?parent.
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
+          ?item skos:prefLabel ?label .
         }'
       parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
           ?item skos:broader ?parent .
@@ -1294,12 +1296,12 @@ fields:
         {
           $value a rico:Instantiation ;
             rico:identifier $label .
-          FILTER(REGEX($label, "?token", "i"))
+          FILTER(REGEX($label, $__token__, "i"))
         } UNION {
           $value a rico:Instantiation ;
             rico:hasOrHadIdentifier ?identifier .
             ?identifier rdf:value $label .
-            FILTER(REGEX($label, "?token", "i"))
+            FILTER(REGEX($label, $__token__, "i"))
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""),"\\\\.$", "")) AS ?value)
           $value a rico:Instantiation .
@@ -1323,12 +1325,12 @@ fields:
         {
           $value a rico:Instantiation ;
             rico:identifier $label .
-          FILTER(REGEX($label, "?token", "i"))
+          FILTER(REGEX($label, $__token__, "i"))
         } UNION {
           $value a rico:Instantiation ;
             rico:hasOrHadIdentifier ?identifier .
             ?identifier rdf:value $label .
-            FILTER(REGEX($label, "?token", "i"))
+            FILTER(REGEX($label, $__token__, "i"))
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""),"\\\\.$", "")) AS ?value)
           $value a rico:Instantiation .
@@ -2141,7 +2143,7 @@ fields:
         ?value a crm:E55_Type ;
         skos:inScheme spav:lg ;
         skos:prefLabel ?label .
-        FILTER REGEX(STR(?label), "?token","i")
+        FILTER REGEX(STR(?label), $__token__,"i")
       } LIMIT 10'
 
 
@@ -2236,7 +2238,7 @@ fields:
         crm:P2_has_type ?type ;
         rdfs:label ?label .
         ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
-        FILTER REGEX(STR(?label), "?token","i")
+        FILTER REGEX(STR(?label), $__token__,"i")
       } LIMIT 10'
 
 
@@ -2258,7 +2260,7 @@ fields:
       - autosuggestion: 'SELECT $value ?label WHERE {
         $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
         rdfs:label ?label .
-        FILTER(REGEX(STR(?label), "?token", "i"))
+        FILTER(REGEX(STR(?label), $__token__, "i"))
         FILTER(CONTAINS(STR($value), "/a/"))
       } LIMIT 10'
 
@@ -2812,7 +2814,7 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
         $value a crm:E53_Place ;
         rdfs:label $label .
-        FILTER REGEX($label, "?token", "i")
+        FILTER REGEX($label, $__token__, "i")
       }'
     treePatterns:
       type: full
@@ -3153,7 +3155,7 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
         $value rdf:type/rdfs:subClassOf* rico:RecordResource ;
     rico:identifier $label .
-        FILTER(REGEX($label, "?token", "i"))
+        FILTER(REGEX($label, $__token__, "i"))
       }'
 
 
@@ -3179,7 +3181,7 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
     $value a rico:RecordPart ;
       rdfs:label $label .
-    FILTER(REGEX($label, "?token", "i"))
+    FILTER(REGEX($label, $__token__, "i"))
       }'
 
 
@@ -4336,7 +4338,7 @@ fields:
         $value a rico:RecordResourceDocumentaryForm ;
         skos:inScheme spav:df ;
         rico:name ?label .
-        FILTER(REGEX(STR(?label), "?token","i"))
+        FILTER(REGEX(STR(?label), $__token__,"i"))
       } LIMIT 10'
     treePatterns:
       type: full
@@ -4550,7 +4552,7 @@ fields:
             FILTER(REGEX(?item_label, ?__token__, "i"))
             $value rdf:type ?type .
           } UNION {
-            BIND(URI(REPLACE(REPLACE("?token", "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
+            BIND(URI(REPLACE(REPLACE($__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
             ?value rdfs:label ?item_label .
             $value rdf:type ?type .
           }
@@ -4944,7 +4946,7 @@ fields:
         ?value a crm:E55_Type ;
         skos:inScheme spav:lg;
         skos:prefLabel ?label .
-        FILTER REGEX(STR(?label), "?token","i")
+        FILTER REGEX(STR(?label), $__token__,"i")
       } LIMIT 10
         '
 
@@ -5201,10 +5203,10 @@ fields:
             UNION
             { $value rdf:type rico:Instantiation . }
             $value rdfs:label|rico:name $label .
-            FILTER(REGEX($label, "?token", "i"))
+            FILTER(REGEX($label, $__token__, "i"))
             FILTER(!CONTAINS(STR(?value), "/u/"))
           } UNION {
-            BIND(URI(REPLACE(REPLACE("?token", "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
+            BIND(URI(REPLACE(REPLACE($__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
             $value rdfs:label|rico:name $label ;
               a/rdfs:subClassOf* ?type .
             VALUES (?type) {
@@ -5265,10 +5267,10 @@ fields:
             UNION 
             { $value rdf:type frbroo:F25_Performance_Plan . }
             $value rdfs:label|rico:name|rico:hasOrHadIdentifier/rdf:value $label .
-            FILTER(REGEX($label, "?token", "i"))
+            FILTER(REGEX($label, $__token__, "i"))
             FILTER(!CONTAINS(STR(?value), "/u/"))
           } UNION {
-            BIND(URI(REPLACE(REPLACE("?token", "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
+            BIND(URI(REPLACE(REPLACE($__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
             $value rdfs:label|rico:name|rico:hasOrHadIdentifier/rdf:value $label ;
               a/rdfs:subClassOf* ?type .
             VALUES (?type) {
@@ -5560,7 +5562,7 @@ fields:
     crm:P2_has_type spav:dwmkn ;
         rdfs:label ?label .
         FILTER NOT EXISTS { $subject crm:P46_is_composed_of $value . }
-        FILTER(REGEX(STR(?label), "?token", "i"))
+        FILTER(REGEX(STR(?label), $__token__, "i"))
         FILTER(CONTAINS(STR(?value), "/o/"))
       } LIMIT 10'
 
@@ -5624,7 +5626,7 @@ fields:
     crm:P2_has_type spav:dwmkn ;
         rdfs:label ?label .
         FILTER NOT EXISTS { $subject crm:P46i_forms_part_of $value . }
-        FILTER(REGEX(STR(?label), "?token", "i"))
+        FILTER(REGEX(STR(?label), $__token__, "i"))
         FILTER(CONTAINS(STR(?value), "/o/"))
       } LIMIT 10'
 
