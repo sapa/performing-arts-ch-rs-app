@@ -719,8 +719,8 @@ BIND(IF(BOUND(?parent_label), CONCAT(?venue_label, \" (\", ?parent_label, IF(BOU
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "treePatterns": {
                 "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?hasChildren WHERE { spav:dm skos:hasTopConcept ?item . OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) }",
-                "childrenQuery": "SELECT DISTINCT ?item ?hasChildren WHERE { ?item skos:broader ?parent. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) }",
+                "rootsQuery": "SELECT DISTINCT ?item ?hasChildren ?label WHERE { spav:dm skos:hasTopConcept ?item . OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) ?item skos:prefLabel ?label . }",
+                "childrenQuery": "SELECT DISTINCT ?item ?hasChildren ?label WHERE { ?item skos:broader ?parent. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) ?item skos:prefLabel ?label . }",
                 "parentsQuery": "SELECT DISTINCT ?item ?parent ?parentLabel WHERE { ?item skos:broader ?parent . ?parent skos:prefLabel ?parentLabel. }",
                 "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:dm ; skos:prefLabel ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
             },

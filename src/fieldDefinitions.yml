@@ -1260,15 +1260,17 @@ fields:
       - delete: 'DELETE { $subject rico:hasEventType $value . } WHERE {}'
     treePatterns:
       type: full
-      rootsQuery: 'SELECT DISTINCT ?item ?hasChildren WHERE {
+      rootsQuery: 'SELECT DISTINCT ?item ?hasChildren ?label WHERE {
           spav:dm skos:hasTopConcept ?item .
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
+          ?item skos:prefLabel ?label .
         }'
-      childrenQuery: 'SELECT DISTINCT ?item ?hasChildren WHERE {
+      childrenQuery: 'SELECT DISTINCT ?item ?hasChildren ?label WHERE {
           ?item skos:broader ?parent.
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
+          ?item skos:prefLabel ?label .
         }'
       parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
           ?item skos:broader ?parent .
