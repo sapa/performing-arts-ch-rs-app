@@ -285,6 +285,27 @@ div.tree-view_children {
   font-size: 0.7em;
 }
 
+.knowledge-panel
+{
+  &__uri {
+    button {
+      opacity: 0;
+    }
+    &:hover {
+      button {
+        opacity: 1;
+      }
+    }
+  }
+  &__uri-copy-button {
+    .fa-clipboard {
+      &::before {
+        font-size: 0.8em;
+      }
+    }
+  }
+}
+
 .knowledgeGraphBar {
   &--expanded &__content {
     min-height: 8em !important;
