@@ -83,8 +83,8 @@ query='SELECT DISTINCT ?subject WHERE {
           crm:P2_has_type <http://vocab.performing-arts.ch/eoept>; 
             rdf:value ?label .
   }
-  
-  FILTER(REGEX(?label, ?__token__, "i"))
+  ?search ql:contains-word ?__token__ ;
+    ql:contains-entity ?label .
 }'
 placeholder='[[i18n "SearchPrompt" bundle="performing-arts-ch" escapeHTML=false]]'
 min-search-term-length='1'
