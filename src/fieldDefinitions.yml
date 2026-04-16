@@ -53,7 +53,8 @@ fields:
             $value a crm:E21_Person ;
             rdfs:label ?label .
             FILTER(CONTAINS(STR($value), "/a/"))
-            FILTER(REGEX(STR(?label), ?__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?label .
           } LIMIT 10'
 
 
@@ -837,7 +838,8 @@ fields:
           crm:P131_is_identified_by [ rdf:value ?ll ] .
         FILTER(CONTAINS(STR(?value), "/a/"))
         {
-          FILTER(REGEX(?ll, ?__token__, "i"))
+          ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?ll .
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -1026,7 +1028,8 @@ fields:
           ?value a crm:E22_Man-Made_Object ;
             crm:P2_has_type spav:dwmkn ;
             rdfs:label ?venue_label .
-        FILTER(REGEX(?venue_label, ?__token__, "i"))
+        ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?venue_label .
         FILTER(CONTAINS(STR(?value), "/o/"))
         OPTIONAL {
           ?parent crm:P46_is_composed_of ?value ;
@@ -1310,12 +1313,14 @@ fields:
         {
           $value a rico:Instantiation ;
             rico:identifier $label .
-          FILTER(REGEX($label, $__token__, "i"))
+          ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
         } UNION {
           $value a rico:Instantiation ;
             rico:hasOrHadIdentifier ?identifier .
             ?identifier rdf:value $label .
-            FILTER(REGEX($label, $__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""),"\\\\.$", "")) AS ?value)
           $value a rico:Instantiation .
@@ -1339,12 +1344,14 @@ fields:
         {
           $value a rico:Instantiation ;
             rico:identifier $label .
-          FILTER(REGEX($label, $__token__, "i"))
+          ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
         } UNION {
           $value a rico:Instantiation ;
             rico:hasOrHadIdentifier ?identifier .
             ?identifier rdf:value $label .
-            FILTER(REGEX($label, $__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""),"\\\\.$", "")) AS ?value)
           $value a rico:Instantiation .
@@ -1495,7 +1502,8 @@ fields:
           }
           {
             $value rico:name ?name .
-            FILTER(REGEX(?name, ?__token__, "i")) 
+            ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?name . 
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
             ?value rico:name ?name .
@@ -3157,7 +3165,8 @@ fields:
         BIND(?__userPreferredLanguage__ AS ?lang)
         ?item skos:inScheme spav:df .
         ?item rico:name ?searchTerm, ?label .
-        FILTER(REGEX(?searchTerm, ?__token__, "i"))
+        ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?searchTerm .
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
         FILTER(LANG(?label) = ?lang)
@@ -3180,7 +3189,8 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
         $value rdf:type/rdfs:subClassOf* rico:RecordResource ;
     rico:identifier $label .
-        FILTER(REGEX($label, $__token__, "i"))
+        ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
       }'
 
 
@@ -3206,7 +3216,8 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
     $value a rico:RecordPart ;
       rdfs:label $label .
-    FILTER(REGEX($label, $__token__, "i"))
+    ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
       }'
 
 
@@ -4155,7 +4166,8 @@ fields:
           ) AS ?type_label)
           {
             $value rdfs:label ?item_label .
-            FILTER(REGEX(?item_label, ?__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?item_label .
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
@@ -4205,7 +4217,8 @@ fields:
           ) AS ?type_label)
           {
             $value rdfs:label ?item_label .
-            FILTER(REGEX(?item_label, ?__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?item_label .
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
@@ -4254,7 +4267,8 @@ fields:
           ) AS ?type_label)
           {
             $value rdfs:label ?item_label .
-            FILTER(REGEX(?item_label, ?__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?item_label .
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
@@ -4585,7 +4599,8 @@ fields:
 
           {
             $value rdfs:label ?item_label .
-            FILTER(REGEX(?item_label, ?__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+              ql:contains-entity ?item_label .
             $value rdf:type ?type .
           } UNION {
             BIND(URI(REPLACE(REPLACE($__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
@@ -5242,7 +5257,8 @@ fields:
             UNION
             { $value rdf:type rico:Instantiation . }
             $value rdfs:label|rico:name $label .
-            FILTER(REGEX($label, $__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
             FILTER(!CONTAINS(STR(?value), "/u/"))
           } UNION {
             BIND(URI(REPLACE(REPLACE($__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
@@ -5306,7 +5322,8 @@ fields:
             UNION 
             { $value rdf:type frbroo:F25_Performance_Plan . }
             $value rdfs:label|rico:name|rico:hasOrHadIdentifier/rdf:value $label .
-            FILTER(REGEX($label, $__token__, "i"))
+            ?search ql:contains-word ?__token__ ;
+            ql:contains-entity $label .
             FILTER(!CONTAINS(STR(?value), "/u/"))
           } UNION {
             BIND(URI(REPLACE(REPLACE($__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
