@@ -3920,7 +3920,8 @@ fields:
             bds:matchAllTerms "true"
         } UNION {
           BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?item)
-          ?item a rico:RecordSet .
+          ?item a rico:RecordSet ;
+            rico:name ?label .
         }
         OPTIONAL { ?child rico:isOrWasIncludedIn ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
