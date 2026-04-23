@@ -3018,6 +3018,7 @@ fields:
     description: A short comment that helps to identify the entity.
     datatype: http://www.w3.org/2001/XMLSchema#string
     domain: http://www.w3.org/2002/07/owl#Class
+    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE {
         $subject rdfs:label ?value.
