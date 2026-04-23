@@ -8,8 +8,8 @@
     <div id='sapa-parts-module'>
       <h5>Performances</h5>
       {{#each bindings}}
-
-        <b><semantic-link iri="{{performance.value}}"></semantic-link></b>
+       <b><semantic-link iri="{{performance.value}}"></semantic-link></b>
+        
         <!-- additional type -->
         <semantic-query
           query="SELECT ?type WHERE {
@@ -34,7 +34,6 @@
             </ul>
           </template>>
         </semantic-query>
-
         <!-- season -->
         <semantic-query
           query="SELECT ?season WHERE {
