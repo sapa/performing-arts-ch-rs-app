@@ -719,9 +719,9 @@ BIND(IF(BOUND(?parent_label), CONCAT(?venue_label, \" (\", ?parent_label, IF(BOU
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "treePatterns": {
                 "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?hasChildren ?label WHERE { spav:dm skos:hasTopConcept ?item . OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) ?item skos:prefLabel ?label . }",
-                "childrenQuery": "SELECT DISTINCT ?item ?hasChildren ?label WHERE { ?item skos:broader ?parent. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) ?item skos:prefLabel ?label . }",
-                "parentsQuery": "SELECT DISTINCT ?item ?parent ?parentLabel WHERE { ?item skos:broader ?parent . ?parent skos:prefLabel ?parentLabel. }",
+                "rootsQuery": "SELECT DISTINCT ?item ?hasChildren ?label WHERE { spav:dm skos:hasTopConcept ?item . OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) ?item skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) }",
+                "childrenQuery": "SELECT DISTINCT ?item ?hasChildren ?label WHERE { ?item skos:broader ?parent. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) ?item skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) }",
+                "parentsQuery": "SELECT DISTINCT ?item ?parent ?parentLabel WHERE { ?item skos:broader ?parent . ?parent skos:prefLabel ?parentLabel. FILTER(LANGMATCHES(LANG(?parentLabel), ?__userPreferredLanguage__)) }",
                 "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:dm ; skos:prefLabel ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
             },
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:hasEventType ?value . ?value skos:inScheme spav:dm . }",
@@ -1799,6 +1799,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
 
             "label": "[[i18n "field_label" bundle="sapa-fields"]]",
             "description" : "A short comment that helps to identify the entity.",
+            "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
             "domain" : "http://www.w3.org/2002/07/owl#Class",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
@@ -2432,7 +2433,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
                 "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item a rico:RecordSet FILTER(NOT EXISTS { ?item rico:isOrWasIncludedIn ?parent. }) ?item rico:name ?label. OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "childrenQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item rico:isOrWasIncludedIn ?parent. ?item rico:name ?label. OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "parentsQuery": "SELECT DISTINCT ?item ?parent ?parentLabel WHERE { ?item rico:isOrWasIncludedIn ?parent. ?parent rico:name ?parentLabel. }",
-                "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { { ?item a rico:RecordSet ; rico:name ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } UNION { BIND(URI(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\")) AS ?item) ?item a rico:RecordSet . } OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY ASC (?label)"
+                "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { { ?item a rico:RecordSet ; rico:name ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } UNION { BIND(URI(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\")) AS ?item) ?item a rico:RecordSet ; rico:name ?label . } OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY ASC (?label)"
             },
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject rico:isOrWasIncludedIn ?value . }",
                 "insertPattern" : "INSERT { $subject rico:isOrWasIncludedIn $value} WHERE {}",

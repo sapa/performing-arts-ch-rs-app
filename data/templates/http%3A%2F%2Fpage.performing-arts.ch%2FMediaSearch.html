@@ -4,6 +4,8 @@
 <semantic-search limit=500 >
 
   <semantic-search-query-keyword
+    min-search-term-length='3' 
+    debounce='600'
     domain='<[[resolvePrefix "rico:Instantiation"]]>'
     query='SELECT ?subject WHERE {
       ?instantiation a rico:Instantiation ;

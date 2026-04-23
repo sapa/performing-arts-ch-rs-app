@@ -514,260 +514,262 @@
                             <h5>Files</h5>
                             {{#each bindings}}
                             
-                            <bs-panel header="{{file_name.value}}" collapsible="true">
+                        <details class="instantiation_files">
+                                <summary><a>{{file_name.value}}</a></summary>
+                                <bs-panel>
 
-                            <!-- md5 -->
-                            <semantic-query 
-                                query="SELECT ?md5 WHERE {
-                                    <{{file.value}}> premis:fixity [
-                                        a crypHashFunc:md5 ;
-                                        rdf:value ?md5
-                                    ]
-                                }"
-                                template='<div>
-                                    <h5>MD5</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{md5.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- format -->
-                            <semantic-query 
-                                query="SELECT ?format WHERE {
-                                    <{{file.value}}> ebucore:hasFormat ?format .
-                                    ?format skos:inScheme spav:cf .
-                                }"
-                                template='<div>
-                                    <h5>Container Format</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{format.value}}"></mp-label></li>
-                                    {{/each}}</ul>
-                                </div>'>
-                            </semantic-query>
-
-                            <!-- composition level -->
-                            <semantic-query 
-                                query="SELECT ?composition_level WHERE { <{{file.value}}> premis:compositionLevel ?composition_level . }"
-                                template='<div>
-                                    <h5>Composition level</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}<li>{{composition_level.value}}</li>{{/each}}</ul>
-                                </div>'>
-                            </semantic-query>
-
-                            <!-- file size -->
-                            <semantic-query 
-                                query="SELECT ?file_size WHERE {
-                                    <{{file.value}}> premis:size ?bytes .
-                                    BIND(CONCAT(STR(FLOOR(xsd:integer(?bytes) / (1000 * 1000 * 1000) * 100) / 100), ' GB') AS ?file_size)
-                                }"
-                                template='<div>
-                                    <h5>File size</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{file_size.value}}</li>
-                                    {{/each}}</ul>
-                                </div>'>
-                            </semantic-query>
-
-                            <!-- duration -->
-                            <semantic-query 
-                                query="SELECT ?duration WHERE { <{{file.value}}> ebucore:duration ?duration .  }"
-                                template='<div>
-                                    <h5>Duration</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{duration.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- video -->
-
-                            <!-- format -->
-                            <semantic-query 
-                                query="SELECT ?format WHERE {
-                                    <{{file.value}}> ebucore:hasFormat ?format .
-                                    ?format skos:inScheme spav:vf .
-                                }"
-                                template='<div>
-                                    <h5>Video format</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{format.value}}"></mp-label></li>
-                                    {{/each}}</ul>
-                                </div>'>
-                            </semantic-query>
-
-                            <!-- width -->
-                            <semantic-query 
-                                query="SELECT ?width WHERE { <{{file.value}}> ebucore:width ?width . }"
-                                template='<div>
-                                    <h5>Frame Width</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{width.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- height -->
-                            <semantic-query 
-                                query="SELECT ?height WHERE { <{{file.value}}> ebucore:height ?height . }"
-                                template='<div>
-                                    <h5>Frame Height</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{height.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- aspect ratio -->
-                            <semantic-query 
-                                query="SELECT ?aspect_ratio WHERE { <{{file.value}}> ebucore:aspectRatio ?aspect_ratio . }"
-                                template='<div>
-                                    <h5>Aspect ratio</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{aspect_ratio.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- frame rate -->
-                            <semantic-query 
-                                query="SELECT ?frame_rate WHERE { <{{file.value}}> ebucore:frameRate ?frame_rate . }"
-                                template='<div>
-                                    <h5>Frame rate</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{frame_rate.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- ebucore standard -->
-                            <semantic-query 
-                                query='SELECT ?standard WHERE { <{{file.value}}> ebucore:hasStandard ?standard . }'
-                                template='<div>
-                                    <h5>Standard</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{standard.value}}"></mp-label></li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- color -->
-                            <semantic-query 
-                                query='SELECT ?color WHERE { <{{file.value}}> rdau:P60558 ?color . }'
-                                template='<div>
-                                    <h5>Color</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{color.value}}"></mp-label></li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- scanning format -->
-                            <semantic-query 
-                                query='SELECT ?scanning_format WHERE { <{{file.value}}> ebucore:scanningFormat ?scanning_format . }'
-                                template='<div>
-                                    <h5>Scanning format</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{scanning_format.value}}"></mp-label></li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- scanning order -->
-                            <semantic-query 
-                                query='SELECT ?scanning_order WHERE { <{{file.value}}> ebucore:scanningOrder ?scanning_order . }'
-                                template='<div>
-                                    <h5>Scanning order</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{scanning_order.value}}"></mp-label></li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- audio -->
-
-                            <!-- format -->
-                            <semantic-query 
-                                query="SELECT ?format WHERE {
-                                    <{{file.value}}> ebucore:hasFormat ?format .
-                                    ?format skos:inScheme spav:af .
-                                }"
-                                template='<div>
-                                    <h5>Audio format</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{format.value}}"></mp-label></li>
-                                    {{/each}}</ul>
-                                </div>'>
-                            </semantic-query>
-
-                            <!-- channels -->
-                            <semantic-query 
-                                query="SELECT ?channels WHERE { <{{file.value}}> ebucore:channels ?channels . }"
-                                template='<div>
-                                    <h5>Channels</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{channels.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-                        
-                            <!-- sampling rate -->
-                            <semantic-query 
-                                query="SELECT ?sampling_rate WHERE {  <{{file.value}}> ebucore:samplingRate ?sampling_rate . }"
-                                template='<div>
-                                    <h5>Sampling rate</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{sampling_rate.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-
-                            <!-- preservation -->
-
-                            <!-- history -->
-                            <semantic-query 
-                                query="SELECT ?label ?history  WHERE {
-            VALUES (?label) { ( '[[i18n "field_record_set_history" bundle="sapa-fields"]]') }
-        
-                                    <{{file.value}}> rico:history ?history .
+                                <!-- md5 -->
+                                <semantic-query 
+                                    query="SELECT ?md5 WHERE {
+                                        <{{file.value}}> premis:fixity [
+                                            a crypHashFunc:md5 ;
+                                            rdf:value ?md5
+                                        ]
                                     }"
-                                template='<div>
-                                    {{#ifCond bindings.length ">" 0}}
-                                        <h5>{{bindings.0.label.value}}</h5>
-                                    {{/ifCond}}
-                                    <div>{{#each bindings}}
-                                        <p style="white-space: pre-line;">{{history.value}}</p>
-                                    {{/each}}</div></div>'>
-                            </semantic-query>        
+                                    template='<div>
+                                        <h5>MD5</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{md5.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
 
-                            <!-- integrity -->
-                            <semantic-query 
-                                query="SELECT ?integrity WHERE { <{{file.value}}> rico:integrity ?integrity . } ORDER BY ASC (?integrity)"
-                                template='<div>
-                                    <h5>Integrity</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{integrity.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
+                                <!-- format -->
+                                <semantic-query 
+                                    query="SELECT ?format WHERE {
+                                        <{{file.value}}> ebucore:hasFormat ?format .
+                                        ?format skos:inScheme spav:cf .
+                                    }"
+                                    template='<div>
+                                        <h5>Container Format</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{format.value}}"></mp-label></li>
+                                        {{/each}}</ul>
+                                    </div>'>
+                                </semantic-query>
 
-                            <!-- video damage -->
-                            <semantic-query 
-                                query='SELECT ?value WHERE { <{{file.value}}> spao:hasVideoDamage ?value . }'
-                                template='<div>
-                                    <h5>Video damage</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><mp-label iri="{{value.value}}"></mp-label></li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
+                                <!-- composition level -->
+                                <semantic-query 
+                                    query="SELECT ?composition_level WHERE { <{{file.value}}> premis:compositionLevel ?composition_level . }"
+                                    template='<div>
+                                        <h5>Composition level</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}<li>{{composition_level.value}}</li>{{/each}}</ul>
+                                    </div>'>
+                                </semantic-query>
 
-                            <!-- last control -->
-                            <semantic-query 
-                                query="SELECT ?date WHERE { <{{file.value}}> spao:lastControl [ rico:normalizedDateValue ?date ] }"
-                                template='<div>
-                                    {{#ifCond bindings.length ">" 0}}<h5>Last control</h5>{{/ifCond}}
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li>{{date.value}}</li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
-    
-                            <!-- see also -->
-                            <semantic-query
-                                query='SELECT DISTINCT ?reference WHERE { <{{file.value}}> spao:seeAlso ?reference . }'
-                                template='<div><h5>See also</h5>
-                                    <ul class="list-unstyled">{{#each bindings}}
-                                        <li><semantic-link iri="{{reference.value}}"></semantic-link></li>
-                                    {{/each}}</ul></div>'>
-                            </semantic-query>
+                                <!-- file size -->
+                                <semantic-query 
+                                    query="SELECT ?file_size WHERE {
+                                        <{{file.value}}> premis:size ?bytes .
+                                        BIND(CONCAT(STR(FLOOR(xsd:integer(?bytes) / (1000 * 1000 * 1000) * 100) / 100), ' GB') AS ?file_size)
+                                    }"
+                                    template='<div>
+                                        <h5>File size</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{file_size.value}}</li>
+                                        {{/each}}</ul>
+                                    </div>'>
+                                </semantic-query>
 
-                            </bs-panel>
+                                <!-- duration -->
+                                <semantic-query 
+                                    query="SELECT ?duration WHERE { <{{file.value}}> ebucore:duration ?duration .  }"
+                                    template='<div>
+                                        <h5>Duration</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{duration.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- video -->
+
+                                <!-- format -->
+                                <semantic-query 
+                                    query="SELECT ?format WHERE {
+                                        <{{file.value}}> ebucore:hasFormat ?format .
+                                        ?format skos:inScheme spav:vf .
+                                    }"
+                                    template='<div>
+                                        <h5>Video format</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{format.value}}"></mp-label></li>
+                                        {{/each}}</ul>
+                                    </div>'>
+                                </semantic-query>
+
+                                <!-- width -->
+                                <semantic-query 
+                                    query="SELECT ?width WHERE { <{{file.value}}> ebucore:width ?width . }"
+                                    template='<div>
+                                        <h5>Frame Width</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{width.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- height -->
+                                <semantic-query 
+                                    query="SELECT ?height WHERE { <{{file.value}}> ebucore:height ?height . }"
+                                    template='<div>
+                                        <h5>Frame Height</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{height.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- aspect ratio -->
+                                <semantic-query 
+                                    query="SELECT ?aspect_ratio WHERE { <{{file.value}}> ebucore:aspectRatio ?aspect_ratio . }"
+                                    template='<div>
+                                        <h5>Aspect ratio</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{aspect_ratio.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- frame rate -->
+                                <semantic-query 
+                                    query="SELECT ?frame_rate WHERE { <{{file.value}}> ebucore:frameRate ?frame_rate . }"
+                                    template='<div>
+                                        <h5>Frame rate</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{frame_rate.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- ebucore standard -->
+                                <semantic-query 
+                                    query='SELECT ?standard WHERE { <{{file.value}}> ebucore:hasStandard ?standard . }'
+                                    template='<div>
+                                        <h5>Standard</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{standard.value}}"></mp-label></li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- color -->
+                                <semantic-query 
+                                    query='SELECT ?color WHERE { <{{file.value}}> rdau:P60558 ?color . }'
+                                    template='<div>
+                                        <h5>Color</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{color.value}}"></mp-label></li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- scanning format -->
+                                <semantic-query 
+                                    query='SELECT ?scanning_format WHERE { <{{file.value}}> ebucore:scanningFormat ?scanning_format . }'
+                                    template='<div>
+                                        <h5>Scanning format</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{scanning_format.value}}"></mp-label></li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- scanning order -->
+                                <semantic-query 
+                                    query='SELECT ?scanning_order WHERE { <{{file.value}}> ebucore:scanningOrder ?scanning_order . }'
+                                    template='<div>
+                                        <h5>Scanning order</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{scanning_order.value}}"></mp-label></li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- audio -->
+
+                                <!-- format -->
+                                <semantic-query 
+                                    query="SELECT ?format WHERE {
+                                        <{{file.value}}> ebucore:hasFormat ?format .
+                                        ?format skos:inScheme spav:af .
+                                    }"
+                                    template='<div>
+                                        <h5>Audio format</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{format.value}}"></mp-label></li>
+                                        {{/each}}</ul>
+                                    </div>'>
+                                </semantic-query>
+
+                                <!-- channels -->
+                                <semantic-query 
+                                    query="SELECT ?channels WHERE { <{{file.value}}> ebucore:channels ?channels . }"
+                                    template='<div>
+                                        <h5>Channels</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{channels.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+                            
+                                <!-- sampling rate -->
+                                <semantic-query 
+                                    query="SELECT ?sampling_rate WHERE {  <{{file.value}}> ebucore:samplingRate ?sampling_rate . }"
+                                    template='<div>
+                                        <h5>Sampling rate</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{sampling_rate.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- preservation -->
+
+                                <!-- history -->
+                                <semantic-query 
+                                    query="SELECT ?label ?history  WHERE {
+                VALUES (?label) { ( '[[i18n "field_record_set_history" bundle="sapa-fields"]]') }
+            
+                                        <{{file.value}}> rico:history ?history .
+                                        }"
+                                    template='<div>
+                                        {{#ifCond bindings.length ">" 0}}
+                                            <h5>{{bindings.0.label.value}}</h5>
+                                        {{/ifCond}}
+                                        <div>{{#each bindings}}
+                                            <p style="white-space: pre-line;">{{history.value}}</p>
+                                        {{/each}}</div></div>'>
+                                </semantic-query>        
+
+                                <!-- integrity -->
+                                <semantic-query 
+                                    query="SELECT ?integrity WHERE { <{{file.value}}> rico:integrity ?integrity . } ORDER BY ASC (?integrity)"
+                                    template='<div>
+                                        <h5>Integrity</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{integrity.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- video damage -->
+                                <semantic-query 
+                                    query='SELECT ?value WHERE { <{{file.value}}> spao:hasVideoDamage ?value . }'
+                                    template='<div>
+                                        <h5>Video damage</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><mp-label iri="{{value.value}}"></mp-label></li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+
+                                <!-- last control -->
+                                <semantic-query 
+                                    query="SELECT ?date WHERE { <{{file.value}}> spao:lastControl [ rico:normalizedDateValue ?date ] }"
+                                    template='<div>
+                                        {{#ifCond bindings.length ">" 0}}<h5>Last control</h5>{{/ifCond}}
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li>{{date.value}}</li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+        
+                                <!-- see also -->
+                                <semantic-query
+                                    query='SELECT DISTINCT ?reference WHERE { <{{file.value}}> spao:seeAlso ?reference . }'
+                                    template='<div><h5>See also</h5>
+                                        <ul class="list-unstyled">{{#each bindings}}
+                                            <li><semantic-link iri="{{reference.value}}"></semantic-link></li>
+                                        {{/each}}</ul></div>'>
+                                </semantic-query>
+                                </bs-panel>
+                            </details>
 
                             {{/each}}
                         </template>

@@ -1265,16 +1265,19 @@ fields:
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
           ?item skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?hasChildren ?label WHERE {
           ?item skos:broader ?parent.
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
           ?item skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
         }'
       parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
           ?item skos:broader ?parent .
           ?parent skos:prefLabel ?parentLabel.
+          FILTER(LANGMATCHES(LANG(?parentLabel), ?__userPreferredLanguage__))
         }'
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item skos:inScheme spav:dm ;
@@ -3015,6 +3018,7 @@ fields:
     description: A short comment that helps to identify the entity.
     datatype: http://www.w3.org/2001/XMLSchema#string
     domain: http://www.w3.org/2002/07/owl#Class
+    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE {
         $subject rdfs:label ?value.
@@ -3917,7 +3921,8 @@ fields:
             bds:matchAllTerms "true"
         } UNION {
           BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?item)
-          ?item a rico:RecordSet .
+          ?item a rico:RecordSet ;
+            rico:name ?label .
         }
         OPTIONAL { ?child rico:isOrWasIncludedIn ?item. }
         BIND(BOUND(?child) AS ?hasChildren)

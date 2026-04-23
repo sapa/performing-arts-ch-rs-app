@@ -38,10 +38,12 @@
 
     [[#if (hasPermission "forms:ldp:*")]] 
     <semantic-query 
-    query='SELECT ?user ?datetime WHERE {
+    query='
+      PREFIX MPPlatform: <http://www.metaphacts.com/ontologies/platform#>
+      SELECT ?user ?datetime WHERE {
       GRAPH ?g {
         ?? rdfs:label ?label .
-        Platform:formContainer <http://www.w3.org/ns/ldp#contains> ?container .
+        MPPlatform:formContainer <http://www.w3.org/ns/ldp#contains> ?container .
         ?container prov:generatedAtTime ?dt ;
                    prov:wasAttributedTo ?user_uri .
         BIND(STRAFTER(STR(?user_uri), "/user/") as ?user)

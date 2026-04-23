@@ -19,7 +19,7 @@ h4,
 h5,
 h6 {
   font-family: 'Roboto', sans-serif;
-  font-weight: normal;
+  font-weight: 300;
 }
 h1 {
   font-weight: 200;
@@ -39,6 +39,19 @@ details[open] summary::after {
 details:not([open]) summary::after {
   content: " Show";
 }
+details.instantiation_files summary::after {
+  content: "";
+}
+details.instantiation_files summary {
+  background-color: #f9f9f9;
+  font-size: 0.9em;
+  padding: 2rem;
+  border: 1px solid var(--color-border, #e0e0e4);
+}
+details.instantiation_files div.panel {
+  padding: 1rem;
+  border-top: 0;
+}
 h2 {
   margin: 0.25em 0 0.1em;
 }
@@ -46,13 +59,20 @@ h5 {
   font-size: 1em;
   font-weight: 500;
 }
-nav.metaphacts-header-navbar.DEVELOPMENT,
-nav.metaphacts-header-navbar.DEV,
-nav.metaphacts-header-navbar.dev\.performing-arts\.ch {
+nav.navbar-fixed-top {
+  font-weight: 300;
+}
+nav.navbar-fixed-top .rs-header-logo {
+  font-weight: 600;
+  padding-top: 3px;
+}
+nav.navbar-fixed-top.DEVELOPMENT,
+nav.navbar-fixed-top.DEV,
+nav.navbar-fixed-top.dev\.performing-arts\.ch {
   background: #e6375c;
   background: repeating-linear-gradient(45deg, #c83535, #c83535 10px, #872828 10px, #87283d 20px) !important;
 }
-nav.metaphacts-header-navbar.LOCAL {
+nav.navbar-fixed-top.LOCAL {
   background: #e6375c;
   background: repeating-linear-gradient(45deg, #35c8ad, #35adc8 10px, #35c8ad 10px, #35adc8 20px) !important;
 }

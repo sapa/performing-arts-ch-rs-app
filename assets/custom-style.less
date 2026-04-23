@@ -43,7 +43,7 @@ h4,
 h5,
 h6 {
   font-family: @font, sans-serif;
-  font-weight: normal;
+  font-weight: 300;
 }
 
 h1 {
@@ -67,6 +67,24 @@ details {
   &:not([open]) summary::after {
     content: " Show";
   }
+
+  &.instantiation_files {
+    summary::after {
+      content: "";
+    }
+
+    summary {
+      background-color: @bg-color-header;
+      font-size: 0.9em;
+      padding: 2rem;
+      border: 1px solid var(--color-border, #e0e0e4);
+    }
+
+     div.panel {
+      padding: 1rem;
+      border-top:0;
+    }
+  }
 }
 
 h2 {
@@ -78,7 +96,12 @@ h5 {
   font-weight: 500;
 }
 
-nav.metaphacts-header-navbar {
+nav.navbar-fixed-top {
+  font-weight: 300;
+  .rs-header-logo {
+    font-weight: 600;
+    padding-top: 3px;
+  }
   &.DEVELOPMENT,
   &.DEV,
   &.dev\.performing-arts\.ch {
