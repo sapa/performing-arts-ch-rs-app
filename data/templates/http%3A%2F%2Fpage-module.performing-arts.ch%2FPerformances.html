@@ -8,8 +8,32 @@
     <div id='sapa-parts-module'>
       <h5>Performances</h5>
       {{#each bindings}}
-        <b><semantic-link iri="{{performance.value}}"></semantic-link></b>
-
+       <b><semantic-link iri="{{performance.value}}"></semantic-link></b>
+        
+        <!-- additional type -->
+        <semantic-query
+          query="SELECT ?type WHERE {
+            BIND(<{{performance.value}}> AS ?performance)
+            {
+              ?performance schema:additionalType ?type .
+              BIND('1' as ?order)
+            } UNION {
+              ?performance crm:P2_has_type ?type .
+              ?type skos:inScheme spav:hl .
+              BIND('2' as ?order)
+            }
+          } ORDER BY ?order"
+          template="{{> template-type}}">
+          <template id="template-type">
+            <ul class="list-unstyled">
+            {{#each bindings}}
+              <li>
+                <mp-label iri="{{type.value}}"></mp-label>
+              </li>
+            {{/each}}
+            </ul>
+          </template>>
+        </semantic-query>
         <!-- season -->
         <semantic-query
           query="SELECT ?season WHERE {
@@ -28,6 +52,32 @@
               </ul>
             </template>
           </semantic-query>
+
+        <!-- organiser -->
+         <semantic-query
+          query="SELECT ?group WHERE {
+            BIND(<{{performance.value}}> AS ?PerfSerie)
+            ?PerfSerie a frbroo:F31_Performance ;
+                        frbroo:R25_performed ?PerfPlan;
+                      schema:additionalType spav:hlser ; 
+                      crm:P9_consists_of ?Activity. 
+            ?Activity a crm:E7_Activity; 
+                        crm:P2_has_type <http://vocab.performing-arts.ch/mupro>;#programmation 
+                        crm:P14_carried_out_by ?group.
+          }"
+          template="{{> template-organiser}}"
+        >
+          <template id="template-organiser">
+            <h5>[[i18n "field_organised_by" bundle="sapa-fields"]]</h5>
+            <ul class="list-unstyled">
+              {{#each bindings}}
+                <li>
+                  <mp-label iri="{{group.value}}"></mp-label>
+                </li>
+              {{/each}}
+              </ul>
+          </template>
+      </semantic-query>
 
         <!-- venue -->
         <semantic-query 
@@ -51,7 +101,7 @@
               </li>
             {{/each}}
             </ul>
-          </template>>
+          </template>
         </semantic-query>
 
         <!-- dates and type -->
