@@ -1265,16 +1265,19 @@ fields:
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
           ?item skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?hasChildren ?label WHERE {
           ?item skos:broader ?parent.
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
           ?item skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
         }'
       parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
           ?item skos:broader ?parent .
           ?parent skos:prefLabel ?parentLabel.
+          FILTER(LANGMATCHES(LANG(?parentLabel), ?__userPreferredLanguage__))
         }'
       searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
           ?item skos:inScheme spav:dm ;
