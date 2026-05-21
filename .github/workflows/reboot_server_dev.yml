@@ -14,5 +14,5 @@ jobs:
           username: ${{ secrets.SSH_USER_DEV }}
           key: ${{ secrets.DEPLOY_KEY_DEV }}
           passphrase: ${{ secrets.DEPLOY_KEY_PASS_DEV }}
-          script: sudo bash /home/sari/scripts/rebootServer.sh
+          script: sudo bash /opt/sapa/scripts/rebootServer.sh
           
