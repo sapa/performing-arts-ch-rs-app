@@ -292,7 +292,7 @@ div.tree-view_children span.Tree--leafNode {
 .page__header-thumbnail h2 i {
   font-size: 3rem;
 }
-.page__heade .pagination {
+.pagination {
   margin: 0;
 }
 .ReorderableList--item-handle {
@@ -300,6 +300,16 @@ div.tree-view_children span.Tree--leafNode {
 }
 .sari-page-header {
   background-color: #f9f9f9;
+}
+.sari-page-header .sari-page-header-content p {
+  margin-bottom: 1px;
+}
+.sari-page-header .sari-page-header-content p button.knowledge-panel__uri-copy-button {
+  height: 1px;
+}
+.sari-page-header .sari-page-header-content p button.knowledge-panel__uri-copy-button i {
+  position: relative;
+  top: -10px;
 }
 .sari-page-header .sari-page-header-thumbnail {
   width: 9%;

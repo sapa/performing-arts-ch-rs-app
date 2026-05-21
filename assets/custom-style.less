@@ -435,7 +435,6 @@ div.tree-view_children {
     }
   }
 }
-.page__heade
 
 .pagination {
   margin: 0;
@@ -447,6 +446,18 @@ div.tree-view_children {
 
 .sari-page-header {
   background-color: @bg-color-header;
+  .sari-page-header-content {
+    p {
+      margin-bottom: 1px;
+      button.knowledge-panel__uri-copy-button {
+        height: 1px;
+        i {
+          position: relative;
+          top: -10px;
+        }
+      }
+    }
+  }
   .sari-page-header-thumbnail {
     width: (@page-margin - 1%);
     max-width: (@page-margin - 1%);

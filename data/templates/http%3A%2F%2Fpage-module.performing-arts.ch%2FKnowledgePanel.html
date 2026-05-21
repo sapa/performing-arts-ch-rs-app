@@ -26,7 +26,7 @@
             </semantic-query>
         </p>
 
-        <p class="knowledge-panel__uri">
+        <p class="knowledge-panel__uri" style="margin-top: 10px;">
             <b>URI</b>:
             <a href='[[this]]' style="font-size: 12px; text-decoration: underline;" target='_blank'>
                 <span>[[this]]</span>
@@ -44,5 +44,25 @@
                 query="SELECT DISTINCT ?type WHERE { <[[this]]> [[#if type]][[type]][[else]]a[[/if]] ?type }"
                 style="display:inline;"></semantic-query>
         </p>
+
+        <!--Image Source -->
+        <semantic-query 
+            query='SELECT ?value WHERE {
+                ?? a crm:E21_Person; 
+                owl:sameAs ?wikiId . 
+                SERVICE <https://query.wikidata.org/sparql> {
+                    ?wikiId wdt:P18 ?wikimedia_image_raw . 
+                FILTER (STRSTARTS(str(?wikiId), "http://www.wikidata.org/entity/"))
+                }
+                BIND(REPLACE(STR(?wikimedia_image_raw), "%3A", ":") as ?wikimedia_image)
+                BIND(CONCAT("https://commons.wikimedia.org/wiki/File:", STRAFTER(STR(?wikimedia_image), "FilePath/")) as ?value) 
+            } LIMIT 1'
+            template="{{> image-source-template}}">
+            <template id="image-source-template">
+                <p>
+                    {{#each bindings}}<b>Image Source</b>: <a href='{{value.value}}' target='_blank'><i> Wikimedia Commons </i> </a>{{/each}}
+                </p>
+            </template>
+        </semantic-query>
     </div>
 </div>
