@@ -1,6 +1,8 @@
 [[> sapaModule:FieldDefinitions]]
+[[> sapaModule:Breadcrumbs]]
 
 <div class="page">
+    [[> sapaModule:KnowledgePanel]]
 
     <bs-tabs id='record-tabs' class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
         <bs-tab event-key='about' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
@@ -185,29 +187,6 @@
             } GROUP BY ?producer
             ORDER BY DESC(?plancount)'
             sets='[{"dataSetName": "Productions", "category": "producer", "value": "plancount"}]'
-            styles='[{
-            "provider": "chartjs",
-            "style": {
-                "data": {
-                    "datasets": [
-                        { 
-                        "borderColor": "rgb(255, 255, 255, 1)",
-                        "borderWidth": "2"
-                        }
-                    ]
-                },
-                "options": {
-                    "layout": {
-                        "padding": {
-                            "top": "0"
-                        }
-                    },
-                    "legend": {
-                        "position": "none"
-                    }
-                }
-            }
-            }]'
         ></semantic-chart>
 
         <semantic-query 

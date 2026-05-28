@@ -1,1 +1,2 @@
 sari-field-definitions-generator==0.2.17
+semantic-field-definition-generator
