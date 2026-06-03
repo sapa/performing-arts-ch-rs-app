@@ -182,6 +182,21 @@ div.semantic-form hr {
 div.tree-view_children span.Tree--leafNode {
   margin-left: 20px;
 }
+.clover-viewer-header {
+  display: block !important;
+}
+.clover-viewer-header span {
+  padding: 0 !important;
+}
+.clover-viewer-header .label {
+  color: black;
+  white-space: normal;
+  font-size: 100%;
+  font-weight: normal;
+}
+.clover-viewer-header button {
+  font-size: 1rem;
+}
 .clover-viewer-content {
   max-width: 500px;
 }
