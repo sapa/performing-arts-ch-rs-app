@@ -1402,6 +1402,22 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
         "iri" : "Performance_Venue"
     }
 [[/inline]]
+ [[#*inline "Performance_Vimeo_SPARQLMode"]]
+    {
+        "id" : "Performance_Vimeo_SPARQLMode",
+
+            "label": "[[i18n "field_vimeo" bundle="sapa-fields"]]",
+            "description" : "e.g. http://vimeo.com/123",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
+            "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan",
+                "selectPattern" : "SELECT $value WHERE { BIND(URI(CONCAT(STR($subject), \"/container/context\")) as ?g) GRAPH ?g { ?rr rico:hasOrHadSubejct $subject ; rico:hasInstantiation $value . $value a rico:Instantiation ; rico:hasCarrierType spav:fvonl . } }",
+                "insertPattern" : "INSERT { GRAPH ?g { ?rr rico:hasOrHadSubejct $subject ; rico:hasInstantiation $value . $value a rico:Instantiation ; rico:hasCarrierType spav:fvonl . } } WHERE { BIND(URI(CONCAT(STR($subject), \"/container/context\")) as ?g) BIND(IRI(CONCAT(\"http://data.performing-arts.ch/x/\", MD5(CONCAT(STR($subject), \"vimeo\", STR($value))))) AS ?rr) }",
+                "deletePattern" : "DELETE { GRAPH ?g { ?rr rico:hasOrHadSubejct $subject ; rico:hasInstantiation $value . $value a rico:Instantiation ; rico:hasCarrierType spav:fvonl . } } WHERE { BIND(URI(CONCAT(STR($subject), \"/container/context\")) as ?g) GRAPH ?g { ?rr rico:hasOrHadSubejct $subject ; rico:hasInstantiation $value . $value a rico:Instantiation ; rico:hasCarrierType spav:fvonl . } }",
+                "askPattern" : "ASK { FILTER(REGEX(STR($value), \"https?://vimeo.com/\\\\d+\")) }",
+        "iri" : "Performance_Vimeo_SPARQLMode"
+    }
+[[/inline]]
  [[#*inline "Performed_By"]]
     {
         "id" : "Performed_By",
@@ -1938,7 +1954,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
             "label": "[[i18n "field_mode_of_acquisition" bundle="sapa-fields"]]",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#anyURI",
             "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
-            "range" : "http://www.w3.org/2004/02/skos/core#Concept",
+            "range" : ["http://www.w3.org/2004/02/skos/core#Concept"],
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:isAssociatedWithEvent ?event . ?event a rico:Event ; rico:hasEventType $value . $value skos:broader spav:etmoc . }",
                 "insertPattern" : "INSERT { $subject rico:isAssociatedWithEvent ?event . ?event a rico:Event ; rico:hasEventType $value . } WHERE { BIND(IRI(CONCAT(\"http://data.performing-arts.ch/x/\", MD5(CONCAT(STR(?subject), \"acquisition_event\", STR($value))))) as ?event) }",
                 "deletePattern" : "DELETE { $subject rico:isAssociatedWithEvent ?event . ?event a rico:Event ; rico:hasEventType $value . } WHERE {}",
