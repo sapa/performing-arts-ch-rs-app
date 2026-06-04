@@ -2254,7 +2254,6 @@ fields:
   
       }'
 
-
   - id: Performance_Venue
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performance_Venue
     label: Performance Venue
@@ -2281,6 +2280,52 @@ fields:
         FILTER REGEX(STR(?label), $__token__,"i")
       } LIMIT 10'
 
+  - id: Performance_Vimeo_SPARQLMode
+    label: Vimeo
+    description: e.g. http://vimeo.com/123
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    maxOccurs: 1
+    domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
+    queries:
+      - select: 'SELECT $value WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+          GRAPH ?g {
+            ?rr rico:hasOrHadSubject $subject ;
+              rico:hasInstantiation $value .
+            $value a rico:Instantiation ;
+              rico:hasCarrierType spav:fvonl .
+          }
+        }'
+      - insert: 'INSERT {
+            GRAPH ?g {
+              ?rr rico:hasOrHadSubject $subject ;
+                rico:hasInstantiation $value .
+              $value a rico:Instantiation ;
+                rico:hasCarrierType spav:fvonl .
+              }
+          } WHERE {
+            BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), "vimeo", STR($value))))) AS ?rr)
+          }'
+      - delete: 'DELETE {
+            GRAPH ?g {
+              ?rr rico:hasOrHadSubject $subject ;
+                rico:hasInstantiation $value .
+              $value a rico:Instantiation ;
+                rico:hasCarrierType spav:fvonl .
+            }
+          } WHERE {
+            BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+            GRAPH ?g {
+              ?rr rico:hasOrHadSubejct $subject ;
+                rico:hasInstantiation $value .
+              $value a rico:Instantiation ;
+                rico:hasCarrierType spav:fvonl .
+            }
+          }'
+      - ask: 'ASK {
+        FILTER(REGEX(STR($value), "https?://vimeo.com/\\\\d+"))
+      }'
 
   - id: Performed_By
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performed_By
