@@ -2290,7 +2290,7 @@ fields:
       - select: 'SELECT $value WHERE {
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
           GRAPH ?g {
-            ?rr rico:hasOrHadSubejct $subject ;
+            ?rr rico:hasOrHadSubject $subject ;
               rico:hasInstantiation $value .
             $value a rico:Instantiation ;
               rico:hasCarrierType spav:fvonl .
@@ -2298,7 +2298,7 @@ fields:
         }'
       - insert: 'INSERT {
             GRAPH ?g {
-              ?rr rico:hasOrHadSubejct $subject ;
+              ?rr rico:hasOrHadSubject $subject ;
                 rico:hasInstantiation $value .
               $value a rico:Instantiation ;
                 rico:hasCarrierType spav:fvonl .
@@ -2309,7 +2309,7 @@ fields:
           }'
       - delete: 'DELETE {
             GRAPH ?g {
-              ?rr rico:hasOrHadSubejct $subject ;
+              ?rr rico:hasOrHadSubject $subject ;
                 rico:hasInstantiation $value .
               $value a rico:Instantiation ;
                 rico:hasCarrierType spav:fvonl .
