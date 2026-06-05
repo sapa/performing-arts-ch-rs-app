@@ -378,16 +378,8 @@
         <!-- external resources -->
         [[> sapaModule:ExternalResources]]
         
-        <semantic-query
-          query="SELECT ?iiif WHERE {
-            ?rr rico:hasOrHadSubject ?? ;
-              rico:hasInstantiation ?iiif .
-            ?iiif a rico:Instantiation ;
-              rico:hasCarrierType spav:fvman .
-            FILTER(CONTAINS(STR(?iiif), 'media.performing-arts.ch/iiif/manifest/collection-'))
-          }"
-        >
-        </semantic-query>
+        <!-- IIIF Manifests -->
+        [[> sapaModule:IiifManifest query="?rr rico:hasOrHadSubject ?? ; rico:hasInstantiation ?manifest . ?manifest a rico:Instantiation ; rico:hasCarrierType spav:fvman . FILTER(CONTAINS(STR(?manifest), 'media.performing-arts.ch/iiif/manifest/collection-'))"]]
         </bs-col>
         </bs-row>
         
