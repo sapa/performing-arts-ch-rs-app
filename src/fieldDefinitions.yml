@@ -2305,7 +2305,7 @@ fields:
               }
           } WHERE {
             BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-            BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR($subject), "vimeo", STR($value))))) AS ?rr)
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/r/", MD5(CONCAT(STR($subject), "vimeo", STR($value))))) AS ?rr)
           }'
       - delete: 'DELETE {
             GRAPH ?g {
