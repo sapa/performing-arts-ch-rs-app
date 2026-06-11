@@ -177,7 +177,11 @@
                 </mp-overlay-dialog-trigger>
                 <mp-overlay-dialog-content>
                     <div style="width:800px;height:600px;margin:0 -.5rem 1rem -.5rem;">
-                        <ontodia query='
+                        <ontodia 
+                            hide-navigator='true'
+                            hide-panels='true'
+                            hide-toolbar='true'
+                            query='
                             CONSTRUCT {
                             ?s ?p ?o
                             } WHERE {
