@@ -2017,7 +2017,7 @@ fields:
     domain: crm:E33_Linguistic_Object
     queries:
       - select: 'SELECT $value WHERE { 
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
           GRAPH ?g {
             $subject rdf:value $value .
@@ -2028,7 +2028,7 @@ fields:
             $subject rdf:value $value .
           } 
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
       - delete: 'DELETE { 
@@ -2036,7 +2036,7 @@ fields:
             $subject rdf:value $value 
           }
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
   
@@ -2048,12 +2048,12 @@ fields:
       - select: 'SELECT ?value WHERE {
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
           GRAPH ?g {
-            $subject crm:P67_is_referred_to_by ?value .
+            $subject crm:P67i_is_referred_to_by ?value .
           }
         }'
       - insert: 'INSERT {
           GRAPH ?g {
-            $subject crm:P67_is_referred_to_by $value .
+            $subject crm:P67i_is_referred_to_by $value .
             $value a crm:E33_Linguistic_Object .
           }
         } WHERE {
@@ -2061,7 +2061,7 @@ fields:
         }'
       - delete: 'DELETE {
           GRAPH ?g {
-            $subject crm:P67_is_referred_to_by $value .
+            $subject crm:P67i_is_referred_to_by $value .
             $value a crm:E33_Linguistic_Object .
           }
         } WHERE {
@@ -2076,7 +2076,7 @@ fields:
     range: crm:E55_Type
     queries:
       - select: 'SELECT ?value WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
           GRAPH ?g {
             $subject crm:P2_has_type ?value .
@@ -2087,7 +2087,7 @@ fields:
             $subject crm:P2_has_type $value .
           }
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
       - delete: 'DELETE {
@@ -2095,7 +2095,7 @@ fields:
             $subject crm:P2_has_type $value .
           }
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
       - valueSet: 'SELECT ?value WHERE {
@@ -2254,7 +2254,6 @@ fields:
   
       }'
 
-
   - id: Performance_Venue
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performance_Venue
     label: Performance Venue
@@ -2281,6 +2280,52 @@ fields:
         FILTER REGEX(STR(?label), $__token__,"i")
       } LIMIT 10'
 
+  - id: Performance_Vimeo_SPARQLMode
+    label: Vimeo
+    description: e.g. http://vimeo.com/123
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    maxOccurs: 1
+    domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
+    queries:
+      - select: 'SELECT $value WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+          GRAPH ?g {
+            ?rr rico:hasOrHadSubject $subject ;
+              rico:hasInstantiation $value .
+            $value a rico:Instantiation ;
+              rico:hasCarrierType spav:fvonl .
+          }
+        }'
+      - insert: 'INSERT {
+            GRAPH ?g {
+              ?rr rico:hasOrHadSubject $subject ;
+                rico:hasInstantiation $value .
+              $value a rico:Instantiation ;
+                rico:hasCarrierType spav:fvonl .
+              }
+          } WHERE {
+            BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+            BIND(IRI(CONCAT("http://data.performing-arts.ch/r/", MD5(CONCAT(STR($subject), "vimeo", STR($value))))) AS ?rr)
+          }'
+      - delete: 'DELETE {
+            GRAPH ?g {
+              ?rr rico:hasOrHadSubject $subject ;
+                rico:hasInstantiation $value .
+              $value a rico:Instantiation ;
+                rico:hasCarrierType spav:fvonl .
+            }
+          } WHERE {
+            BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+            GRAPH ?g {
+              ?rr rico:hasOrHadSubejct $subject ;
+                rico:hasInstantiation $value .
+              $value a rico:Instantiation ;
+                rico:hasCarrierType spav:fvonl .
+            }
+          }'
+      - ask: 'ASK {
+        FILTER(REGEX(STR($value), "https?://vimeo.com/\\\\d+"))
+      }'
 
   - id: Performed_By
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performed_By
@@ -4519,14 +4564,14 @@ fields:
     datatype: xsd:anyURI
     queries:
       - select: 'SELECT ?value WHERE {
-          $subject crm:P67_is_referred_to_by ?value .
+          $subject crm:P67i_is_referred_to_by ?value .
           ?value a crm:E33_Linguistic_Object ; 
             crm:P2_has_type ?type .
           ?type skos:inScheme spav:eo .
         }'
       - insert: 'INSERT {
           GRAPH ?g {
-            $subject crm:P67_is_referred_to_by ?value .
+            $subject crm:P67i_is_referred_to_by ?value .
             ?value a crm:E33_Linguistic_Object .
           }
         } WHERE {
@@ -4534,7 +4579,7 @@ fields:
         }'
       - delete: 'DELETE {
           GRAPH ?g {
-            $subject crm:P67_is_referred_to_by ?value .
+            $subject crm:P67i_is_referred_to_by ?value .
             ?value a crm:E33_Linguistic_Object .
           }
         } WHERE {
@@ -4553,7 +4598,7 @@ fields:
             $subject crm:P2_has_type ?value .
           }
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
       - delete: 'DELETE {
@@ -4561,7 +4606,7 @@ fields:
             $subject crm:P2_has_type ?value .
           }
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
       - valueSet: 'SELECT ?value WHERE {
@@ -4580,7 +4625,7 @@ fields:
             $subject rdf:value ?value .
           }
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
       - delete: 'DELETE {
@@ -4588,7 +4633,7 @@ fields:
             $subject rdf:value ?value .
           }
         } WHERE {
-          $parent crm:P67_is_referred_to_by $subject .
+          $parent crm:P67i_is_referred_to_by $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
 

@@ -83,7 +83,7 @@
             <!-- description -->
             <semantic-query
               query='SELECT ?value WHERE {
-                ?? crm:P67_is_referred_to_by ?linguistic.
+                ?? crm:P67i_is_referred_to_by ?linguistic.
                 ?linguistic crm:P2_has_type spav:eoept ;
                   rdf:value ?value .
               }'
@@ -93,7 +93,7 @@
             <!-- note on context -->
             <semantic-query
               query='SELECT ?value WHERE {
-                ?? crm:P67_is_referred_to_by ?linguistic.
+                ?? crm:P67i_is_referred_to_by ?linguistic.
                 ?linguistic crm:P2_has_type spav:eonct ;
                   rdf:value ?value .
               }'
@@ -103,7 +103,7 @@
             <!-- note on stage work -->
             <semantic-query
               query='SELECT ?value WHERE {
-                ?? crm:P67_is_referred_to_by ?linguistic.
+                ?? crm:P67i_is_referred_to_by ?linguistic.
                 ?linguistic crm:P2_has_type spav:eonsw ;
                   rdf:value ?value .
               }'
@@ -113,7 +113,7 @@
             <!-- note on music -->
             <semantic-query
               query='SELECT ?value WHERE {
-                ?? crm:P67_is_referred_to_by ?linguistic.
+                ?? crm:P67i_is_referred_to_by ?linguistic.
                 ?linguistic crm:P2_has_type spav:eonms ;
                   rdf:value ?value .
               }'
@@ -380,6 +380,24 @@
         
         <!-- IIIF Manifests -->
         [[> sapaModule:IiifManifest query="?rr rico:hasOrHadSubject ?? ; rico:hasInstantiation ?manifest . ?manifest a rico:Instantiation ; rico:hasCarrierType spav:fvman . FILTER(CONTAINS(STR(?manifest), 'media.performing-arts.ch/iiif/manifest/collection-'))"]]
+
+        <!-- vimeo -->
+        <semantic-query 
+          query="SELECT ?vimeo_id WHERE 
+          { 
+              ?record rico:hasOrHadSubject ?? ;
+                rico:hasInstantiation ?vimeo_url .
+              FILTER(CONTAINS(STR(?vimeo_url), '://vimeo.com'))
+              ?vimeo_url rico:hasCarrierType spav:fvonl .
+              BIND(STRAFTER(STR(?vimeo_url), 'vimeo.com/') AS ?vimeo_id)
+          }"
+          template='<div>
+                  {{#each bindings}}
+                  <iframe src="https://player.vimeo.com/video/{{vimeo_id.value}}" frameborder="0" style="width:100%; height:300px; " webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                  {{/each}}
+          </div>'>
+        </semantic-query>
+
         </bs-col>
         </bs-row>
         
@@ -391,6 +409,7 @@
       </bs-tab>
       [[/if]]      
       
+        
       [[> sapaModule:AdminTabs]]
       
     </bs-tabs>  
