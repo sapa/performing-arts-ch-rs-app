@@ -20,7 +20,7 @@ output = generator.generate(model, generator.INLINE)
 output = addLocalisation(output, 'sapa-fields')
 # The generator produces a JSON array for the "domain" property, but we need a string. So we replace it with a regex.
 output = re.sub(r'"domain"\s*:\s*\[\s*[\'"]([^\'"]+)[\'"]\s*\]', r'"domain" : "\1"', output)
-output = re.sub(r'"range"\s*:\s*\[\s*[\'"]([^\'"]+)[\'"]\s*\]',  r'"range" : ["\1"]', output)
+output = re.sub(r'"range"\s*:\s*\[\s*[\'"]([^\'"]+)[\'"]\s*\]',  r'"range" : "\1"', output)
 
 with open(outputFile, 'w') as f:
     f.write(output)
