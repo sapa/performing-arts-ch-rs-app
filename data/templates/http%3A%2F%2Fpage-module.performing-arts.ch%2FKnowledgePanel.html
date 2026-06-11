@@ -22,7 +22,7 @@
                     OPTIONAL { ?? rico:hasRecordSetType ?record_set_type . }
                     BIND(IF(BOUND(?timespan), ?timespan, IF(BOUND(?genre), ?genre, IF(BOUND(?crmtype), ?crmtype, IF(BOUND(?record_set_type), ?record_set_type, ?class)))) AS ?description)
                     }"
-                template='{{#each bindings}}<mp-label iri="{{description.value}}"></mp-label>{{/each}}'>
+                template='{{#each bindings}}[[> addComma]]<mp-label iri="{{description.value}}"></mp-label>{{/each}}'>
             </semantic-query>
         </p>
 
@@ -66,3 +66,5 @@
         </semantic-query>
     </div>
 </div>
+
+[[#*inline "addComma"]]{{#if @first}}{{else}}, {{/if}}[[/inline]]
