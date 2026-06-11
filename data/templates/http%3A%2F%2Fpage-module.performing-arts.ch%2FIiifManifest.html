@@ -1,8 +1,12 @@
 <!-- iiif Manifest -->
 <semantic-query
  query="SELECT ?manifest WHERE {
-    ?? rico:hasInstantiation ?manifest .
-    ?manifest rico:hasCarrierType spav:fvman .
+    [[#if query]]
+        [[query]]
+    [[else]]
+        ?? rico:hasInstantiation ?manifest .
+        ?manifest rico:hasCarrierType spav:fvman .
+    [[/if]]
  }"
  template="{{> template-manifest}}">
     <template id="template-manifest">            

@@ -377,6 +377,9 @@
         
         <!-- external resources -->
         [[> sapaModule:ExternalResources]]
+        
+        <!-- IIIF Manifests -->
+        [[> sapaModule:IiifManifest query="?rr rico:hasOrHadSubject ?? ; rico:hasInstantiation ?manifest . ?manifest a rico:Instantiation ; rico:hasCarrierType spav:fvman . FILTER(CONTAINS(STR(?manifest), 'media.performing-arts.ch/iiif/manifest/collection-'))"]]
 
         <!-- vimeo -->
         <semantic-query 
