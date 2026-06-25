@@ -76,7 +76,7 @@
                     }
                     BIND(IF(CONTAINS(STR($producer), "/u/"), "true", "") AS ?unidentified)
                 }'
-            template='<h5>Production</h5><p>{{#each bindings}}{{#if @first}}{{else}}, {{/if}}{{#if unidentified.value}}<mp-label iri="{{producer.value}}"></mp-label>{{else}}<semantic-link iri="{{producer.value}}"></semantic-link>{{/if}}{{#if @last}}{{#if season}}<br><semantic-link iri="{{season.value}}"></semantic-link>{{/if}}{{/if}}{{/each}}</p>'>
+            template='<h5>production</h5><p>{{#each bindings}}{{#if @first}}{{else}}, {{/if}}{{#if unidentified.value}}<mp-label iri="{{producer.value}}"></mp-label>{{else}}<semantic-link iri="{{producer.value}}"></semantic-link>{{/if}}{{#if @last}}{{#if season}}<br><semantic-link iri="{{season.value}}"></semantic-link>{{/if}}{{/if}}{{/each}}</p>'>
             </semantic-query>
 
 
