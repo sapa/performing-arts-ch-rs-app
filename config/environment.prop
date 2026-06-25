@@ -1,2 +1,5 @@
 shiroSessionTimeoutSecs = 14400
 allowedCrossOrigin = https://search.performing-arts.ch/
+shiroAuthenticationFilter=authcBasic,anon,authc
+pathsToRewrite=/a/,/u/,/s/,/w/,/o/,/p/,/r/,/c/,/0/,/f/
+platformBaseIri=http://data.performing-arts.ch
