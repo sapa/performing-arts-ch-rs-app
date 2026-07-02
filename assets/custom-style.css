@@ -179,6 +179,9 @@ div.form-section {
 div.semantic-form hr {
   border: 1px solid black;
 }
+div.tree-view a {
+  text-transform: none;
+}
 div.tree-view_children span.Tree--leafNode {
   margin-left: 20px;
 }
