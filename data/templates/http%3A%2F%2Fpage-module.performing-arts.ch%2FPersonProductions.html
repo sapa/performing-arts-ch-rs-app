@@ -115,7 +115,7 @@
         }
         ?plan a frbroo:F25_Performance_Plan .
         OPTIONAL {
-            ?expressioncreation a frbroo:F28_Expression_Creation ;
+            ?performance frbroo:R25_performed ?plan ;
                 crm:P10_falls_within ?season .
             FILTER(CONTAINS(STR(?season), "/s/"))
         }
@@ -169,7 +169,7 @@
           id='search-result'
           column-configuration='[
             {"displayName": "[[i18n "ProductionsTableProducer" bundle="performing-arts-ch" escapeHTML =false]]", "cellTemplate": "{{> producer}}", "variableName": "producers"} ,
-            {"displayName": "[[i18n "ProductionsTableSeason" bundle="performing-arts-ch" escapeHTML =false]]", "cellTemplate":"{{> season}}", "variableName": "premieredatebegin"}, 
+            {"displayName": "[[i18n "ProductionsTableSeason" bundle="performing-arts-ch" escapeHTML =false]]", "variableName": "season"}, 
             {"displayName": "[[i18n "ProductionsTableTitle" bundle="performing-arts-ch" escapeHTML =false]]", "variableName": "plan"}, 
             {"displayName": "[[i18n "ProductionsTableFunction" bundle="performing-arts-ch" escapeHTML =false]]", "cellTemplate": "{{>function}}"},
             {"displayName": "", "cellTemplate": "{{> recording}}"}
