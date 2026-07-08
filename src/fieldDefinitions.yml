@@ -2301,7 +2301,29 @@ fields:
         $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
         rdfs:label ?label .
         FILTER(REGEX(STR(?label), $__token__, "i"))
-        FILTER(CONTAINS(STR($value), "/a/"))
+        FILTER NOT (CONTAINS(STR($value), "/a/"))
+      } LIMIT 10'
+
+  - id: Performed_By_filter_a_u
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performed_By_filter_a_u
+    label: Carried out by
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
+    queries:
+      - select: 'SELECT ?value ?label WHERE {
+        $subject a crm:E7_Activity ;
+        crm:P14_carried_out_by ?value.
+      }'
+      - insert: 'INSERT {
+        $subject crm:P14_carried_out_by ?value.
+      } WHERE {}'
+      - autosuggestion: 'SELECT $value ?label WHERE {
+        $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+        rdfs:label ?label .
+        FILTER(REGEX(STR(?label), $__token__, "i"))
+        FILTER (regex(STR($value), "/a/","i") || regex(STR($value), "/u/","i") ) .
       } LIMIT 10'
 
 
@@ -2965,13 +2987,34 @@ fields:
       - insert: 'INSERT { $subject crm:P2_has_type ?value. }
       WHERE {}'
 
+# RDFS *****************************************************************************************************
 
+  # RDFSComment
   - id: RDFSComment
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSComment
     label: Comment
     description: A short comment that helps to identify the entity.
     datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
+    queries:
+      - select: 'SELECT ?value WHERE {
+        $subject rdfs:comment ?value.
+      }'
+      - insert: 'INSERT {
+        $subject rdfs:comment $value
+      } WHERE {}'
+      - delete: 'DELETE {
+        $subject rdfs:comment $value
+      } WHERE {}'
+
+  - id: RDFSComment_ldp
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSComment
+    label: Comment
+    description: A short comment that helps to identify the entity.
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
+    minOccurs: 0
+    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE {
         $subject rdfs:comment ?value.
@@ -3012,6 +3055,7 @@ fields:
       }'
 
 
+  # Label
   - id: RDFSLabel
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSLabel
     label: Label
@@ -3054,7 +3098,6 @@ fields:
       } WHERE {
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
       }'
-
 
   - id: RDFtype
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFtype
@@ -3113,7 +3156,6 @@ fields:
         $subject spao:hasAnnotationRecto $value . 
       } WHERE {}'
 
-
   - id: RecordAnnotationVerso
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordAnnotationVerso
     label: Annotation verso
@@ -3129,7 +3171,6 @@ fields:
       - delete: 'DELETE {
         $subject spao:hasAnnotationVerso $value . 
       } WHERE {}'
-
 
   - id: RecordDocumentaryForm
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordDocumentaryForm
@@ -3196,7 +3237,6 @@ fields:
       LIMIT 200
       '
 
-
   - id: RecordInstantiation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordInstantiation
     label: Instantiation
@@ -3212,7 +3252,6 @@ fields:
     rico:identifier $label .
         FILTER(REGEX($label, $__token__, "i"))
       }'
-
 
   - id: RecordParts
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordParts
@@ -3238,7 +3277,6 @@ fields:
       rdfs:label $label .
     FILTER(REGEX($label, $__token__, "i"))
       }'
-
 
   - id: RecordResourceAcquisition
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceAcquisition
@@ -3267,7 +3305,6 @@ fields:
       - valueSet: 'SELECT ?value WHERE {
         ?value skos:broader spav:etmoc .
       }'
-
 
   - id: RecordResourceConditionsUse
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceConditionsUse
@@ -4685,6 +4722,7 @@ fields:
           FILTER(?type_indicator = "w" || ?type_indicator = "r")
         }'
 
+# Title
   - id: RecordingTitle
     label: Title
     datatype: xsd:anyURI
@@ -4710,7 +4748,7 @@ fields:
         } WHERE {
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
         }'
-
+  
   - id: RecordingType
     label: Type
     datatype: xsd:anyURI
@@ -5390,6 +5428,7 @@ fields:
     }
       }'
 
+# Titles with 102 and E35
   - id: TitleEntity_SPARQLMode
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleEntity_SPARQLMode
     label: Title
@@ -5415,6 +5454,27 @@ fields:
             $subject crm:P102_has_title $value .
             $value a crm:E35_Title .
           }
+        } WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+        }'
+    
+  - id: TitleEntity_optional_ldp
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleEntity_optional_ldp
+    label: Title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $subject crm:P102_has_title ?value .          
+        }'
+      - insert: 'INSERT {
+            $subject crm:P102_has_title $value .
+            $value a crm:E35_Title .          
+        } WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+        }'
+      - delete: 'DELETE {
+            $subject crm:P102_has_title $value .
+            $value a crm:E35_Title .          
         } WHERE {
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
         }'
@@ -5452,6 +5512,28 @@ fields:
           ?value skos:inScheme spav:go .
         }'
 
+  - id: TitleType_ldp
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleType_ldp
+    label: Type
+    datatype: xsd:anyURI
+    minOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $parent crm:P102_has_title $subject .
+          $subject crm:P2_has_type ?value .          
+        }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+      - delete: 'DELETE { $subject crm:P2_has_type $value . } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+      - valueSet: 'SELECT ?value WHERE {
+          ?value skos:inScheme spav:go .
+        }'
+
   - id: TitleValue_SPARQLMode
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleValue_SPARQLMode
     label: Title
@@ -5478,6 +5560,25 @@ fields:
             $subject rdf:value $value .
           }
         } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+  
+  - id: TitleValue_ldp
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleValue_ldp
+    label: Title
+    datatype: xsd:langString
+    minOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $parent crm:P102_has_title $subject .
+          $subject rdf:value ?value .          
+        }'
+      - insert: 'INSERT { $subject rdf:value $value . } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+      - delete: 'DELETE { $subject rdf:value $value . } WHERE {
           $parent crm:P102_has_title $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
@@ -5959,3 +6060,220 @@ fields:
       }'
       - insert: 'INSERT { $subject a $value} WHERE {}'
       - delete: 'DELETE { $subject a $value} WHERE {}'
+
+  - id: performativework_Label_SPARQLMode
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_Label_SPARQLMode
+    label: Label
+    maxOccurs: "1"
+    datatype: http://www.w3.org/2001/XMLSchema#langString
+    domain: frbroo:F22_Self-Contained_Expression
+    queries:
+      - select: 'SELECT ?value WHERE { 
+          GRAPH ?g {
+            $subject rdfs:label ?value . 
+          }
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+        }'
+      - insert: 'INSERT { 
+          GRAPH ?g {
+            $subject rdfs:label $value .
+          }
+        } WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+        }'
+      - delete: 'DELETE { 
+          GRAPH ?g {
+            $subject rdfs:label $value .
+          } 
+        } WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+        }'
+
+  #
+  # Performative Work
+  #
+
+  - id: performativework_TitleEntity_SPARQLMode
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_TitleEntity_SPARQLMode
+    label: Title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+          GRAPH ?g {
+            $subject crm:P102_has_title ?value .
+          }
+        }'
+      - insert: 'INSERT {
+          GRAPH ?g {
+            $subject crm:P102_has_title $value .
+            $value a crm:E35_Title .
+          }
+        } WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+        }'
+      - delete: 'DELETE {
+          GRAPH ?g {
+            $subject crm:P102_has_title $value .
+            $value a crm:E35_Title .
+          }
+        } WHERE {
+          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
+        }'
+
+  - id: performativework_TitleType_SPARQLMode
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_TitleType_SPARQLMode
+    label: Type
+    minOccurs: "1"
+    maxOccurs: "1"
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+          GRAPH ?g {
+            $subject crm:P2_has_type ?value .
+          }
+        }'
+      - insert: 'INSERT {
+          GRAPH ?g {
+            $subject crm:P2_has_type $value .
+          }
+        } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+      - delete: 'DELETE {
+          GRAPH ?g {
+            $subject crm:P2_has_type $value .
+          }
+        } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+      - valueSet: 'SELECT ?value WHERE {
+          ?value skos:inScheme spav:go .
+        }'
+
+  - id: performativework_TitleValue_SPARQLMode
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_TitleValue_SPARQLMode
+    label: Title
+    minOccurs: "1"
+    maxOccurs: "1"
+    datatype: xsd:langString
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+          GRAPH ?g {
+            $subject rdf:value ?value .
+          }
+        }'
+      - insert: 'INSERT {
+          GRAPH ?g {
+            $subject rdf:value $value .
+          }
+        } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+      - delete: 'DELETE {
+          GRAPH ?g {
+            $subject rdf:value $value .
+          }
+        } WHERE {
+          $parent crm:P102_has_title $subject .
+          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
+        }'
+
+  #
+  # Expression Creation
+  #
+
+  - id: expression_creation
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expression_creation_SPARQL
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    minOccurs: "1"
+    maxOccurs: "1"
+    domain: frbroo:F28_Expression_Creation
+    queries:
+      - select: 'SELECT $value WHERE { $value frbroo:R17_created $subject . } '
+      - insert: 'INSERT { $value frbroo:R17_created $subject . }  WHERE { }'
+      - delete: 'DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}'
+
+  - id: expressioncreation_create
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expressioncreation_create_SPARQL
+    label: Create
+    minOccurs: "1"
+    maxOccurs: "1"
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    domain: frbroo:F28_Expression_Creation
+    queries:
+      - select: 'SELECT $value WHERE { $value frbroo:R17_created $subject .  }'
+      - insert: 'INSERT { $value frbroo:R17_created $subject .  } WHERE { }'
+      - delete: 'DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}'
+
+  - id: expressioncreation_activity
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expressioncreation_activity_SPARQL
+    minOccurs: "1"
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    domain: frbroo:F28_Expression_Creation
+    range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE {
+        $subject crm:P9_consists_of ?value .        
+      }'
+      - insert: 'INSERT { $subject crm:P9_consists_of ?value . } WHERE {}'
+      - delete: 'DELETE { $subject crm:P9_consists_of ?value . } WHERE {}'  
+    
+  - id: ec_activity_certainty
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ec_activity_certainty_SPARQL
+    label: Certainty
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    minOccurs: 0
+    maxOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:certainty $value. }'
+      - insert: 'INSERT { $subject rico:certainty $value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:certainty $value .} WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:ct ;
+              skos:prefLabel ?label .
+            FILTER(REGEX(STR(?label), $__token__, "i"))
+          } LIMIT 10'
+   
+  - id: ec_activity_additional_type
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ec_activity_additional_type
+    label: Second
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
+      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+            skos:prefLabel ?label .
+            FILTER(REGEX(STR(?label), $__token__, "i"))
+          } LIMIT 10'
+
+  - id: Activity_Type_multiple
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Type
+    label: Type
+    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    queries:
+      - select: 'SELECT ?value WHERE {
+            $subject crm:P2_has_type $value.
+          }'
+      - insert: 'INSERT {
+            $subject crm:P2_has_type $value .
+          } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+            skos:prefLabel ?label .
+            FILTER(REGEX(STR(?label), $__token__, "i"))
+          } LIMIT 10'

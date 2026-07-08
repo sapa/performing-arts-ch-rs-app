@@ -1,0 +1,119 @@
+[[> sapaModule:FieldDefinitions]]
+
+<div data-flex-layout='row top-stretch'>
+  <semantic-form 
+    [[#if create]]
+      new-subject-template='http://data.performing-arts.ch/u/{{UUID}}'
+      post-action="redirect"
+    [[else]]
+      subject='[[this]]'
+      post-action="reload"
+    [[/if]]
+    
+    browser-persistence=true
+    persistence='ldp' 
+    form-id='nonPerformativeWork'
+    fields='[
+      [[> RDFtype_SPARQLMode]],        
+      [[> RDFSLabel]],
+      [[> SameAs]],
+      [[> TitleEntity_optional_ldp]],      
+      [[> expression_creation]],
+      [[> expressioncreation_create]],
+      [[> expressioncreation_activity]]
+    ]'>
+
+    <bs-panel>
+      <semantic-form-recover-notification></semantic-form-recover-notification>
+      <div style="display: none;">
+        <semantic-form-hidden-input for="RDFtype_SPARQLMode" default-value='[[resolvePrefix "frbroo:F22_Self-Contained_Expression"]]'></semantic-form-hidden-input>
+      </div>      
+      
+      <!-- Label -->
+      <semantic-form-text-input for="RDFSLabel" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+
+      <!-- SameAs -->
+      <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+
+      <!-- Title -->
+      <semantic-form-composite-input for="TitleEntity_optional_ldp"
+        new-subject-template='/title/{{UUID}}'
+        fields='[
+          [[> TitleType_ldp]],
+          [[> TitleValue_ldp]]
+        ]'
+      >
+        <bs-row>
+          <bs-col sm='2'>
+            <semantic-form-select-input for="TitleType_ldp"></semantic-form-select-input>
+          </bs-col>
+          <bs-col sm='10'>
+            <semantic-form-text-input for="TitleValue_ldp" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+      </semantic-form-composite-input>
+
+      <hr/>
+      <!-- #######################"" Expression Creation #######################" -->
+      <semantic-form-composite-input for="expression_creation"
+        new-subject-template='/x/{{UUID}}'
+        fields='[
+          [[> RDFtype_SPARQLMode]],
+          [[> expressioncreation_create]],
+          [[> expressioncreation_activity]]
+        ]'
+        >
+        <div style="display: none;">
+              <semantic-form-hidden-input for="RDFtype_SPARQLMode" default-value='[[resolvePrefix "frbroo:F28_Expression_Creation"]]'></semantic-form-hidden-input>
+              <semantic-form-hidden-input for="expressioncreation_create"></semantic-form-hidden-input>
+        </div>
+        <!-- ConsistOf to Activity -->
+        <bs-row>
+          <semantic-form-composite-input for="expressioncreation_activity"
+            new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+            fields='[
+              [[> Activity_Type_multiple]],
+              [[> ec_activity_additional_type]],
+              [[> Performed_By_filter_a_u]],
+              [[> ec_activity_certainty]],
+              [[> RDFSComment_ldp]]            
+            ]'>
+            <bs-row>
+              <bs-col sm='2'>
+                <!-- Activity Type -->
+                <semantic-form-autocomplete-input for="Activity_Type_multiple"></semantic-form-autocomplete-input>
+              </bs-col>
+              <bs-col sm='2'>
+                <!-- Additional Type -->
+                <semantic-form-autocomplete-input for="ec_activity_additional_type"></semantic-form-autocomplete-input>
+              </bs-col>              
+              <!-- Carried out by  -->
+              <bs-col sm='2'>
+                <semantic-form-autocomplete-input for="Performed_By_filter_a_u" placeholder='Search persons...'></semantic-form-autocomplete-input>
+              </bs-col>
+              <!-- certainty -->
+              <bs-col sm='2'>
+                <semantic-form-autocomplete-input for="ec_activity_certainty"></semantic-form-autocomplete-input>
+              </bs-col>
+            </bs-row> 
+            <bs-row>
+              <!-- Comment -->
+               <bs-col sm='10'>
+                <semantic-form-text-input for="RDFSComment_ldp" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+              </bs-col>
+            </bs-row>
+          </semantic-form-composite-input>
+        </bs-row>
+        
+      </semantic-form-composite-input>   
+
+      <hr/>
+      
+      <semantic-form-errors></semantic-form-errors>
+      <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+      <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+    </bs-panel>
+  </semantic-form>
+
+ 
+</div>
