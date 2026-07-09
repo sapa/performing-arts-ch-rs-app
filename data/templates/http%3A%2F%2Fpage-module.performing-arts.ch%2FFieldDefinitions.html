@@ -3302,8 +3302,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . $value a crm:E35_Title . } WHERE { BIND(URI(CONCAT(STR($subject), \"/container/context\")) as ?g) }",
-                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . $value a crm:E35_Title . } WHERE { BIND(URI(CONCAT(STR($subject), \"/container/context\")) as ?g) }",
+                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . $value a crm:E35_Title . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . $value a crm:E35_Title . } WHERE {  }",
         "iri" : "TitleEntity_optional_ldp"
     }
 [[/inline]]
@@ -3337,8 +3337,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:go ; skos:prefLabel ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
             },
                 "selectPattern" : "SELECT ?value WHERE { $parent crm:P102_has_title $subject . $subject crm:P2_has_type ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE { $parent crm:P102_has_title $subject . BIND(URI(CONCAT(STR($parent), \"/container/context\")) as ?g) }",
-                "deletePattern" : "DELETE { $subject crm:P2_has_type $value . } WHERE { $parent crm:P102_has_title $subject . BIND(URI(CONCAT(STR($parent), \"/container/context\")) as ?g) }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P2_has_type $value . } WHERE { $parent crm:P102_has_title $subject . }",
                 "valueSetPattern" : "SELECT ?value WHERE { ?value skos:inScheme spav:go . }",
         "iri" : "TitleType_ldp"
     }
@@ -3365,8 +3365,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:langString",
                 "selectPattern" : "SELECT ?value WHERE { $parent crm:P102_has_title $subject . $subject rdf:value ?value . }",
-                "insertPattern" : "INSERT { $subject rdf:value $value . } WHERE { $parent crm:P102_has_title $subject . BIND(URI(CONCAT(STR($parent), \"/container/context\")) as ?g) }",
-                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { $parent crm:P102_has_title $subject . BIND(URI(CONCAT(STR($parent), \"/container/context\")) as ?g) }",
+                "insertPattern" : "INSERT { $subject rdf:value $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
         "iri" : "TitleValue_ldp"
     }
 [[/inline]]

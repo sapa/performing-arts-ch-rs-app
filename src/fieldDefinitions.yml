@@ -2313,8 +2313,7 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
       - select: 'SELECT ?value ?label WHERE {
-        $subject a crm:E7_Activity ;
-        crm:P14_carried_out_by ?value.
+        $subject a crm:E7_Activity ; crm:P14_carried_out_by ?value.
       }'
       - insert: 'INSERT {
         $subject crm:P14_carried_out_by ?value.
@@ -5470,15 +5469,11 @@ fields:
       - insert: 'INSERT {
             $subject crm:P102_has_title $value .
             $value a crm:E35_Title .          
-        } WHERE {
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-        }'
+        } WHERE { }'
       - delete: 'DELETE {
             $subject crm:P102_has_title $value .
             $value a crm:E35_Title .          
-        } WHERE {
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-        }'
+        } WHERE {  }'
 
   - id: TitleType_SPARQLMode
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleType_SPARQLMode
@@ -5524,14 +5519,8 @@ fields:
           $parent crm:P102_has_title $subject .
           $subject crm:P2_has_type ?value .          
         }'
-      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
-      - delete: 'DELETE { $subject crm:P2_has_type $value . } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE { }' #$parent crm:P102_has_title $subject .
+      - delete: 'DELETE { $subject crm:P2_has_type $value . } WHERE { $parent crm:P102_has_title $subject . }'
       - valueSet: 'SELECT ?value WHERE {
           ?value skos:inScheme spav:go .
         }'
@@ -5616,14 +5605,8 @@ fields:
           $parent crm:P102_has_title $subject .
           $subject rdf:value ?value .          
         }'
-      - insert: 'INSERT { $subject rdf:value $value . } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
-      - delete: 'DELETE { $subject rdf:value $value . } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
+      - insert: 'INSERT { $subject rdf:value $value . } WHERE { }' #$parent crm:P102_has_title $subject .
+      - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
 
   - id: VenueAcronym
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueAcronym
@@ -6227,6 +6210,9 @@ fields:
           $parent crm:P102_has_title $subject .
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
+
+
+  
 
   #
   # Expression Creation

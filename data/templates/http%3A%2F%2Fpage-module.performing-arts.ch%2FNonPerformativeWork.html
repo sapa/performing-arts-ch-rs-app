@@ -35,7 +35,7 @@
 
       <!-- Title -->
       <semantic-form-composite-input for="TitleEntity_optional_ldp"
-        new-subject-template='http://data.performing-arts.ch/title/{{UUID}}'
+        new-subject-template='/title'
         fields='[
           [[> TitleType_ldp]],
           [[> TitleValue_ldp]]
@@ -54,7 +54,7 @@
       <hr/>
       <!-- #######################"" Expression Creation #######################" -->
       <semantic-form-composite-input for="expression_creation"
-        new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+        new-subject-template='/creation'
         fields='[
           [[> RDFtype]],
           [[> expressioncreation_create]],
