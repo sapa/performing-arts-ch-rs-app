@@ -14,19 +14,17 @@
     persistence='ldp' 
     form-id='nonPerformativeWork'
     fields='[
-      [[> RDFtype_SPARQLMode]],        
+      [[> RDFtype]],        
       [[> RDFSLabel]],
       [[> SameAs]],
       [[> TitleEntity_optional_ldp]],      
-      [[> expression_creation]],
-      [[> expressioncreation_create]],
-      [[> expressioncreation_activity]]
+      [[> expression_creation]]      
     ]'>
 
     <bs-panel>
       <semantic-form-recover-notification></semantic-form-recover-notification>
       <div style="display: none;">
-        <semantic-form-hidden-input for="RDFtype_SPARQLMode" default-value='[[resolvePrefix "frbroo:F22_Self-Contained_Expression"]]'></semantic-form-hidden-input>
+        <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F22_Self-Contained_Expression"]]'></semantic-form-hidden-input>
       </div>      
       
       <!-- Label -->
@@ -37,7 +35,7 @@
 
       <!-- Title -->
       <semantic-form-composite-input for="TitleEntity_optional_ldp"
-        new-subject-template='/title/{{UUID}}'
+        new-subject-template='http://data.performing-arts.ch/title/{{UUID}}'
         fields='[
           [[> TitleType_ldp]],
           [[> TitleValue_ldp]]
@@ -45,7 +43,7 @@
       >
         <bs-row>
           <bs-col sm='2'>
-            <semantic-form-select-input for="TitleType_ldp"></semantic-form-select-input>
+            <semantic-form-tree-picker-input for="TitleType_ldp"></semantic-form-tree-picker-input>
           </bs-col>
           <bs-col sm='10'>
             <semantic-form-text-input for="TitleValue_ldp" languages='["en","de","it","fr"]' ></semantic-form-text-input>
@@ -56,15 +54,15 @@
       <hr/>
       <!-- #######################"" Expression Creation #######################" -->
       <semantic-form-composite-input for="expression_creation"
-        new-subject-template='/x/{{UUID}}'
+        new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
         fields='[
-          [[> RDFtype_SPARQLMode]],
+          [[> RDFtype]],
           [[> expressioncreation_create]],
           [[> expressioncreation_activity]]
         ]'
         >
         <div style="display: none;">
-              <semantic-form-hidden-input for="RDFtype_SPARQLMode" default-value='[[resolvePrefix "frbroo:F28_Expression_Creation"]]'></semantic-form-hidden-input>
+              <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F28_Expression_Creation"]]'></semantic-form-hidden-input>
               <semantic-form-hidden-input for="expressioncreation_create"></semantic-form-hidden-input>
         </div>
         <!-- ConsistOf to Activity -->
@@ -81,11 +79,11 @@
             <bs-row>
               <bs-col sm='2'>
                 <!-- Activity Type -->
-                <semantic-form-autocomplete-input for="Activity_Type_multiple"></semantic-form-autocomplete-input>
+                <semantic-form-tree-picker-input for="Activity_Type_multiple"></semantic-form-tree-picker-input>
               </bs-col>
               <bs-col sm='2'>
                 <!-- Additional Type -->
-                <semantic-form-autocomplete-input for="ec_activity_additional_type"></semantic-form-autocomplete-input>
+                <semantic-form-tree-picker-input for="ec_activity_additional_type"></semantic-form-tree-picker-input>
               </bs-col>              
               <!-- Carried out by  -->
               <bs-col sm='2'>
