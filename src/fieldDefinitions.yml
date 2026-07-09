@@ -6285,6 +6285,45 @@ fields:
               skos:prefLabel ?label .
             FILTER(REGEX(STR(?label), $__token__, "i"))
           } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
+          ?item skos:inScheme spav:ct ;
+          skos:prefLabel ?label .
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:ct ;
+        skos:prefLabel ?label .
+        ?label bds:search ?__token__ ; 
+        bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200'  
    
   - id: ec_activity_additional_type
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ec_activity_additional_type
