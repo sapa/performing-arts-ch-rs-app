@@ -2313,7 +2313,7 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
       - select: 'SELECT ?value ?label WHERE {
-        $subject a crm:E7_Activity ; crm:P14_carried_out_by ?value.
+        $subject crm:P14_carried_out_by ?value.
       }'
       - insert: 'INSERT {
         $subject crm:P14_carried_out_by ?value.
