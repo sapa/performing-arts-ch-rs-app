@@ -3,7 +3,7 @@ fields:
   - id: Activity_Type
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Type
     label: Type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
@@ -25,7 +25,7 @@ fields:
   - id: ActorActivity
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActorActivity
     label: Acting
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E21_Person
     queries:
@@ -59,7 +59,7 @@ fields:
   - id: ActorResidence
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActorResidence
     label: Current or former residence
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     range: http://www.cidoc-crm.org/cidoc-crm/E53_Place
     queries:
@@ -143,7 +143,7 @@ fields:
   - id: ArchivalPlaceParent
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ArchivalPlaceParent
     label: Parent
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: http://ontology.performing-arts.ch/ArchivalPlace
     range: http://ontology.performing-arts.ch/ArchivalPlace
@@ -201,7 +201,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/AssociationMembers
     label: Association members
     description: used for display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
@@ -246,7 +246,7 @@ fields:
   - id: CIDOCtype
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/CIDOCtype
     label: CIDOC type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     range: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     queries:
@@ -439,7 +439,7 @@ fields:
   - id: Genre
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Genre
     label: Genre
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -524,7 +524,7 @@ fields:
   - id: GroupAssociation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupAssociation
     label: Association memberships
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E74_Group
     range: http://www.cidoc-crm.org/cidoc-crm/E40_Legal_Body
     queries:
@@ -613,7 +613,7 @@ fields:
   - id: GroupCommonAppellationType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupCommonAppellationType
     label: Type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E74_Group
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
@@ -642,7 +642,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupControlled
     label: controls
     description: display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Group
     range: https://www.ica.org/standards/RiC/ontology#Group
     queries:
@@ -653,7 +653,7 @@ fields:
   - id: GroupController
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupController
     label: Responsible body
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Group
     range: https://www.ica.org/standards/RiC/ontology#Group
     queries:
@@ -732,7 +732,7 @@ fields:
   - id: GroupGenre
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupGenre
     label: Genre
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E74_Group
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -820,7 +820,7 @@ fields:
   - id: GroupMember
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupMember
     label: Members
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
@@ -862,7 +862,7 @@ fields:
   - id: GroupPredecessor
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupPredecessor
     label: Predecessor
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Group
     range: https://www.ica.org/standards/RiC/ontology#Group
     queries:
@@ -886,7 +886,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupRDFType
     label: Type (RDF)
     description: This is the technical group type. It should be either Group or Legal Body.
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.w3.org/2002/07/owl#Class
     range: http://www.w3.org/2002/07/owl#Class
@@ -934,7 +934,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupSuccessor
     label: Successor
     description: display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Group
     range: https://www.ica.org/standards/RiC/ontology#Group
     queries:
@@ -945,7 +945,7 @@ fields:
   - id: GroupType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupType
     label: Typ
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E74_Group
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -1006,7 +1006,7 @@ fields:
   - id: GroupVenue
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/GroupVenue
     label: Venues
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E74_Group
     range: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     queries:
@@ -1129,7 +1129,7 @@ fields:
   - id: InstantiationArchivalStatus
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationArchivalStatus
     label: Archival status
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
@@ -1145,7 +1145,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationCarrierType
     label: Carrier type
     description: e.g. http://media.performing-arts.ch/iiif/image/ABC-123
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: rico:CarrierType
@@ -1197,7 +1197,7 @@ fields:
   - id: InstantiationCondition
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationCondition
     label: Condition (deprecated)
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: http://www.w3.org/2004/02/skos/core#Concept
     queries:
@@ -1213,7 +1213,7 @@ fields:
   - id: InstantiationConditionStatement
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantationConditionStatement
     label: Condition
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     queries:
       - select: 'SELECT ?value WHERE { 
@@ -1233,7 +1233,7 @@ fields:
   - id: InstantiationConditionStatementCondition
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationConditionStatementCondition
     label: Condition
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     queries:
@@ -1250,7 +1250,7 @@ fields:
   - id: InstantiationConditionStatementDamage
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationConditionStatementDamage
     label: Damage
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     queries:
       - select: 'SELECT ?value WHERE { 
           $subject rico:hasEventType ?value .
@@ -1317,7 +1317,7 @@ fields:
   - id: InstantiationDerived
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationDerived
     label: Derived instantiation
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: https://www.ica.org/standards/RiC/ontology#Instantiation
     queries:
@@ -1346,7 +1346,7 @@ fields:
   - id: InstantiationDerivedFrom
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationDerivedFrom
     label: Original instantiation
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: https://www.ica.org/standards/RiC/ontology#Instantiation
     queries:
@@ -1376,7 +1376,7 @@ fields:
   - id: InstantiationExtent
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationExtent
     label: Extent
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: https://www.ica.org/standards/RiC/ontology#RecordResourceExtent
@@ -1422,7 +1422,7 @@ fields:
   - id: InstantiationMaterial
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationMaterial
     label: Material
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: skos:Concept
     queries:
@@ -1487,7 +1487,7 @@ fields:
   - id: InstantiationPreparationDate
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationPreparationDate
     label: Creation date
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     queries:
       - select: 'SELECT $value WHERE { $subject spao:preparationDate $value . }'
@@ -1498,7 +1498,7 @@ fields:
   - id: InstantiationRecord
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationRecord
     label: Record Resource
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
@@ -1540,7 +1540,7 @@ fields:
   - id: InstantiationRecordingSystem
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationRecordingSystem
     label: Recording System
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     queries:
       - select: 'SELECT $value WHERE { $subject spao:recordingSystem $value . }'
       - insert: 'INSERT { $subject spao:recordingSystem $value . } WHERE { }'
@@ -1581,7 +1581,7 @@ fields:
   - id: InstantiationRepresentationType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/InstantiationRepresentationType
     label: Representation type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1618,7 +1618,7 @@ fields:
   - id: MediaResourceColor
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceColor
     label: Color
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1634,7 +1634,7 @@ fields:
 
   - id: MediaResourceDisplayMode
     label: Display Mode
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     queries:
       - select: 'SELECT $value WHERE { $subject spao:displayMode $value . }'
@@ -1645,7 +1645,7 @@ fields:
   - id: MediaResourceFormatAudio
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceFormatAudio
     label: Audio format
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1671,7 +1671,7 @@ fields:
   - id: MediaResourceFormatContainer
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceFormatContainer
     label: Container format
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
@@ -1698,7 +1698,7 @@ fields:
   - id: MediaResourceFormatVideo
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceFormatVideo
     label: Video format
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1799,7 +1799,7 @@ fields:
   - id: MediaResourceScanningFormat
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceScanningFormat
     label: Scanning format
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1813,7 +1813,7 @@ fields:
   - id: MediaResourceScanningOrder
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceScanningOrder
     label: Scanning order
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1827,7 +1827,7 @@ fields:
   - id: MediaResourceStandard
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceStandard
     label: Standard
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -1845,7 +1845,7 @@ fields:
   - id: MediaResourceVideoDamage
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MediaResourceVideoDamage
     label: Video damage
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ebu.ch/metadata/ontologies/ebucore#MediaResource
     range: http://www.w3.org/2004/02/skos/core#Concept
     queries:
@@ -2165,7 +2165,7 @@ fields:
   - id: Performance_Language
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performance_Language
     label: Performance Language
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -2258,7 +2258,7 @@ fields:
   - id: Performance_Venue
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performance_Venue
     label: Performance Venue
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance
     range: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     queries:
@@ -2285,7 +2285,7 @@ fields:
   - id: Performed_By
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performed_By
     label: Carried out by
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
@@ -2304,10 +2304,10 @@ fields:
         FILTER NOT (CONTAINS(STR($value), "/a/"))
       } LIMIT 10'
 
-  - id: Performed_By_filter_a_u
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performed_By_filter_a_u
+  - id: ActivityCarriedOutBy
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActivityCarriedOutBy
     label: Carried out by
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
@@ -2322,7 +2322,6 @@ fields:
         $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
         rdfs:label ?label .
         FILTER(REGEX(STR(?label), $__token__, "i"))
-        FILTER (regex(STR($value), "/a/","i") || regex(STR($value), "/u/","i") ) .
       } LIMIT 10'
 
 
@@ -2360,7 +2359,7 @@ fields:
   - id: PersonBirthPlace
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonBirthPlace
     label: Place of birth
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E67_Birth
     range: http://www.cidoc-crm.org/cidoc-crm/E53_Place
@@ -2462,7 +2461,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonCommonAppellationType
     label: Type
     description: Additional type of the common appellation
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E82_Actor_Appellation
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
@@ -2522,7 +2521,7 @@ fields:
   - id: PersonDeathPlace
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonDeathPlace
     label: Place of death
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Person
     range: http://www.cidoc-crm.org/cidoc-crm/E53_Place
@@ -2590,7 +2589,7 @@ fields:
   - id: PersonGender
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonGender
     label: Gender
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E21_Person
     range: http://www.cidoc-crm.org/cidoc-crm/E74_Group
@@ -2618,7 +2617,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonGroup
     label: Group
     description: display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
@@ -2782,7 +2781,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonMiscAppellation
     label: Miscellaneous appellation
     description: Any additional appellation
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E21_Person
     range: http://www.cidoc-crm.org/cidoc-crm/E82_Actor_Appellation
     queries:
@@ -2801,7 +2800,7 @@ fields:
   - id: PersonMiscAppellationType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PersonMiscAppellationType
     label: Type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E82_Actor_Appellation
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
@@ -2866,7 +2865,7 @@ fields:
   - id: PlaceFallsWithin
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PlaceFallsWithin
     label: Surrounding place
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E53_Place
@@ -2924,7 +2923,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PlaceGroups
     label: Groups
     description: used for labels only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     range: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     queries:
@@ -2964,7 +2963,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PlacePersons
     label: Persons
     description: used labels only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     range: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     queries:
@@ -2975,7 +2974,7 @@ fields:
   - id: Premiere_Type
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Premiere_Type
     label: Premiere Type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.w3.org/2004/02/skos/core#Concept
     queries:
@@ -2995,25 +2994,6 @@ fields:
     description: A short comment that helps to identify the entity.
     datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
-    queries:
-      - select: 'SELECT ?value WHERE {
-        $subject rdfs:comment ?value.
-      }'
-      - insert: 'INSERT {
-        $subject rdfs:comment $value
-      } WHERE {}'
-      - delete: 'DELETE {
-        $subject rdfs:comment $value
-      } WHERE {}'
-
-  - id: RDFSComment_LDPMode
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSComment_LDPMode
-    label: Comment
-    description: A short comment that helps to identify the entity.
-    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
-    domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
-    minOccurs: 0
-    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE {
         $subject rdfs:comment ?value.
@@ -3101,7 +3081,7 @@ fields:
   - id: RDFtype
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFtype
     label: Type_Setter
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     range: rdfs:Class
@@ -3113,7 +3093,7 @@ fields:
   - id: RDFtype_SPARQLMode
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFtype_SPARQLMode
     label: Type_Setter
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     range: rdfs:Class
@@ -3174,7 +3154,7 @@ fields:
   - id: RecordDocumentaryForm
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordDocumentaryForm
     label: Documentary form
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Record, https://www.ica.org/standards/RiC/ontology#RecordPart
     range: https://www.ica.org/standards/RiC/ontology#RecordResourceDocumentaryForm
     queries:
@@ -3239,7 +3219,7 @@ fields:
   - id: RecordInstantiation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordInstantiation
     label: Instantiation
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.loc.gov/premis/rdf/v1#Representation
     range: https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
@@ -3255,7 +3235,7 @@ fields:
   - id: RecordParts
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordParts
     label: Record parts
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Record
     range: https://www.ica.org/standards/RiC/ontology#RecordPart
     queries:
@@ -3280,7 +3260,7 @@ fields:
   - id: RecordResourceAcquisition
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceAcquisition
     label: Mode of acquisition
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2004/02/skos/core#Concept
     queries:
@@ -3320,7 +3300,7 @@ fields:
   - id: RecordResourceCopyrightDeclaration
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceCopyrightDeclaration
     label: Copyright declaration
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: skos:Concept
     queries:
@@ -3352,7 +3332,7 @@ fields:
   - id: RecordResourceCreator
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceCreator
     label: Creator
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: https://www.ica.org/standards/RiC/ontology#Person
     queries:
@@ -3376,7 +3356,7 @@ fields:
   - id: RecordResourceCreatorA
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceCreatorA
     label: Creator
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: https://www.ica.org/standards/RiC/ontology#Person
     queries:
@@ -3407,7 +3387,7 @@ fields:
   - id: RecordResourceCreatorU
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceCreatorU
     label: Creatoru
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: https://www.ica.org/standards/RiC/ontology#Person
     queries:
@@ -3450,7 +3430,7 @@ fields:
   - id: RecordResourceDate
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceDate
     label: Date
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
       - select: 'SELECT $value WHERE { $subject rico:isAssociatedWithDate $value . }'
@@ -3461,7 +3441,7 @@ fields:
   - id: RecordResourceDateBeginning
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceDateBeginning
     label: Beginning
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
@@ -3474,7 +3454,7 @@ fields:
   - id: RecordResourceDateCertainty
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceDateCertainty
     label: Certainty
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Date
     queries:
@@ -3493,7 +3473,7 @@ fields:
   - id: RecordResourceDateEnd
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceDateEnd
     label: End
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
@@ -3535,7 +3515,7 @@ fields:
   - id: RecordResourceDateQualifier
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceDateQualifier
     label: Qualifier
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Date
     queries:
@@ -3550,7 +3530,7 @@ fields:
   - id: RecordResourceDateType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceDateType
     label: Date type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
@@ -3610,7 +3590,7 @@ fields:
   - id: RecordResourceExtent
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceExtent
     label: Extent
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: https://www.ica.org/standards/RiC/ontology#RecordResourceExtent
     queries:
@@ -3642,7 +3622,7 @@ fields:
   - id: RecordResourceExtentUnit
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceExtentUnit
     label: Extent Unit
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Extent
     range: https://www.ica.org/standards/RiC/ontology#unitOfMeasurement
@@ -3671,7 +3651,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceHierarchy
     label: Record hierarchy
     description: used for display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
@@ -3697,7 +3677,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceIIIF
     label: IIIF
     description: e.g. https://media.performing-arts.ch/iiif/3/image%2F123-ABC
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: rdfs:Class
     queries:
@@ -3728,7 +3708,7 @@ fields:
   - id: RecordResourceIIIFManifest
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceIIIFManifest
     label: IIIF Manifest
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: rdfs:Class
     queries:
@@ -3763,7 +3743,7 @@ fields:
   - id: RecordResourceLanguage
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceLanguage
     label: Language
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2004/02/skos/core#Concept
     queries:
@@ -3859,7 +3839,7 @@ fields:
   - id: RecordResourcePacking
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourcePacking
     label: Packing
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: http://ontology.performing-arts.ch/ArchivalPlace
     queries:
@@ -3882,7 +3862,7 @@ fields:
   - id: RecordResourcePackingDepricated
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourcePackingDepricated
     label: Packing (depricated)
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
       - select: 'SELECT $value WHERE { $subject spao:hasPacking $value. }'
@@ -3904,7 +3884,7 @@ fields:
   - id: RecordResourceParent
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceParent
     label: Parent
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
@@ -3980,7 +3960,7 @@ fields:
 
   - id: RecordResourcePDFCloudResource
     label: SAPA Cloud
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     queries:
       - select: 'SELECT $value WHERE {
           $subject rico:hasInstantiation ?value .
@@ -4000,7 +3980,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourcePDF
     label: PDF
     description: e.g. https://cloud.sapa.swiss/s/Bpoo56qtRyjtWdA
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: rdfs:Class
     queries:
@@ -4027,7 +4007,7 @@ fields:
   - id: RecordResourcePhotoType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourcePhotoType
     label: Type of print
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Record
     range: http://www.w3.org/2004/02/skos/core#Concept
     queries:
@@ -4047,7 +4027,7 @@ fields:
   - id: RecordResourcePlace
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourcePlace
     label: Place
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: https://www.ica.org/standards/RiC/ontology#Place
     queries:
@@ -4132,7 +4112,7 @@ fields:
   - id: RecordResourceProcessingDate
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceProcessingDate
     label: Processing date
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation, https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
       - select: 'SELECT $value WHERE { $subject spao:hasProcessingDate $value . }'
@@ -4155,7 +4135,7 @@ fields:
   - id: RecordResourceProvenance
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceProvenance
     label: Provenienz
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: https://www.ica.org/standards/RiC/ontology#Agent
     queries:
@@ -4201,7 +4181,7 @@ fields:
   - id: RecordResourceSubject
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceSubject
     label: Subject
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
     queries:
@@ -4248,7 +4228,7 @@ fields:
   - id: RecordResourceSubjectARWO
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceSubjectA
     label: Subject
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
     queries:
@@ -4298,7 +4278,7 @@ fields:
   - id: RecordResourceSubjectU
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceSubjectU
     label: SubjectU
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
     queries:
@@ -4348,7 +4328,7 @@ fields:
   - id: RecordResourceUsageRightsStill
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceUsageRightsStill
     label: Usage rights still
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -4368,7 +4348,7 @@ fields:
   - id: RecordResourceUsageRightsStreaming
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceUsageRightsStreaming
     label: Usage rights streaming
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -4389,7 +4369,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceVimeo
     label: Vimeo
     description: e.g. http://vimeo.com/123
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: rdfs:Class
@@ -4434,7 +4414,7 @@ fields:
   - id: RecordSetDocumentaryForm
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordSetDocumentaryForm
     label: Documentary form
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordSet
     range: https://www.ica.org/standards/RiC/ontology#RecordResourceDocumentaryForm
     queries:
@@ -4493,7 +4473,7 @@ fields:
   - id: RecordSetType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordSetType
     label: Level
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordSet
@@ -4881,7 +4861,7 @@ fields:
   - id: RepresentationFile
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RepresentationFile
     label: File
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.loc.gov/premis/rdf/v1#Representation
     range: http://www.loc.gov/premis/rdf/v1#File
     queries:
@@ -4966,7 +4946,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/SameAs_SPARQLMode
     label: External resources
     description: Expects URIs from other databases such as Wikidata, GND, etc.
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     range: rdfs:Class
     queries:
@@ -5023,7 +5003,7 @@ fields:
   - id: ScopeID
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ScopeID
     label: Scope ID
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2002/07/owl#Class
@@ -5046,7 +5026,7 @@ fields:
   - id: Subtitle_Language
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Subtitle_Language
     label: Subtitle Language
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -5072,7 +5052,7 @@ fields:
   - id: ThingAccessability
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingAccessability
     label: Accessibility
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Instantiation, https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -5150,7 +5130,7 @@ fields:
   - id: ThingTypedIdentifier
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingTypedIdentifier
     label: Typed Identifier
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Thing
     queries:
       - select: 'SELECT ?value WHERE { $subject rico:hasOrHadIdentifier ?value. }'
@@ -5160,7 +5140,7 @@ fields:
   - id: ThingLocation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingLocation
     label: Location
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Thing
     range: http://ontology.performing-arts.ch/ArchivalPlace
     queries:
@@ -5265,7 +5245,7 @@ fields:
   - id: ThingPermission
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingPermission
     label: Permission
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -5304,7 +5284,7 @@ fields:
   - id: ThingSeeAlso
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingSeeAlso
     label: See also
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Thing
     range: https://www.ica.org/standards/RiC/ontology#Thing
     queries:
@@ -5345,7 +5325,7 @@ fields:
   - id: ThingSeeAlso_SPARQLMode
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingSeeAlso
     label: See also
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#Thing
     range: https://www.ica.org/standards/RiC/ontology#Thing
     queries:
@@ -5412,7 +5392,7 @@ fields:
   - id: ThingTermsProtection
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingTermsProtection
     label: Terms of protection
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#Thing
     range: http://www.w3.org/2004/02/skos/core#Concept
@@ -5726,7 +5706,7 @@ fields:
   - id: VenueCommonTitleType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueCommonTitleType
     label: Type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
@@ -5754,7 +5734,7 @@ fields:
   - id: VenueContains
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueContains
     label: contains
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     range: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     queries:
@@ -5814,7 +5794,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueIsPartOf
     label: is part of
     description: display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     range: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     queries:
@@ -5845,7 +5825,7 @@ fields:
   - id: VenueLocation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueLocation
     label: Location
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     range: http://www.cidoc-crm.org/cidoc-crm/E53_Place
@@ -5914,7 +5894,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueManagement
     label: managed by
     description: display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     range: http://www.cidoc-crm.org/cidoc-crm/E74_Group
     queries:
@@ -5944,7 +5924,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueProducers
     label: Producers
     description: display only
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     range: http://www.cidoc-crm.org/cidoc-crm/E74_Group
     queries:
@@ -5963,7 +5943,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Website
     label: Website
     description: e.g. http://www.sapa.swiss
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     range: http://metaphacts.com/Link
     queries:
@@ -5992,7 +5972,7 @@ fields:
   - id: WorkActivity
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/WorkActivity
     label: Work Activity
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
@@ -6016,7 +5996,7 @@ fields:
   - id: misc_performance_functions
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/misc_performance_functions
     label: misc. Performance Functions
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -6039,7 +6019,7 @@ fields:
   - id: reference_work_functions
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/reference_work_functions
     label: reference work functions
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
@@ -6054,7 +6034,7 @@ fields:
   - id: season
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/season
     label: Season
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
     range: http://www.cidoc-crm.org/cidoc-crm/E4_Period
     queries:
@@ -6075,7 +6055,7 @@ fields:
   - id: typeset
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/typeset
     label: typeset
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
     range: rdfs:Class
@@ -6086,167 +6066,28 @@ fields:
       - insert: 'INSERT { $subject a $value} WHERE {}'
       - delete: 'DELETE { $subject a $value} WHERE {}'
 
-  - id: performativework_Label_SPARQLMode
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_Label_SPARQLMode
-    label: Label
-    maxOccurs: "1"
-    datatype: http://www.w3.org/2001/XMLSchema#langString
-    domain: frbroo:F22_Self-Contained_Expression
-    queries:
-      - select: 'SELECT ?value WHERE { 
-          GRAPH ?g {
-            $subject rdfs:label ?value . 
-          }
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-        }'
-      - insert: 'INSERT { 
-          GRAPH ?g {
-            $subject rdfs:label $value .
-          }
-        } WHERE {
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-        }'
-      - delete: 'DELETE { 
-          GRAPH ?g {
-            $subject rdfs:label $value .
-          } 
-        } WHERE {
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-        }'
-
-  #
-  # Performative Work
-  #
-
-  - id: performativework_TitleEntity_SPARQLMode
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_TitleEntity_SPARQLMode
-    label: Title
-    datatype: xsd:anyURI
-    queries:
-      - select: 'SELECT ?value WHERE {
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-          GRAPH ?g {
-            $subject crm:P102_has_title ?value .
-          }
-        }'
-      - insert: 'INSERT {
-          GRAPH ?g {
-            $subject crm:P102_has_title $value .
-            $value a crm:E35_Title .
-          }
-        } WHERE {
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-        }'
-      - delete: 'DELETE {
-          GRAPH ?g {
-            $subject crm:P102_has_title $value .
-            $value a crm:E35_Title .
-          }
-        } WHERE {
-          BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
-        }'
-
-  - id: performativework_TitleType_SPARQLMode
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_TitleType_SPARQLMode
-    label: Type
-    minOccurs: "1"
-    maxOccurs: "1"
-    datatype: xsd:anyURI
-    queries:
-      - select: 'SELECT ?value WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-          GRAPH ?g {
-            $subject crm:P2_has_type ?value .
-          }
-        }'
-      - insert: 'INSERT {
-          GRAPH ?g {
-            $subject crm:P2_has_type $value .
-          }
-        } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
-      - delete: 'DELETE {
-          GRAPH ?g {
-            $subject crm:P2_has_type $value .
-          }
-        } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
-      - valueSet: 'SELECT ?value WHERE {
-          ?value skos:inScheme spav:go .
-        }'
-
-  - id: performativework_TitleValue_SPARQLMode
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/performativework_TitleValue_SPARQLMode
-    label: Title
-    minOccurs: "1"
-    maxOccurs: "1"
-    datatype: xsd:langString
-    queries:
-      - select: 'SELECT ?value WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-          GRAPH ?g {
-            $subject rdf:value ?value .
-          }
-        }'
-      - insert: 'INSERT {
-          GRAPH ?g {
-            $subject rdf:value $value .
-          }
-        } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
-      - delete: 'DELETE {
-          GRAPH ?g {
-            $subject rdf:value $value .
-          }
-        } WHERE {
-          $parent crm:P102_has_title $subject .
-          BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
-        }'
-
-
   
-
   #
   # Expression Creation
   #
 
-  - id: ExpressionCreation
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expression_creation_SPARQL
+  - id: ExpressionCreationCreated
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreationCreated
     label: Activity
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: "1"
     maxOccurs: "1"
     domain: frbroo:F28_Expression_Creation
     queries:
       - select: 'SELECT $value WHERE { $value frbroo:R17_created $subject . } '
       - insert: 'INSERT { $value frbroo:R17_created $subject . }  WHERE { }'
-      - delete: 'DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}'
+      - delete: 'DELETE { $value frbroo:R17_created $subject . } WHERE {}'
 
-  - id: expressioncreation_create
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expressioncreation_create_SPARQL
-    label: Create
+  - id: ActivityConsistsOf
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActivityConsistsOf
     minOccurs: "1"
-    maxOccurs: "1"
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
-    domain: frbroo:F28_Expression_Creation
-    queries:
-      - select: 'SELECT $value WHERE { $value frbroo:R17_created $subject .  }'
-      - insert: 'INSERT { $value frbroo:R17_created $subject .  } WHERE { }'
-      - delete: 'DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}'
-
-  - id: ExpressionCreationActivity
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expressioncreation_activity_SPARQL
-    minOccurs: "1"
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
-    domain: frbroo:F28_Expression_Creation
+    datatype: xsd:anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
       - select: 'SELECT ?value WHERE {
@@ -6255,10 +6096,10 @@ fields:
       - insert: 'INSERT { $subject crm:P9_consists_of ?value . } WHERE {}'
       - delete: 'DELETE { $subject crm:P9_consists_of ?value . } WHERE {}'  
     
-  - id: ExpressionCreationActivity_Certainty
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreationActivity_Certainty
+  - id: ActivityCertainty
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActivityCertainty
     label: Certainty
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 0
     maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
@@ -6266,55 +6107,18 @@ fields:
       - select: 'SELECT ?value WHERE { $subject rico:certainty $value. }'
       - insert: 'INSERT { $subject rico:certainty $value . } WHERE {}'
       - delete: 'DELETE { $subject rico:certainty $value .} WHERE {}'
-      - autosuggestion: 'SELECT $value $label WHERE {
-            $value skos:inScheme spav:ct ;
-              skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
-          } LIMIT 10'
-    treePatterns:
-      type: full
-      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
-          ?item skos:inScheme spav:ct ;
-          skos:prefLabel ?label .
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY (?label)'
-      childrenQuery: '
-        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          ?item skos:broader ?parent.
-          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY (?label)'
-      parentsQuery: '
-        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          ?item skos:broader ?parent.
-          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY (?label)'
-      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
-        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
-        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
-        ?item skos:inScheme spav:ct ;
-        skos:prefLabel ?label .
-        ?label bds:search ?__token__ ; 
-        bds:relevance ?score ; bds:matchAllTerms "true"
-        OPTIONAL { ?child skos:broader ?item. }
-        BIND(BOUND(?child) AS ?hasChildren)
-      }
-        ORDER BY DESC (?score) (?label)
-        LIMIT 200'  
+      - valueSet: 'SELECT $value WHERE { 
+              VALUES ( $value ) {
+              ( spav:ctddd )
+              ( spav:ctprb )
+              ( spav:ctuct )
+              }
+            }'
    
-  - id: ExpressionCreationActivity_AdditionalType
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreationActivity_AdditionalType
+  - id: ActivityAdditionalType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActivityAdditionalType
     label: Second
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
       - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
@@ -6365,10 +6169,10 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'  
 
-  - id: Activity_Type_multiple
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Type_multiple
+  - id: ActivityHasType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActivityHasType
     label: Type
-    datatype: http://www.w3.org/2001/XMLSchema#anyURI
+    datatype: xsd:anyURI
     minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type

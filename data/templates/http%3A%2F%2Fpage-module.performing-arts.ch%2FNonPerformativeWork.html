@@ -18,7 +18,7 @@
       [[> RDFSLabel]],
       [[> SameAs]],
       [[> TitleEntity]],      
-      [[> ExpressionCreation]]      
+      [[> ExpressionCreationCreated]]      
     ]'>
 
     <bs-panel>
@@ -57,11 +57,11 @@
 
       <hr/>
       <!-- #######################"" Expression Creation #######################" -->
-      <semantic-form-composite-input for="ExpressionCreation"
+      <semantic-form-composite-input for="ExpressionCreationCreated"
         new-subject-template='/creation'
         fields='[
           [[> RDFtype]],
-          [[> ExpressionCreationActivity]]
+          [[> ActivityConsistsOf]]
         ]'
         >
         <div style="display: none;">
@@ -70,15 +70,15 @@
         </div>
         <!-- ConsistOf to Activity -->
         <bs-row>
-          <semantic-form-composite-input for="ExpressionCreationActivity"
+          <semantic-form-composite-input for="ActivityConsistsOf"
             new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
             fields='[
               [[> RDFtype]],
-              [[> Activity_Type_multiple]],
-              [[> ExpressionCreationActivity_AdditionalType]],
-              [[> Performed_By_filter_a_u]],
-              [[> ExpressionCreationActivity_Certainty]],
-              [[> RDFSComment_LDPMode]]            
+              [[> ActivityHasType]],
+              [[> ActivityAdditionalType]],
+              [[> ActivityCarriedOutBy]],
+              [[> ActivityCertainty]],
+              [[> RDFSComment]]            
             ]'>
             <div style="display: none;">
               <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E7_Activity"]]'></semantic-form-hidden-input>
@@ -86,25 +86,25 @@
             <bs-row>
               <bs-col sm='2'>
                 <!-- Activity Type -->
-                <semantic-form-tree-picker-input for="Activity_Type_multiple"></semantic-form-tree-picker-input>
+                <semantic-form-tree-picker-input for="ActivityHasType"></semantic-form-tree-picker-input>
               </bs-col>
               <bs-col sm='2'>
                 <!-- Additional Type -->
-                <semantic-form-tree-picker-input for="ExpressionCreationActivity_AdditionalType"></semantic-form-tree-picker-input>
+                <semantic-form-tree-picker-input for="ActivityAdditionalType"></semantic-form-tree-picker-input>
               </bs-col>              
               <!-- Carried out by  -->
               <bs-col sm='2'>
-                <semantic-form-autocomplete-input for="Performed_By_filter_a_u" placeholder='Search persons...'></semantic-form-autocomplete-input>
+                <semantic-form-autocomplete-input for="ActivityCarriedOutBy" placeholder='Search persons...'></semantic-form-autocomplete-input>
               </bs-col>
               <!-- certainty -->
               <bs-col sm='2'>
-                <semantic-form-tree-picker-input for="ExpressionCreationActivity_Certainty"></semantic-form-autocomplete-input>
+                <semantic-form-checklist-input row=true for="ActivityCertainty"></semantic-form-checklist-input>
               </bs-col>
             </bs-row> 
             <bs-row>
               <!-- Comment -->
                <bs-col sm='10'>
-                <semantic-form-text-input for="RDFSComment_LDPMode" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+                <semantic-form-text-input for="RDFSComment" languages='["en","de","it","fr"]' ></semantic-form-text-input>
               </bs-col>
             </bs-row>
           </semantic-form-composite-input>
