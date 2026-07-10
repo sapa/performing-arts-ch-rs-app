@@ -3006,8 +3006,8 @@ fields:
         $subject rdfs:comment $value
       } WHERE {}'
 
-  - id: RDFSComment_ldp
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSComment
+  - id: RDFSComment_LDPMode
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSComment_LDPMode
     label: Comment
     description: A short comment that helps to identify the entity.
     datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
@@ -5457,7 +5457,7 @@ fields:
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
         }'
     
-  - id: TitleEntity_optional_ldp
+  - id: TitleEntity
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleEntity_optional_ldp
     label: Title
     datatype: xsd:anyURI
@@ -5508,8 +5508,8 @@ fields:
           ?value skos:inScheme spav:go .
         }'
 
-  - id: TitleType_ldp
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleType_ldp
+  - id: TitleType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleType
     label: Type
     datatype: xsd:anyURI
     minOccurs: 1
@@ -5594,8 +5594,8 @@ fields:
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
   
-  - id: TitleValue_ldp
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleValue_ldp
+  - id: TitleValue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleValue
     label: Title
     datatype: xsd:langString
     minOccurs: 1
@@ -6218,7 +6218,7 @@ fields:
   # Expression Creation
   #
 
-  - id: expression_creation
+  - id: ExpressionCreation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expression_creation_SPARQL
     label: Activity
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
@@ -6242,7 +6242,7 @@ fields:
       - insert: 'INSERT { $value frbroo:R17_created $subject .  } WHERE { }'
       - delete: 'DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}'
 
-  - id: expressioncreation_activity
+  - id: ExpressionCreationActivity
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/expressioncreation_activity_SPARQL
     minOccurs: "1"
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
@@ -6255,8 +6255,8 @@ fields:
       - insert: 'INSERT { $subject crm:P9_consists_of ?value . } WHERE {}'
       - delete: 'DELETE { $subject crm:P9_consists_of ?value . } WHERE {}'  
     
-  - id: ec_activity_certainty
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ec_activity_certainty_SPARQL
+  - id: ExpressionCreationActivity_Certainty
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreationActivity_Certainty
     label: Certainty
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     minOccurs: 0
@@ -6311,8 +6311,8 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'  
    
-  - id: ec_activity_additional_type
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ec_activity_additional_type
+  - id: ExpressionCreationActivity_AdditionalType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreationActivity_AdditionalType
     label: Second
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
@@ -6366,7 +6366,7 @@ fields:
         LIMIT 200'  
 
   - id: Activity_Type_multiple
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Type
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Type_multiple
     label: Type
     datatype: http://www.w3.org/2001/XMLSchema#anyURI
     minOccurs: 1
