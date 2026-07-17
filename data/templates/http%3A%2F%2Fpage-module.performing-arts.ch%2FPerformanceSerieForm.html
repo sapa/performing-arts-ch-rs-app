@@ -1,0 +1,112 @@
+[[> sapaModule:FieldDefinitions]]
+
+  <div data-flex-layout='row top-stretch'>
+    <semantic-form 
+     [[#if create]]
+        new-subject-template='http://data.performing-arts.ch/u/{{UUID}}'
+        post-action="redirect"
+      [[else]]
+        subject='[[this]]'
+        post-action="reload"
+     [[/if]]
+      
+      browser-persistence=true
+      persistence='ldp' 
+      form-id='performanceSerie'
+      fields='[
+        [[> RDFtype]],  
+        [[> PerformanceSerie_AdditionalType ]],
+        [[> Season_Unique ]],
+        [[> PerformanceSerie_ActivityType]],
+        [[> Performance_Label]],
+        [[> Performance_Venue]],
+        [[> TitleEntity_Unique]],
+
+        
+        [[> HasNote_SPARQLMode]],
+        [[> RDFSComment_SPARQLMode]],
+        
+        [[> Performance_External_ID_SPARQLMode]],
+        [[> Performance_Rep_ID_SPARQLMode]],
+        [[> Performance_Genre_SPARQLMode]],
+        [[> Performance_Music_Title_SPARQLMode]],
+        [[> Performance_Note_Entity_Typed_SPARQLMode]],
+        
+        [[> Performance_Vimeo_SPARQLMode]]
+        
+      ]'>
+      <bs-panel>
+        <semantic-form-recover-notification></semantic-form-recover-notification>
+        <div style="display: none;">
+          <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F31_Performance"]]'></semantic-form-hidden-input>
+          <semantic-form-hidden-input for="PerformanceSerie_AdditionalType"></semantic-form-hidden-input>
+        </div>
+
+        <!-- Season -->
+        <semantic-form-autocomplete-input for='Season_Unique'></semantic-form-autocomplete-input>
+        <!-- Type of Performance Serie -->
+        <semantic-form-tree-picker-input for="PerformanceSerie_ActivityType"></semantic-form-tree-picker-input>
+        <!-- Label -->
+        <semantic-form-text-input for="Performance_Label" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+        
+        <!-- Productions -->
+        <!-- Venue -->
+        <semantic-form-autocomplete-input for="Performance_Venue"></semantic-form-autocomplete-input> 
+        <!-- Venue /u/ -->
+
+        <hr/>
+        <!-- Title -->
+        <semantic-form-composite-input for="TitleEntity_Unique"
+          new-subject-template='/title'
+          fields='[
+            [[> RDFtype]],
+            [[> TitleType]],
+            [[> TitleValue]]
+          ]'
+          >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>          
+          </div>
+
+          <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
+          <semantic-form-text-input for="TitleValue" languages='["en","de","it","fr"]' ></semantic-form-text-input>          
+        </semantic-form-composite-input>
+        
+        <!-- Linguistic Object -->
+        <semantic-form-composite-input for="Performance_Note_Entity"
+          new-subject-template='/title'
+          fields='[
+            [[> RDFtype]]
+          ]'
+          >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E33_Linguistic_Object"]]'></semantic-form-hidden-input>          
+          </div>
+        </semantic-form-composite-input>
+
+
+        <!-- Evaluer -->
+        <semantic-form-select-input for="Performance_Genre_SPARQLMode" ></semantic-form-select-input>
+        <semantic-form-composite-input for="Performance_Note_Entity_Typed_SPARQLMode"
+          new-subject-template='/note/{{UUID}}'
+          fields='[
+            [[> Performance_Note_Type_SPARQLMode]],
+            [[> Performance_Note_Value_SPARQLMode]]
+          ]'
+        >
+          <semantic-form-text-input for="Performance_Note_Value_SPARQLMode" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+          <semantic-form-select-input for="Performance_Note_Type_SPARQLMode"></semantic-form-select-input>
+        </semantic-form-composite-input>
+        <semantic-form-text-input for="Performance_Rep_ID_SPARQLMode"></semantic-form-text-input>
+        <semantic-form-text-input for="Performance_External_ID_SPARQLMode"></semantic-form-text-input>
+        <semantic-form-text-input for="Performance_Music_Title_SPARQLMode"></semantic-form-text-input>
+        <semantic-form-text-input for="RDFSComment_SPARQLMode"></semantic-form-text-input>
+
+        <semantic-form-text-input for="Performance_Vimeo_SPARQLMode"></semantic-form-text-input>
+
+        <semantic-form-errors></semantic-form-errors>
+        <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+        <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+      </bs-panel>
+    </semantic-form>
+  </div>
