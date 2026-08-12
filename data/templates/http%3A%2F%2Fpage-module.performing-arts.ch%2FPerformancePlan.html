@@ -163,7 +163,9 @@
                   [[> Activity_AdditionalType]],
                   [[> Activity_Actor]],
                   [[> Activity_Certainty]],
-                  [[> RDFSComment]]
+                  [[> RDFSComment]],
+                  [[> Activity_Index]],
+                  [[> Activity_Label]]
                 ]'>
                 <div style="display: none;">
                   <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E7_Activity"]]'></semantic-form-hidden-input>
@@ -192,6 +194,14 @@
                     <semantic-form-text-input for="RDFSComment" languages='["en","de","it","fr"]' ></semantic-form-text-input>
                   </bs-col>
                 </bs-row>
+                <bs-row>
+                  <bs-col sm='2'>
+                    <semantic-form-text-input for="Activity_Index"></semantic-form-text-input>
+                  </bs-col>
+                  <bs-col sm='8'>
+                    <semantic-form-text-input for="Activity_Label" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+                  </bs-col>
+                </bs-row>  
             </semantic-form-composite-input>
           </bs-row>
         </semantic-form-composite-input>

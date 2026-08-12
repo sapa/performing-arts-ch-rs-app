@@ -2162,18 +2162,6 @@ fields:
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
         }'
   
-  - id: PerformanceLabel
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceLabel
-    label: Label (Serie)
-    datatype: http://www.w3.org/2001/XMLSchema#langString
-    domain: frbroo:F31_Performance
-    minOccurs: 1
-    maxOccurs: 1
-    queries:
-      - select: 'SELECT ?value WHERE {  $subject rdfs:label ?value . }'
-      - insert: 'INSERT { $subject rdfs:label $value . } WHERE {}'
-      - delete: 'DELETE { $subject rdfs:label $value . } WHERE {}'
-
   - id: Performance_Language
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performance_Language
     label: Performance Language
@@ -3029,26 +3017,6 @@ fields:
       } WHERE {
         BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
       }'
-
-
-  # Label
-  - id: RDFSLabel
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSLabel
-    label: Label
-    description: &RDFSLabel_description A short comment that helps to identify the entity.
-    datatype: &RDFSLabel_datatype http://www.w3.org/2001/XMLSchema#string
-    domain: &RDFSLabel_domain http://www.w3.org/2002/07/owl#Class
-    maxOccurs: &RDFSLabel_maxOccurs 1
-    queries:
-      - select: &RDFSLabel_queries_select 'SELECT ?value WHERE {
-        $subject rdfs:label ?value.
-      }'
-      - insert: &RDFSLabel_queries_insert 'INSERT {
-        $subject rdfs:label $value
-      } WHERE {}'
-      - delete: &RDFSLabel_queries_delete 'DELETE {
-        $subject rdfs:label $value
-      } WHERE {}'
 
   - id: RDFSLabel_SPARQLMode
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSLabel_SPARQLMode
@@ -4924,7 +4892,6 @@ fields:
       - delete: 'DELETE { $subject schema:duration $value . } WHERE {}'
       - ask: 'ASK { FILTER(REGEX($value, "^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]$")) }'
 
-
   - id: ScopeID
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ScopeID
     label: Scope ID
@@ -4946,7 +4913,6 @@ fields:
       } WHERE {
         FILTER(CONTAINS(STR($value), "http://catalogue.collectiondeladanse.ch")) .
       } '
-
 
   - id: Subtitle_Language
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Subtitle_Language
@@ -4973,7 +4939,6 @@ fields:
       } LIMIT 10
         '
 
-
   - id: ThingAccessability
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingAccessability
     label: Accessibility
@@ -4992,7 +4957,6 @@ fields:
     }
       }'
 
-
   - id: ThingAccessibility
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingAccessibility
     label: Accessibility
@@ -5009,7 +4973,6 @@ fields:
       - delete: 'DELETE {
     $subject spao:hasAccessibility $value.
       } WHERE {}'
-
 
   - id: ThingConditionsAccess
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingConditionsAccess
@@ -5029,7 +4992,6 @@ fields:
     $subject rico:conditionsOfAccess $value.
       } WHERE {}'
 
-
   - id: ThingIdentifier
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingIdentifier
     label: Identifier
@@ -5040,7 +5002,6 @@ fields:
       - select: 'SELECT ?value WHERE { $subject rico:identifier ?value. }'
       - insert: 'INSERT { $subject rico:identifier $value. } WHERE {}'
       - delete: 'DELETE { $subject rico:identifier $value. } WHERE {}'
-
 
   - id: ThingLegacyIdentifier
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingLegacyIdentifier
@@ -5131,7 +5092,6 @@ fields:
       ORDER BY DESC (?score) (?label)
       LIMIT 200'
 
-
   - id: ThingName
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingName
     label: Name
@@ -5144,7 +5104,6 @@ fields:
       - insert: 'INSERT { $subject rico:name $value} WHERE {}'
       - delete: 'DELETE { $subject rico:name $value} WHERE {}'
 
-
   - id: ThingNote
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingNote
     label: Anmerkung
@@ -5155,7 +5114,6 @@ fields:
       - insert: 'INSERT { $subject spao:hasNote $value. } WHERE { }'
       - delete: 'DELETE { $subject spao:hasNote $value. } WHERE { }'
 
-
   - id: ThingNoteInternal
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingNoteInternal
     label: Internal note
@@ -5165,7 +5123,6 @@ fields:
       - select: 'SELECT $value WHERE { $subject spao:hasInternalNote $value. }'
       - insert: 'INSERT { $subject spao:hasInternalNote $value. } WHERE { }'
       - delete: 'DELETE { $subject spao:hasInternalNote $value. } WHERE {}'
-
 
   - id: ThingPermission
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingPermission
@@ -5186,7 +5143,6 @@ fields:
     }
       }'
 
-
   - id: ThingPhysicalUsability
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingPhysicalUsability
     label: Physical usability
@@ -5204,7 +5160,6 @@ fields:
         ( spav:punps )
     }
       }'
-
 
   - id: ThingSeeAlso
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingSeeAlso
@@ -5362,8 +5317,6 @@ fields:
           BIND(URI(CONCAT(STR($subject), "/container/context")) as ?g)
         }'
     
-  
-
   - id: TitleType_SPARQLMode
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleType_SPARQLMode
     label: Type
@@ -5482,20 +5435,6 @@ fields:
           BIND(URI(CONCAT(STR($parent), "/container/context")) as ?g)
         }'
   
-  - id: TitleValue
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleValue
-    label: Title
-    datatype: xsd:langString
-    minOccurs: 1
-    maxOccurs: 1
-    queries:
-      - select: 'SELECT ?value WHERE {
-          $parent crm:P102_has_title $subject .
-          $subject rdf:value ?value .          
-        }'
-      - insert: 'INSERT { $subject rdf:value $value . } WHERE { }' #$parent crm:P102_has_title $subject .
-      - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
-
   - id: VenueAcronym
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueAcronym
     label: Acronym
@@ -5522,7 +5461,6 @@ fields:
         rdf:value $value .
       } WHERE {}'
 
-
   - id: VenueAltTitle
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueAltTitle
     label: Alternative name
@@ -5548,7 +5486,6 @@ fields:
         crm:P2_has_type spav:yavtx ;
         rdf:value ?value .
       } WHERE {} '
-
 
   - id: VenueBeginning
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueBeginning
@@ -5581,7 +5518,6 @@ fields:
       }'
       - ask: 'ASK { FILTER(REGEX($value, "^([0-9]{4})?$")) }'
 
-
   - id: VenueCommonTitle
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueCommonTitle
     label: Common title
@@ -5610,7 +5546,6 @@ fields:
     BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), "common_title")))) AS $title)
       } '
 
-
   - id: VenueCommonTitleType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueCommonTitleType
     label: Type
@@ -5638,7 +5573,6 @@ fields:
     VALUES ($value) { (spav:yanuj) (spav:yasis) }
       }'
 
-
   - id: VenueContains
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueContains
     label: contains
@@ -5664,7 +5598,6 @@ fields:
         FILTER(REGEX(STR(?label), $__token__, "i"))
         FILTER(CONTAINS(STR(?value), "/o/"))
       } LIMIT 10'
-
 
   - id: VenueEnd
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueEnd
@@ -5697,7 +5630,6 @@ fields:
       }'
       - ask: 'ASK { FILTER(REGEX($value, "^([0-9]{4})?$")) }'
 
-
   - id: VenueIsPartOf
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueIsPartOf
     label: is part of
@@ -5728,7 +5660,6 @@ fields:
         FILTER(REGEX(STR(?label), $__token__, "i"))
         FILTER(CONTAINS(STR(?value), "/o/"))
       } LIMIT 10'
-
 
   - id: VenueLocation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueLocation
@@ -5797,7 +5728,6 @@ fields:
       ORDER BY DESC (?score) (?label)
       LIMIT 200'
 
-
   - id: VenueManagement
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueManagement
     label: managed by
@@ -5827,7 +5757,6 @@ fields:
     BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), STR(?value))))) as ?activity)
       }'
 
-
   - id: VenueProducers
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueProducers
     label: Producers
@@ -5845,7 +5774,6 @@ fields:
       } WHERE {	 
         BIND(IRI(CONCAT("http://data.performing-arts.ch/x/", MD5(CONCAT(STR(?subject), STR(?value))))) as ?activity)
       }'
-
 
   - id: Website
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Website
@@ -5876,7 +5804,6 @@ fields:
         rdf:value ?value .
       } WHERE {}'
 
-
   - id: WorkActivity
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/WorkActivity
     label: Work Activity
@@ -5900,7 +5827,6 @@ fields:
         BIND(IRI(CONCAT("http://data.performing-arts.ch/u/", MD5(STR(?value)))) AS ?sce)
       }'
 
-
   - id: misc_performance_functions
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/misc_performance_functions
     label: misc. Performance Functions
@@ -5923,7 +5849,6 @@ fields:
         BIND(IRI(CONCAT(STR(?subject), "/p")) AS ?genericperformance)
       } '
 
-
   - id: reference_work_functions
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/reference_work_functions
     label: reference work functions
@@ -5937,7 +5862,6 @@ fields:
         crm:P9_consists_of ?activity.
         ?activity crm:P2_has_type ?value.
       }'
-
 
   - id: season
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/season
@@ -5958,28 +5882,6 @@ fields:
       } WHERE {
         FILTER(CONTAINS(STR(?value), "/s/"))
       } '
-
-  - id: Season_Unique
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/season
-    label: Season
-    minOccurs: "1"
-    maxOccurs: "1"
-    datatype: xsd:anyURI
-    domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
-    range: http://www.cidoc-crm.org/cidoc-crm/E4_Period
-    queries:
-      - select: 'SELECT ?value ?label WHERE {
-        $subject crm:P10_falls_within ?value .
-        FILTER(CONTAINS(STR(?value), "/s/"))
-      }'
-      - insert: 'INSERT { $subject crm:P10_falls_within ?value . } WHERE {} '
-      - delete: 'DELETE { $subject crm:P10_falls_within ?value . } WHERE {} '
-      - autosuggestion: 'SELECT $value $label WHERE {
-            ?value a crm:E4_Period  .
-            ?value rdfs:label ?label .
-            FILTER(contains(str(?value),"/s/")) 
-          } LIMIT 10'
-
 
   - id: typeset
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/typeset
@@ -6145,48 +6047,6 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'  
           
-
-
-
-  # Performance Plan
-
-
-  - id: TitleEntity_Optional
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleEntity_Unique
-    label: Title
-    datatype: xsd:anyURI
-    queries:
-      - select: 'SELECT ?value WHERE {
-          $subject crm:P102_has_title ?value .          
-        }'
-      - insert: 'INSERT {
-            $subject crm:P102_has_title $value .
-            $value a crm:E35_Title .          
-        } WHERE { }'
-      - delete: 'DELETE {
-            $subject crm:P102_has_title $value .
-            $value a crm:E35_Title .          
-        } WHERE {  }'
-
-
-  
-  - id: Performance_Subtitle
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performance_Subtitle
-    label: Performance Subtitle
-    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
-    domain: http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance
-    queries:
-      - select: 'SELECT ?value WHERE {
-        ?perform crm:P9_consists_of $subject;
-        frbroo:R25_performed ?pp.
-        ?pp crm:P1_is_identified_by ?identifier.
-        ?identifier a crm:E41_Appellation ;
-  
-        rdf:value ?value.
-      }
-        '
-  
-  
   # ############################################################################################
   # #################### DEFINITIONS ##############################################
   # ############################################################################################
@@ -6204,6 +6064,15 @@ fields:
       - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
       - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'
       - delete: 'DELETE { $subject crm:P102_has_title $value . } WHERE {}'
+  
+  - id: LinguisticObject
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/LinguisticObject
+    label: Texte
+    datatype: xsd:anyURI
+    queries: &LinguisticObject_queries
+      - select: 'SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }'
+      - insert: 'INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
 
   # ********************************************************
   #            Others DEFINITIONS
@@ -6298,6 +6167,24 @@ fields:
         $subject rdfs:comment $value
       } WHERE {}'
   
+  - id: RDFSLabel
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSLabel
+    label: Label
+    description: &RDFSLabel_description A short comment that helps to identify the entity.
+    datatype: &RDFSLabel_datatype http://www.w3.org/2001/XMLSchema#string
+    domain: &RDFSLabel_domain http://www.w3.org/2002/07/owl#Class
+    maxOccurs: &RDFSLabel_maxOccurs 1
+    queries: &RDFSLabel_queries
+      - select: 'SELECT ?value WHERE {
+        $subject rdfs:label ?value.
+      }'
+      - insert: 'INSERT {
+        $subject rdfs:label $value
+      } WHERE {}'
+      - delete: 'DELETE {
+        $subject rdfs:label $value
+      } WHERE {}'
+  
   - id: TitleType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleType
     label: Type
@@ -6354,20 +6241,43 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'  
 
-  - id: E42_Identifier_Type
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy_Type
-    label: Type
-    datatype: xsd:anyURI
+  - id: TitleValue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TitleValue
+    label: Title
+    datatype: xsd:langString
     minOccurs: 1
     maxOccurs: 1
-    queries: &IdentifierType_Queries
+    queries:
+      - select: 'SELECT ?value WHERE {
+          $parent crm:P102_has_title $subject .
+          $subject rdf:value ?value .          
+        }'
+      - insert: 'INSERT { $subject rdf:value $value . } WHERE { }' #$parent crm:P102_has_title $subject .
+      - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
+  
+  - id: Identifier_By
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Identifier_By
+    label: Rep ID
+    datatype: &Identifier_By_datatype xsd:string
+    queries: &Identifier_By_queries
+      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
+      - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+  
+  - id: E42_Identifier_Type
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E42_Identifier_Type
+    label: Type
+    datatype: &Identifier_Type_datatype xsd:anyURI
+    minOccurs: &Identifier_Type_minOccurs 1
+    maxOccurs: &Identifier_Type_maxOccurs 1
+    queries: &Identifier_Type_queries
       - select: 'SELECT ?value WHERE {
           $parent crm:P102_has_title $subject .
           $subject crm:P2_has_type ?value .          
         }'
       - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE { }' 
       - delete: 'DELETE { $subject crm:P2_has_type $value . } WHERE { }'
-    treePatterns:
+    treePatterns: &Identifier_Type_treePatterns
       type: full
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:inScheme spav:id ;
@@ -6408,14 +6318,14 @@ fields:
         LIMIT 200'
 
   - id: E42_Identifier_Value
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy_Value
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E42_Identifier_Value
     label: Identifier value
-    datatype: xsd:string
-    domain: rico:Identifier
-    range: xsd:string
-    minOccurs: 1
-    maxOccurs: 1
-    queries:
+    datatype: &Identifier_Value_datatype xsd:string
+    domain: &Identifier_Value_domain rico:Identifier
+    range: &Identifier_Value_range xsd:string
+    minOccurs: &Identifier_Value_minOccurs 1
+    maxOccurs: &Identifier_Value_maxOccurs 1
+    queries: &Identifier_Value_queries
       - select: 'SELECT $value WHERE {
         $subject rdf:value $value .
       }'
@@ -6426,6 +6336,44 @@ fields:
         $subject rdf:value $value .
       } WHERE {}'
 
+  - id: E52Date
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52Date
+    label: Date (Single)
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P4_has_time-span $value . }'
+      - insert: 'INSERT { $subject crm:P4_has_time-span $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P4_has_time-span $value . } WHERE { }'
+
+  - id: E52DateValue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateValue
+    label: Date Value
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P82a_begin_of_the_begin $value . }'
+      - insert: 'INSERT { 
+          $subject crm:P82a_begin_of_the_begin ?value . 
+          $subject crm:P82b_end_of_the_end ?value .
+        } WHERE { }'
+      - delete: 'DELETE { 
+            $subject crm:P82a_begin_of_the_begin ?value . 
+            $subject crm:P82b_end_of_the_end ?value . 
+          } WHERE { }'
+
+  - id: E52DateLabel
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateLabel
+    label: Date Value (Texte)
+    description: *RDFSLabel_description  #A short comment that helps to identify the entity.
+    datatype: *RDFSLabel_datatype
+    domain: *RDFSLabel_domain
+    minOccurs: 1
+    maxOccurs: *RDFSLabel_maxOccurs
+    queries:
+      - <<: *RDFSLabel_queries
+
   #********************************************************
   #            Activities
   #********************************************************
@@ -6434,13 +6382,11 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Participation
     label: Activity
     minOccurs: 1
-    datatype: xsd:anyURI
-    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
-    range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
-    queries:
-      - select: 'SELECT ?value WHERE {
-        $subject crm:P9_consists_of ?value .        
-      }'
+    datatype: &Activity_Participation_datetype xsd:anyURI
+    domain: &Activity_Participation_domain http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: &Activity_Participation_range http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries: &Activity_Participation_queries
+      - select: 'SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }'
       - insert: 'INSERT { $subject crm:P9_consists_of ?value . } WHERE {}'
       - delete: 'DELETE { $subject crm:P9_consists_of ?value . } WHERE {}'
   
@@ -6559,16 +6505,16 @@ fields:
 
   - id: Activity_Actor
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Actor
-    label: Carried out by
-    datatype: xsd:anyURI
-    minOccurs: 1
-    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
-    range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
+    label: &Activity_Actor_label Carried out by
+    datatype: &Activity_Actor_datatype xsd:anyURI
+    minOccurs: &Activity_Actor_min 1
+    domain: &Activity_Actor_domain http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: &Activity_Actor_range http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
-      - select: 'SELECT ?value ?label WHERE {
+      - select: &Activity_Actor_query_select 'SELECT ?value ?label WHERE {
         $subject crm:P14_carried_out_by ?value.
       }'
-      - insert: 'INSERT {
+      - insert: &Activity_Actor_query_insert 'INSERT {
         $subject crm:P14_carried_out_by ?value.
       } WHERE {}'
       - autosuggestion: 'SELECT $value ?label WHERE {
@@ -6595,6 +6541,114 @@ fields:
               ( spav:ctuct )
               }
             }'
+
+  - id: Activity_Index
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Index
+    label: Index
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    maxOccurs: 1
+    domain: https://www.ica.org/standards/RiC/ontology#RecordResource
+    queries:
+      - select: 'SELECT $value WHERE { $subject olo:index $value. }'
+      - insert: 'INSERT { $subject olo:index $value. } WHERE {}'
+      - delete: 'DELETE { $subject olo:index $value. } WHERE {}'
+
+  - id: Activity_Label
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Label
+    label: Label (Activity of Non-Performative Work)
+    datatype: *RDFSLabel_datatype
+    domain: *RDFSLabel_domain
+    maxOccurs: *RDFSLabel_maxOccurs
+    queries: 
+      - <<: *RDFSLabel_queries
+
+  #********************************************************
+  #            AdditionalType
+  #********************************************************
+
+  - id: AdditionalType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/AdditionalType
+    datatype: xsd:anyURI
+    minOccurs: "1"
+    maxOccurs: "1"
+    domain: frbroo:F31_Performance
+    queries:
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value . }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
+      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+  
+  #********************************************************
+  #            Notes
+  #********************************************************
+
+  - id: Referred_Note_Description
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Referred_Note_Description
+    label: &Referred_Note_label Note
+    datatype: &Referred_Note_datatype xsd:anyURI
+    queries: &Referred_Note_queries
+      - select: 'SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }'
+      - insert: 'INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+
+  - id: Referred_Note_Description_Type
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_Note_Type
+    label: &Referred_Note_Type_label Type
+    datatype: &Referred_Note_Type_datatype xsd:anyURI
+    queries: &Referred_Note_Type_queries
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type ?value }'
+      - insert: 'INSERT { $subject crm:P2_has_type ?value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P2_has_type ?value . } WHERE { }'
+      - valueSet: 'SELECT ?value WHERE { ?value skos:inScheme spav:eo . }'
+    treePatterns: &Referred_Note_Type_tree 
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:inScheme spav:eo ;
+              skos:prefLabel ?label .
+          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)          
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:eo ;
+        skos:prefLabel ?label .
+        ?label bds:search ?__token__ ; 
+        bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200' 
+  
+  - id: Referred_Note_Description_Value
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_Note_Value
+    label: &Referred_Note_Value_label Note
+    datatype: &Referred_Note_Value_datatype xsd:string
+    queries: &Referred_Note_Value_queries
+      - select: 'SELECT ?value WHERE { $subject rdf:value ?value . }'
+      - insert: 'INSERT { $subject rdf:value ?value . } WHERE { }'
+      - delete: 'DELETE { $subject rdf:value ?value . } WHERE {}'
+
+
 
   #********************************************************
   #            Performance Work
@@ -6758,71 +6812,27 @@ fields:
       - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
 
   - id: PerformancePlan_Note
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceNote_Entity
-    label: Note
-    datatype: xsd:anyURI
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_Note
+    label: Notes
+    datatype: *Referred_Note_datatype
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }'
-      - insert: 'INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+      - <<: *Referred_Note_queries
 
   - id: PerformancePlan_Note_Type
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_Note_Type
-    label: Type
-    datatype: xsd:anyURI
+    label: *Referred_Note_Type_label
+    datatype: *Referred_Note_Type_datatype
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type ?value }'
-      - insert: 'INSERT { $subject crm:P2_has_type ?value . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P2_has_type ?value . } WHERE { }'
-      - valueSet: 'SELECT ?value WHERE { ?value skos:inScheme spav:eo . }'
+      - <<: *Referred_Note_Type_queries      
     treePatterns:
-      type: full
-      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          ?item skos:inScheme spav:eo ;
-              skos:prefLabel ?label .
-          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)          
-        }
-        ORDER BY (?label)'
-      childrenQuery: '
-        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          ?item skos:broader ?parent.
-          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY (?label)'
-      parentsQuery: '
-        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          ?item skos:broader ?parent.
-          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
-          OPTIONAL { ?child skos:broader ?item. }
-          BIND(BOUND(?child) AS ?hasChildren)
-        }
-        ORDER BY (?label)'
-      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
-        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
-        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
-        ?item skos:inScheme spav:eo ;
-        skos:prefLabel ?label .
-        ?label bds:search ?__token__ ; 
-        bds:relevance ?score ; bds:matchAllTerms "true"
-        OPTIONAL { ?child skos:broader ?item. }
-        BIND(BOUND(?child) AS ?hasChildren)
-      }
-        ORDER BY DESC (?score) (?label)
-        LIMIT 200' 
+      <<: *Referred_Note_Type_tree      
   
   - id: PerformancePlan_Note_Value
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_Note_Value
-    label: Note
-    datatype: xsd:string
+    label: Text
+    datatype: *Referred_Note_Value_datatype
     queries:
-      - select: 'SELECT ?value WHERE { $subject rdf:value ?value . }'
-      - insert: 'INSERT { $subject rdf:value ?value . } WHERE { }'
-      - delete: 'DELETE { $subject rdf:value ?value . } WHERE {}'
+      - <<: *Referred_Note_Value_queries      
 
   - id: PerformancePlan_Title
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_Title
@@ -6833,26 +6843,41 @@ fields:
 
   - id: PerformancePlan_IdentifierBy
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy
-    label: Rep ID
-    datatype: xsd:string
+    label: Identiier (Plan)
+    datatype: *Identifier_By_datatype
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
-      - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+      - <<: *Identifier_By_queries      
 
   #********************************************************
   #            Performance Series and Single
   #********************************************************
 
-  - id: PerformanceSerie_AdditionalType
+  - id: PerformanceSerie_Saison
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Saison
+    label: Season
     datatype: xsd:anyURI
-    minOccurs: "1"
-    maxOccurs: "1"
-    domain: frbroo:F31_Performance
+    domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
+    range: http://www.cidoc-crm.org/cidoc-crm/E4_Period
     queries:
-      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value . }'
-      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
-      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+      - select: 'SELECT ?value ?label WHERE {
+        $subject crm:P10_falls_within ?value .
+        FILTER(CONTAINS(STR(?value), "/s/"))
+      }'
+      - insert: 'INSERT { $subject crm:P10_falls_within ?value . } WHERE {} '
+      - delete: 'DELETE { $subject crm:P10_falls_within ?value . } WHERE {} '
+      - autosuggestion: 'SELECT $value $label WHERE {
+            ?value a crm:E4_Period  .
+            ?value rdfs:label ?label .
+            FILTER(contains(str(?value),"/s/")) 
+          } LIMIT 10'
+
+  - id: PerformanceSerie_Label
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Label
+    label: Label (Serie)
+    minOccurs: 1
+    maxOccurs: *RDFSLabel_maxOccurs
+    queries: 
+      - <<: *RDFSLabel_queries
 
   - id: PerformanceSerie_ActivityHasType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_ActivityHasType
@@ -6910,8 +6935,8 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'  
 
-  - id: PerformanceSeriePerformancePlan
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSeriePerformancePlan
+  - id: PerformanceSerie_PerformancePlan
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_PerformancePlan
     label: Productions (Serie)
     datatype: xsd:anyURI
     domain: frbroo:R25_performed
@@ -6928,15 +6953,15 @@ fields:
       } LIMIT 10'
 
   - id: PerformanceSerie_Venue
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Performance_Venue
-    label: Performance Venue
-    datatype: xsd:anyURI
-    domain: http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance
-    range: http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Venue
+    label: Venue Serie
+    datatype: &Venue_datatype xsd:anyURI
+    domain: &Venue_domain http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance
+    range: &Venue_range http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object
     queries:
-      - SELECT: 'SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. }'
-      - INSERT: 'INSERT { $subject crm:P8_took_place_on_or_within ?value. } WHERE {}'
-      - DELETE: 'DELETE { $subject crm:P8_took_place_on_or_within ?value. } WHERE {}'
+      - SELECT: &Venu_query_select 'SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. }'
+      - INSERT: &Venu_query_insert 'INSERT { $subject crm:P8_took_place_on_or_within ?value. } WHERE {}'
+      - DELETE: &Venu_query_delete 'DELETE { $subject crm:P8_took_place_on_or_within ?value. } WHERE {}'
       - autosuggestion: 'SELECT ?value ?label WHERE {
         ?value a crm:E22_Man-Made_Object ;
         crm:P2_has_type ?type ;
@@ -6944,15 +6969,38 @@ fields:
         ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
         FILTER REGEX(STR(?label), $__token__,"i")
       } LIMIT 10'
-      
-  - id: LinguisticObject
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/LinguisticObject
-    label: Texte
+  
+  - id: PerformanceSerie_Filter_Venue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Filter_Venue
+    label: Venue u (Serie)
+    datatype: *Venue_datatype
+    domain: *Venue_domain
+    range: *Venue_range
+    queries:
+      - SELECT: *Venu_query_select
+      - INSERT: *Venu_query_insert
+      - DELETE: *Venu_query_delete
+      - autosuggestion: 'SELECT ?value ?label WHERE {
+        ?value a crm:E22_Man-Made_Object ;
+        crm:P2_has_type ?type ;
+        rdfs:label ?label .
+        ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
+        FILTER REGEX(STR(?label), $__token__,"i")
+      } LIMIT 10'
+  
+  - id: PerformanceSerie_Title
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_title
+    label: Title Serie
+    datatype: *TitleEntity_datatype
+    queries:
+      - <<: *TitleEntity_Queries
+  
+  - id: PerformanceSerie_LinguisticObject
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_LinguisticObject
+    label: Texte Serie
     datatype: xsd:anyURI
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }'
-      - insert: 'INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+      - <<: *LinguisticObject_queries
 
   - id: TexteType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/TexteType
@@ -7024,7 +7072,84 @@ fields:
       - insert: 'INSERT { $subject rdf:value $value . } WHERE { }'
       - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
 
-  - id: PerformanceSingle
+  - id: PerformanceSerie_Activity_Participation
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Activity_Participation
+    label: Activity (Serie)
+    datatype: *Activity_Participation_datetype
+    domain: *Activity_Participation_domain
+    range: *Activity_Participation_range
+    queries: 
+      - <<: *Activity_Participation_queries 
+  
+  - id: PerformanceSerie_Activity_Actor_Constraint
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Actor_Filter_a_u
+    label: *Activity_Actor_label
+    datatype: *Activity_Actor_datatype
+    minOccurs: *Activity_Actor_min
+    domain: *Activity_Actor_domain
+    range: *Activity_Actor_range
+    queries:
+      - select: *Activity_Actor_query_select
+      - insert: *Activity_Actor_query_insert
+      - autosuggestion: 'SELECT $value ?label WHERE {
+        $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+        rdfs:label ?label .
+        FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") ) 
+        FILTER(REGEX(STR(?label), $__token__, "i"))
+      } LIMIT 10'
+  
+  - id: PerformanceSerie_IdentifierType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_IdentifierType
+    label: Type of Internal Identifier (Serie)
+    datatype: xsd:anyURI
+    minOccurs: *Identifier_Type_minOccurs
+    maxOccurs: *Identifier_Type_maxOccurs
+    queries: 
+      - <<: *Identifier_Type_queries      
+    treePatterns: 
+      <<: *Identifier_Type_treePatterns
+
+  - id: PerformanceSerie_IdentifierValue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_IdentifierValue
+    label: Internal Identifier (Serie)
+    datatype: *Identifier_Value_datatype
+    domain: *Identifier_Value_domain
+    range: *Identifier_Value_range
+    minOccurs: *Identifier_Value_minOccurs
+    maxOccurs: *Identifier_Value_maxOccurs
+    queries: 
+      - <<: *Identifier_Value_queries
+  
+  - id: PerformanceSingle_Description
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Description
+    label: Description (Single)
+    datatype: *Referred_Note_datatype
+    queries:
+      - <<: *Referred_Note_queries
+
+  - id: PerformanceSingle_Description_Type
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Description_Type
+    label: Description (type)
+    datatype: *Referred_Note_Type_datatype
+    queries:
+      - <<: *Referred_Note_Type_queries      
+    treePatterns:
+      <<: *Referred_Note_Type_tree      
+  
+  - id: PerformanceSingle_Description_Value
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Description_Value
+    label: Description (value)
+    datatype: *Referred_Note_Value_datatype
+    queries:
+      - <<: *Referred_Note_Value_queries
+
+
+  # *******************************************************
+  #     Performance Single
+  # *******************************************************
+  
+  - id: PerformanceSingle_PerformanceSerie
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_PerformanceSerie
     datatype: xsd:anyURI
     label: Performance Single
     domain: frbroo:F31_Performance
@@ -7039,46 +7164,19 @@ fields:
             $value crm:P9i_forms_part_of $subject .
           } WHERE {}'
 
-  - id: E52Date
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52Date
-    label: Date
-    datatype: http://www.w3.org/2001/XMLSchema#string
-    minOccurs: 1
-    maxOccurs: 1
+  - id: PerformanceSingle_Title
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Title
+    label: Title Single
+    datatype: *TitleEntity_datatype
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P4_has_time-span $value . }'
-      - insert: 'INSERT { $subject crm:P4_has_time-span $value . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P4_has_time-span $value . } WHERE { }'
+      - <<: *TitleEntity_Queries
 
-  - id: E52DateValue
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateValue
-    label: Date Value
-    datatype: http://www.w3.org/2001/XMLSchema#string
-    maxOccurs: 1
+  - id: PerformanceSingle_IdentifierBy
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_IdentifierBy
+    label: Identiier (Plan)
+    datatype: *Identifier_By_datatype
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P82a_begin_of_the_begin $value . }'
-      - insert: 'INSERT { 
-          $subject crm:P82a_begin_of_the_begin ?value . 
-          $subject crm:P82b_end_of_the_end ?value .
-        } WHERE { }'
-      - delete: 'DELETE { 
-            $subject crm:P82a_begin_of_the_begin ?value . 
-            $subject crm:P82b_end_of_the_end ?value . 
-          } WHERE { }'
-
-  - id: E52DateLabel
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateLabel
-    label: Date Value (Texte)
-    description: *RDFSLabel_description  #A short comment that helps to identify the entity.
-    datatype: *RDFSLabel_datatype
-    domain: *RDFSLabel_domain
-    minOccurs: 1
-    maxOccurs: *RDFSLabel_maxOccurs
-    queries:
-      - select: *RDFSLabel_queries_select
-      - insert: *RDFSLabel_queries_insert
-      - delete: *RDFSLabel_queries_delete
-
+      - <<: *Identifier_By_queries
 
   # *******************************************************
   #     Expression creation: Performance Plan
