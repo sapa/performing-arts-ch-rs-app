@@ -15,16 +15,16 @@
       form-id='performancePlan'
       fields='[
         [[> RDFtype]],
-        [[> PerformanceWork_IsRealisedIn]],
+        [[> PerformanceWork_R12_is_realised_in]],
         [[> PerformancePlan_MusicTitle]],
         [[> RDFSComment]],
         [[> SameAs]],
-        [[> PerformancePlan_BaseOn]],
-        [[> PerformancePlan_Title]],
+        [[> PerformancePlan_R14_incorporates]],
+        [[> PerformancePlan_P102_has_title]],
         [[> PerformancePlan_RDFSLabel]],
         [[> PerformancePlan_IdentifierBy]],
-        [[> PerformancePlan_Note]],
-        [[> ExpressionCreation_PerformancePlan_Created]]
+        [[> PerformancePlan_P67_is_referred_to_by]],
+        [[> ExpressionCreation_PerformancePlan_R17_created]]
       ]'>
       <bs-panel>
         <semantic-form-recover-notification></semantic-form-recover-notification>
@@ -34,11 +34,11 @@
           <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F25_Performance_Plan"]]'></semantic-form-hidden-input>
         </div>
         <!-- ================================= Performance Work ================================= -->
-        <semantic-form-composite-input for="PerformanceWork_IsRealisedIn"
+        <semantic-form-composite-input for="PerformanceWork_R12_is_realised_in"
           new-subject-template='http://data.performing-arts.ch/u/{{UUID}}'
           fields='[
             [[> RDFtype]],
-            [[> PerformanceWork_GroupType]],
+            [[> PerformanceWork_P2_has_type]],
             [[> PerformanceWork_InLanguage]],
             [[> PerformanceWork_SubTitleLanguage]]
           ]'
@@ -49,7 +49,7 @@
           <bs-row>
             <bs-col sm='4'>
               <!-- Genre -->
-              <semantic-form-tree-picker-input for="PerformanceWork_GroupType"></semantic-form-tree-picker-input> 
+              <semantic-form-tree-picker-input for="PerformanceWork_P2_has_type"></semantic-form-tree-picker-input> 
             </bs-col>
             <bs-col sm='4'>
               <!-- Linguage -->
@@ -70,9 +70,9 @@
         <!-- Comments -->
         <semantic-form-text-input for="RDFSComment"></semantic-form-text-input>        
         <!-- Base On -->
-        <semantic-form-autocomplete-input for="PerformancePlan_BaseOn"></semantic-form-autocomplete-input>
+        <semantic-form-autocomplete-input for="PerformancePlan_R14_incorporates"></semantic-form-autocomplete-input>
         <!-- Title --> 
-        <semantic-form-composite-input for="PerformancePlan_Title"
+        <semantic-form-composite-input for="PerformancePlan_P102_has_title"
           new-subject-template='/title'
           fields='[
               [[> RDFtype]],
@@ -118,35 +118,35 @@
           </bs-row>
         </semantic-form-composite-input>
         <!-- Notes -->
-        <semantic-form-composite-input for="PerformancePlan_Note"
-        new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
-        fields='[
-            [[> RDFtype]],
-            [[> PerformancePlan_Note_Type]],
-            [[> PerformancePlan_Note_Value]]
-          ]'
-      > 
+        <semantic-form-composite-input for="PerformancePlan_P67_is_referred_to_by"
+          new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+          fields='[
+              [[> RDFtype]],
+              [[> LinguisticObject_Type]],
+              [[> LinguisticObject_Value]]
+            ]'
+        > 
         <div style="display: none;">
           <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E33_Linguistic_Object"]]'></semantic-form-hidden-input>
         </div>
         <bs-row>
           <bs-col sm='2'>
-            <semantic-form-tree-picker-input for="PerformancePlan_Note_Type"></semantic-form-tree-picker-input>
+            <semantic-form-tree-picker-input for="LinguisticObject_Type"></semantic-form-tree-picker-input>
           </bs-col>
           <bs-col sm='10'>
-            <semantic-form-text-input for="PerformancePlan_Note_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>              
+            <semantic-form-text-input for="LinguisticObject_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>              
           </bs-col>
         </bs-row>
         </semantic-form-composite-input>
 
         <hr/>
         <!-- ================================= Expression creation: Performance Plan ================================= -->
-        <semantic-form-composite-input for="ExpressionCreation_PerformancePlan_Created"
+        <semantic-form-composite-input for="ExpressionCreation_PerformancePlan_R17_created"
           new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
           fields='[
               [[> RDFtype]],
               [[> ExpressionCreation_PP_PerformanceWork]],
-              [[> Activity_Participation]]
+              [[> ExpressionCreation_PerformancePlan_Activity]]
             ]'
         >
           <div style="display: none;">
@@ -155,7 +155,7 @@
           </div>
           <!-- =============== Activity =============== -->
           <bs-row>
-            <semantic-form-composite-input for="Activity_Participation"
+            <semantic-form-composite-input for="ExpressionCreation_PerformancePlan_Activity"
                 new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
                 fields='[
                   [[> RDFtype]],
