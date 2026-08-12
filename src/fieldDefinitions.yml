@@ -6097,6 +6097,118 @@ fields:
   # ############################################################################################
 
   # ********************************************************
+  #            Others DEFINITIONS
+  # ********************************************************
+
+  - id: SameAs
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/SameAs
+    label: External resources
+    description: Expects URIs from other databases such as Wikidata, GND, etc.
+    datatype: xsd:string
+    domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
+    range: rdfs:Class
+    queries:
+      - select: 'SELECT ?value ?label
+      WHERE {
+        $subject owl:sameAs ?valueAsIri .
+        BIND(REPLACE(STR(?valueAsIri), ".*\\\\/c*b*", "") as ?localname)
+        BIND(STRBEFORE(STR(?valueAsIri), ?localname) as ?prefix)
+        BIND(xsd:string(?valueAsIri) as ?value)
+        VALUES(?prefix ?source ?order)
+        {
+          ("http://www.wikidata.org/entity/" "Wikidata" 0)
+          ("https://www.wikidata.org/entity/" "Wikidata" 0)
+          ("http://www.isni.org/" "ISNI" 1)
+          ("https://www.isni.org/" "ISNI" 1)
+          ("http://viaf.org/viaf/" "VIAF" 2)
+          ("https://viaf.org/viaf/" "VIAF" 2)
+          ("http://d-nb.info/gnd/" "GND" 3)
+          ("https://d-nb.info/gnd/" "GND" 3)
+          ("https://catalogue.bnf.fr/ark:/12148/cb" "BnF" 4)
+          ("http://geonames.org/" "Geonames" 5)
+          ("https://geonames.org/" "Geonames" 5)
+          ("http://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
+          ("https://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
+          ("http://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
+          ("https://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
+          ("http://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
+          ("https://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
+          ("https://www.tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 9)
+        }
+        BIND(IF(?order<8, CONCAT(?source,": ",?localname), ?source) AS ?label)
+      } ORDER BY ASC(?order)'
+      - insert: 'INSERT {
+        $subject owl:sameAs ?valueAsUri .
+      } WHERE {
+        BIND(IRI(?value) as ?valueAsUri)
+      }'
+      - delete: 'DELETE {
+        $subject owl:sameAs ?valueAsUri .
+      } WHERE {
+        BIND(IRI(?value) as ?valueAsUri)
+      }'
+      - ask: 'ASK {
+          VALUES(?prefix ?source ?order)
+          {
+            ("http://www.wikidata.org/entity/" "Wikidata" 0)
+            ("https://www.wikidata.org/entity/" "Wikidata" 0)
+            ("http://www.isni.org/" "ISNI" 1)
+            ("https://www.isni.org/" "ISNI" 1)
+            ("http://viaf.org/viaf/" "VIAF" 2)
+            ("https://viaf.org/viaf/" "VIAF" 2)
+            ("http://d-nb.info/gnd/" "GND" 3)
+            ("https://d-nb.info/gnd/" "GND" 3)
+            ("https://catalogue.bnf.fr/ark:/12148/cb" "BnF" 4)
+            ("http://geonames.org/" "Geonames" 5)
+            ("https://geonames.org/" "Geonames" 5)
+            ("http://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
+            ("https://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
+            ("http://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
+            ("https://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
+            ("http://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
+            ("https://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
+            ("https://www.tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 9)
+          }
+          FILTER(STRSTARTS(?value, ?prefix))
+      }'
+
+  - id: RDFSComment
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSComment
+    label: Comment
+    description: A short comment that helps to identify the entity.
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
+    queries:
+      - select: 'SELECT ?value WHERE {
+        $subject rdfs:comment ?value.
+      }'
+      - insert: 'INSERT {
+        $subject rdfs:comment $value
+      } WHERE {}'
+      - delete: 'DELETE {
+        $subject rdfs:comment $value
+      } WHERE {}'
+  
+  - id: RDFSLabel
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSLabel
+    label: Label
+    description: &RDFSLabel_description A short comment that helps to identify the entity.
+    datatype: &RDFSLabel_datatype http://www.w3.org/2001/XMLSchema#string
+    domain: &RDFSLabel_domain http://www.w3.org/2002/07/owl#Class
+    maxOccurs: &RDFSLabel_maxOccurs 1
+    queries: &RDFSLabel_queries
+      - select: 'SELECT ?value WHERE {
+        $subject rdfs:label ?value.
+      }'
+      - insert: 'INSERT {
+        $subject rdfs:label $value
+      } WHERE {}'
+      - delete: 'DELETE {
+        $subject rdfs:label $value
+      } WHERE {}'
+  
+
+  # ********************************************************
   #               Label & Queries Global
   # ********************************************************
 
@@ -6350,116 +6462,9 @@ fields:
       - delete: 'DELETE { $subject rdf:value ?value . } WHERE {}'
 
   # ********************************************************
-  #            Others DEFINITIONS
+  #               Time Stamp
   # ********************************************************
 
-  - id: SameAs
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/SameAs
-    label: External resources
-    description: Expects URIs from other databases such as Wikidata, GND, etc.
-    datatype: xsd:string
-    domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
-    range: rdfs:Class
-    queries:
-      - select: 'SELECT ?value ?label
-      WHERE {
-        $subject owl:sameAs ?valueAsIri .
-        BIND(REPLACE(STR(?valueAsIri), ".*\\\\/c*b*", "") as ?localname)
-        BIND(STRBEFORE(STR(?valueAsIri), ?localname) as ?prefix)
-        BIND(xsd:string(?valueAsIri) as ?value)
-        VALUES(?prefix ?source ?order)
-        {
-          ("http://www.wikidata.org/entity/" "Wikidata" 0)
-          ("https://www.wikidata.org/entity/" "Wikidata" 0)
-          ("http://www.isni.org/" "ISNI" 1)
-          ("https://www.isni.org/" "ISNI" 1)
-          ("http://viaf.org/viaf/" "VIAF" 2)
-          ("https://viaf.org/viaf/" "VIAF" 2)
-          ("http://d-nb.info/gnd/" "GND" 3)
-          ("https://d-nb.info/gnd/" "GND" 3)
-          ("https://catalogue.bnf.fr/ark:/12148/cb" "BnF" 4)
-          ("http://geonames.org/" "Geonames" 5)
-          ("https://geonames.org/" "Geonames" 5)
-          ("http://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
-          ("https://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
-          ("http://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
-          ("https://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
-          ("http://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
-          ("https://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
-          ("https://www.tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 9)
-        }
-        BIND(IF(?order<8, CONCAT(?source,": ",?localname), ?source) AS ?label)
-      } ORDER BY ASC(?order)'
-      - insert: 'INSERT {
-        $subject owl:sameAs ?valueAsUri .
-      } WHERE {
-        BIND(IRI(?value) as ?valueAsUri)
-      }'
-      - delete: 'DELETE {
-        $subject owl:sameAs ?valueAsUri .
-      } WHERE {
-        BIND(IRI(?value) as ?valueAsUri)
-      }'
-      - ask: 'ASK {
-          VALUES(?prefix ?source ?order)
-          {
-            ("http://www.wikidata.org/entity/" "Wikidata" 0)
-            ("https://www.wikidata.org/entity/" "Wikidata" 0)
-            ("http://www.isni.org/" "ISNI" 1)
-            ("https://www.isni.org/" "ISNI" 1)
-            ("http://viaf.org/viaf/" "VIAF" 2)
-            ("https://viaf.org/viaf/" "VIAF" 2)
-            ("http://d-nb.info/gnd/" "GND" 3)
-            ("https://d-nb.info/gnd/" "GND" 3)
-            ("https://catalogue.bnf.fr/ark:/12148/cb" "BnF" 4)
-            ("http://geonames.org/" "Geonames" 5)
-            ("https://geonames.org/" "Geonames" 5)
-            ("http://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
-            ("https://classifications.data.admin.ch/municipality/" "Swiss Municipality" 6)
-            ("http://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
-            ("https://classifications.data.admin.ch/canton/" "Swiss Municipality" 7)
-            ("http://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
-            ("https://tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 8)
-            ("https://www.tls.theaterwissenschaft.ch/wiki/" "Theaterlexikon der Schweiz" 9)
-          }
-          FILTER(STRSTARTS(?value, ?prefix))
-      }'
-
-  - id: RDFSComment
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSComment
-    label: Comment
-    description: A short comment that helps to identify the entity.
-    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
-    domain: http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity
-    queries:
-      - select: 'SELECT ?value WHERE {
-        $subject rdfs:comment ?value.
-      }'
-      - insert: 'INSERT {
-        $subject rdfs:comment $value
-      } WHERE {}'
-      - delete: 'DELETE {
-        $subject rdfs:comment $value
-      } WHERE {}'
-  
-  - id: RDFSLabel
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RDFSLabel
-    label: Label
-    description: &RDFSLabel_description A short comment that helps to identify the entity.
-    datatype: &RDFSLabel_datatype http://www.w3.org/2001/XMLSchema#string
-    domain: &RDFSLabel_domain http://www.w3.org/2002/07/owl#Class
-    maxOccurs: &RDFSLabel_maxOccurs 1
-    queries: &RDFSLabel_queries
-      - select: 'SELECT ?value WHERE {
-        $subject rdfs:label ?value.
-      }'
-      - insert: 'INSERT {
-        $subject rdfs:label $value
-      } WHERE {}'
-      - delete: 'DELETE {
-        $subject rdfs:label $value
-      } WHERE {}'
-  
   - id: E52Date
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52Date
     label: Date (Single)
@@ -6498,6 +6503,7 @@ fields:
     queries:
       - <<: *RDFSLabel_queries
 
+  
   #********************************************************
   #            Activities
   #********************************************************
@@ -6900,7 +6906,7 @@ fields:
               $value frbroo:R19_created_a_realisation_of ?pw .
             }'
   
-  - id: ExpressionCreation_PerformancePlan_Activity
+  - id: ExpressionCreation_PerformancePlan_ConsistOf
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreation_PerformancePlan_ConsistOf
     label: Activity
     minOccurs: 1
