@@ -1,0 +1,104 @@
+[[> sapaModule:Breadcrumbs]]
+
+<div class="page rs-page">
+    [[> sapaModule:KnowledgePanel]]
+    <bs-tabs id="record-tabs" class='page__body-navtabs' default-active-key='about' unmount-on-exit=true>
+        <bs-tab event-key='about' title='[[i18n "TabSummary" bundle="performing-arts-ch"]]'>
+            <bs-row>
+                <bs-col sm="4">
+                    
+                    <!-- titles -->
+                    <semantic-query 
+                        query='SELECT ?title_value ?title_type ?order WHERE {
+                        ?? crm:P102_has_title [
+                            a crm:E35_Title ;
+                            crm:P2_has_type ?title_type ;
+                            rdf:value ?title_value                              
+                        ] .
+                        VALUES (?title_type ?order) {
+                            (spav:gotlb 1)
+                            (spav:goctm 2)
+                            (spav:goctj 3)
+                            (spav:gogja 4)
+                            (spav:gowgn 5)
+                        }
+                        } ORDER BY ASC(?order)'
+                        template='<div>
+                                    <p>{{#each bindings}}{{#if @first}}<strong><mp-label iri="{{title_type.value}}"></mp-label></    strong>{{else}}<br>{{title_type.value}}{{/if}}{{/each}}</p>
+                                    <p>{{#each bindings}}{{#if @first}}{{title_value.value}}{{else}}<br>{{title_value.value}}{{/if}}{{/each}}</p>
+                                     
+                                  </div>'>
+                    </semantic-query>
+
+                    <!-- reference functions - authorship -->
+                    [[> sapaModule:ShowActivities function="spav:muiuk"]]
+
+                    <!-- reference functions - composition -->
+                    [[> sapaModule:ShowActivities function="spav:mufbo"]]
+
+                    <!-- performance functions - ??????-->
+                    [[> sapaModule:ShowActivities function="spav:muyql"]]
+
+                    <!-- reference functions - lyrics -->
+                    [[> sapaModule:ShowActivities function="spav:muvhj"]]
+
+                    <!-- reference functions - translation -->
+                    [[> sapaModule:ShowActivities function="spav:muwyo"]]
+
+                    <!-- reference functions - libretto -->
+                    [[> sapaModule:ShowActivities function="spav:mujmh"]]
+                  
+
+                </bs-col>
+                <bs-col sm="4">
+                    <!-- Productions -->
+                    <semantic-query
+                        query='Select ?production_label ?productions
+                                Where {
+                                    ?? ^frbroo:R14_incorporates ?productions .
+                                    OPTIONAL {
+                                        ?productions rdfs:label ?production_label .
+                                    }
+                                }'
+                        template='<div>
+                                    <h5>Productions :</h5>
+                                    {{#each bindings}}{{#if @first}}{{else}}, {{/if}}{{#if production_label.value}}<semantic-link iri="{{productions.value}}"><p class="text-item" style="white-space: pre-line;">{{production_label.value}}</p></semantic-link>{{/if}}{{/each}}
+                                  </div>'>
+                    </semantic-query>
+
+                </bs-col>
+            </bs-row>
+
+
+            
+        </bs-tab>
+
+        [[#if (ask "ASK { ?? a ebucore:MediaResource . }")]]
+        <bs-tab event-key='editing physical' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:InstantiationFormPhysical]]
+        </bs-tab>
+        [[/if]]
+        
+        [[#if (ask "ASK { ?? a premis:Representation . }")]]
+        <bs-tab event-key='editing virtual' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:InstantiationFormVirtual]]
+        </bs-tab>
+        [[/if]]
+
+        [[#if (hasPermission "api:ldp:*:delete")]] 
+        <bs-tab event-key='delete' title='[[i18n "TabDelete" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:DeleteEntity]]
+        </bs-tab>
+        [[/if]]
+
+        [[#if (hasPermission "sparql:*:*:*")]]
+        <bs-tab event-key='Edit' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+            [[> sapaModule:NonPerformativeWork]]
+        </bs-tab>
+        [[/if]]
+        
+        
+        [[> sapaModule:AdminTabs]]
+
+    </bs-tabs>  
+</div>

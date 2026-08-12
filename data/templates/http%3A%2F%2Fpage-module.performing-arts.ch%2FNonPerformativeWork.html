@@ -1,0 +1,122 @@
+[[> sapaModule:FieldDefinitions]]
+
+<div data-flex-layout='row top-stretch'>
+  <semantic-form 
+    [[#if create]]
+      new-subject-template='http://data.performing-arts.ch/u/{{UUID}}'
+      post-action="redirect"
+    [[else]]
+      subject='[[this]]'
+      post-action="reload"
+    [[/if]]
+    
+    browser-persistence=true
+    persistence='ldp' 
+    form-id='nonPerformativeWork'
+    fields='[
+      [[> RDFtype]],        
+      [[> RDFSLabel]],
+      [[> SameAs]],
+      [[> TitleEntity]],      
+      [[> ExpressionCreationCreated]]      
+    ]'>
+
+    <bs-panel>
+      <semantic-form-recover-notification></semantic-form-recover-notification>
+      <div style="display: none;">
+        <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F22_Self-Contained_Expression"]]'></semantic-form-hidden-input>
+      </div>      
+      
+      <!-- Label -->
+      <semantic-form-text-input for="RDFSLabel" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+
+      <!-- SameAs -->
+      <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+
+      <!-- Title -->
+      <semantic-form-composite-input for="TitleEntity"
+        new-subject-template='/title'
+        fields='[
+          [[> RDFtype]],
+          [[> TitleType]],
+          [[> TitleValue]]
+        ]'
+      >
+        <div style="display: none;">
+          <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>
+        </div>
+        <bs-row>
+          <bs-col sm='2'>
+            <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
+          </bs-col>
+          <bs-col sm='10'>
+            <semantic-form-text-input for="TitleValue" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+          </bs-col>
+        </bs-row>
+      </semantic-form-composite-input>
+
+      <hr/>
+      <!-- #######################"" Expression Creation #######################" -->
+      <semantic-form-composite-input for="ExpressionCreationCreated"
+        new-subject-template='/creation'
+        fields='[
+          [[> RDFtype]],
+          [[> ActivityConsistsOf]]
+        ]'
+        >
+        <div style="display: none;">
+              <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F28_Expression_Creation"]]'></semantic-form-hidden-input>
+              <!--<semantic-form-hidden-input for="expressioncreation_create"></semantic-form-hidden-input>-->
+        </div>
+        <!-- ConsistOf to Activity -->
+        <bs-row>
+          <semantic-form-composite-input for="ActivityConsistsOf"
+            new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+            fields='[
+              [[> RDFtype]],
+              [[> ActivityHasType]],
+              [[> ActivityAdditionalType]],
+              [[> ActivityCarriedOutBy]],
+              [[> ActivityCertainty]],
+              [[> RDFSComment]]            
+            ]'>
+            <div style="display: none;">
+              <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E7_Activity"]]'></semantic-form-hidden-input>
+            </div>
+            <bs-row>
+              <bs-col sm='2'>
+                <!-- Activity Type -->
+                <semantic-form-tree-picker-input for="ActivityHasType"></semantic-form-tree-picker-input>
+              </bs-col>
+              <bs-col sm='2'>
+                <!-- Additional Type -->
+                <semantic-form-tree-picker-input for="ActivityAdditionalType"></semantic-form-tree-picker-input>
+              </bs-col>              
+              <!-- Carried out by  -->
+              <bs-col sm='2'>
+                <semantic-form-autocomplete-input for="ActivityCarriedOutBy" placeholder='Search persons...'></semantic-form-autocomplete-input>
+              </bs-col>
+              <!-- certainty -->
+              <bs-col sm='2'>
+                <semantic-form-checklist-input row=true for="ActivityCertainty"></semantic-form-checklist-input>
+              </bs-col>
+            </bs-row> 
+            <bs-row>
+              <!-- Comment -->
+               <bs-col sm='10'>
+                <semantic-form-text-input for="RDFSComment" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+              </bs-col>
+            </bs-row>
+          </semantic-form-composite-input>
+        </bs-row>
+        
+      </semantic-form-composite-input>   
+
+      <semantic-form-errors></semantic-form-errors>
+      <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+      <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+    </bs-panel>
+  </semantic-form>
+
+ 
+</div>
