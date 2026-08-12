@@ -15,16 +15,16 @@
       form-id='performancePlan'
       fields='[
         [[> RDFtype]],
-        [[> MusicTitle]],
+        [[> PerformanceWork_IsRealisedIn]],
+        [[> PerformancePlan_MusicTitle]],
         [[> RDFSComment]],
         [[> SameAs]],
-        [[> BaseOn]],
-        [[> TitleEntity_Unique]],
-        [[> IdentifierBy]],
-        [[> PerformanceNote_Entity]],
-        [[> ExpressionCreation_Created]],
-        [[> RDFSLabel_Automatique]],
-        [[> IsRealisedIn]]
+        [[> PerformancePlan_BaseOn]],
+        [[> PerformancePlan_Title]],
+        [[> PerformancePlan_RDFSLabel]],
+        [[> PerformancePlan_IdentifierBy]],
+        [[> PerformancePlan_Note]],
+        [[> ExpressionCreation_PerformancePlan_Created]]
       ]'>
       <bs-panel>
         <semantic-form-recover-notification></semantic-form-recover-notification>
@@ -34,13 +34,13 @@
           <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F25_Performance_Plan"]]'></semantic-form-hidden-input>
         </div>
         <!-- ================================= Performance Work ================================= -->
-        <semantic-form-composite-input for="IsRealisedIn"
+        <semantic-form-composite-input for="PerformanceWork_IsRealisedIn"
           new-subject-template='http://data.performing-arts.ch/u/{{UUID}}'
           fields='[
             [[> RDFtype]],
-            [[> GroupGenre]],
-            [[> InLanguage]],
-            [[> SubTitleLanguage]]
+            [[> PerformanceWork_GroupType]],
+            [[> PerformanceWork_InLanguage]],
+            [[> PerformanceWork_SubTitleLanguage]]
           ]'
         >
           <div style="display: none;">
@@ -49,15 +49,15 @@
           <bs-row>
             <bs-col sm='4'>
               <!-- Genre -->
-              <semantic-form-tree-picker-input for="GroupGenre"></semantic-form-tree-picker-input> 
+              <semantic-form-tree-picker-input for="PerformanceWork_GroupType"></semantic-form-tree-picker-input> 
             </bs-col>
             <bs-col sm='4'>
               <!-- Linguage -->
-              <semantic-form-autocomplete-input for="InLanguage"></semantic-form-autocomplete-input>
+              <semantic-form-autocomplete-input for="PerformanceWork_InLanguage"></semantic-form-autocomplete-input>
             </bs-col>
             <bs-col sm='4'>
               <!-- Sub Title -->
-              <semantic-form-autocomplete-input for="SubTitleLanguage"></semantic-form-autocomplete-input>
+              <semantic-form-autocomplete-input for="PerformanceWork_SubTitleLanguage"></semantic-form-autocomplete-input>
             </bs-col>
           </bs-row>
         </semantic-form-composite-input>
@@ -66,20 +66,18 @@
         <!-- ID externe -->
         <semantic-form-text-input for="SameAs"></semantic-form-text-input>
         <!-- Music title -->
-        <semantic-form-text-input for="MusicTitle"></semantic-form-text-input>
+        <semantic-form-text-input for="PerformancePlan_MusicTitle"></semantic-form-text-input>
         <!-- Comments -->
-        <semantic-form-text-input for="RDFSComment"></semantic-form-text-input>
-        
+        <semantic-form-text-input for="RDFSComment"></semantic-form-text-input>        
         <!-- Base On -->
-        <semantic-form-autocomplete-input for="BaseOn"></semantic-form-autocomplete-input>
-
+        <semantic-form-autocomplete-input for="PerformancePlan_BaseOn"></semantic-form-autocomplete-input>
         <!-- Title --> 
-        <semantic-form-composite-input for="TitleEntity_Unique"
+        <semantic-form-composite-input for="PerformancePlan_Title"
           new-subject-template='/title'
           fields='[
               [[> RDFtype]],
               [[> TitleType]],
-              [[> Title_Label_Value]]                
+              [[> PerformancePlan_Title_Label_Value]]                
             ]'
         >
           <div style="display: none;">
@@ -90,23 +88,21 @@
               <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
             </bs-col>
             <bs-col sm='8'>
-              <semantic-form-text-input for="Title_Label_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
+              <semantic-form-text-input for="PerformancePlan_Title_Label_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
             </bs-col>
           </bs-row>
         </semantic-form-composite-input>
-
         <!-- Label for default is Title Value -->
         <div style="display: none;">
-          <semantic-form-text-input for="RDFSLabel_Automatique"></semantic-form-text-input>
-        </div>
-  
+          <semantic-form-text-input for="PerformancePlan_RDFSLabel"></semantic-form-text-input>
+        </div>  
         <!-- Identifier -->
-        <semantic-form-composite-input for="IdentifierBy"
+        <semantic-form-composite-input for="PerformancePlan_IdentifierBy"
           new-subject-template='/identifier'
           fields='[
               [[> RDFtype]],
-              [[> IdentifierType_Tree]],
-              [[> IdentifierValue]]
+              [[> E42_Identifier_Type]],
+              [[> E42_Identifier_Value]]
             ]'
         > 
           <div style="display: none;">
@@ -114,21 +110,20 @@
           </div>
           <bs-row>
             <bs-col sm='2'>
-              <semantic-form-tree-picker-input for="IdentifierType_Tree"></semantic-form-tree-picker-input>
+              <semantic-form-tree-picker-input for="E42_Identifier_Type"></semantic-form-tree-picker-input>
             </bs-col>
             <bs-col sm='10'>
-              <semantic-form-text-input for="IdentifierValue" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+              <semantic-form-text-input for="E42_Identifier_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>
             </bs-col>
           </bs-row>
         </semantic-form-composite-input>
-
         <!-- Notes -->
-        <semantic-form-composite-input for="PerformanceNote_Entity"
+        <semantic-form-composite-input for="PerformancePlan_Note"
         new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
         fields='[
             [[> RDFtype]],
-            [[> RecordingNoteType_]],
-            [[> RecordingNoteValue_]]
+            [[> PerformancePlan_Note_Type]],
+            [[> PerformancePlan_Note_Value]]
           ]'
       > 
         <div style="display: none;">
@@ -136,38 +131,38 @@
         </div>
         <bs-row>
           <bs-col sm='2'>
-            <semantic-form-tree-picker-input for="RecordingNoteType_"></semantic-form-tree-picker-input>
+            <semantic-form-tree-picker-input for="PerformancePlan_Note_Type"></semantic-form-tree-picker-input>
           </bs-col>
           <bs-col sm='10'>
-            <semantic-form-text-input for="RecordingNoteValue_" languages='["en","de","it","fr"]' ></semantic-form-text-input>              
+            <semantic-form-text-input for="PerformancePlan_Note_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>              
           </bs-col>
         </bs-row>
         </semantic-form-composite-input>
 
         <hr/>
         <!-- ================================= Expression creation: Performance Plan ================================= -->
-        <semantic-form-composite-input for="ExpressionCreation_Created"
+        <semantic-form-composite-input for="ExpressionCreation_PerformancePlan_Created"
           new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
           fields='[
               [[> RDFtype]],
-              [[> ActivityConsistsOf]],
-              [[> ExpressionCreation_CreatedARealisationOf]]
+              [[> ExpressionCreation_PP_PerformanceWork]],
+              [[> Activity_Participation]]
             ]'
         >
           <div style="display: none;">
             <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F28_Expression_Creation"]]'></semantic-form-hidden-input>
-            <semantic-form-hidden-input for="ExpressionCreation_CreatedARealisationOf"/></semantic-form-hidden-input>
+            <semantic-form-hidden-input for="ExpressionCreation_PP_PerformanceWork"/></semantic-form-hidden-input>
           </div>
           <!-- =============== Activity =============== -->
           <bs-row>
-            <semantic-form-composite-input for="ActivityConsistsOf"
+            <semantic-form-composite-input for="Activity_Participation"
                 new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
                 fields='[
                   [[> RDFtype]],
-                  [[> ActivityHasType]],
-                  [[> ActivityAdditionalType]],
-                  [[> ActivityCarriedOutBy]],
-                  [[> ActivityCertainty]],
+                  [[> Activity_HasType]],
+                  [[> Activity_AdditionalType]],
+                  [[> Activity_Actor]],
+                  [[> Activity_Certainty]],
                   [[> RDFSComment]]
                 ]'>
                 <div style="display: none;">
@@ -176,19 +171,19 @@
                 <bs-row>
                   <bs-col sm='2'>
                     <!-- Activity Type -->
-                    <semantic-form-tree-picker-input for="ActivityHasType"></semantic-form-tree-picker-input>
+                    <semantic-form-tree-picker-input for="Activity_HasType"></semantic-form-tree-picker-input>
                   </bs-col>
                   <bs-col sm='2'>
                     <!-- Additional Type -->
-                    <semantic-form-tree-picker-input for="ActivityAdditionalType"></semantic-form-tree-picker-input>
+                    <semantic-form-tree-picker-input for="Activity_AdditionalType"></semantic-form-tree-picker-input>
                   </bs-col>              
                   <!-- Carried out by  -->
                   <bs-col sm='2'>
-                    <semantic-form-autocomplete-input for="ActivityCarriedOutBy" placeholder='Search persons...'></semantic-form-autocomplete-input>
+                    <semantic-form-autocomplete-input for="Activity_Actor" placeholder='Search persons...'></semantic-form-autocomplete-input>
                   </bs-col>
                   <!-- certainty -->
                   <bs-col sm='2'>
-                    <semantic-form-checklist-input row=true for="ActivityCertainty"></semantic-form-checklist-input>
+                    <semantic-form-checklist-input row=true for="Activity_Certainty"></semantic-form-checklist-input>
                   </bs-col>                             
                 </bs-row> 
                 <!-- Comment -->

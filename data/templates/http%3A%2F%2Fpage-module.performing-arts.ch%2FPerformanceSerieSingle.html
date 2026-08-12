@@ -1,0 +1,263 @@
+[[> sapaModule:FieldDefinitions]]
+
+  <div data-flex-layout='row top-stretch'>
+    <semantic-form 
+     [[#if create]]
+        new-subject-template='http://data.performing-arts.ch/w/{{UUID}}/p'
+        post-action="redirect"
+      [[else]]
+        subject='[[this]]'
+        post-action="reload"
+     [[/if]]
+      
+      browser-persistence=true
+      persistence='ldp' 
+      form-id='performanceSerieForm'
+      fields='[
+        [[> RDFtype]],  
+        [[> PerformanceSerie_AdditionalType ]],
+        [[> Season_Unique ]],
+        [[> PerformanceSerie_ActivityHasType]],
+        [[> PerformanceLabel]],
+        [[> PerformanceSeriePerformancePlan]],
+        [[> PerformanceSerie_Venue]],
+        [[> SameAs]],
+        [[> TitleEntity_Unique]],
+        [[> LinguisticObject]],
+        [[> ActivityConsistsOf_Optional]],
+        [[> IdentifierBy]],
+        [[> PerformanceSingle]]
+      ]'>
+      <bs-panel>
+        <semantic-form-recover-notification></semantic-form-recover-notification>
+
+        <div style="display: none;">
+          <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F31_Performance"]]'></semantic-form-hidden-input>
+          <semantic-form-hidden-input for="PerformanceSerie_AdditionalType" default-value='[[resolvePrefix "spav:hlser"]]'></semantic-form-hidden-input>
+        </div>
+
+        <!-- Season -->
+        <semantic-form-autocomplete-input for='Season_Unique'></semantic-form-autocomplete-input>
+        <!-- Type of Performance Serie -->
+        <semantic-form-tree-picker-input for="PerformanceSerie_ActivityHasType"></semantic-form-tree-picker-input>
+        <!-- Label Serie -->
+        <semantic-form-text-input for="PerformanceLabel" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+        <!-- Productions -->
+        <semantic-form-autocomplete-input for="PerformanceSeriePerformancePlan"></semantic-form-autocomplete-input>  
+        <!-- Venue -->
+        <semantic-form-autocomplete-input for="PerformanceSerie_Venue"></semantic-form-autocomplete-input> 
+        <!-- Venue /u/ -->
+
+        <!-- Same As -->
+        <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+
+        <!-- Performance Serie (Title)  --> 
+        <semantic-form-composite-input for="TitleEntity_Unique"
+          new-subject-template='/title'
+          fields='[
+              [[> RDFtype]],
+              [[> TitleType]],
+              [[> Title_Label_Value]]                
+            ]'
+        >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='2'>
+              <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
+            </bs-col>
+            <bs-col sm='8'>
+              <semantic-form-text-input for="Title_Label_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
+            </bs-col>
+          </bs-row>
+        </semantic-form-composite-input>
+
+        <!-- Performance Performance Serie (Texte) -->
+        <semantic-form-composite-input for="LinguisticObject"
+          new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+          fields='[
+              [[> RDFtype]],
+              [[> TexteType]],
+              [[> TexteValue]]                
+            ]'
+        >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E33_Linguistic_Object"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='2'>
+              <semantic-form-tree-picker-input for="TexteType"></semantic-form-tree-picker-input>
+            </bs-col>
+            <bs-col sm='8'>
+              <semantic-form-text-input for="TexteValue" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
+            </bs-col>
+          </bs-row>
+        </semantic-form-composite-input>
+
+        <!-- Performance Serie (Activities) -->
+        <semantic-form-composite-input for="ActivityConsistsOf_Optional"
+          new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+          fields='[
+            [[> RDFtype]],
+            [[> ActivityHasType]],
+            [[> ActivityAdditionalType]],
+            [[> ActivityCarriedOutBy]],
+            [[> ActivityCertainty]],
+            [[> RDFSComment]]            
+          ]'>
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E7_Activity"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='2'>
+              <!-- Activity Type -->
+              <semantic-form-tree-picker-input for="ActivityHasType"></semantic-form-tree-picker-input>
+            </bs-col>
+            <bs-col sm='2'>
+              <!-- Additional Type -->
+              <semantic-form-tree-picker-input for="ActivityAdditionalType"></semantic-form-tree-picker-input>
+            </bs-col>              
+            <!-- Carried out by  -->
+            <bs-col sm='2'>
+              <semantic-form-autocomplete-input for="ActivityCarriedOutBy" placeholder='Search persons...'></semantic-form-autocomplete-input>
+            </bs-col>
+            <!-- certainty -->
+            <bs-col sm='2'>
+              <semantic-form-checklist-input row=true for="ActivityCertainty"></semantic-form-checklist-input>
+            </bs-col>
+          </bs-row> 
+          <bs-row>
+            <!-- Comment -->
+              <bs-col sm='10'>
+              <semantic-form-text-input for="RDFSComment" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+            </bs-col>
+          </bs-row>
+        </semantic-form-composite-input>        
+
+        <!-- Performance Serie (Identifier) -->
+        <semantic-form-composite-input for="IdentifierBy"
+          new-subject-template='/identifier'
+          fields='[
+              [[> RDFtype]],
+              [[> IdentifierType_Tree]],
+              [[> IdentifierValue]]
+            ]'
+        > 
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E42_Identifier"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='2'>
+              <semantic-form-tree-picker-input for="IdentifierType_Tree"></semantic-form-tree-picker-input>
+            </bs-col>
+            <bs-col sm='10'>
+              <semantic-form-text-input for="IdentifierValue" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+            </bs-col>
+          </bs-row>
+        </semantic-form-composite-input>
+
+        <hr/>
+        <!-- ############################################################# -->
+        <!--                       Performance Single                       -->
+        <!-- ############################################################# -->
+        <semantic-form-composite-input for="PerformanceSingle" 
+          new-subject-template='/{{UUID}}'
+          fields='[
+              [[> RDFtype]],
+              [[> RDFSLabel]],
+              [[> IdentifierType_Tree]],
+              [[> SameAs]],
+              [[> TitleEntity_Optional]],
+              [[> E52Date]],
+              [[> IdentifierBy]]              
+            ]'
+        >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F31_Performance "]]'></semantic-form-hidden-input>
+          </div>
+
+          <!-- Label  -->
+          <semantic-form-text-input for="RDFSLabel" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+          <!-- Performance Single (Type) -->
+          <semantic-form-tree-picker-input for="IdentifierType_Tree"></semantic-form-tree-picker-input>
+          <!-- Same As (Single) -->
+          <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+          <!-- Performance Single (Title) -->
+          <semantic-form-composite-input for="TitleEntity_Optional"
+            new-subject-template='/title'
+            fields='[
+                [[> RDFtype]],
+                [[> TitleTypeMultiple]],
+                [[> Title_Label_Value]]      
+              ]'
+        >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='2'>
+              <semantic-form-tree-picker-input for="TitleTypeMultiple"></semantic-form-tree-picker-input>
+            </bs-col>
+            <bs-col sm='8'>
+              <semantic-form-text-input for="Title_Label_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+            </bs-col>
+          </bs-row>
+          </semantic-form-composite-input>
+          <!-- Performance Single (Date) -->
+          <semantic-form-composite-input for="E52Date"
+            new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+            fields='[
+                [[> RDFtype]],
+                [[> E52DateValue]],
+                [[> E52DateLabel]]    
+              ]'
+        >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E52_Time-Span"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='2'>
+              <semantic-form-datetime-input for="E52DateValue"></semantic-form-datetime-input>
+            </bs-col>
+            <bs-col sm='8'>
+              	<semantic-form-text-input for="E52DateLabel"></semantic-form-text-input>
+            </bs-col>
+          </bs-row>
+          </semantic-form-composite-input>
+          <!-- Performance Single (Description) -->
+       
+          <!-- Performance Single (Identifier) -->
+          <semantic-form-composite-input for="IdentifierBy"
+            new-subject-template='/identifier'
+            fields='[
+                [[> RDFtype]],
+                [[> IdentifierType_Tree]],
+                [[> IdentifierValue]]
+              ]'
+          > 
+            <div style="display: none;">
+              <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E42_Identifier"]]'></semantic-form-hidden-input>
+            </div>
+            <bs-row>
+              <bs-col sm='2'>
+                <semantic-form-tree-picker-input for="IdentifierType_Tree"></semantic-form-tree-picker-input>
+              </bs-col>
+              <bs-col sm='10'>
+                <semantic-form-text-input for="IdentifierValue" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+              </bs-col>
+            </bs-row>
+          </semantic-form-composite-input>
+
+        </semantic-form-composite-input>
+
+
+        <br/>
+
+
+        <semantic-form-errors></semantic-form-errors>
+        <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
+        <button name="reset" class="btn btn-secondary">[[i18n "FormReset" bundle="performing-arts-ch"]]</button>
+      </bs-panel>
+    </semantic-form>
+  </div>
