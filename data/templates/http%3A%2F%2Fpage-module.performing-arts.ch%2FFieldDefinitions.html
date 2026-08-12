@@ -3606,6 +3606,51 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "ActivityHasType"
     }
 [[/inline]]
+ [[#*inline "SameAs"]]
+    {
+        "id" : "SameAs",
+
+            "label": "[[i18n "field_external_resources" bundle="sapa-fields"]]",
+            "description" : "Expects URIs from other databases such as Wikidata, GND, etc.",
+            "xsdDatatype" : "xsd:string",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity",
+            "range" : ["rdfs:Class"],
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject owl:sameAs ?valueAsIri . BIND(REPLACE(STR(?valueAsIri), \".*\\\\/c*b*\", \"\") as ?localname) BIND(STRBEFORE(STR(?valueAsIri), ?localname) as ?prefix) BIND(xsd:string(?valueAsIri) as ?value) VALUES(?prefix ?source ?order) { (\"http://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"https://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"http://www.isni.org/\" \"ISNI\" 1) (\"https://www.isni.org/\" \"ISNI\" 1) (\"http://viaf.org/viaf/\" \"VIAF\" 2) (\"https://viaf.org/viaf/\" \"VIAF\" 2) (\"http://d-nb.info/gnd/\" \"GND\" 3) (\"https://d-nb.info/gnd/\" \"GND\" 3) (\"https://catalogue.bnf.fr/ark:/12148/cb\" \"BnF\" 4) (\"http://geonames.org/\" \"Geonames\" 5) (\"https://geonames.org/\" \"Geonames\" 5) (\"http://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"https://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"http://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"https://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"http://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://www.tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 9) } BIND(IF(?order<8, CONCAT(?source,\": \",?localname), ?source) AS ?label) } ORDER BY ASC(?order)",
+                "insertPattern" : "INSERT { $subject owl:sameAs ?valueAsUri . } WHERE { BIND(IRI(?value) as ?valueAsUri) }",
+                "deletePattern" : "DELETE { $subject owl:sameAs ?valueAsUri . } WHERE { BIND(IRI(?value) as ?valueAsUri) }",
+                "askPattern" : "ASK { VALUES(?prefix ?source ?order) { (\"http://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"https://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"http://www.isni.org/\" \"ISNI\" 1) (\"https://www.isni.org/\" \"ISNI\" 1) (\"http://viaf.org/viaf/\" \"VIAF\" 2) (\"https://viaf.org/viaf/\" \"VIAF\" 2) (\"http://d-nb.info/gnd/\" \"GND\" 3) (\"https://d-nb.info/gnd/\" \"GND\" 3) (\"https://catalogue.bnf.fr/ark:/12148/cb\" \"BnF\" 4) (\"http://geonames.org/\" \"Geonames\" 5) (\"https://geonames.org/\" \"Geonames\" 5) (\"http://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"https://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"http://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"https://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"http://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://www.tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 9) } FILTER(STRSTARTS(?value, ?prefix)) }",
+        "iri" : "SameAs"
+    }
+[[/inline]]
+ [[#*inline "RDFSComment"]]
+    {
+        "id" : "RDFSComment",
+
+            "label": "[[i18n "field_comment" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:comment ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:comment $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject rdfs:comment $value } WHERE {}",
+        "iri" : "RDFSComment"
+    }
+[[/inline]]
+ [[#*inline "RDFSLabel"]]
+    {
+        "id" : "RDFSLabel",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "RDFSLabel"
+    }
+[[/inline]]
  [[#*inline "P9_Consist_Of"]]
     {
         "id" : "P9_Consist_Of",
@@ -3746,51 +3791,6 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "insertPattern" : "INSERT { $subject rdf:value ?value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject rdf:value ?value . } WHERE {}",
         "iri" : "LinguisticObject_Value"
-    }
-[[/inline]]
- [[#*inline "SameAs"]]
-    {
-        "id" : "SameAs",
-
-            "label": "[[i18n "field_external_resources" bundle="sapa-fields"]]",
-            "description" : "Expects URIs from other databases such as Wikidata, GND, etc.",
-            "xsdDatatype" : "xsd:string",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity",
-            "range" : ["rdfs:Class"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject owl:sameAs ?valueAsIri . BIND(REPLACE(STR(?valueAsIri), \".*\\\\/c*b*\", \"\") as ?localname) BIND(STRBEFORE(STR(?valueAsIri), ?localname) as ?prefix) BIND(xsd:string(?valueAsIri) as ?value) VALUES(?prefix ?source ?order) { (\"http://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"https://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"http://www.isni.org/\" \"ISNI\" 1) (\"https://www.isni.org/\" \"ISNI\" 1) (\"http://viaf.org/viaf/\" \"VIAF\" 2) (\"https://viaf.org/viaf/\" \"VIAF\" 2) (\"http://d-nb.info/gnd/\" \"GND\" 3) (\"https://d-nb.info/gnd/\" \"GND\" 3) (\"https://catalogue.bnf.fr/ark:/12148/cb\" \"BnF\" 4) (\"http://geonames.org/\" \"Geonames\" 5) (\"https://geonames.org/\" \"Geonames\" 5) (\"http://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"https://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"http://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"https://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"http://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://www.tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 9) } BIND(IF(?order<8, CONCAT(?source,\": \",?localname), ?source) AS ?label) } ORDER BY ASC(?order)",
-                "insertPattern" : "INSERT { $subject owl:sameAs ?valueAsUri . } WHERE { BIND(IRI(?value) as ?valueAsUri) }",
-                "deletePattern" : "DELETE { $subject owl:sameAs ?valueAsUri . } WHERE { BIND(IRI(?value) as ?valueAsUri) }",
-                "askPattern" : "ASK { VALUES(?prefix ?source ?order) { (\"http://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"https://www.wikidata.org/entity/\" \"Wikidata\" 0) (\"http://www.isni.org/\" \"ISNI\" 1) (\"https://www.isni.org/\" \"ISNI\" 1) (\"http://viaf.org/viaf/\" \"VIAF\" 2) (\"https://viaf.org/viaf/\" \"VIAF\" 2) (\"http://d-nb.info/gnd/\" \"GND\" 3) (\"https://d-nb.info/gnd/\" \"GND\" 3) (\"https://catalogue.bnf.fr/ark:/12148/cb\" \"BnF\" 4) (\"http://geonames.org/\" \"Geonames\" 5) (\"https://geonames.org/\" \"Geonames\" 5) (\"http://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"https://classifications.data.admin.ch/municipality/\" \"Swiss Municipality\" 6) (\"http://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"https://classifications.data.admin.ch/canton/\" \"Swiss Municipality\" 7) (\"http://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 8) (\"https://www.tls.theaterwissenschaft.ch/wiki/\" \"Theaterlexikon der Schweiz\" 9) } FILTER(STRSTARTS(?value, ?prefix)) }",
-        "iri" : "SameAs"
-    }
-[[/inline]]
- [[#*inline "RDFSComment"]]
-    {
-        "id" : "RDFSComment",
-
-            "label": "[[i18n "field_comment" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E1_CRM_Entity",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:comment ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:comment $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:comment $value } WHERE {}",
-        "iri" : "RDFSComment"
-    }
-[[/inline]]
- [[#*inline "RDFSLabel"]]
-    {
-        "id" : "RDFSLabel",
-
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "RDFSLabel"
     }
 [[/inline]]
  [[#*inline "E52Date"]]
@@ -4127,9 +4127,9 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "ExpressionCreation_PP_PerformanceWork"
     }
 [[/inline]]
- [[#*inline "ExpressionCreation_PerformancePlan_Activity"]]
+ [[#*inline "ExpressionCreation_PerformancePlan_ConsistOf"]]
     {
-        "id" : "ExpressionCreation_PerformancePlan_Activity",
+        "id" : "ExpressionCreation_PerformancePlan_ConsistOf",
 
             "label": "[[i18n "field_activity" bundle="sapa-fields"]]",
             "minOccurs" : "1",
@@ -4139,7 +4139,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
-        "iri" : "ExpressionCreation_PerformancePlan_Activity"
+        "iri" : "ExpressionCreation_PerformancePlan_ConsistOf"
     }
 [[/inline]]
  [[#*inline "PerformanceSerie_Saison"]]
