@@ -11,7 +11,7 @@
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "Activity_Type"
     }
 [[/inline]]
@@ -276,7 +276,7 @@
                 "selectPattern" : "SELECT ?value ?label WHERE { ?work frbroo:R12_is_realised_in $subject ; crm:P2_has_type ?value. }",
                 "insertPattern" : "INSERT { ?work frbroo:R12_is_realised_in $subject ; crm:P2_has_type ?value. } WHERE { BIND(IRI(CONCAT(\"http://data.performing-arts.ch/w/\", MD5(STR(?value)))) AS ?work) }",
                 "valueSetPattern" : "SELECT $value WHERE { $value a skos:Concept ; skos:inScheme spav:mn . } ORDER BY ?label",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept ; skos:inScheme spav:mn ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept ; skos:inScheme spav:mn ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "Genre"
     }
 [[/inline]]
@@ -393,7 +393,7 @@
             "range" : ["https://www.ica.org/standards/RiC/ontology#Group"],
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:controlledBy ?value. }",
                 "insertPattern" : "INSERT { $subject rico:controlledBy $value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { FILTER(REGEX(STR(?label), $__token__, \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
         "iri" : "GroupController"
     }
 [[/inline]]
@@ -489,7 +489,7 @@
             "range" : ["https://www.ica.org/standards/RiC/ontology#Group"],
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:isSuccessorOf ?value. }",
                 "insertPattern" : "INSERT { $subject rico:isSuccessorOf $value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { FILTER(REGEX(STR(?label), $__token__, \"i\")) } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value rdf:type/rdfs:subClassOf* rico:Group ; rdfs:label ?label . { ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } FILTER(CONTAINS(STR(?value), \"/a/\")) } LIMIT 10",
         "iri" : "GroupPredecessor"
     }
 [[/inline]]
@@ -1413,7 +1413,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject a crm:E7_Activity ; crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) FILTER NOT (CONTAINS(STR($value), \"/a/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" FILTER NOT (CONTAINS(STR($value), \"/a/\")) } LIMIT 10",
         "iri" : "Performed_By"
     }
 [[/inline]]
@@ -1428,7 +1428,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "ActivityCarriedOutBy"
     }
 [[/inline]]
@@ -3366,7 +3366,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT DISTINCT ?value ?label ?unidentified WHERE { $subject crm:P46_is_composed_of ?value . BIND(IF(CONTAINS(STR($value), \"/u/\"), \"true\", \"\") AS ?unidentified) }",
                 "insertPattern" : "INSERT { $subject crm:P46_is_composed_of $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P46_is_composed_of ?value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46_is_composed_of $value . } FILTER(REGEX(STR(?label), $__token__, \"i\")) FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46_is_composed_of $value . } ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
         "iri" : "VenueContains"
     }
 [[/inline]]
@@ -3398,7 +3398,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT DISTINCT ?value ?label ?unidentified WHERE { { $subject crm:P46i_forms_part_of ?value . } UNION { $value crm:P46_is_composed_of $subject . } BIND(IF(CONTAINS(STR($value), \"/u/\"), \"true\", \"\") AS ?unidentified) }",
                 "insertPattern" : "INSERT { $subject crm:P46i_forms_part_of $value . $value crm:P46_is_composed_of $subject . } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P46i_forms_part_of $value . $value crm:P46i_forms_part_of $subject . } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46i_forms_part_of $value . } FILTER(REGEX(STR(?label), $__token__, \"i\")) FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type spav:dwmkn ; rdfs:label ?label . FILTER NOT EXISTS { $subject crm:P46i_forms_part_of $value . } ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" FILTER(CONTAINS(STR(?value), \"/o/\")) } LIMIT 10",
         "iri" : "VenueIsPartOf"
     }
 [[/inline]]
@@ -3734,8 +3734,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
 
             "label": "[[i18n "field_date_value" bundle="sapa-fields"]]",
             "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P82a_begin_of_the_begin $value . }",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#date",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P4_has_time-span ?UritimeSpan . ?timespan a crm:E52_Time-Span ; crm:P82a_begin_of_the_begin ?value_raw . BIND(STR(?value_raw) AS ?value) }",
                 "insertPattern" : "INSERT { $subject crm:P82a_begin_of_the_begin ?value . $subject crm:P82b_end_of_the_end ?value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject crm:P82a_begin_of_the_begin ?value . $subject crm:P82b_end_of_the_end ?value . } WHERE { }",
         "iri" : "E52DateValue"
@@ -3774,7 +3774,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             },
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "Activity_HasType"
     }
 [[/inline]]
@@ -3795,7 +3795,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType $value. }",
                 "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "Activity_AdditionalType"
     }
 [[/inline]]
@@ -3810,7 +3810,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "Activity_Actor"
     }
 [[/inline]]
@@ -3924,7 +3924,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
     }
 [[/inline]]
@@ -3974,7 +3974,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT $value WHERE { $subject schema:inLanguage $value }",
                 "insertPattern" : "INSERT { $subject schema:inLanguage $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject schema:inLanguage $value } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept . $value skos:inScheme spav:lg ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept . $value skos:inScheme spav:lg ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceWork_InLanguage"
     }
 [[/inline]]
@@ -3987,7 +3987,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT $value WHERE { $subject schema:subtitleLanguage $value }",
                 "insertPattern" : "INSERT { $subject schema:subtitleLanguage $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject schema:subtitleLanguage $value } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept . $value skos:inScheme spav:lg ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value a skos:Concept . $value skos:inScheme spav:lg ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceWork_SubTitleLanguage"
     }
 [[/inline]]
@@ -4012,7 +4012,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT $value WHERE { $subject frbroo:R14_incorporates $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R14_incorporates $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R14_incorporates $value } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value crm:P10_falls_within ?season ; rdfs:label ?label FILTER(regex(str(?season),\"/s/\", \"i\")) FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value crm:P10_falls_within ?season ; rdfs:label ?label FILTER(regex(str(?season),\"/s/\", \"i\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformancePlan_R14_incorporates"
     }
 [[/inline]]
@@ -4156,9 +4156,9 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "frbroo:F31_Performance",
-                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType $value. }",
-                "insertPattern" : "INSERT { $subject schema:additionalType spav:hlser . } WHERE {}",
-                "deletePattern" : "DELETE { $subject schema:additionalType spav:hlser . } WHERE {}",
+                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType ?value. }",
+                "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
         "iri" : "PerformanceSerie_additionalType"
     }
 [[/inline]]
@@ -4179,7 +4179,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             },
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:hl ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:hl ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceSerie_P2_has_type"
     }
 [[/inline]]
@@ -4195,7 +4195,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value WHERE { $subject frbroo:R25_performed $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R25_performed ?value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R25_performed ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> FILTER REGEX(STR(?label), $__token__,\"i\") } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceSerie_R25_performed"
     }
 [[/inline]]
@@ -4207,7 +4207,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object"],
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> FILTER REGEX(STR(?label), $__token__,\"i\") } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceSerie_P8_took_place_on_or_within"
     }
 [[/inline]]
@@ -4219,7 +4219,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object"],
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> FILTER(CONTAINS(STR(?s),\"/u/\")) FILTER REGEX(STR(?label), $__token__,\"i\") } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> FILTER(CONTAINS(STR(?s),\"/u/\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within"
     }
 [[/inline]]
@@ -4273,7 +4273,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "PerformanceSerie_Activity_P14_carried_out_by"
     }
 [[/inline]]
@@ -4298,9 +4298,9 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "frbroo:F31_Performance",
-                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType $value. }",
-                "insertPattern" : "INSERT { $subject schema:additionalType spav:hlsin . } WHERE {}",
-                "deletePattern" : "DELETE { $subject schema:additionalType spav:hlsin . } WHERE {}",
+                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType ?value. }",
+                "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
         "iri" : "PerformanceSingle_additionalType"
     }
 [[/inline]]
@@ -4362,7 +4362,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             },
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:hl ; skos:prefLabel ?label . FILTER(REGEX(STR(?label), $__token__, \"i\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:hl ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "PerformanceSingle_P2_has_type"
     }
 [[/inline]]
@@ -4373,7 +4373,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "label": "[[i18n "field_date" bundle="sapa-fields"]]",
             "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P4_has_time-span $value . }",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P4_has_time-span ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P4_has_time-span $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject crm:P4_has_time-span $value . } WHERE { }",
         "iri" : "PerformanceSingle_P4_has_time_span"

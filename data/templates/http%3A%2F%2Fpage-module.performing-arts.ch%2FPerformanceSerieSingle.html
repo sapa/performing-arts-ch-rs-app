@@ -15,7 +15,7 @@
       form-id='performanceSerieForm'
       fields='[
         [[> RDFtype]],  
-        [[> PerformanceSingle_additionalType ]],
+        [[> PerformanceSerie_additionalType ]],
         [[> PerformanceSerie_P10_falls_within ]],
         [[> PerformanceSerie_Label]],
         [[> PerformanceSerie_P2_has_type]],
@@ -33,7 +33,7 @@
 
         <div style="display: none;">
           <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F31_Performance"]]'></semantic-form-hidden-input>
-          <semantic-form-hidden-input for="PerformanceSingle_additionalType"></semantic-form-hidden-input>
+          <semantic-form-hidden-input for="PerformanceSerie_additionalType" default-value='[[resolvePrefix "spav:hlser"]]'></semantic-form-hidden-input>
         </div>
 
         <!-- Season - Type -->
@@ -183,7 +183,7 @@
         >
           <div style="display: none;">
             <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F31_Performance"]]'></semantic-form-hidden-input>
-            <semantic-form-hidden-input for="PerformanceSingle_additionalType"></semantic-form-hidden-input>
+            <semantic-form-hidden-input for="PerformanceSingle_additionalType" default-value='[[resolvePrefix "spav:hlsin"]]'></semantic-form-hidden-input>
           </div>
           <!-- Performance Single Label -->
           <semantic-form-text-input for="PerformanceSingle_Label" languages='["en","de","it","fr"]' ></semantic-form-text-input>

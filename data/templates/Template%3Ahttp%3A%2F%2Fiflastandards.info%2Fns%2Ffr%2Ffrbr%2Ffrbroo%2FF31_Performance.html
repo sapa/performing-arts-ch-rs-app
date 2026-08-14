@@ -307,8 +307,12 @@
   </bs-tab>
 
       [[#if (hasPermission "sparql:*:*:*")]] 
+        
       <bs-tab event-key='Edit' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
-      [[> sapaModule:PerformancePlanForm]]
+        [[#if (ask "ASK {?? schema:additionalType <http://vocab.performing-arts.ch/hlser>}")]]
+          [[> sapaModule:PerformanceSerieSingle]]
+        [[/if]]
+        
       </bs-tab>
       [[/if]]    
   

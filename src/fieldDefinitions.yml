@@ -18,7 +18,9 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
           } LIMIT 10'
 
 
@@ -461,7 +463,9 @@ fields:
             $value a skos:Concept ;
             skos:inScheme spav:mn ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
           } LIMIT 10'
 
 
@@ -663,7 +667,9 @@ fields:
         ?value rdf:type/rdfs:subClassOf* rico:Group ;
         rdfs:label ?label .
         {
-          FILTER(REGEX(STR(?label), $__token__, "i"))
+          ?label bds:search $__token__ ;
+	          bds:relevance ?score ; 
+    	      bds:matchAllTerms "true"
         } UNION {
             BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -874,7 +880,9 @@ fields:
         ?value rdf:type/rdfs:subClassOf* rico:Group ;
         rdfs:label ?label .
         {
-          FILTER(REGEX(STR(?label), $__token__, "i"))
+          ?label bds:search $__token__ ;
+	          bds:relevance ?score ; 
+    	      bds:matchAllTerms "true"
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
         }
@@ -2298,11 +2306,13 @@ fields:
         $subject crm:P14_carried_out_by ?value.
       } WHERE {}'
       - autosuggestion: 'SELECT $value ?label WHERE {
-        $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
-        rdfs:label ?label .
-        FILTER(REGEX(STR(?label), $__token__, "i"))
-        FILTER NOT (CONTAINS(STR($value), "/a/"))
-      } LIMIT 10'
+          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          rdfs:label ?label .
+          ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          FILTER NOT (CONTAINS(STR($value), "/a/"))
+        } LIMIT 10'
 
   - id: ActivityCarriedOutBy
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActivityCarriedOutBy
@@ -2319,10 +2329,12 @@ fields:
         $subject crm:P14_carried_out_by ?value.
       } WHERE {}'
       - autosuggestion: 'SELECT $value ?label WHERE {
-        $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
-        rdfs:label ?label .
-        FILTER(REGEX(STR(?label), $__token__, "i"))
-      } LIMIT 10'
+            $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+            rdfs:label ?label .
+            ?label bds:search $__token__ ;
+                bds:relevance ?score ;
+                bds:matchAllTerms "true"
+            } LIMIT 10'
 
 
   - id: PersonBirthDate
@@ -5591,13 +5603,15 @@ fields:
         $subject crm:P46_is_composed_of ?value .
       } WHERE {}'
       - autosuggestion: 'SELECT ?value ?label WHERE {
-        ?value a crm:E22_Man-Made_Object ;
-    crm:P2_has_type spav:dwmkn ;
-        rdfs:label ?label .
-        FILTER NOT EXISTS { $subject crm:P46_is_composed_of $value . }
-        FILTER(REGEX(STR(?label), $__token__, "i"))
-        FILTER(CONTAINS(STR(?value), "/o/"))
-      } LIMIT 10'
+            ?value a crm:E22_Man-Made_Object ;
+            crm:P2_has_type spav:dwmkn ;
+            rdfs:label ?label .
+            FILTER NOT EXISTS { $subject crm:P46_is_composed_of $value . }
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+            FILTER(CONTAINS(STR(?value), "/o/"))
+          } LIMIT 10'
 
   - id: VenueEnd
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueEnd
@@ -5653,13 +5667,15 @@ fields:
         $value crm:P46i_forms_part_of $subject .
       } WHERE {}'
       - autosuggestion: 'SELECT ?value ?label WHERE {
-        ?value a crm:E22_Man-Made_Object ;
-    crm:P2_has_type spav:dwmkn ;
-        rdfs:label ?label .
-        FILTER NOT EXISTS { $subject crm:P46i_forms_part_of $value . }
-        FILTER(REGEX(STR(?label), $__token__, "i"))
-        FILTER(CONTAINS(STR(?value), "/o/"))
-      } LIMIT 10'
+          ?value a crm:E22_Man-Made_Object ;
+          crm:P2_has_type spav:dwmkn ;
+          rdfs:label ?label .
+          FILTER NOT EXISTS { $subject crm:P46i_forms_part_of $value . }
+          ?label bds:search $__token__ ;
+            bds:relevance ?score ;
+            bds:matchAllTerms "true"
+          FILTER(CONTAINS(STR(?value), "/o/"))
+        } LIMIT 10'
 
   - id: VenueLocation
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/VenueLocation
@@ -6287,10 +6303,15 @@ fields:
   - id: E52DateValue
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateValue
     label: Date Value
-    datatype: http://www.w3.org/2001/XMLSchema#string
+    datatype: http://www.w3.org/2001/XMLSchema#date
     maxOccurs: 1
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P82a_begin_of_the_begin $value . }'
+      - select: 'SELECT ?value WHERE { 
+                  $subject crm:P4_has_time-span ?UritimeSpan .
+                  ?timespan a crm:E52_Time-Span ;
+                    crm:P82a_begin_of_the_begin ?value_raw .
+                  BIND(STR(?value_raw) AS ?value)
+                }'
       - insert: 'INSERT { 
           $subject crm:P82a_begin_of_the_begin ?value . 
           $subject crm:P82b_end_of_the_end ?value .
@@ -6308,7 +6329,7 @@ fields:
     domain: *RDFSLabel_domain
     maxOccurs: *RDFSLabel_maxOccurs
     queries:
-      - <<: *RDFSLabel_queries
+      - <<: *RDFSLabel_queries       
 
   #********************************************************
   #            Activities
@@ -6322,16 +6343,14 @@ fields:
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
-      - select: 'SELECT ?value WHERE {
-            $subject crm:P2_has_type $value.
-          }'
-      - insert: 'INSERT {
-            $subject crm:P2_has_type $value .
-          } WHERE {}'
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
           } LIMIT 10'
     treePatterns:
       type: full
@@ -6366,7 +6385,7 @@ fields:
         ?item skos:inScheme spav:mu ;
         skos:prefLabel ?label .
         ?label bds:search ?__token__ ; 
-        bds:relevance ?score ; bds:matchAllTerms "true"
+          bds:relevance ?score ; bds:matchAllTerms "true"
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
@@ -6385,7 +6404,9 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
           } LIMIT 10'
     treePatterns:
       type: full
@@ -6442,10 +6463,12 @@ fields:
         $subject crm:P14_carried_out_by ?value.
       } WHERE {}'
       - autosuggestion: 'SELECT $value ?label WHERE {
-        $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
-        rdfs:label ?label .
-        FILTER(REGEX(STR(?label), $__token__, "i"))
-      } LIMIT 10' 
+          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          rdfs:label ?label .
+          ?label bds:search $__token__ ;
+            bds:relevance ?score ;
+            bds:matchAllTerms "true"
+        } LIMIT 10' 
   
   - id: Activity_Certainty
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Certainty
@@ -6532,11 +6555,13 @@ fields:
       - select: *Activity_Actor_query_select
       - insert: *Activity_Actor_query_insert
       - autosuggestion: 'SELECT $value ?label WHERE {
-        $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
-        rdfs:label ?label .
-        FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") ) 
-        FILTER(REGEX(STR(?label), $__token__, "i"))
-      } LIMIT 10'
+          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          rdfs:label ?label .
+          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") ) 
+          ?label bds:search $__token__ ;
+            bds:relevance ?score ;
+            bds:matchAllTerms "true"
+        } LIMIT 10'
   
   #********************************************************
   #            Performance Work
@@ -6626,7 +6651,9 @@ fields:
             $value a skos:Concept .
             $value skos:inScheme spav:lg ;
               skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .            
           } LIMIT 10'
 
   - id: PerformanceWork_SubTitleLanguage
@@ -6641,7 +6668,9 @@ fields:
             $value a skos:Concept .
             $value skos:inScheme spav:lg ;
               skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
           } LIMIT 10'
   
   #********************************************************
@@ -6669,7 +6698,9 @@ fields:
             $value crm:P10_falls_within ?season ;
             rdfs:label ?label
             FILTER(regex(str(?season),"/s/", "i")) 
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
           } LIMIT 10' 
 
   - id: PerformancePlan_Title_Label_Value
@@ -6777,9 +6808,9 @@ fields:
     datatype: xsd:anyURI
     domain: frbroo:F31_Performance
     queries:
-      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
-      - insert: 'INSERT { $subject schema:additionalType spav:hlser . } WHERE {}'
-      - delete: 'DELETE { $subject schema:additionalType spav:hlser . } WHERE {}'
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType ?value. }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
+      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
   
   - id: PerformanceSerie_P2_has_type
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P2_has_type
@@ -6793,7 +6824,9 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:hl ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
           } LIMIT 10'
     treePatterns:
       type: full
@@ -6847,12 +6880,14 @@ fields:
       - insert: 'INSERT { $subject frbroo:R25_performed ?value. } WHERE {}'
       - delete: 'DELETE { $subject frbroo:R25_performed ?value. } WHERE {}'
       - autosuggestion: 'SELECT ?value ?label WHERE {
-        ?value a crm:E22_Man-Made_Object ;
-        crm:P2_has_type ?type ;
-        rdfs:label ?label .
-        ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
-        FILTER REGEX(STR(?label), $__token__,"i")
-      } LIMIT 10'
+          ?value a crm:E22_Man-Made_Object ;
+          crm:P2_has_type ?type ;
+          rdfs:label ?label .
+          ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
+          ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
+        } LIMIT 10'
 
   - id: PerformanceSerie_P8_took_place_on_or_within
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P8_took_place_on_or_within
@@ -6865,11 +6900,13 @@ fields:
       - INSERT: &Venu_query_insert 'INSERT { $subject crm:P8_took_place_on_or_within ?value. } WHERE {}'
       - DELETE: &Venu_query_delete 'DELETE { $subject crm:P8_took_place_on_or_within ?value. } WHERE {}'
       - autosuggestion: 'SELECT ?value ?label WHERE {
-        ?value a crm:E22_Man-Made_Object ;
-        crm:P2_has_type ?type ;
-        rdfs:label ?label .
-        ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
-        FILTER REGEX(STR(?label), $__token__,"i")
+          ?value a crm:E22_Man-Made_Object ;
+          crm:P2_has_type ?type ;
+          rdfs:label ?label .
+          ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
+          ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
       } LIMIT 10'
   
   - id: PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within
@@ -6883,13 +6920,15 @@ fields:
       - INSERT: *Venu_query_insert
       - DELETE: *Venu_query_delete
       - autosuggestion: 'SELECT ?value ?label WHERE {
-        ?value a crm:E22_Man-Made_Object ;
-        crm:P2_has_type ?type ;
-        rdfs:label ?label .
-        ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
-        FILTER(CONTAINS(STR(?s),"/u/"))
-        FILTER REGEX(STR(?label), $__token__,"i")
-      } LIMIT 10'
+          ?value a crm:E22_Man-Made_Object ;
+          crm:P2_has_type ?type ;
+          rdfs:label ?label .
+          ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
+          FILTER(CONTAINS(STR(?s),"/u/"))
+          ?label bds:search $__token__ ;
+                bds:relevance ?score ; 
+                bds:matchAllTerms "true" .
+        } LIMIT 10'
   
   - id: PerformanceSerie_P102_has_title
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P102_has_title
@@ -6917,11 +6956,13 @@ fields:
       - select: *Activity_Actor_query_select
       - insert: *Activity_Actor_query_insert
       - autosuggestion: 'SELECT $value ?label WHERE {
-        $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
-        rdfs:label ?label .
-        FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") ) 
-        FILTER(REGEX(STR(?label), $__token__, "i"))
-      } LIMIT 10'
+          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          rdfs:label ?label .
+          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") ) 
+          ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+        } LIMIT 10'
     
 
   # *******************************************************
@@ -6945,9 +6986,9 @@ fields:
     datatype: xsd:anyURI
     domain: frbroo:F31_Performance
     queries:
-      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
-      - insert: 'INSERT { $subject schema:additionalType spav:hlsin . } WHERE {}'
-      - delete: 'DELETE { $subject schema:additionalType spav:hlsin . } WHERE {}'
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType ?value. }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
+      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
 
   - id: PerformanceSingle_Label
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Label
@@ -6975,7 +7016,9 @@ fields:
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:hl ;
             skos:prefLabel ?label .
-            FILTER(REGEX(STR(?label), $__token__, "i"))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
           } LIMIT 10'
     treePatterns:
       type: full
@@ -7023,7 +7066,7 @@ fields:
     datatype: http://www.w3.org/2001/XMLSchema#string
     maxOccurs: 1
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P4_has_time-span $value . }'
+      - select: 'SELECT ?value WHERE { $subject crm:P4_has_time-span ?value . }'
       - insert: 'INSERT { $subject crm:P4_has_time-span $value . } WHERE { }'
       - delete: 'DELETE { $subject crm:P4_has_time-span $value . } WHERE { }'
 
