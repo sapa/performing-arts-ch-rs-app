@@ -4012,7 +4012,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT $value WHERE { $subject frbroo:R14_incorporates $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R14_incorporates $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R14_incorporates $value } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value crm:P10_falls_within ?season ; rdfs:label ?label FILTER(regex(str(?season),\"/s/\", \"i\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value crm:P10_falls_within ?season ; rdfs:label ?label . FILTER(regex(str(?season),\"/s/\", \"i\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformancePlan_R14_incorporates"
     }
 [[/inline]]
@@ -4195,7 +4195,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value WHERE { $subject frbroo:R25_performed $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R25_performed ?value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R25_performed ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceSerie_R25_performed"
     }
 [[/inline]]
@@ -4207,7 +4207,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object"],
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceSerie_P8_took_place_on_or_within"
     }
 [[/inline]]
@@ -4219,7 +4219,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object"],
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> FILTER(CONTAINS(STR(?s),\"/u/\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> . FILTER(CONTAINS(STR(?s),\"/u/\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within"
     }
 [[/inline]]

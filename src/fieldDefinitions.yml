@@ -6696,7 +6696,7 @@ fields:
       - delete: 'DELETE { $subject frbroo:R14_incorporates $value } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value crm:P10_falls_within ?season ;
-            rdfs:label ?label
+            rdfs:label ?label .
             FILTER(regex(str(?season),"/s/", "i")) 
             ?label bds:search $__token__ ;
               bds:relevance ?score ; 
@@ -6883,7 +6883,7 @@ fields:
           ?value a crm:E22_Man-Made_Object ;
           crm:P2_has_type ?type ;
           rdfs:label ?label .
-          ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
+          ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
           ?label bds:search $__token__ ;
               bds:relevance ?score ; 
               bds:matchAllTerms "true" .
@@ -6903,7 +6903,7 @@ fields:
           ?value a crm:E22_Man-Made_Object ;
           crm:P2_has_type ?type ;
           rdfs:label ?label .
-          ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
+          ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
           ?label bds:search $__token__ ;
               bds:relevance ?score ; 
               bds:matchAllTerms "true" .
@@ -6923,7 +6923,7 @@ fields:
           ?value a crm:E22_Man-Made_Object ;
           crm:P2_has_type ?type ;
           rdfs:label ?label .
-          ?type skos:inScheme <http://vocab.performing-arts.ch/dw>
+          ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
           FILTER(CONTAINS(STR(?s),"/u/"))
           ?label bds:search $__token__ ;
                 bds:relevance ?score ; 
