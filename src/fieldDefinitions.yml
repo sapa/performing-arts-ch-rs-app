@@ -7079,14 +7079,10 @@ fields:
                 } WHERE { 
                   BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
                 }'
-      - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
-
-  - id: PerformanceSingle_Label
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Label
-    label: Title
-    datatype: http://www.w3.org/2001/XMLSchema#string
-    minOccurs: 1
-    maxOccurs: 1
-    queries:
-      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value . }'
-      - delete: 'DELETE { $subject rdfs:label $value . } WHERE { }'
+      - delete: 'DELETE { 
+                $subject rdf:value $value . 
+                ?parent rdfs:label $value . 
+              } 
+              WHERE { 
+                BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
+              }'

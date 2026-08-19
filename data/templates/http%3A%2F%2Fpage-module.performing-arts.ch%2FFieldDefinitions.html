@@ -4396,20 +4396,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdf:value ?value . }",
                 "insertPattern" : "INSERT { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { BIND(IRI(REPLACE(STR($subject),\"/title\",\"\")) AS ?parent) }",
-                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { BIND(IRI(REPLACE(STR($subject),\"/title\",\"\")) AS ?parent) }",
         "iri" : "PerformanceSingle_Title_Label"
-    }
-[[/inline]]
- [[#*inline "PerformanceSingle_Label"]]
-    {
-        "id" : "PerformanceSingle_Label",
-
-            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value . }",
-                "deletePattern" : "DELETE { $subject rdfs:label $value . } WHERE { }",
-        "iri" : "PerformanceSingle_Label"
     }
 [[/inline]]
