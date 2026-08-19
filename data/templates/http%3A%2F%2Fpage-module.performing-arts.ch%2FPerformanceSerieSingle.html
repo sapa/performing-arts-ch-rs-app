@@ -26,8 +26,7 @@
         [[> PerformanceSerie_P102_has_title]],
         [[> PerformanceSerie_P67i_is_referred_to_by]],
         [[> PerformanceSerie_ConsistOf]],
-        [[> PerformanceSingle_P9i_forms_part_of]],
-        [[> PerformanceSerie_add_Label_PerformanceSingle]]
+        [[> PerformanceSingle_P9i_forms_part_of]]
       ]'>
       <bs-panel>
         <semantic-form-recover-notification></semantic-form-recover-notification>
@@ -195,7 +194,8 @@
             [[> SameAs]],
             [[> PerformanceSingle_P102_has_title]],
             [[> PerformanceSingle_P4_has_time_span]],
-            [[> PerformanceSingle_P67i_is_referred_to_by]]
+            [[> PerformanceSingle_P67i_is_referred_to_by]],
+            [[> PerformanceSingle_Label]]
             ]'
         >
           <div style="display: none;">
@@ -219,7 +219,7 @@
             fields='[
                 [[> RDFtype]],
                 [[> TitleType]],
-                [[> PerformanceSingle_Title_Label]]      
+                [[> PerformanceSingle_Title_Label]]
               ]'
           >
             <div style="display: none;">
@@ -230,10 +230,13 @@
                 <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
               </bs-col>
               <bs-col sm='8'>
-                <semantic-form-text-input for="PerformanceSingle_Title_Label" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+                <semantic-form-text-input for="PerformanceSingle_Title_Label" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
               </bs-col>
             </bs-row>
-          </semantic-form-composite-input>          
+          </semantic-form-composite-input> 
+          <!-- Performance Single rdfs:label -->
+          <semantic-form-hidden-input for="PerformanceSingle_Label"></semantic-form-hidden-input>
+
           <!-- Performance Single (Date) -->
           <semantic-form-composite-input for="PerformanceSingle_P4_has_time_span"
             new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
@@ -277,11 +280,13 @@
               </bs-col>
             </bs-row>
           </semantic-form-composite-input>          
+          
+          <!-- RDFS Label is a property hide with this property get title value (Performance Serie) if title value of performance Single is empty   
+          <semantic-form-hidden-input for="PerformanceSerie_post_Label" post-action="reload"></semantic-form-hidden-input>
+          <semantic-form-text-input for="PerformanceSerie_post_Label"></semantic-form-text-input>
+          -->
         </semantic-form-composite-input>
-        
-        <!-- RDFS Label is a property hide with this property get title value (Performance Serie) if title value of performance Single is empty   -->
-        <semantic-form-hidden-input for="PerformanceSerie_add_Label_PerformanceSingle"></semantic-form-hidden-input> 
-        
+          
         <br/>
         <semantic-form-errors></semantic-form-errors>
         <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>

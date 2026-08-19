@@ -4326,18 +4326,6 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "PerformanceSingle_additionalType"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_add_Label_PerformanceSingle"]]
-    {
-        "id" : "PerformanceSerie_add_Label_PerformanceSingle",
-
-            "xsdDatatype" : "xsd:string",
-            "domain" : "http://www.w3.org/2000/01/rdf-schema#label",
-                "selectPattern" : "SELECT ?value { $subject rdfs:label ?value . }",
-                "insertPattern" : "INSERT { ?single rdfs:label ?valueLabel } WHERE { $subject a frbroo:F31_Performance ; schema:additionalType spav:hlser ; crm:P102_has_title [ a crm:E35_Title ; rdf:value ?SerieTitleValue ]  . OPTIONAL { ?single crm:P9i_forms_part_of $subject . ?single a frbroo:F31_Performance . ?single schema:additionalType spav:hlsin . OPTIONAL { ?single rdfs:lable ?SingleLabel . } } BIND(IF(bound(?SingleLabel),?SingleLabel, ?SerieTitleValue) AS ?valueLabel) }",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "PerformanceSerie_add_Label_PerformanceSingle"
-    }
-[[/inline]]
  [[#*inline "PerformanceSingle_P102_has_title"]]
     {
         "id" : "PerformanceSingle_P102_has_title",
@@ -4410,5 +4398,18 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "insertPattern" : "INSERT { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { BIND(IRI(REPLACE(STR($subject),\"/title\",\"\")) AS ?parent) }",
                 "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
         "iri" : "PerformanceSingle_Title_Label"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSingle_Label"]]
+    {
+        "id" : "PerformanceSingle_Label",
+
+            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value . }",
+                "deletePattern" : "DELETE { $subject rdfs:label $value . } WHERE { }",
+        "iri" : "PerformanceSingle_Label"
     }
 [[/inline]]

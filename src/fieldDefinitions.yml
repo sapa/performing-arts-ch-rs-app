@@ -6988,31 +6988,6 @@ fields:
       - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
       - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
 
-  - id: PerformanceSerie_add_Label_PerformanceSingle
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_add_Label_PerformanceSingle
-    datatype: xsd:string
-    domain: http://www.w3.org/2000/01/rdf-schema#label
-    queries:
-      - select: 'SELECT ?value { $subject rdfs:label ?value . }'
-      - insert: 'INSERT { ?single rdfs:label ?valueLabel } 
-                 WHERE {
-                    $subject a frbroo:F31_Performance ;
-                        schema:additionalType spav:hlser ;
-                        crm:P102_has_title [ a crm:E35_Title ;
-                                    rdf:value ?SerieTitleValue ]  .                    
-                    OPTIONAL {
-                      ?single crm:P9i_forms_part_of $subject .
-                      ?single a frbroo:F31_Performance .
-                      ?single schema:additionalType spav:hlsin .
-                      OPTIONAL {
-                        ?single rdfs:lable ?SingleLabel .
-                      }
-                    }
-                    BIND(IF(bound(?SingleLabel),?SingleLabel, ?SerieTitleValue) AS ?valueLabel)
-                 }'
-      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
-
-
   - id: PerformanceSingle_P102_has_title
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P102_has_title
     datatype: xsd:anyURI
@@ -7098,7 +7073,20 @@ fields:
     maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rdf:value ?value . }'
-      - insert: 'INSERT { $subject rdf:value $value .
-                          ?parent rdfs:label $value .
-                } WHERE { BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent) }'
+      - insert: 'INSERT { 
+                    $subject rdf:value $value . 
+                    ?parent rdfs:label $value . 
+                } WHERE { 
+                  BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
+                }'
       - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
+
+  - id: PerformanceSingle_Label
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Label
+    label: Title
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value . }'
+      - delete: 'DELETE { $subject rdfs:label $value . } WHERE { }'
