@@ -383,7 +383,7 @@
 
         <!-- vimeo -->
         <semantic-query 
-          query="SELECT ?vimeo_id WHERE 
+          query="SELECT DISTINCT ?vimeo_id WHERE 
           { 
               ?record rico:hasOrHadSubject/frbroo:R14_incorporates? ?? ;
                 rico:hasInstantiation ?vimeo_url .
