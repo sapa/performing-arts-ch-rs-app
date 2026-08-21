@@ -6155,10 +6155,7 @@ fields:
     minOccurs: 1
     maxOccurs: 1
     queries: 
-      - select: 'SELECT ?value WHERE {
-          $parent crm:P102_has_title $subject .
-          $subject crm:P2_has_type ?value .          
-        }'
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type ?value . }'
       - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE { }' 
       - delete: 'DELETE { $subject crm:P2_has_type $value . } WHERE { }'
     treePatterns:
@@ -6956,7 +6953,7 @@ fields:
     label: Identifier
     datatype: xsd:anyURI
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
+      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }'
       - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
       - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
 
@@ -7049,34 +7046,57 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'
 
-  - id: PerformanceSingle_P4_has_time_span
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P4_has_time_span
-    label: Date
-    datatype: xsd:anyURI
+  - id: PerformanceSingle_P4_has_time_span_E52TimeSpanValue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P4_has_time_span_E52TimeSpanValue
+    label: Date Value
+    datatype: xsd:date
     minOccurs: 1
     maxOccurs: 1
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P4_has_time-span ?value . }'
+      - select: 'SELECT ?value WHERE {                
+                    ?newUri crm:P82a_begin_of_the_begin ?value . 
+                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                }'
       - insert: 'INSERT { 
-                    $subject crm:P4_has_time-span $value . 
-                    $subject rdfs:label ?label .
+                    $subject crm:P4_has_time-span ?newUri .
+                    ?newUri rdf:type crm:E52_Time-Span .
+                    ?newUri crm:P82a_begin_of_the_begin $value . 
+                    ?newUri crm:P82b_end_of_the_end $value .
                   } WHERE {
-                      $value rdfs:label ?label .
+                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                  }'
+      - delete: 'DELETE {
+          $subject crm:P4_has_time-span ?newUri .
+          ?newUri rdf:type crm:E52_Time-Span . 
+          ?newUri crm:P82a_begin_of_the_begin $value . 
+          ?newUri crm:P82b_end_of_the_end $value .
+        } WHERE {
+          BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+        }'
+
+  - id: PerformanceSingle_P4_has_time_span_E52TimeSpanLabel
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P4_has_time_span_E52TimeSpanLabel
+    label: Date Label
+    datatype: xsd:string
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {                
+                    ?newUri rdfs:label ?value . 
+                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                }'
+      - insert: 'INSERT { 
+                    ?newUri rdfs:label $value . 
+                    $subject rdfs:label $value .
+                  } WHERE {
+                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
                   }'
       - delete: 'DELETE { 
-          $subject crm:P4_has_time-span $value . 
-          $subject rdfs:label ?label .
+          ?newUri rdfs:label $value . 
+          $subject rdfs:label $value .
         } WHERE {
-          $value rdfs:label ?label .
+          BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
         }'
-      - autosuggestion: 'Select ?value 
-                   Where { 
-                        ?s a crm:E52_Time-Span ; 
-                          rdfs:label ?label .
-                        ?label bds:search $__token__ ;
-                          bds:relevance ?score ; 
-                          bds:matchAllTerms "true" .
-                  } LIMIT 3'
 
   - id: PerformanceSingle_Title_Label
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Title_Label
@@ -7105,7 +7125,16 @@ fields:
     label: Identifier
     datatype: xsd:anyURI
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
+      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }'
+      - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
+
+  - id: PerformanceSingle_P1_is_identified_by
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P1_is_identified_by
+    label: Identifier
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }'
       - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
       - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
 

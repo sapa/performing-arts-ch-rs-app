@@ -3658,7 +3658,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:id ; skos:prefLabel ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
             },
-                "selectPattern" : "SELECT ?value WHERE { $parent crm:P102_has_title $subject . $subject crm:P2_has_type ?value . }",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject crm:P2_has_type $value . } WHERE { }",
         "iri" : "E42_Identifier_Type"
@@ -4295,7 +4295,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
 
             "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
         "iri" : "PerformanceSerie_P1_is_identified_by"
@@ -4372,19 +4372,32 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "PerformanceSingle_P2_has_type"
     }
 [[/inline]]
- [[#*inline "PerformanceSingle_P4_has_time_span"]]
+ [[#*inline "PerformanceSingle_P4_has_time_span_E52TimeSpanValue"]]
     {
-        "id" : "PerformanceSingle_P4_has_time_span",
+        "id" : "PerformanceSingle_P4_has_time_span_E52TimeSpanValue",
 
-            "label": "[[i18n "field_date" bundle="sapa-fields"]]",
+            "label": "[[i18n "field_date_value" bundle="sapa-fields"]]",
             "minOccurs" : "1",
             "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P4_has_time-span ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P4_has_time-span $value . $subject rdfs:label ?label . } WHERE { $value rdfs:label ?label . }",
-                "deletePattern" : "DELETE { $subject crm:P4_has_time-span $value . $subject rdfs:label ?label . } WHERE { $value rdfs:label ?label . }",
-                "autosuggestionPattern" : "Select ?value Where { ?s a crm:E52_Time-Span ; rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 3",
-        "iri" : "PerformanceSingle_P4_has_time_span"
+            "xsdDatatype" : "xsd:date",
+                "selectPattern" : "SELECT ?value WHERE { ?newUri crm:P82a_begin_of_the_begin ?value . BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+                "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+                "deletePattern" : "DELETE { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+        "iri" : "PerformanceSingle_P4_has_time_span_E52TimeSpanValue"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSingle_P4_has_time_span_E52TimeSpanLabel"]]
+    {
+        "id" : "PerformanceSingle_P4_has_time_span_E52TimeSpanLabel",
+
+            "label": "[[i18n "field_date_label" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:string",
+                "selectPattern" : "SELECT ?value WHERE { ?newUri rdfs:label ?value . BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+                "insertPattern" : "INSERT { ?newUri rdfs:label $value . $subject rdfs:label $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+                "deletePattern" : "DELETE { ?newUri rdfs:label $value . $subject rdfs:label $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+        "iri" : "PerformanceSingle_P4_has_time_span_E52TimeSpanLabel"
     }
 [[/inline]]
  [[#*inline "PerformanceSingle_Title_Label"]]
@@ -4407,7 +4420,19 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
 
             "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
+        "iri" : "PerformanceSingle_P1_is_identified_by"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSingle_P1_is_identified_by"]]
+    {
+        "id" : "PerformanceSingle_P1_is_identified_by",
+
+            "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
         "iri" : "PerformanceSingle_P1_is_identified_by"

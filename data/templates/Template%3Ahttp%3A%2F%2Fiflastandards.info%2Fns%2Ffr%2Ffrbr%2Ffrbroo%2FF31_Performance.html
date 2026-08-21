@@ -70,17 +70,6 @@
                 {{/each}}</div>'>
             </semantic-query>
 
-            [[#if (hasPermission "forms:ldp:*")]]
-            <semantic-query 
-                query='SELECT ?id WHERE {
-                  ?? crm:P1_is_identified_by [
-                    a crm:E42_Identifier ;
-                    rdf:value ?id ] .
-                }'
-            template='<div><h5>RepID</h5>{{#each bindings}}<p>{{id.value}}</p>{{/each}}</div>'>
-            </semantic-query>
-            [[/if]]
-
             <!-- genre -->
             <semantic-query 
                 query='SELECT ?genre WHERE {
@@ -370,6 +359,18 @@
               template='<p>{{#each bindings}}{{#if @first}}<strong>{{E52sinlabel.value}}</strong>{{else}}<br>{{E52sinlabel.value}}{{/if}}{{/each}}</p>'
             >
             </semantic-query>  
+
+            <!-- Type -->
+            <semantic-query 
+              query='SELECT DISTINCT ?F31sinTypeValue
+                    WHERE {
+                      ?? crm:P2_has_type ?F31sinType .
+                      ?F31sinType skos:prefLabel ?F31sinTypeValue .
+
+                    } '
+              template='<p>{{#each bindings}}{{#if @first}}<strong>{{F31sinTypeValue.value}}</strong>{{else}}<br>{{F31sinTypeValue.value}}{{/if}}{{/each}}</p>'
+            >
+            </semantic-query>
         
           </bs-col>
           <bs-col sm="4">
@@ -416,7 +417,7 @@
                           {{/each}}
                         </p>'
                >
-              </semantic-query>  
+            </semantic-query>  
 
             <!-- External Resource -->
             <semantic-query
@@ -439,6 +440,16 @@
           
             </semantic-query>
 
+            [[#if (hasPermission "forms:ldp:*")]]
+            <semantic-query 
+                query='SELECT ?id WHERE {
+                  ?? crm:P1_is_identified_by [
+                    a crm:E42_Identifier ;
+                    rdf:value ?id ] .
+                }'
+            template='<div><h5>RepID</h5>{{#each bindings}}<p>{{id.value}}</p>{{/each}}</div>'>
+            </semantic-query>
+            [[/if]]
             <!-- record sets 
             <semantic-tree
               query='SELECT DISTINCT ?node ?parent WHERE {
