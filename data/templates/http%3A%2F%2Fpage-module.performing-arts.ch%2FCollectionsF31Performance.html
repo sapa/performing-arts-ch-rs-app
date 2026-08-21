@@ -1,0 +1,37 @@
+ <!-- record sets -->
+ <semantic-query 
+ query='SELECT ?label  
+        WHERE {
+        VALUES (?label) { 
+            ( "[[i18n "field_archival_holdings" bundle="sapa-fields"]]") 
+        }
+        ?record rico:hasOrHadSubject ?? .
+     } LIMIT 1'
+ template='<h5>{{#each bindings}}{{label.value}}{{/each}}</h5>'>
+ </semantic-query>
+ <semantic-tree
+    query='SELECT DISTINCT ?node ?parent WHERE {
+    {
+        ?recordresource rico:hasOrHadSubject ?? ;
+        rdf:type/rdfs:subClassOf* rico:RecordResource .
+    } UNION {
+        ?recordpart rico:hasOrHadSubject ?? ;
+        a rico:RecordPart ;
+        rico:isOrWasConstituentOf ?recordresource .
+    } UNION {
+        ?recording crm:P70_documents ?? .
+        ?recordresource rico:hasOrHadSubject ?recording ;
+        rdf:type/rdfs:subClassOf* rico:RecordResource .
+    } UNION {
+        ?recording crm:P70_documents ?? .
+        ?recordpart rico:hasOrHadSubject ?recording ;
+        a rico:RecordPart ;
+        rico:isOrWasConstituentOf ?recordresource .
+    }
+    ?recordresource rico:isOrWasIncludedIn* ?node .
+    FILTER(ISIRI(?node))
+    FILTER(CONTAINS(STR(?node), "/r/"))
+    OPTIONAL { ?node rico:isOrWasIncludedIn ?parent. FILTER(ISIRI(?parent)) }
+    }'
+    tuple-template='<span><semantic-link iri="{{data.node.value}}"></semantic-link></span>'> 
+</semantic-tree>

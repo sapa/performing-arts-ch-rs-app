@@ -6194,26 +6194,14 @@ fields:
   #               Identifier
   # ********************************************************
 
-  - id: Identifier_By
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Identifier_By
-    label: is identified by
-    datatype: &Identifier_By_datatype xsd:string
-    queries: &Identifier_By_queries
-      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
-      - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
-  
   - id: E42_Identifier_Type
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E42_Identifier_Type
-    label: Type
+    label: Type of Internal Identifier
     datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
     queries: 
-      - select: 'SELECT ?value WHERE {
-          $parent crm:P102_has_title $subject .
-          $subject crm:P2_has_type ?value .          
-        }'
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type ?value . }'
       - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE { }' 
       - delete: 'DELETE { $subject crm:P2_has_type $value . } WHERE { }'
     treePatterns:
@@ -6258,22 +6246,16 @@ fields:
 
   - id: E42_Identifier_Value
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E42_Identifier_Value
-    label: Value
+    label: Internal Identifier
     datatype: xsd:string
     domain: rico:Identifier
     range: xsd:string
     minOccurs: 1
     maxOccurs: 1
     queries:
-      - select: 'SELECT $value WHERE {
-        $subject rdf:value $value .
-      }'
-      - insert: 'INSERT {
-        $subject rdf:value $value .
-      } WHERE {}'
-      - delete: 'DELETE {
-        $subject rdf:value $value .
-      } WHERE {}'
+      - select: 'SELECT $value WHERE { $subject rdf:value $value . }'
+      - insert: 'INSERT { $subject rdf:value $value . } WHERE {}'
+      - delete: 'DELETE { $subject rdf:value $value . } WHERE {}'
 
   
   # ********************************************************
@@ -6368,6 +6350,7 @@ fields:
   - id: E52DateLabel
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateLabel
     << : *RDFS_LABEL
+    label: Date Label
 
   #********************************************************
   #            Activities
@@ -6778,9 +6761,11 @@ fields:
   - id: PerformancePlan_IdentifierBy
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy
     label: is identified by
-    datatype: *Identifier_By_datatype
+    datatype: xsd:anyURI
     queries:
-      - <<: *Identifier_By_queries      
+    - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
+    - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+    - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
 
   # *******************************************************
   #     Expression creation: Performance Plan
@@ -6919,15 +6904,14 @@ fields:
       - select: 'SELECT ?value WHERE { $subject frbroo:R25_performed $value }'
       - insert: 'INSERT { $subject frbroo:R25_performed ?value. } WHERE {}'
       - delete: 'DELETE { $subject frbroo:R25_performed ?value. } WHERE {}'
-      - autosuggestion: 'SELECT ?value ?label WHERE {
-          ?value a crm:E22_Man-Made_Object ;
-          crm:P2_has_type ?type ;
-          rdfs:label ?label .
-          ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
-          ?label bds:search $__token__ ;
-              bds:relevance ?score ; 
-              bds:matchAllTerms "true" .
-        } LIMIT 10'
+      - autosuggestion: 'SELECT ?value ?label 
+                  WHERE {
+                      ?value a frbroo:F25_Performance_Plan ;
+                            rdfs:label ?label .
+                      ?label bds:search $__token__ ;
+                          bds:relevance ?score ; 
+                          bds:matchAllTerms "true" .
+                    } LIMIT 10'
 
   - id: PerformanceSerie_P8_took_place_on_or_within
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P8_took_place_on_or_within
@@ -7010,6 +6994,14 @@ fields:
               bds:matchAllTerms "true"
         } LIMIT 10'
     
+  - id: PerformanceSerie_P1_is_identified_by
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P1_is_identified_by
+    label: Identifier
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }'
+      - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
 
   # *******************************************************
   #     Performance Single
@@ -7100,16 +7092,41 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'
 
-  - id: PerformanceSingle_P4_has_time_span
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P4_has_time_span
-    label: Date
-    datatype: http://www.w3.org/2001/XMLSchema#string
+  - id: PerformanceSingle_P4_has_time_span_E52TimeSpanValue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P4_has_time_span_E52TimeSpanValue
+    label: Date Value
+    datatype: xsd:date
     minOccurs: 1
     maxOccurs: 1
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P4_has_time-span ?value . }'
-      - insert: 'INSERT { $subject crm:P4_has_time-span $value . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P4_has_time-span $value . } WHERE { }'
+      - select: 'SELECT ?value WHERE {                
+                    ?newUri crm:P82a_begin_of_the_begin ?value . 
+                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                }'
+      - insert: 'INSERT { 
+                    $subject crm:P4_has_time-span ?newUri .
+                    ?newUri rdf:type crm:E52_Time-Span .
+                    ?newUri crm:P82a_begin_of_the_begin $value . 
+                    ?newUri crm:P82b_end_of_the_end $value .
+                    ?newUri rdfs:label ?dateString .
+                    $subject rdfs:label ?dateStringSingle .
+                  } WHERE {
+                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                    BIND(STR($value) as ?dateString)
+                    BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
+                  }'
+      - delete: 'DELETE {
+          $subject crm:P4_has_time-span ?newUri .
+          ?newUri rdf:type crm:E52_Time-Span .
+          ?newUri crm:P82a_begin_of_the_begin $value . 
+          ?newUri crm:P82b_end_of_the_end $value .
+          ?newUri rdfs:label ?dateString .
+          $subject rdfs:label ?dateStringSingle .
+        } WHERE {
+          BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+          BIND(STR($value) as ?dateString)
+          BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
+        }'
 
   - id: PerformanceSingle_Title_Label
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Title_Label
@@ -7132,3 +7149,23 @@ fields:
               WHERE { 
                 BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
               }'
+
+  - id: PerformanceSingle_P1_is_identified_by
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P1_is_identified_by
+    label: Identifier
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }'
+      - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
+
+  - id: PerformanceSingle_P1_is_identified_by
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P1_is_identified_by
+    label: Identifier
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }'
+      - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
+
+  
