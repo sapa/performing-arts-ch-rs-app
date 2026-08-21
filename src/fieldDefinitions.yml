@@ -7062,40 +7062,24 @@ fields:
                     ?newUri rdf:type crm:E52_Time-Span .
                     ?newUri crm:P82a_begin_of_the_begin $value . 
                     ?newUri crm:P82b_end_of_the_end $value .
+                    ?newUri rdfs:label ?dateString .
+                    $subject rdfs:label ?dateStringSingle .
                   } WHERE {
                     BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                    BIND(STR($value) as ?dateString)
+                    BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
                   }'
       - delete: 'DELETE {
           $subject crm:P4_has_time-span ?newUri .
-          ?newUri rdf:type crm:E52_Time-Span . 
+          ?newUri rdf:type crm:E52_Time-Span .
           ?newUri crm:P82a_begin_of_the_begin $value . 
           ?newUri crm:P82b_end_of_the_end $value .
+          ?newUri rdfs:label ?dateString .
+          $subject rdfs:label ?dateStringSingle .
         } WHERE {
           BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
-        }'
-
-  - id: PerformanceSingle_P4_has_time_span_E52TimeSpanLabel
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P4_has_time_span_E52TimeSpanLabel
-    label: Date Label
-    datatype: xsd:string
-    minOccurs: 1
-    maxOccurs: 1
-    queries:
-      - select: 'SELECT ?value WHERE {                
-                    ?newUri rdfs:label ?value . 
-                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
-                }'
-      - insert: 'INSERT { 
-                    ?newUri rdfs:label $value . 
-                    $subject rdfs:label $value .
-                  } WHERE {
-                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
-                  }'
-      - delete: 'DELETE { 
-          ?newUri rdfs:label $value . 
-          $subject rdfs:label $value .
-        } WHERE {
-          BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+          BIND(STR($value) as ?dateString)
+          BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
         }'
 
   - id: PerformanceSingle_Title_Label

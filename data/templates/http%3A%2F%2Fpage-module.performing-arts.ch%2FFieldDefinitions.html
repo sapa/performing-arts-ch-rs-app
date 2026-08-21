@@ -4381,23 +4381,9 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:date",
                 "selectPattern" : "SELECT ?value WHERE { ?newUri crm:P82a_begin_of_the_begin ?value . BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
-                "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
-                "deletePattern" : "DELETE { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+                "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
+                "deletePattern" : "DELETE { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
         "iri" : "PerformanceSingle_P4_has_time_span_E52TimeSpanValue"
-    }
-[[/inline]]
- [[#*inline "PerformanceSingle_P4_has_time_span_E52TimeSpanLabel"]]
-    {
-        "id" : "PerformanceSingle_P4_has_time_span_E52TimeSpanLabel",
-
-            "label": "[[i18n "field_date_label" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:string",
-                "selectPattern" : "SELECT ?value WHERE { ?newUri rdfs:label ?value . BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
-                "insertPattern" : "INSERT { ?newUri rdfs:label $value . $subject rdfs:label $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
-                "deletePattern" : "DELETE { ?newUri rdfs:label $value . $subject rdfs:label $value . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
-        "iri" : "PerformanceSingle_P4_has_time_span_E52TimeSpanLabel"
     }
 [[/inline]]
  [[#*inline "PerformanceSingle_Title_Label"]]
