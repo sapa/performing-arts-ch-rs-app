@@ -190,7 +190,7 @@
           fields='[
               [[> RDFtype]],
               [[> E42_Identifier_Type]],
-              [[> TitleValue]]                
+              [[> E42_Identifier_Value]]                
             ]'
         >
           <div style="display: none;">
@@ -239,7 +239,7 @@
           </bs-row>
 
           <bs-row>
-            <bs-col sm="5">
+            <bs-col sm="6">
               <!-- Performance Single (Title) -->
               <semantic-form-composite-input for="PerformanceSingle_P102_has_title"
                 new-subject-template='/title'
@@ -262,7 +262,7 @@
                 </bs-row>
               </semantic-form-composite-input> 
             </bs-col>
-            <bs-col sm="5">
+            <bs-col sm="4">
               <!-- Date Custom -->
               <semantic-form-autocomplete-input for="PerformanceSingle_P4_has_time_span">
                 <semantic-form 
@@ -297,7 +297,7 @@
           <!-- End Date Custom-->
           
           <bs-row>
-            <bs-col sm="5">
+            <bs-col sm="10">
               <!-- Performance Single Description (Single) -->
               <semantic-form-composite-input for="PerformanceSingle_P67i_is_referred_to_by"
                 new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
@@ -320,14 +320,14 @@
                 </bs-row>
               </semantic-form-composite-input>          
             </bs-col>
-            <bs-col sm="5">
+            <bs-col sm="10">
               <!-- Performance Single (Identifier) -->
               <semantic-form-composite-input for="PerformanceSingle_P1_is_identified_by"
                 new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
                 fields='[
                     [[> RDFtype]],
                     [[> E42_Identifier_Type]],
-                    [[> TitleValue]]                
+                    [[> E42_Identifier_Value]]                
                   ]'
               >
                 <div style="display: none;">

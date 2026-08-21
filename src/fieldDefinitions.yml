@@ -6957,8 +6957,8 @@ fields:
     datatype: xsd:anyURI
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
-      - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+      - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
 
   # *******************************************************
   #     Performance Single
@@ -7106,7 +7106,7 @@ fields:
     datatype: xsd:anyURI
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
-      - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+      - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
 
   

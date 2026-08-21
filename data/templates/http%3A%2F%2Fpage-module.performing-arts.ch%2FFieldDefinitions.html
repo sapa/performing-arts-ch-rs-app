@@ -4296,8 +4296,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }",
+                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
         "iri" : "PerformanceSerie_P1_is_identified_by"
     }
 [[/inline]]
@@ -4408,8 +4408,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }",
+                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
         "iri" : "PerformanceSingle_P1_is_identified_by"
     }
 [[/inline]]
