@@ -135,7 +135,8 @@
           frbroo:R17_created ?plan .
       ?plan rdfs:label ?titlelabel .
       OPTIONAL {
-          ?expressioncreation crm:P10_falls_within ?season .
+          ?performance frbroo:R25_performed ?plan ;
+            crm:P10_falls_within ?season .
           FILTER(CONTAINS(STR(?season), "/s/"))
       }
     }'>

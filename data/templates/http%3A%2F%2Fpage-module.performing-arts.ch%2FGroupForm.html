@@ -100,10 +100,14 @@
         <bs-row>
           <bs-col sm='6'>
             <semantic-form-autocomplete-input for="GroupMember">
-              <semantic-form new-subject-template="http://data.performing-arts.ch/a/{{UUID}}" fields='[
-                  [[> RDFtype]],
-                  [[> PersonCommonAppellation]]
-              ]'>
+              <semantic-form 
+                new-subject-template="http://data.performing-arts.ch/a/{{UUID}}" 
+                fields='[
+                      [[> RDFtype]],
+                      [[> PersonCommonAppellation]]
+                  ]'
+                persistence='ldp'
+              >
                   <div style="display: none;">
                       <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E21_Person"]]", "[[resolvePrefix "rico:Person"]]"]'></semantic-form-hidden-input>
                   </div>

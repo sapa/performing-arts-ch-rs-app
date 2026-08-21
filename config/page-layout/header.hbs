@@ -28,12 +28,16 @@
 
         <ul class="nav navbar-nav" data-pull-right="true">
 
+            <li>
+            <a href="https://sapa.swiss/kontakt" class="rs-body-m-B"> 
+                Contact
+            </a>
+            </li>
             <bs-nav-dropdown title="Quick Links" id="bg-nested-dropdown">
-                <mp-anonymous-hidden>
-                    <mp-resource-link-container uri="http://www.researchspace.org/resource/NavigateToPage">
-                        <bs-menu-item>Navigate to resource</bs-menu-item>
-                    </mp-resource-link-container>
-                </mp-anonymous-hidden>
+                
+                <mp-resource-link-container uri="http://www.researchspace.org/resource/NavigateToPage">
+                    <bs-menu-item>Navigate to resource</bs-menu-item>
+                </mp-resource-link-container>
                 <mp-anonymous-hidden>
                     <mp-resource-link-container uri="http://www.researchspace.org/resource/assets/Ontologies">
                         <bs-menu-item>Ontologies</bs-menu-item>
@@ -65,6 +69,7 @@
                         <bs-menu-item>Musterformular</bs-menu-item>
                     </mp-resource-link-container>
                 </mp-anonymous-hidden>
+                <li><a target="_blank" href="https://vocab.performing-arts.ch/">Vocabularies</a></li>
             </bs-nav-dropdown>
            
             <mp-has-permission permission='forms:ldp:*'>

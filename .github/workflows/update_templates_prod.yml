@@ -2,9 +2,15 @@ name: Update PROD Templates
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
 
 jobs:
   update:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: SSH into server and run update script
@@ -14,5 +20,5 @@ jobs:
           username: ${{ secrets.SSH_USER_PROD }}
           key: ${{ secrets.DEPLOY_KEY_PROD }}
           passphrase: ${{ secrets.DEPLOY_KEY_PASS_PROD }}
-          script: sudo bash /opt/sapa/scripts/updateTemplates.sh
+          script: bash /opt/sapa/scripts/updateTemplates.sh
           

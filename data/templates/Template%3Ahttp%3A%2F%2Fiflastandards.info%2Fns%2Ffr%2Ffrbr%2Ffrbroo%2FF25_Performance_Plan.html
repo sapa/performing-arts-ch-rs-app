@@ -76,7 +76,7 @@
                     }
                     BIND(IF(CONTAINS(STR($producer), "/u/"), "true", "") AS ?unidentified)
                 }'
-            template='<p>{{#each bindings}}{{#if @first}}{{else}}, {{/if}}{{#if unidentified.value}}<mp-label iri="{{producer.value}}"></mp-label>{{else}}<semantic-link iri="{{producer.value}}"></semantic-link>{{/if}}{{#if @last}}{{#if season}}<br><semantic-link iri="{{season.value}}"></semantic-link>{{/if}}{{/if}}{{/each}}</p>'>
+            template='<h5>production</h5><p>{{#each bindings}}{{#if @first}}{{else}}, {{/if}}{{#if unidentified.value}}<mp-label iri="{{producer.value}}"></mp-label>{{else}}<semantic-link iri="{{producer.value}}"></semantic-link>{{/if}}{{#if @last}}{{#if season}}<br><semantic-link iri="{{season.value}}"></semantic-link>{{/if}}{{/if}}{{/each}}</p>'>
             </semantic-query>
 
 
@@ -377,6 +377,26 @@
         
         <!-- external resources -->
         [[> sapaModule:ExternalResources]]
+        
+        <!-- IIIF Manifests -->
+        [[> sapaModule:IiifManifest query="?rr rico:hasOrHadSubject ?? ; rico:hasInstantiation ?manifest . ?manifest a rico:Instantiation ; rico:hasCarrierType spav:fvman . FILTER(CONTAINS(STR(?manifest), 'media.performing-arts.ch/iiif/manifest/collection-'))"]]
+
+        <!-- vimeo -->
+        <semantic-query 
+          query="SELECT DISTINCT ?vimeo_id WHERE 
+          { 
+              ?record rico:hasOrHadSubject/frbroo:R14_incorporates? ?? ;
+                rico:hasInstantiation ?vimeo_url .
+              FILTER(CONTAINS(STR(?vimeo_url), '://vimeo.com'))
+              ?vimeo_url rico:hasCarrierType spav:fvonl .
+              BIND(STRAFTER(STR(?vimeo_url), 'vimeo.com/') AS ?vimeo_id)
+          }"
+          template='<div>
+                  {{#each bindings}}
+                  <iframe src="https://player.vimeo.com/video/{{vimeo_id.value}}" frameborder="0" style="width:100%; height:300px; " webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                  {{/each}}
+          </div>'>
+        </semantic-query>
 
         </bs-col>
         </bs-row>
@@ -389,6 +409,7 @@
       </bs-tab>
       [[/if]]      
       
+        
       [[> sapaModule:AdminTabs]]
       
     </bs-tabs>  
