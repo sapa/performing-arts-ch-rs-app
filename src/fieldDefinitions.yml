@@ -6477,14 +6477,15 @@ fields:
     domain: &Activity_Actor_domain http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: &Activity_Actor_range http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
-      - select: &Activity_Actor_query_select 'SELECT ?value ?label WHERE {
+      - select: &Activity_Actor_query_select 'SELECT ?value WHERE {
         $subject crm:P14_carried_out_by ?value.
       }'
       - insert: &Activity_Actor_query_insert 'INSERT {
         $subject crm:P14_carried_out_by ?value.
       } WHERE {}'
-      - autosuggestion: 'SELECT $value ?label WHERE {
+      - autosuggestion: &Activity_Actor_query_autosuggestion 'SELECT $value ?label WHERE {
           $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") )
           rdfs:label ?label .
           ?label bds:search $__token__ ;
             bds:relevance ?score ;
@@ -6818,10 +6819,14 @@ fields:
       - select: 'SELECT ?value ?label WHERE { $subject crm:P10_falls_within ?value . }'
       - insert: 'INSERT { $subject crm:P10_falls_within ?value . } WHERE {} '
       - delete: 'DELETE { $subject crm:P10_falls_within ?value . } WHERE {} '
-      - autosuggestion: 'SELECT $value $label WHERE {
+      - autosuggestion: 'SELECT DISTINCT $value $label WHERE {
             ?value a crm:E4_Period  .
-            ?value rdfs:label ?label .
-            FILTER(contains(str(?value),"/s/")) 
+            ?value rdfs:label ?searchedLabel .
+            FILTER(contains(str(?value),"/s/"))
+            ?searchedLabel bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
+            ?value rdfs:label ?label . FILTER(lang(?label) = "en")
           } LIMIT 10'
 
   - id: PerformanceSerie_Label
@@ -6905,13 +6910,19 @@ fields:
       - insert: 'INSERT { $subject frbroo:R25_performed ?value. } WHERE {}'
       - delete: 'DELETE { $subject frbroo:R25_performed ?value. } WHERE {}'
       - autosuggestion: 'SELECT ?value ?label 
-                  WHERE {
-                      ?value a frbroo:F25_Performance_Plan ;
-                            rdfs:label ?label .
-                      ?label bds:search $__token__ ;
-                          bds:relevance ?score ; 
-                          bds:matchAllTerms "true" .
-                    } LIMIT 10'
+          WHERE {
+              ?value a frbroo:F25_Performance_Plan ;
+                    rdfs:label ?label .
+              {
+              ?label bds:search $__token__ ;
+                  bds:relevance ?score ; 
+                  bds:matchAllTerms "true" .
+              }
+              UNION
+              {
+                FILTER(STRSTARTS($__token__, STR(?value)))
+              }
+            } LIMIT 10'
 
   - id: PerformanceSerie_P8_took_place_on_or_within
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P8_took_place_on_or_within
@@ -6974,25 +6985,6 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Activity
     label: Activity
     <<: *Consist_Of_Query 
-  
-  - id: PerformanceSerie_Activity_P14_carried_out_by
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Activity_P14_carried_out_by
-    label: *Activity_Actor_label
-    datatype: *Activity_Actor_datatype
-    minOccurs: *Activity_Actor_min
-    domain: *Activity_Actor_domain
-    range: *Activity_Actor_range
-    queries:
-      - select: *Activity_Actor_query_select
-      - insert: *Activity_Actor_query_insert
-      - valueset: 'SELECT $value ?label WHERE {
-          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
-          rdfs:label ?label .
-          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") ) 
-          ?label bds:search $__token__ ;
-              bds:relevance ?score ; 
-              bds:matchAllTerms "true"
-        } LIMIT 10'
     
   - id: PerformanceSerie_P1_is_identified_by
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P1_is_identified_by

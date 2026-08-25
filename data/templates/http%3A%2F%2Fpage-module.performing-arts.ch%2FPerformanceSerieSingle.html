@@ -3,7 +3,7 @@
   <div data-flex-layout='row top-stretch'>
     <semantic-form 
      [[#if create]]
-        new-subject-template='http://data.performing-arts.ch/w/{{UUID}}/p'
+        new-subject-template='http://data.performing-arts.ch/f/{{UUID}}'
         post-action="redirect"
       [[else]]
         subject='[[this]]'
@@ -136,12 +136,12 @@
 
         <!-- Performance Serie (ConsistOf) -->
         <semantic-form-composite-input for="PerformanceSerie_ConsistOf"
-          new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+          new-subject-template='http://data.performing-arts.ch/f/{{UUID}}'
           fields='[
             [[> RDFtype]],
             [[> Activity_HasType]],
             [[> Activity_AdditionalType]],
-            [[> PerformanceSerie_Activity_P14_carried_out_by]],
+            [[> Activity_Actor]],
             [[> Activity_Certainty]],
             [[> RDFSComment]],
             [[> Activity_Index]],
@@ -161,7 +161,7 @@
             </bs-col>              
             <!-- Carried out by  -->
             <bs-col sm='2'>
-              <semantic-form-autocomplete-input for="PerformanceSerie_Activity_P14_carried_out_by" placeholder='Search persons...'></semantic-form-autocomplete-input>
+              <semantic-form-autocomplete-input for="Activity_Actor" placeholder='Search agents...'></semantic-form-autocomplete-input>
             </bs-col>
             <!-- certainty -->
             <bs-col sm='2'>

@@ -3814,9 +3814,9 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "Activity_Actor"
     }
 [[/inline]]
@@ -3928,7 +3928,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
@@ -4138,7 +4138,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P10_falls_within ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P10_falls_within ?value . } WHERE {} ",
                 "deletePattern" : "DELETE { $subject crm:P10_falls_within ?value . } WHERE {} ",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { ?value a crm:E4_Period  . ?value rdfs:label ?label . FILTER(contains(str(?value),\"/s/\")) } LIMIT 10",
+                "autosuggestionPattern" : "SELECT DISTINCT $value $label WHERE { ?value a crm:E4_Period  . ?value rdfs:label ?searchedLabel . FILTER(contains(str(?value),\"/s/\")) ?searchedLabel bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . ?value rdfs:label ?label . FILTER(lang(?label) = \"en\") } LIMIT 10",
         "iri" : "PerformanceSerie_P10_falls_within"
     }
 [[/inline]]
@@ -4203,7 +4203,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value WHERE { $subject frbroo:R25_performed $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R25_performed ?value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R25_performed ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a frbroo:F25_Performance_Plan ; rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a frbroo:F25_Performance_Plan ; rdfs:label ?label . { ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } UNION { FILTER(STRSTARTS($__token__, STR(?value))) } } LIMIT 10",
         "iri" : "PerformanceSerie_R25_performed"
     }
 [[/inline]]
@@ -4289,20 +4289,6 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
         "iri" : "PerformanceSerie_ConsistOf"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_Activity_P14_carried_out_by"]]
-    {
-        "id" : "PerformanceSerie_Activity_P14_carried_out_by",
-
-            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
-                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-        "iri" : "PerformanceSerie_Activity_P14_carried_out_by"
     }
 [[/inline]]
  [[#*inline "PerformanceSerie_P1_is_identified_by"]]
