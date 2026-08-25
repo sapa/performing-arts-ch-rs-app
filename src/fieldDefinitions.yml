@@ -6947,13 +6947,11 @@ fields:
           }
           UNION
           {
-            # search also on synonyms
             ?value rdfs:label ?rdfsLabel .
             ?value crm:P102_has_title/rdf:value ?titleValue .          
             ?titleValue bds:search $__token__ .
             ?titleValue bds:relevance ?score .
             ?titleValue bds:matchAllTerms "true" .
-            # what will be displayed is the synonym that matched + the main label in parenthesis
             BIND(CONCAT(?titleValue, " (", ?rdfsLabel, ")") AS ?label)
           }
 
