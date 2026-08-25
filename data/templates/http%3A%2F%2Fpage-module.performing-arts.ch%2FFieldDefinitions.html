@@ -3816,7 +3816,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) rdfs:label ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "Activity_Actor"
     }
 [[/inline]]

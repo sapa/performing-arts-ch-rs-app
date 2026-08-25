@@ -6484,9 +6484,9 @@ fields:
         $subject crm:P14_carried_out_by ?value.
       } WHERE {}'
       - autosuggestion: &Activity_Actor_query_autosuggestion 'SELECT $value ?label WHERE {
-          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
-          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") )
+          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;          
           rdfs:label ?label .
+          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") )
           ?label bds:search $__token__ ;
             bds:relevance ?score ;
             bds:matchAllTerms "true"
