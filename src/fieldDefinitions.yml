@@ -6483,15 +6483,31 @@ fields:
       - insert: &Activity_Actor_query_insert 'INSERT {
         $subject crm:P14_carried_out_by ?value.
       } WHERE {}'
-      - autosuggestion: &Activity_Actor_query_autosuggestion 'SELECT $value ?label WHERE {
-          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;          
-          rdfs:label ?label .
-          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") )
-          ?label bds:search $__token__ ;
-            bds:relevance ?score ;
-            bds:matchAllTerms "true"
-        } LIMIT 10' 
-  
+      - autosuggestion: &Activity_Actor_query_autosuggestion 'SELECT DISTINCT ?value ?label ?score WHERE {
+        ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          crm:P131_is_identified_by [ rdf:value ?ll ] .
+        FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") )
+        {
+          SERVICE bds:search {
+            ?ll bds:search ?__token__ ;
+            bds:minRelevance "0.1" ;
+            bds:relevance ?score ; 
+            bds:matchAllTerms "true" .
+          }
+        } UNION {
+          BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
+        }
+        ?value rdfs:label ?l .
+        OPTIONAL {
+          ?value crm:P3_has_note [
+          crm:P2_has_type spav:eoept ;
+          rdf:value ?note ]
+        }
+        BIND(IF(BOUND(?note), CONCAT(?l, " (", ?note, ")"), ?l) AS ?label)
+      } ORDER BY DESC (?score)
+      LIMIT 10' 
+
+
   - id: Activity_Certainty
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Certainty
     label: Certainty
@@ -6909,20 +6925,31 @@ fields:
       - select: 'SELECT ?value WHERE { $subject frbroo:R25_performed $value }'
       - insert: 'INSERT { $subject frbroo:R25_performed ?value. } WHERE {}'
       - delete: 'DELETE { $subject frbroo:R25_performed ?value. } WHERE {}'
-      - autosuggestion: 'SELECT ?value ?label 
-          WHERE {
-              ?value a frbroo:F25_Performance_Plan ;
-                    rdfs:label ?label .
-              {
-              ?label bds:search $__token__ ;
-                  bds:relevance ?score ; 
-                  bds:matchAllTerms "true" .
-              }
-              UNION
-              {
-                FILTER(STRSTARTS($__token__, STR(?value)))
-              }
-            } LIMIT 10'
+      - autosuggestion: 'SELECT DISTINCT ?value ?label ?score WHERE {
+        {
+          ?value a frbroo:F25_Performance_Plan ;
+            crm:P102_has_title [ rdf:value ?ll ] .
+          SERVICE bds:search {
+            ?ll bds:search ?__token__ ;
+            bds:minRelevance "0.1" ;
+            bds:relevance ?score ; 
+            bds:matchAllTerms "true" .
+          }
+        } UNION {
+          ?value a frbroo:F25_Performance_Plan .
+          FILTER(STR(?value) = REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", ""))
+        }
+
+        ?value rdfs:label ?l .
+        OPTIONAL {
+          ?value crm:P3_has_note [
+          crm:P2_has_type spav:eoept ;
+          rdf:value ?note ]
+        }
+        BIND(IF(BOUND(?note), CONCAT(?l, " (", ?note, ")"), ?l) AS ?label)
+
+      } ORDER BY DESC (?score)
+      LIMIT 10'
 
   - id: PerformanceSerie_P8_took_place_on_or_within
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P8_took_place_on_or_within
