@@ -6864,12 +6864,14 @@ fields:
     datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    documentation: ATTENTION, on prend seulement une sous-branche correspondant au types de perf. série
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
       - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:hl ;
-            skos:prefLabel ?label .
+              skos:broader+ spav:hlser ;
+              skos:prefLabel ?label .
             ?label bds:search $__token__ ;
               bds:relevance ?score ; 
               bds:matchAllTerms "true" .
@@ -6877,9 +6879,9 @@ fields:
     treePatterns:
       type: full
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           ?item skos:inScheme spav:hl ;
-          skos:prefLabel ?label .
+            skos:broader+ spav:hlser ;
+            skos:prefLabel ?label .
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -6905,7 +6907,8 @@ fields:
         PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item skos:inScheme spav:hl ;
-        skos:prefLabel ?label .
+          skos:broader+ spav:hlser ;
+          skos:prefLabel ?label .
         ?label bds:search ?__token__ ; 
         bds:relevance ?score ; bds:matchAllTerms "true"
         OPTIONAL { ?child skos:broader ?item. }
@@ -7091,12 +7094,14 @@ fields:
     datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    documentation: ATTENTION, on prend seulement une sous-branche correspondant au types de perf. single
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
       - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:hl ;
-            skos:prefLabel ?label .
+              skos:broader+ spav:hlsin ;
+              skos:prefLabel ?label .
             ?label bds:search $__token__ ;
               bds:relevance ?score ; 
               bds:matchAllTerms "true"
@@ -7104,9 +7109,9 @@ fields:
     treePatterns:
       type: full
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           ?item skos:inScheme spav:hl ;
-          skos:prefLabel ?label .
+            skos:prefLabel ?label ;
+            skos:broader+ spav:hlsin ;
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -7132,7 +7137,8 @@ fields:
         PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item skos:inScheme spav:hl ;
-        skos:prefLabel ?label .
+          skos:broader+ spav:hlsin ;
+          skos:prefLabel ?label .
         ?label bds:search ?__token__ ; 
         bds:relevance ?score ; bds:matchAllTerms "true"
         OPTIONAL { ?child skos:broader ?item. }
