@@ -4210,7 +4210,7 @@ OPTIONAL { SELECT ?value (GROUP_CONCAT(?producer) AS ?producers) WHERE { ?value 
 OPTIONAL { SELECT ?value (GROUP_CONCAT(?director) AS ?directors) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:mutnt . ?activity crm:P14_carried_out_by/rdfs:label ?director . } GROUP BY ?value }
 BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?producers), CONCAT(?l1, \"production \", ?producers), ?l1) AS ?l2) BIND(IF(BOUND(?producers) && BOUND(?directors), CONCAT(?l2, \", \"), ?l2) AS ?l3) BIND(IF(BOUND(?directors), CONCAT(?l3, \"direction \", ?directors), ?l3) AS ?l4) BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l4, \")\"), ?l4) AS ?l5)
 BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/w/\")+30)) AS ?label)
-} ORDER BY DESC (?score) LIMIT 20",
+} ORDER BY DESC (?score) ?label LIMIT 30",
         "iri" : "PerformanceSerie_R25_performed"
     }
 [[/inline]]

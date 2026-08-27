@@ -6966,8 +6966,8 @@ fields:
 
         BIND(CONCAT(?l5, " - ...", SUBSTR(STR(?value), STRLEN("http://data.performing-arts.ch/w/")+30)) AS ?label)
 
-      } ORDER BY DESC (?score)
-      LIMIT 20'
+      } ORDER BY DESC (?score) ?label
+      LIMIT 30'
 
   - id: PerformanceSerie_P8_took_place_on_or_within
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P8_took_place_on_or_within
