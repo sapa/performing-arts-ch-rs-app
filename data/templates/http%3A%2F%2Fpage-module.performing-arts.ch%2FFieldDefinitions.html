@@ -4203,9 +4203,14 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value WHERE { $subject frbroo:R25_performed $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R25_performed ?value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R25_performed ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { { ?value a frbroo:F25_Performance_Plan ; crm:P102_has_title [ rdf:value ?ll ] . SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } } UNION { ?value a frbroo:F25_Performance_Plan . FILTER(STR(?value) = REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) }
-?value rdfs:label ?l . OPTIONAL { ?value crm:P3_has_note [ crm:P2_has_type spav:eoept ; rdf:value ?note ] } BIND(IF(BOUND(?note), CONCAT(?l, \" (\", ?note, \")\"), ?l) AS ?label)
-} ORDER BY DESC (?score) LIMIT 10",
+                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE {
+?value a frbroo:F25_Performance_Plan ; crm:P102_has_title [ rdf:value ?ll ] . SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
+?value rdfs:label ?l .
+OPTIONAL { SELECT ?value (GROUP_CONCAT(?producer) AS ?producers) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:muwgo . ?activity crm:P14_carried_out_by/rdfs:label ?producer . } GROUP BY ?value }
+OPTIONAL { SELECT ?value (GROUP_CONCAT(?director) AS ?directors) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:mutnt . ?activity crm:P14_carried_out_by/rdfs:label ?director . } GROUP BY ?value }
+BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?producers), CONCAT(?l1, \"production \", ?producers), ?l1) AS ?l2) BIND(IF(BOUND(?producers) && BOUND(?directors), CONCAT(?l2, \", \"), ?l2) AS ?l3) BIND(IF(BOUND(?directors), CONCAT(?l3, \"direction \", ?directors), ?l3) AS ?l4) BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l4, \")\"), ?l4) AS ?l5)
+BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/w/\")+30)) AS ?label)
+} ORDER BY DESC (?score) LIMIT 20",
         "iri" : "PerformanceSerie_R25_performed"
     }
 [[/inline]]
