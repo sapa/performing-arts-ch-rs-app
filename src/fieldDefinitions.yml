@@ -6469,7 +6469,7 @@ fields:
         ORDER BY DESC (?score) (?label)
         LIMIT 200'  
 
-  - id: Activity_Actor
+  - id: Activity_CarriedOutBy
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Actor
     label: &Activity_Actor_label Carried out by
     datatype: &Activity_Actor_datatype xsd:anyURI
@@ -6479,6 +6479,8 @@ fields:
     queries:
       - select: &Activity_Actor_query_select 'SELECT ?value WHERE {
         $subject crm:P14_carried_out_by ?value.
+        BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator)
+        FILTER(?type_indicator = "a")
       }'
       - insert: &Activity_Actor_query_insert 'INSERT {
         $subject crm:P14_carried_out_by ?value.
@@ -6486,7 +6488,10 @@ fields:
       - autosuggestion: &Activity_Actor_query_autosuggestion 'SELECT DISTINCT ?value ?label ?score WHERE {
         ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
           crm:P131_is_identified_by [ rdf:value ?ll ] .
-        FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") )
+        
+        BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator)
+        FILTER(?type_indicator = "a")
+        
         {
           SERVICE bds:search {
             ?ll bds:search ?__token__ ;
@@ -6496,7 +6501,7 @@ fields:
           }
         } UNION {
           BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
-        }
+        } 
         ?value rdfs:label ?l .
         OPTIONAL {
           ?value crm:P3_has_note [
@@ -6978,7 +6983,7 @@ fields:
     datatype: &Venue_datatype xsd:anyURI
     domain: &Venue_domain frbroo:F31_Performance
     range: &Venue_range crm:E22_Man-Made_Object
-    queries: &Venu_query
+    queries: &Venue_query
       - select: 'SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. FILTER(CONTAINS(STR(?value),"/o/"))}'
       - insert: 'INSERT { $subject crm:P8_took_place_on_or_within $value. } WHERE {}'
       - delete: 'DELETE { $subject crm:P8_took_place_on_or_within $value. } WHERE {}'
@@ -7011,7 +7016,7 @@ fields:
     domain: *Venue_domain
     range: *Venue_range
     queries:
-      - <<: *Venu_query
+      - <<: *Venue_query
         select: 'SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. FILTER(CONTAINS(STR(?value),"/u/"))  }'
         autosuggestion: 'SELECT ?value ?label 
           WHERE {
@@ -7027,8 +7032,13 @@ fields:
   
   - id: PerformanceSerie_VenueLabel
     << : *RDFS_LABEL
-    minOccurs: 0
-    maxOccurs: 0
+    minOccurs: 1
+    maxOccurs: 1
+
+  - id: Activity_ActorLabel
+    << : *RDFS_LABEL
+    minOccurs: 1
+    maxOccurs: 1
 
   - id: PerformanceSerie_P102_has_title
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P102_has_title
