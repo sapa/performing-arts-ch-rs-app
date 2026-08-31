@@ -79,6 +79,9 @@
           </template>
       </semantic-query>
 
+        <!-- overall responsibility functions - overall responsibility -->
+        {{> sapaModule:ShowActivities function="spav:mures" resource=performance.value}}
+
         <!-- venue -->
         <semantic-query 
           query='SELECT ?type ?venue ?unidentified
