@@ -6490,16 +6490,13 @@ fields:
         BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator)
         FILTER(?type_indicator = "a")
         
-        {
-          SERVICE bds:search {
-            ?ll bds:search ?__token__ ;
-            bds:minRelevance "0.1" ;
-            bds:relevance ?score ; 
-            bds:matchAllTerms "true" .
-          }
-        } UNION {
-          BIND(URI(REPLACE(REPLACE(?__token__, "[\\\\\\\\|*]", ""), "\\\\.$", "")) AS ?value)
-        } 
+        SERVICE bds:search {
+          ?ll bds:search ?__token__ ;
+          bds:minRelevance "0.1" ;
+          bds:relevance ?score ; 
+          bds:matchAllTerms "true" .
+        }
+
         ?value rdfs:label ?l .
         OPTIONAL {
           ?value crm:P3_has_note [

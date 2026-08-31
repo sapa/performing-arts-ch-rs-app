@@ -3818,7 +3818,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ; crm:P131_is_identified_by [ rdf:value ?ll ] .
 BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\")
-{ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } } UNION { BIND(URI(REPLACE(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\"), \"\\\\.$\", \"\")) AS ?value) } ?value rdfs:label ?l . OPTIONAL { ?value crm:P3_has_note [ crm:P2_has_type spav:eoept ; rdf:value ?note ] } BIND(IF(BOUND(?note), CONCAT(?l, \" (\", ?note, \")\"), ?l) AS ?label) } ORDER BY DESC (?score) LIMIT 10",
+SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
+?value rdfs:label ?l . OPTIONAL { ?value crm:P3_has_note [ crm:P2_has_type spav:eoept ; rdf:value ?note ] } BIND(IF(BOUND(?note), CONCAT(?l, \" (\", ?note, \")\"), ?l) AS ?label) } ORDER BY DESC (?score) LIMIT 10",
         "iri" : "Activity_CarriedOutBy"
     }
 [[/inline]]
