@@ -160,7 +160,7 @@
               <semantic-form-tree-picker-input for="Activity_AdditionalType"></semantic-form-tree-picker-input>
             </bs-col>              
             <!-- Carried out by  -->
-            <bs-col sm='2'>
+            <bs-col sm='4'>
               <semantic-form-autocomplete-input for="Activity_CarriedOutBy" placeholder='Search agents /a or create agent /u ...'>
                 <semantic-form 
                   new-subject-template="http://data.performing-arts.ch/u/{{UUID}}" 
@@ -175,27 +175,28 @@
                   
                   <semantic-form-text-input for="Activity_ActorLabel"></semantic-form-text-input>
                   <br/>
-                  <button name="submit" class="btn btn-secondary">Create Actor</button>
+                  <button name="submit" class="btn btn-secondary">Create Actor /u/</button>
                 
                 </semantic-form>
 
               </semantic-form-autocomplete-input>
             </bs-col>
+          </bs-row> 
+          <bs-row>
             <!-- certainty -->
             <bs-col sm='2'>
               <semantic-form-checklist-input row=true for="Activity_Certainty"></semantic-form-checklist-input>
             </bs-col>
-          </bs-row> 
-          <bs-row>
+            <!-- Index -->
+            <bs-col sm='2'>
+              <semantic-form-text-input for="Activity_Index"></semantic-form-text-input>
+            </bs-col>
             <!-- Comment -->
-              <bs-col sm='10'>
+            <bs-col sm='4'>
               <semantic-form-text-input for="RDFSComment" languages='["en","de","it","fr"]' ></semantic-form-text-input>
             </bs-col>
           </bs-row>
           <bs-row>
-            <bs-col sm='2'>
-              <semantic-form-text-input for="Activity_Index"></semantic-form-text-input>
-            </bs-col>
             <bs-col sm='8'>
               <semantic-form-text-input for="Activity_Label" languages='["en","de","it","fr"]' ></semantic-form-text-input>
             </bs-col>
