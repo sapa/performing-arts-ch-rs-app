@@ -6530,7 +6530,7 @@ fields:
   - id: Activity_Index
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Index
     label: Index
-    datatype: http://www.w3.org/2001/XMLSchema#string
+    datatype: xsd:integer
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
@@ -6777,7 +6777,7 @@ fields:
 
   - id: PerformancePlan_IdentifierBy
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy
-    label: is identified by
+    label: Identifier
     datatype: xsd:anyURI
     queries:
     - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
