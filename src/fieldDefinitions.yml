@@ -6919,7 +6919,7 @@ fields:
 
   - id: PerformanceSerie_R25_performed
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_R25_performed
-    label: Performed
+    label: Production
     minOccurs: 1
     maxOccurs: 1
     datatype: xsd:anyURI
