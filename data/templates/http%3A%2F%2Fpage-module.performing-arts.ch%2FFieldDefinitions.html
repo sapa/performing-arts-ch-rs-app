@@ -2146,7 +2146,7 @@ BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , ?UUID1, \"/p\") ) AS ?p
                 "selectPattern" : "SELECT $value WHERE { $subject rico:dateQualifier $value . }",
                 "insertPattern" : "INSERT { $subject rico:dateQualifier $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject rico:dateQualifier $value . } WHERE {}",
-                "valueSetPattern" : "SELECT $value WHERE { VALUES ( $value ) { ( spav:dqcrc ) } }",
+                "valueSetPattern" : "SELECT $value WHERE { $value skos:inScheme spav:dq . }",
         "iri" : "RecordResourceDateQualifier"
     }
 [[/inline]]
