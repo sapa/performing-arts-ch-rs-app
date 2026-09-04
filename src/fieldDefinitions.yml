@@ -6477,7 +6477,7 @@ fields:
     domain: &Activity_Actor_domain http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: &Activity_Actor_range http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
-      - select: &Activity_Actor_query_select 'SELECT ?value WHERE {
+      - select: &Activity_Actor_query_select 'SELECT ?value ?label WHERE {
         $subject crm:P14_carried_out_by ?value.
       }'
       - insert: &Activity_Actor_query_insert 'INSERT {
