@@ -3552,11 +3552,8 @@ fields:
       - select: 'SELECT $value WHERE { $subject rico:dateQualifier $value . }'
       - insert: 'INSERT { $subject rico:dateQualifier $value . } WHERE { }'
       - delete: 'DELETE { $subject rico:dateQualifier $value . } WHERE {}'
-      - valueSet: 'SELECT $value WHERE { 
-        VALUES ( $value ) { ( spav:dqcrc ) }
-      }'
-
-
+      - valueSet: 'SELECT $value WHERE { $value skos:inScheme spav:dq . }'
+   
   - id: RecordResourceDateType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/RecordResourceDateType
     label: Date type
