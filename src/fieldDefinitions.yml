@@ -6914,6 +6914,7 @@ fields:
         LIMIT 200'  
 
   - id: PerformanceSerie_R25_performed
+    IRI: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_R25_performed
     label: Performed
     minOccurs: 1
     maxOccurs: 1

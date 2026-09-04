@@ -311,29 +311,6 @@
           
           <bs-row>
             <bs-col sm="10">
-              <!-- Performance Single (Title) -->
-              <semantic-form-composite-input for="PerformanceSingle_P102_has_title"
-                new-subject-template='/title'
-                fields='[
-                    [[> RDFtype]],
-                    [[> TitleType]],
-                    [[> PerformanceSingle_Title_Label]]
-                  ]'
-              >
-                <div style="display: none;">
-                  <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>
-                </div>
-                <bs-row>
-                  <bs-col sm='2'>
-                    <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
-                  </bs-col>
-                  <bs-col sm='8'>
-                    <semantic-form-text-input for="PerformanceSingle_Title_Label" languages='["en","de","it","fr"]'></semantic-form-text-input>                
-                  </bs-col>
-                </bs-row>
-              </semantic-form-composite-input>               
-            </bs-col>
-            <bs-col sm="10">
               <!-- Performance Single (Identifier) -->
               <semantic-form-composite-input for="PerformanceSingle_P1_is_identified_by"
                 new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
@@ -356,6 +333,7 @@
                 </bs-row>
               </semantic-form-composite-input>
             </bs-col>
+            <bs-col sm="10"></bs-col>
           </bs-row>
 
         </semantic-form-composite-input>
