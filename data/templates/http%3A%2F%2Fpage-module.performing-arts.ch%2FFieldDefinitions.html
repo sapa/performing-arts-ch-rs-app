@@ -3814,7 +3814,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P14_carried_out_by ?value. }",
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ; crm:P131_is_identified_by [ rdf:value ?ll ] .
 BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\")
@@ -3844,7 +3844,7 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
 
             "label": "[[i18n "field_index" bundle="sapa-fields"]]",
             "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "xsdDatatype" : "xsd:integer",
             "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
                 "selectPattern" : "SELECT $value WHERE { $subject olo:index $value. }",
                 "insertPattern" : "INSERT { $subject olo:index $value. } WHERE {}",
@@ -3931,7 +3931,7 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P14_carried_out_by ?value. }",
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value. }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
@@ -4078,7 +4078,7 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
     {
         "id" : "PerformancePlan_IdentifierBy",
 
-            "label": "[[i18n "field_is_identified_by" bundle="sapa-fields"]]",
+            "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }",

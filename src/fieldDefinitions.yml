@@ -6474,7 +6474,7 @@ fields:
     domain: &Activity_Actor_domain http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: &Activity_Actor_range http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
-      - select: &Activity_Actor_query_select 'SELECT ?value WHERE {
+      - select: &Activity_Actor_query_select 'SELECT ?value ?label WHERE {
         $subject crm:P14_carried_out_by ?value.
       }'
       - insert: &Activity_Actor_query_insert 'INSERT {
@@ -6527,7 +6527,7 @@ fields:
   - id: Activity_Index
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Index
     label: Index
-    datatype: http://www.w3.org/2001/XMLSchema#string
+    datatype: xsd:integer
     maxOccurs: 1
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
@@ -6774,7 +6774,7 @@ fields:
 
   - id: PerformancePlan_IdentifierBy
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy
-    label: is identified by
+    label: Identifier
     datatype: xsd:anyURI
     queries:
     - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
@@ -6821,7 +6821,6 @@ fields:
   #********************************************************
 
   - id: PerformanceSerie_P10_falls_within
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P10_falls_within
     label: Season
     minOccurs: 1
     maxOccurs: 1
@@ -6843,11 +6842,9 @@ fields:
           } LIMIT 10'
 
   - id: PerformanceSerie_Label
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Label
     << : *RDFS_LABEL
 
   - id: PerformanceSerie_additionalType
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_additionalType
     datatype: xsd:anyURI
     domain: frbroo:F31_Performance
     queries:
@@ -6856,7 +6853,6 @@ fields:
       - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
   
   - id: PerformanceSerie_P2_has_type
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P2_has_type
     label: Type
     datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
@@ -6915,7 +6911,6 @@ fields:
         LIMIT 200'  
 
   - id: PerformanceSerie_R25_performed
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_R25_performed
     label: Performed
     minOccurs: 1
     maxOccurs: 1
@@ -6970,7 +6965,6 @@ fields:
       LIMIT 30'
 
   - id: PerformanceSerie_P8_took_place_on_or_within
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P8_took_place_on_or_within
     label: &Venue_label took place on or within
     datatype: &Venue_datatype xsd:anyURI
     domain: &Venue_domain frbroo:F31_Performance
@@ -7033,23 +7027,19 @@ fields:
     maxOccurs: 1
 
   - id: PerformanceSerie_P102_has_title
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P102_has_title
     minOccurs: 1
     maxOccurs: 1
     datatype: xsd:anyURI
     <<: *Titles
   
   - id: PerformanceSerie_P67i_is_referred_to_by
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P67i_is_referred_to_by
     <<: *Referred_to_by 
 
   - id: PerformanceSerie_ConsistOf
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Activity
     label: Activity
     <<: *Consist_Of_Query 
     
   - id: PerformanceSerie_P1_is_identified_by
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_P1_is_identified_by
     label: Identifier
     datatype: xsd:anyURI
     queries:
