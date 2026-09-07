@@ -23,7 +23,6 @@ fields:
               bds:matchAllTerms "true"
           } LIMIT 10'
 
-
   - id: ActorActivity
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ActorActivity
     label: Acting
@@ -6353,6 +6352,97 @@ fields:
     label: Date Label
 
   #********************************************************
+  #          Record
+  #********************************************************
+
+  - id: Rico_hasDocumentaryFormType
+    label: Documentary Form Type
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:hasDocumentaryFormType ?value . }'
+      - insert: 'INSERT { $subject rico:hasDocumentaryFormType $value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:hasDocumentaryFormType $value . } WHERE {}'
+
+  - id: Rico_recordResourceSourceOfInformation
+    label: Resource
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:recordResourceSourceOfInformation ?value . }'
+      - insert: 'INSERT { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}'
+      - autosuggestion: '
+            SELECT DISTINCT $value ?label
+            WHERE {
+              $value a ?typeRecordOfValue ;
+                    rico:name ?label .
+              VALUES (?typeRecordOfValue) {
+                (rico:Record)
+                (rico:RecordSet)
+              }
+              ?label bds:search ?__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+            }LIMIT 100'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item a ?typeofRecord .
+          FILTER(NOT EXISTS { ?item rico:isOrWasIncludedIn ?parent. })
+          ?item rico:name ?label.
+          OPTIONAL { ?child rico:isOrWasIncludedIn ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+          VALUES (?typeofRecord) { 
+            (rico:Record) 
+            (rico:RecordSet)  
+          }
+        }
+        ORDER BY (?label)'
+      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+          ?item rico:isOrWasIncludedIn ?parent.
+          ?parent rico:name ?parentLabel.
+        }'
+      childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item rico:isOrWasIncludedIn ?parent.
+          ?item rico:name ?label.
+          OPTIONAL { ?child rico:isOrWasIncludedIn ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        {
+          ?item a ?typeRecordOfValue ;
+            rico:name ?label .
+          VALUES (?typeRecordOfValue) {
+            (rico:Record)
+            (rico:RecordSet)
+          }
+          ?label bds:search ?__token__ ;
+            bds:relevance ?score ; 
+            bds:matchAllTerms "true"
+        } UNION {
+          BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?item)
+          ?item a ?typeRecordOfValue ;
+            rico:name ?label .
+          VALUES (?typeRecordOfValue) {
+            (rico:Record)
+            (rico:RecordSet)
+          }
+        }
+        OPTIONAL { ?child rico:isOrWasIncludedIn ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      } ORDER BY ASC (?label)'
+
+  - id: RecordNote
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingNote
+    label: Anmerkung
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    domain: https://www.ica.org/standards/RiC/ontology#RecordResource
+    queries:
+      - select: 'SELECT $value WHERE { $subject spao:hasNote $value. }'
+      - insert: 'INSERT { $subject spao:hasNote $value. } WHERE { }'
+      - delete: 'DELETE { $subject spao:hasNote $value. } WHERE { }'
+
+  #********************************************************
   #            Activities
   #********************************************************
 
@@ -6506,7 +6596,6 @@ fields:
         BIND(IF(BOUND(?note), CONCAT(?l, " (", ?note, ")"), ?l) AS ?label)
       } ORDER BY DESC (?score)
       LIMIT 10' 
-
 
   - id: Activity_Certainty
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Certainty
@@ -6784,6 +6873,16 @@ fields:
     - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
     - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
 
+  - id: PerformancePlan_isOrWasDescribedBy
+    label: Record
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }'
+      - insert: 'INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'
+
   # *******************************************************
   #     Expression creation: Performance Plan
   # *******************************************************
@@ -6819,6 +6918,7 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     <<: *Consist_Of_Query
  
+  
   #********************************************************
   #            Performance Series
   #********************************************************
@@ -7167,6 +7267,16 @@ fields:
       }
         ORDER BY DESC (?score) (?label)
         LIMIT 200' 
+  
+  - id: PerformanceSerie_isOrWasDescribedBy
+    label: Record
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }'
+      - insert: 'INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'
   
   # *******************************************************
   #     Performance Single

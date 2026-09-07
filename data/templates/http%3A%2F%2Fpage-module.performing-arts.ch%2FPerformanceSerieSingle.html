@@ -27,7 +27,8 @@
         [[> PerformanceSerie_P67i_is_referred_to_by]],
         [[> PerformanceSerie_ConsistOf]],
         [[> PerformanceSingle_P9i_forms_part_of]],
-        [[> PerformanceSerie_P1_is_identified_by]]
+        [[> PerformanceSerie_P1_is_identified_by]],
+        [[> PerformanceSerie_isOrWasDescribedBy]]
       ]'>
       <bs-panel>
         <semantic-form-recover-notification></semantic-form-recover-notification>
@@ -247,8 +248,42 @@
             </semantic-form-composite-input>
           </bs-col>
         </bs-row>
-        <hr/>
+        
+        <!-- Record Sources-->
+        <bs-row>
+          <bs-col sm='10'>
+            <semantic-form-composite-input for="PerformanceSerie_isOrWasDescribedBy"
+              new-subject-template='http://data.performing-arts.ch/n/{{UUID}}'
+              fields='[
+                  [[> RDFtype]],
+                  [[> Rico_hasDocumentaryFormType]],
+                  [[> Rico_recordResourceSourceOfInformation]],
+                  [[> RecordNote]]
+                ]'
+            >
+              <div style="display: none;">
+                <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "rico:Record"]]'></semantic-form-hidden-input>
+                <semantic-form-hidden-input for="Rico_hasDocumentaryFormType" default-value='[[resolvePrefix "spav:dfaut"]]'></semantic-form-hidden-input>
+              </div>
 
+              <bs-row>
+                <bs-col sm='6'>
+                  <semantic-form-tree-picker-input for="Rico_recordResourceSourceOfInformation"></semantic-form-tree-picker-input>
+                </bs-col>
+                <bs-col sm='5'>
+                  <semantic-form-text-input multiline=true for="RecordNote"></semantic-form-text-input>    
+                </bs-col>
+              </bs-row> 
+
+            </semantic-form-composite-input>
+          </bs-col>
+          <bs-col sm='10'>
+            
+          </bs-col>
+        </bs-row>
+
+
+        <hr/>
         <!-- ======================================== Performance Single ========================================  -->
         <semantic-form-composite-input for="PerformanceSingle_P9i_forms_part_of"
           new-subject-template='/{{UUID}}'

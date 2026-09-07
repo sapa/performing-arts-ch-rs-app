@@ -3762,6 +3762,51 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "E52DateLabel"
     }
 [[/inline]]
+ [[#*inline "Rico_hasDocumentaryFormType"]]
+    {
+        "id" : "Rico_hasDocumentaryFormType",
+
+            "label": "[[i18n "field_documentary_form_type" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:hasDocumentaryFormType ?value . }",
+                "insertPattern" : "INSERT { $subject rico:hasDocumentaryFormType $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:hasDocumentaryFormType $value . } WHERE {}",
+        "iri" : "Rico_hasDocumentaryFormType"
+    }
+[[/inline]]
+ [[#*inline "Rico_recordResourceSourceOfInformation"]]
+    {
+        "id" : "Rico_recordResourceSourceOfInformation",
+
+            "label": "[[i18n "field_resource" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item a ?typeofRecord . FILTER(NOT EXISTS { ?item rico:isOrWasIncludedIn ?parent. }) ?item rico:name ?label. OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) VALUES (?typeofRecord) { (rico:Record) (rico:RecordSet) } } ORDER BY (?label)",
+                "childrenQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item rico:isOrWasIncludedIn ?parent. ?item rico:name ?label. OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": "SELECT DISTINCT ?item ?parent ?parentLabel WHERE { ?item rico:isOrWasIncludedIn ?parent. ?parent rico:name ?parentLabel. }",
+                "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { { ?item a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } UNION { BIND(URI(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\")) AS ?item) ?item a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } } OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY ASC (?label)"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:recordResourceSourceOfInformation ?value . }",
+                "insertPattern" : "INSERT { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}",
+                "autosuggestionPattern" : " SELECT DISTINCT $value ?label WHERE { $value a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" }LIMIT 100",
+        "iri" : "Rico_recordResourceSourceOfInformation"
+    }
+[[/inline]]
+ [[#*inline "RecordNote"]]
+    {
+        "id" : "RecordNote",
+
+            "label": "[[i18n "field_anmerkung" bundle="sapa-fields"]]",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
+                "selectPattern" : "SELECT $value WHERE { $subject spao:hasNote $value. }",
+                "insertPattern" : "INSERT { $subject spao:hasNote $value. } WHERE { }",
+                "deletePattern" : "DELETE { $subject spao:hasNote $value. } WHERE { }",
+        "iri" : "RecordNote"
+    }
+[[/inline]]
  [[#*inline "Activity_HasType"]]
     {
         "id" : "Activity_HasType",
@@ -4086,6 +4131,20 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
         "iri" : "PerformancePlan_IdentifierBy"
     }
 [[/inline]]
+ [[#*inline "PerformancePlan_isOrWasDescribedBy"]]
+    {
+        "id" : "PerformancePlan_isOrWasDescribedBy",
+
+            "label": "[[i18n "field_record" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }",
+                "insertPattern" : "INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
+        "iri" : "PerformancePlan_isOrWasDescribedBy"
+    }
+[[/inline]]
  [[#*inline "ExpressionCreation_PerformancePlan_R17_created"]]
     {
         "id" : "ExpressionCreation_PerformancePlan_R17_created",
@@ -4374,6 +4433,20 @@ BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
                 "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
                 "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . VALUES (?value) { ( spav:muadd) } ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "PerformanceSerie_Activity_AdditionalType"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_isOrWasDescribedBy"]]
+    {
+        "id" : "PerformanceSerie_isOrWasDescribedBy",
+
+            "label": "[[i18n "field_record" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }",
+                "insertPattern" : "INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
+        "iri" : "PerformanceSerie_isOrWasDescribedBy"
     }
 [[/inline]]
  [[#*inline "PerformanceSingle_P9i_forms_part_of"]]
