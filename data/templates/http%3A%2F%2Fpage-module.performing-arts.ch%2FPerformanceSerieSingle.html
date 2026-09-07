@@ -128,8 +128,8 @@
               new-subject-template='http://data.performing-arts.ch/f/{{UUID}}'
               fields='[
                 [[> RDFtype]],
-                [[> Activity_HasType]],
-                [[> Activity_AdditionalType]],
+                [[> PerformanceSerie_Activity_HasType]],
+                [[> PerformanceSerie_Activity_AdditionalType]],
                 [[> Activity_CarriedOutBy]],
                 [[> Activity_Certainty]],
                 [[> RDFSComment]],
@@ -143,11 +143,11 @@
               <bs-row>
                 <bs-col sm='3'>
                   <!-- Activity Type -->
-                  <semantic-form-tree-picker-input for="Activity_HasType"></semantic-form-tree-picker-input></semantic-form-tree-picker-input>
+                  <semantic-form-tree-picker-input for="PerformanceSerie_Activity_HasType"></semantic-form-tree-picker-input></semantic-form-tree-picker-input>
                 </bs-col>
                 <bs-col sm='3'>
                   <!-- Additional Type -->
-                  <semantic-form-tree-picker-input for="Activity_AdditionalType"></semantic-form-tree-picker-input>
+                  <semantic-form-tree-picker-input for="PerformanceSerie_Activity_AdditionalType"></semantic-form-tree-picker-input>
                 </bs-col>              
                 <!-- Carried out by  -->
                 <bs-col sm='6'>
