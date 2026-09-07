@@ -6335,7 +6335,7 @@ fields:
     maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { 
-                  ?subject crm:P82a_begin_of_the_begin ?value .                  
+                  ?subject crm:P82a_begin_of_the_begin ?value .
                 }'
       - insert: 'INSERT { 
           $subject crm:P82a_begin_of_the_begin ?value . 
@@ -7378,8 +7378,8 @@ fields:
     maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE {                
-                    ?newUri crm:P82a_begin_of_the_begin ?value . 
-                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                  $subject crm:P4_has_time-span ?newUri .
+                  ?newUri crm:P82a_begin_of_the_begin ?value . 
                 }'
       - insert: 'INSERT { 
                     $subject crm:P4_has_time-span ?newUri .

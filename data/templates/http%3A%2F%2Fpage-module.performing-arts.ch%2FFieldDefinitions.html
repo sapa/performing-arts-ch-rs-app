@@ -4528,7 +4528,7 @@ BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
             "minOccurs" : "1",
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:date",
-                "selectPattern" : "SELECT ?value WHERE { ?newUri crm:P82a_begin_of_the_begin ?value . BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) }",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P4_has_time-span ?newUri . ?newUri crm:P82a_begin_of_the_begin ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
                 "deletePattern" : "DELETE { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
         "iri" : "PerformanceSingle_P4_has_time_span_E52TimeSpanValue"
