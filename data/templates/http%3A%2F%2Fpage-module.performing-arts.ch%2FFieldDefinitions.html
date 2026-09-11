@@ -3860,7 +3860,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"/u\"),?labelTmp) AS ?label) }",
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ; crm:P131_is_identified_by [ rdf:value ?ll ] .
 BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\")
@@ -3977,7 +3977,7 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"/u\"),?labelTmp) AS ?label) }",
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
@@ -4199,7 +4199,7 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
             "treePatterns": {
                 "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:mupwo ; skos:prefLabel ?label . OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader spav:mupwo ; skos:prefLabel ?label . OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+  spav:mupwo ; skos:prefLabel ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
@@ -4472,9 +4472,8 @@ BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
                 "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:muadd ; skos:prefLabel ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
             },
-                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType $value. }",
-                "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
                 "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader+ spav:muadd ; skos:prefLabel ?label . ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
         "iri" : "PerformanceSerie_Activity_AdditionalType"
     }
@@ -4553,7 +4552,7 @@ BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
             "treePatterns": {
                 "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:hl ; skos:prefLabel ?label ; skos:broader+ spav:hlsin ; OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:hl ; skos:prefLabel ?label ; skos:broader spav:hlsin ; OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:hl ; skos:broader+ spav:hlsin ; skos:prefLabel ?label . ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
