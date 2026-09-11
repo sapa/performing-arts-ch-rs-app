@@ -6137,6 +6137,7 @@ fields:
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:inScheme spav:go ;
               skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
           FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)          
@@ -6205,6 +6206,7 @@ fields:
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:inScheme spav:id ;
               skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
           FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)          
@@ -6274,6 +6276,7 @@ fields:
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:inScheme spav:eo ;
               skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
           FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)          
@@ -6361,8 +6364,9 @@ fields:
       - delete: 'DELETE { $subject rico:hasDocumentaryFormType $value . } WHERE {}'
 
   - id: Rico_recordResourceSourceOfInformation
-    label: Resource
+    label: Record Resource
     datatype: xsd:anyURI
+    minOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rico:recordResourceSourceOfInformation ?value . }'
       - insert: 'INSERT { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}'
@@ -6431,7 +6435,7 @@ fields:
 
   - id: RecordNote
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ThingNote
-    label: Anmerkung
+    label: Note
     datatype: http://www.w3.org/2001/XMLSchema#string
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
     queries:
@@ -6466,6 +6470,7 @@ fields:
           FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           ?item skos:inScheme spav:mu ;
           skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -6522,6 +6527,7 @@ fields:
           FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           ?item skos:inScheme spav:mu ;
           skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -6565,7 +6571,9 @@ fields:
     range: &Activity_Actor_range http://www.cidoc-crm.org/cidoc-crm/E39_Actor
     queries:
       - select: &Activity_Actor_query_select 'SELECT ?value ?label WHERE {
-        $subject crm:P14_carried_out_by ?value.
+        $subject crm:P14_carried_out_by ?value .
+        ?value rdfs:label ?labelTmp .          
+        BIND(IF(CONTAINS(STR(?value),"/u/"),CONCAT(?labelTmp,"  ","(unreconciled /u)"),?labelTmp) AS ?label)
       }'
       - insert: &Activity_Actor_query_insert 'INSERT {
         $subject crm:P14_carried_out_by ?value.
@@ -6719,7 +6727,7 @@ fields:
       - autosuggestion: 'SELECT DISTINCT ?value ?label WHERE {
           ?value a skos:Concept ;
             skos:inScheme spav:mn ;
-            rdfs:label|skos:prefLabel ?label . 
+            rdfs:label|skos:prefLabel ?label .
           ?label bds:search ?__token__ ;
             bds:relevance ?score ;
             bds:matchAllTerms "true" .
@@ -6775,6 +6783,7 @@ fields:
             $value a skos:Concept .
             $value skos:inScheme spav:lg ;
               skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
             ?label bds:search $__token__ ;
               bds:relevance ?score ; 
               bds:matchAllTerms "true" .            
@@ -6871,7 +6880,7 @@ fields:
     - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
 
   - id: PerformancePlan_isOrWasDescribedBy
-    label: Record
+    label: RecordSource
     datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
@@ -6915,7 +6924,121 @@ fields:
     range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     <<: *Consist_Of_Query
  
-  
+  - id: ExpressionCreation_PerformancePlan_Activity_HasType
+    label: Type
+    datatype: xsd:anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+                  skos:broader+ spav:mupwo ;
+                  skos:prefLabel ?label .
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:inScheme spav:mu ;
+                skos:broader spav:mupwo ;
+                skos:prefLabel ?label .
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mu ;
+              skos:broader+  spav:mupwo ;
+              skos:prefLabel ?label .
+        ?label bds:search ?__token__ ; 
+          bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200'
+
+  - id: ExpressionCreation_PerformancePlan_Activity_AdditionalType
+    label: Second
+    datatype: xsd:anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
+      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+                  skos:broader+ spav:mupwo ;
+                  skos:prefLabel ?label .
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:inScheme spav:mu ;
+                skos:broader+ spav:mupwo ;
+                skos:prefLabel ?label .
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mu ;
+              skos:broader+  spav:mupwo ;
+              skos:prefLabel ?label .
+        ?label bds:search ?__token__ ; 
+          bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200'
+
   #********************************************************
   #            Performance Series
   #********************************************************
@@ -7159,8 +7282,7 @@ fields:
       - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
-            skos:prefLabel ?label .
-            VALUES (?value) { ( spav:mupse) }
+                  skos:prefLabel ?label .
             ?label bds:search $__token__ ;
               bds:relevance ?score ; 
               bds:matchAllTerms "true"
@@ -7168,10 +7290,9 @@ fields:
     treePatterns:
       type: full
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           ?item skos:inScheme spav:mu ;
-          skos:prefLabel ?label .
-          VALUES (?item) { ( spav:mupse) }
+                skos:broader+ spav:mupse ;
+                skos:prefLabel ?label .
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -7197,8 +7318,8 @@ fields:
         PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item skos:inScheme spav:mu ;
-        skos:prefLabel ?label .
-        VALUES (?item) { ( spav:mupse) }
+              skos:broader+ spav:mupse ;
+              skos:prefLabel ?label .
         ?label bds:search ?__token__ ; 
           bds:relevance ?score ; bds:matchAllTerms "true"
         OPTIONAL { ?child skos:broader ?item. }
@@ -7212,13 +7333,12 @@ fields:
     datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
-      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
-      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
-      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
-            skos:prefLabel ?label .
-            VALUES (?value) { ( spav:muadd) }
+                skos:broader+ spav:muadd ;
+                skos:prefLabel ?label .
             ?label bds:search $__token__ ;
               bds:relevance ?score ; 
               bds:matchAllTerms "true"
@@ -7226,10 +7346,8 @@ fields:
     treePatterns:
       type: full
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
           ?item skos:inScheme spav:mu ;
-          skos:prefLabel ?label .
-          VALUES (?item) { ( spav:muadd) }
+                skos:prefLabel ?label .
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
@@ -7255,18 +7373,18 @@ fields:
         PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
         SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
         ?item skos:inScheme spav:mu ;
-        skos:prefLabel ?label .
-        VALUES (?item) { ( spav:muadd) }
+              skos:broader+ spav:muadd ;
+              skos:prefLabel ?label .
         ?label bds:search ?__token__ ; 
-        bds:relevance ?score ; bds:matchAllTerms "true"
+          bds:relevance ?score ; bds:matchAllTerms "true"
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
         ORDER BY DESC (?score) (?label)
-        LIMIT 200' 
-  
+        LIMIT 200'
+
   - id: PerformanceSerie_isOrWasDescribedBy
-    label: Record
+    label: RecordSource
     datatype: xsd:anyURI
     minOccurs: 1
     maxOccurs: 1
@@ -7331,7 +7449,7 @@ fields:
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:inScheme spav:hl ;
             skos:prefLabel ?label ;
-            skos:broader+ spav:hlsin ;
+            skos:broader spav:hlsin ;
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
