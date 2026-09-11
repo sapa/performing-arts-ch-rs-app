@@ -155,7 +155,6 @@
                 <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "rico:Record"]]'></semantic-form-hidden-input>
                 <semantic-form-hidden-input for="Rico_hasDocumentaryFormType" default-value='[[resolvePrefix "spav:dfaut"]]'></semantic-form-hidden-input>
               </div>
-
               <bs-row>
                 <bs-col sm='6'>
                   <semantic-form-tree-picker-input for="Rico_recordResourceSourceOfInformation"></semantic-form-tree-picker-input>
@@ -164,11 +163,9 @@
                   <semantic-form-text-input multiline=true for="RecordNote"></semantic-form-text-input>    
                 </bs-col>
               </bs-row> 
-
             </semantic-form-composite-input>
           </bs-col>
-          <bs-col sm='10'>
-            
+          <bs-col sm='10'>            
           </bs-col>
         </bs-row>
 
@@ -193,8 +190,8 @@
                 new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
                 fields='[
                   [[> RDFtype]],
-                  [[> Activity_HasType]],
-                  [[> Activity_AdditionalType]],
+                  [[> ExpressionCreation_PerformancePlan_Activity_HasType]],
+                  [[> ExpressionCreation_PerformancePlan_Activity_AdditionalType]],
                   [[> Activity_CarriedOutBy]],
                   [[> Activity_Certainty]],
                   [[> RDFSComment]],
@@ -207,15 +204,31 @@
                 <bs-row>
                   <bs-col sm='2'>
                     <!-- Activity Type -->
-                    <semantic-form-tree-picker-input for="Activity_HasType"></semantic-form-tree-picker-input>
+                    <semantic-form-tree-picker-input for="ExpressionCreation_PerformancePlan_Activity_HasType"></semantic-form-tree-picker-input>
                   </bs-col>
                   <bs-col sm='2'>
                     <!-- Additional Type -->
-                    <semantic-form-tree-picker-input for="Activity_AdditionalType"></semantic-form-tree-picker-input>
+                    <semantic-form-tree-picker-input for="ExpressionCreation_PerformancePlan_Activity_AdditionalType"></semantic-form-tree-picker-input>
                   </bs-col>              
                   <!-- Carried out by  -->
-                  <bs-col sm='2'>
-                    <semantic-form-autocomplete-input for="Activity_CarriedOutBy" placeholder='Search persons...'></semantic-form-autocomplete-input>
+                  <bs-col sm='4'>
+                    <semantic-form-autocomplete-input for="Activity_CarriedOutBy" placeholder='Search persons...'>
+                      <semantic-form 
+                        new-subject-template="http://data.performing-arts.ch/u/{{UUID}}" 
+                        persistence="ldp"
+                        form-id='performancePlan_Activity_AgentU'
+                        fields='[
+                          [[> RDFtype]],
+                          [[> Activity_ActorLabel]]
+                        ]'
+                      >
+                        <semantic-form-hidden-input for="RDFtype" default-values='["[[resolvePrefix "crm:E39_Actor"]]"]'></semantic-form-hidden-input>
+                      
+                        <semantic-form-text-input for="Activity_ActorLabel"></semantic-form-text-input>
+                        <br/>
+                        <button name="submit" class="btn btn-secondary">Create Actor /u/</button>                    
+                      </semantic-form>                      
+                    </semantic-form-autocomplete-input>
                   </bs-col>
                   <!-- certainty -->
                   <bs-col sm='2'>
