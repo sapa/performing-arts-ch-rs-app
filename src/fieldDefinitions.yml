@@ -7336,9 +7336,8 @@ fields:
     datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
-      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
-      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
-      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
                 skos:broader+ spav:muadd ;
@@ -7453,7 +7452,7 @@ fields:
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:inScheme spav:hl ;
             skos:prefLabel ?label ;
-            skos:broader+ spav:hlsin ;
+            skos:broader spav:hlsin ;
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
         }
