@@ -6369,6 +6369,7 @@ fields:
   - id: Rico_recordResourceSourceOfInformation
     label: Record Resource
     datatype: xsd:anyURI
+    minOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rico:recordResourceSourceOfInformation ?value . }'
       - insert: 'INSERT { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}'
