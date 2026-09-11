@@ -40,7 +40,7 @@
 
         <!-- Performed -->
         <bs-row>
-            <bs-col sm='5'>
+            <bs-col sm='6'>
               <!-- Production -->
               <semantic-form-autocomplete-input for="PerformanceSerie_R25_performed"></semantic-form-autocomplete-input>  
             </bs-col>  
@@ -48,7 +48,7 @@
 
         <!-- Performance Serie (Title) -->
         <bs-row>
-            <bs-col sm='10'>
+            <bs-col sm='12'>
               <semantic-form-composite-input for="PerformanceSerie_P102_has_title"
                 new-subject-template='/title'
                 fields='[
@@ -76,29 +76,29 @@
 
         <!-- Label Serie -->
         <bs-row>
-            <bs-col sm='5'>
+            <bs-col sm='6'>
               <semantic-form-text-input for="PerformanceSerie_Label" languages='["en","de","it","fr"]'></semantic-form-text-input>
             </bs-col>
         </bs-row>
 
         <!-- Season - Type -->
         <bs-row>
-            <bs-col sm='5'>
+            <bs-col sm='6'>
               <!-- Season -->
               <semantic-form-autocomplete-input for='PerformanceSerie_P10_falls_within'></semantic-form-autocomplete-input>
             </bs-col>
-            <bs-col sm="5">  
+            <bs-col sm="6">  
                 <!-- Type of Performance Serie -->
                 <semantic-form-tree-picker-input for="PerformanceSerie_P2_has_type"></semantic-form-tree-picker-input>
             </bs-col>
         </bs-row>
         <!-- Venue -->
         <bs-row>
-            <bs-col sm='5'>
+            <bs-col sm='6'>
               <!-- Venue -->
               <semantic-form-autocomplete-input for="PerformanceSerie_P8_took_place_on_or_within"></semantic-form-autocomplete-input> 
             </bs-col>
-            <bs-col sm='5'>
+            <bs-col sm='6'>
               <!-- Venue /u/ -->
               <semantic-form-autocomplete-input for="PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within" placeholder='Venue /u/'>
                 <semantic-form 
@@ -124,7 +124,7 @@
         
         <!-- Performance Serie (ConsistOf) -->
         <bs-row>
-          <bs-col sm='10'>  
+          <bs-col sm='12'>  
             <semantic-form-composite-input for="PerformanceSerie_ConsistOf"
               new-subject-template='http://data.performing-arts.ch/f/{{UUID}}'
               fields='[
@@ -194,7 +194,7 @@
               </bs-row>  
             </semantic-form-composite-input>
           </bs-col>
-          <bs-col sm='10'>
+          <bs-col sm='12'>
             <!-- Performance Performance Serie (Description/Notes) -->
             <semantic-form-composite-input for="PerformanceSerie_P67i_is_referred_to_by"
               new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
@@ -221,10 +221,10 @@
     
         <!-- Same As And identifier -->
         <bs-row>
-          <bs-col sm='5'>
+          <bs-col sm='6'>
             <semantic-form-text-input for="SameAs"></semantic-form-text-input>
           </bs-col>
-          <bs-col sm='5'>
+          <bs-col sm='6'>
             <!-- Performance Serie (Identifier) -->
             <semantic-form-composite-input for="PerformanceSerie_P1_is_identified_by"
               new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
@@ -251,7 +251,7 @@
         
         <!-- Record Sources-->
         <bs-row>
-          <bs-col sm='10'>
+          <bs-col sm='12'>
             <semantic-form-composite-input for="PerformanceSerie_isOrWasDescribedBy"
               new-subject-template='http://data.performing-arts.ch/n/{{UUID}}'
               fields='[
@@ -270,108 +270,113 @@
                 <bs-col sm='6'>
                   <semantic-form-tree-picker-input for="Rico_recordResourceSourceOfInformation"></semantic-form-tree-picker-input>
                 </bs-col>
-                <bs-col sm='5'>
+                <bs-col sm='6'>
                   <semantic-form-text-input multiline=true for="RecordNote"></semantic-form-text-input>    
                 </bs-col>
               </bs-row> 
 
             </semantic-form-composite-input>
           </bs-col>
-          <bs-col sm='10'>
-            
-          </bs-col>
         </bs-row>
 
 
         <hr/>
+
+
         <!-- ======================================== Performance Single ========================================  -->
-        <semantic-form-composite-input for="PerformanceSingle_P9i_forms_part_of"
-          new-subject-template='/{{UUID}}'
-          fields='[
-            [[> RDFtype]],
-            [[> PerformanceSingle_additionalType]],
-            [[> PerformanceSingle_P2_has_type]],
-            [[> SameAs]],
-            [[> PerformanceSingle_P102_has_title]],
-            [[> PerformanceSingle_P4_has_time_span_E52TimeSpanValue]],
-            [[> PerformanceSingle_P67i_is_referred_to_by]],
-            [[> PerformanceSingle_P1_is_identified_by]]
-            ]'
-        >
-          <div style="display: none;">
-            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F31_Performance"]]'></semantic-form-hidden-input>
-            <semantic-form-hidden-input for="PerformanceSingle_additionalType" default-value='[[resolvePrefix "spav:hlsin"]]'></semantic-form-hidden-input>           
-          </div>
-          
-          <bs-row>
-            <bs-col sm="4">
-              <!-- Performance Single Date Value -->
-              <semantic-form-datetime-input for="PerformanceSingle_P4_has_time_span_E52TimeSpanValue"></semantic-form-datetime-input>               
-            </bs-col>
-            <bs-col sm="6">
-              <!-- Performance Single (Type) -->
-              <semantic-form-tree-picker-input for="PerformanceSingle_P2_has_type"></semantic-form-tree-picker-input>              
-            </bs-col>
-          </bs-row>
 
-          <bs-row>
-            <bs-col sm="10">
-              <!-- Performance Single Description (Single) -->
-              <semantic-form-composite-input for="PerformanceSingle_P67i_is_referred_to_by"
-                new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+        <bs-row>
+            <bs-col sm='12'>
+
+              <semantic-form-composite-input for="PerformanceSingle_P9i_forms_part_of"
+                new-subject-template='/{{UUID}}'
                 fields='[
-                    [[> RDFtype]],
-                    [[> LinguisticObject_Type]],
-                    [[> LinguisticObject_Value]]                
+                  [[> RDFtype]],
+                  [[> PerformanceSingle_additionalType]],
+                  [[> PerformanceSingle_P2_has_type]],
+                  [[> SameAs]],
+                  [[> PerformanceSingle_P102_has_title]],
+                  [[> PerformanceSingle_P4_has_time_span_E52TimeSpanValue]],
+                  [[> PerformanceSingle_P67i_is_referred_to_by]],
+                  [[> PerformanceSingle_P1_is_identified_by]]
                   ]'
               >
                 <div style="display: none;">
-                  <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E33_Linguistic_Object"]]'></semantic-form-hidden-input>
+                  <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F31_Performance"]]'></semantic-form-hidden-input>
+                  <semantic-form-hidden-input for="PerformanceSingle_additionalType" default-value='[[resolvePrefix "spav:hlsin"]]'></semantic-form-hidden-input>           
                 </div>
+                
                 <bs-row>
-                  <bs-col sm='4'>
-                    <semantic-form-tree-picker-input for="LinguisticObject_Type"></semantic-form-tree-picker-input>
+                  <bs-col sm="4">
+                    <!-- Performance Single Date Value -->
+                    <semantic-form-datetime-input for="PerformanceSingle_P4_has_time_span_E52TimeSpanValue"></semantic-form-datetime-input>               
                   </bs-col>
-                  <bs-col sm='8'>
-                    <semantic-form-text-input for="LinguisticObject_Value" multiline=true languages='["en","de","it","fr"]'></semantic-form-text-input>                
+                  <bs-col sm="6">
+                    <!-- Performance Single (Type) -->
+                    <semantic-form-tree-picker-input for="PerformanceSingle_P2_has_type"></semantic-form-tree-picker-input>              
                   </bs-col>
                 </bs-row>
-              </semantic-form-composite-input>
-            </bs-col>
-            <bs-col sm="10">
-              <!-- Same As (Single) -->
-              <semantic-form-text-input for="SameAs"></semantic-form-text-input>              
-            </bs-col>
-          </bs-row>
-          
-          <bs-row>
-            <bs-col sm="10">
-              <!-- Performance Single (Identifier) -->
-              <semantic-form-composite-input for="PerformanceSingle_P1_is_identified_by"
-                new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
-                fields='[
-                    [[> RDFtype]],
-                    [[> E42_Identifier_Type]],
-                    [[> E42_Identifier_Value]]                
-                  ]'
-              >
-                <div style="display: none;">
-                  <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E42_Identifier"]]'></semantic-form-hidden-input>
-                </div>
+
                 <bs-row>
-                  <bs-col sm='2'>
-                    <semantic-form-tree-picker-input for="E42_Identifier_Type"></semantic-form-tree-picker-input>
+                  <bs-col sm="12">
+                    <!-- Performance Single Description (Single) -->
+                    <semantic-form-composite-input for="PerformanceSingle_P67i_is_referred_to_by"
+                      new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+                      fields='[
+                          [[> RDFtype]],
+                          [[> LinguisticObject_Type]],
+                          [[> LinguisticObject_Value]]                
+                        ]'
+                    >
+                      <div style="display: none;">
+                        <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E33_Linguistic_Object"]]'></semantic-form-hidden-input>
+                      </div>
+                      <bs-row>
+                        <bs-col sm='4'>
+                          <semantic-form-tree-picker-input for="LinguisticObject_Type"></semantic-form-tree-picker-input>
+                        </bs-col>
+                        <bs-col sm='8'>
+                          <semantic-form-text-input for="LinguisticObject_Value" multiline=true languages='["en","de","it","fr"]'></semantic-form-text-input>                
+                        </bs-col>
+                      </bs-row>
+                    </semantic-form-composite-input>
                   </bs-col>
-                  <bs-col sm='8'>
-                    <semantic-form-text-input for="E42_Identifier_Value" languages='["en","de","it","fr"]'></semantic-form-text-input>                
+                  <bs-col sm="12">
+                    <!-- Same As (Single) -->
+                    <semantic-form-text-input for="SameAs"></semantic-form-text-input>              
                   </bs-col>
                 </bs-row>
+                
+                <bs-row>
+                  <bs-col sm="12">
+                    <!-- Performance Single (Identifier) -->
+                    <semantic-form-composite-input for="PerformanceSingle_P1_is_identified_by"
+                      new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+                      fields='[
+                          [[> RDFtype]],
+                          [[> E42_Identifier_Type]],
+                          [[> E42_Identifier_Value]]                
+                        ]'
+                    >
+                      <div style="display: none;">
+                        <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E42_Identifier"]]'></semantic-form-hidden-input>
+                      </div>
+                      <bs-row>
+                        <bs-col sm='4'>
+                          <semantic-form-tree-picker-input for="E42_Identifier_Type"></semantic-form-tree-picker-input>
+                        </bs-col>
+                        <bs-col sm='8'>
+                          <semantic-form-text-input for="E42_Identifier_Value" languages='["en","de","it","fr"]'></semantic-form-text-input>                
+                        </bs-col>
+                      </bs-row>
+                    </semantic-form-composite-input>
+                  </bs-col>
+                </bs-row>
+
               </semantic-form-composite-input>
             </bs-col>
-            <bs-col sm="10"></bs-col>
           </bs-row>
 
-        </semantic-form-composite-input>
         <br/>
         <semantic-form-errors></semantic-form-errors>
         <button name="submit" class="btn btn-secondary">[[i18n "FormSubmit" bundle="performing-arts-ch"]]</button>
