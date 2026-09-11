@@ -6576,7 +6576,7 @@ fields:
       - select: &Activity_Actor_query_select 'SELECT ?value ?label WHERE {
         $subject crm:P14_carried_out_by ?value .
         ?value rdfs:label ?labelTmp .          
-        BIND(IF(CONTAINS(STR(?value),"/u/"),CONCAT(?labelTmp,"  ","/u"),?labelTmp) AS ?label)
+        BIND(IF(CONTAINS(STR(?value),"/u/"),CONCAT(?labelTmp,"  ","(unreconciled /u)"),?labelTmp) AS ?label)
       }'
       - insert: &Activity_Actor_query_insert 'INSERT {
         $subject crm:P14_carried_out_by ?value.
@@ -6948,7 +6948,7 @@ fields:
       type: full
       rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item skos:inScheme spav:mu ;
-                skos:broader+ spav:mupwo ;
+                skos:broader spav:mupwo ;
                 skos:prefLabel ?label .
           OPTIONAL { ?child skos:broader ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
