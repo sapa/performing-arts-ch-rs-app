@@ -33,7 +33,14 @@ fields:
     maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
-      - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
+      - insert: 'INSERT { 
+        $subject rdfs:label $value .        
+        $subject crm:P102_has_title ?mainTitle .
+        ?mainTitle rdf:value $value .
+        ?mainTitle crm:P2_has_type spav:gotlb .
+      } WHERE {
+        BIND(IRI(CONCAT(STR($subject), "/mainTitle")) AS ?mainTitle)
+      }'
       - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
 
   - id: PerformanceSerie_additionalType
@@ -240,8 +247,6 @@ fields:
 
   - id: PerformanceSerie_P102_has_title
     label: Title
-    minOccurs: 1
-    maxOccurs: 1
     datatype: xsd:anyURI
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
