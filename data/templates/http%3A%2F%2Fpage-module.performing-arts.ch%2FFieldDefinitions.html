@@ -83,7 +83,7 @@
                 "selectPattern" : "SELECT $value WHERE { $subject frbroo:R14_incorporates $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R14_incorporates $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R14_incorporates $value } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value crm:P10_falls_within ?season ; rdfs:label ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) FILTER(regex(str(?season),\"/s/\", \"i\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { ?value a frbroo:F22_Self-Contained_Expression ; rdfs:label ?label . FILTER(regex(str(?value),\"/u/\", \"i\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
         "iri" : "PerformancePlan_R14_incorporates"
     }
 [[/inline]]
@@ -3844,76 +3844,6 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "RDFSLabel"
     }
 [[/inline]]
- [[#*inline "Non_Performative_Expression_P102_has_title"]]
-    {
-        "id" : "Non_Performative_Expression_P102_has_title",
-
-            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
-        "iri" : "Non_Performative_Expression_P102_has_title"
-    }
-[[/inline]]
- [[#*inline "Non_Performative_Expression_Label"]]
-    {
-        "id" : "Non_Performative_Expression_Label",
-
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "Non_Performative_Expression_Label"
-    }
-[[/inline]]
- [[#*inline "ExpressionCreation_NPE_frbroo_R17_created"]]
-    {
-        "id" : "ExpressionCreation_NPE_frbroo_R17_created",
-
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "frbroo:F28_Expression_Creation",
-                "selectPattern" : "SELECT $value WHERE { $value frbroo:R17_created $subject . } ",
-                "insertPattern" : "INSERT { $value frbroo:R17_created $subject . }  WHERE { }",
-                "deletePattern" : "DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}",
-        "iri" : "ExpressionCreation_NPE_frbroo_R17_created"
-    }
-[[/inline]]
- [[#*inline "ExpressionCreation_NPE_frbroo_ConsistOf"]]
-    {
-        "id" : "ExpressionCreation_NPE_frbroo_ConsistOf",
-
-            "label": "[[i18n "field_activity" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E7_Activity"],
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
-        "iri" : "ExpressionCreation_NPE_frbroo_ConsistOf"
-    }
-[[/inline]]
- [[#*inline "ExpressionCreation_NPE_frbroo_P14_carried_out_by"]]
-    {
-        "id" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by",
-
-            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
-                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
-    }
-[[/inline]]
  [[#*inline "PerformanceSerie_P10_falls_within"]]
     {
         "id" : "PerformanceSerie_P10_falls_within",
@@ -4011,28 +3941,18 @@ BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "frbroo:F31_Performance",
             "range" : ["crm:E22_Man-Made_Object"],
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. FILTER(CONTAINS(STR(?value),\"/o/\"))}",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
                 "insertPattern" : "INSERT { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT DISTINCT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object . ?value crm:P2_has_type ?type . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
-{ ?value rdfs:label ?label . ?label bds:search $__token__ . ?label bds:relevance ?score . ?label bds:matchAllTerms \"true\" . } UNION { ?value rdfs:label ?label . ?value crm:P102_has_title/rdf:value ?titleValue . ?titleValue bds:search $__token__ . ?titleValue bds:relevance ?score . ?titleValue bds:matchAllTerms \"true\" . }
+{ ?value rdfs:label ?l . } UNION { ?value crm:P102_has_title/rdf:value ?l . }
+SERVICE bds:search { ?l bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
+OPTIONAL { SELECT ?value (GROUP_CONCAT(DISTINCT ?venue2Label) AS ?venue2Title) WHERE { ?venue2 a crm:E22_Man-Made_Object . ?venue2 crm:P46_is_composed_of ?value . ?venue2 crm:P2_has_type ?type . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
+{ ?venue2 rdfs:label ?venue2Label . } UNION { ?venue2 crm:P102_has_title/rdf:value ?venue2Label . } } GROUP BY ?value }
+BIND(IF(BOUND(?venue2Title), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?venue2Title), CONCAT(?l1, \"composed \", ?venue2Title), ?l1) AS ?l2) BIND(IF(BOUND(?venue2Title), CONCAT(?l2, \")\"), ?l2) AS ?l3)
+BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/o/\")+30)) AS ?label)
 } LIMIT 10",
         "iri" : "PerformanceSerie_P8_took_place_on_or_within"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within"]]
-    {
-        "id" : "PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within",
-
-            "label": "[[i18n "field_took_place_on_or_within" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "frbroo:F31_Performance",
-            "range" : ["crm:E22_Man-Made_Object"],
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object ; crm:P2_has_type ?type ; rdfs:label ?label . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> . FILTER(CONTAINS(STR(?s),\"/u/\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
-                "insertPattern" : "INSERT { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. FILTER(CONTAINS(STR(?value),\"/u/\"))  }",
-                "deletePattern" : "DELETE { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
-        "iri" : "PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within"
     }
 [[/inline]]
  [[#*inline "PerformanceSerie_VenueLabel"]]
@@ -4286,16 +4206,74 @@ BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
         "iri" : "PerformanceSingle_P1_is_identified_by"
     }
 [[/inline]]
- [[#*inline "PerformanceSingle_P1_is_identified_by"]]
+ [[#*inline "Non_Performative_Expression_P102_has_title"]]
     {
-        "id" : "PerformanceSingle_P1_is_identified_by",
+        "id" : "Non_Performative_Expression_P102_has_title",
 
-            "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
+            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
-        "iri" : "PerformanceSingle_P1_is_identified_by"
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
+        "iri" : "Non_Performative_Expression_P102_has_title"
+    }
+[[/inline]]
+ [[#*inline "Non_Performative_Expression_Label"]]
+    {
+        "id" : "Non_Performative_Expression_Label",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "Non_Performative_Expression_Label"
+    }
+[[/inline]]
+ [[#*inline "ExpressionCreation_NPE_frbroo_R17_created"]]
+    {
+        "id" : "ExpressionCreation_NPE_frbroo_R17_created",
+
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "frbroo:F28_Expression_Creation",
+                "selectPattern" : "SELECT $value WHERE { $value frbroo:R17_created $subject . } ",
+                "insertPattern" : "INSERT { $value frbroo:R17_created $subject . }  WHERE { }",
+                "deletePattern" : "DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}",
+        "iri" : "ExpressionCreation_NPE_frbroo_R17_created"
+    }
+[[/inline]]
+ [[#*inline "ExpressionCreation_NPE_frbroo_ConsistOf"]]
+    {
+        "id" : "ExpressionCreation_NPE_frbroo_ConsistOf",
+
+            "label": "[[i18n "field_activity" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E7_Activity"],
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
+        "iri" : "ExpressionCreation_NPE_frbroo_ConsistOf"
+    }
+[[/inline]]
+ [[#*inline "ExpressionCreation_NPE_frbroo_P14_carried_out_by"]]
+    {
+        "id" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by",
+
+            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
+                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
     }
 [[/inline]]
  [[#*inline "TitleType"]]

@@ -96,11 +96,7 @@
         <bs-row>
             <bs-col sm='6'>
               <!-- Venue -->
-              <semantic-form-autocomplete-input for="PerformanceSerie_P8_took_place_on_or_within"></semantic-form-autocomplete-input> 
-            </bs-col>
-            <bs-col sm='6'>
-              <!-- Venue /u/ -->
-              <semantic-form-autocomplete-input for="PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within" placeholder='Venue /u/'>
+              <semantic-form-autocomplete-input for="PerformanceSerie_P8_took_place_on_or_within" placeholder='Search venue /o or create venue /u ...'>
                 <semantic-form 
                   new-subject-template="http://data.performing-arts.ch/u/{{UUID}}" 
                   persistence="ldp"
@@ -118,10 +114,17 @@
                   <button name="submit" class="btn btn-secondary">Create Venue</button>
                 
                 </semantic-form>
-              </semantic-form-autocomplete-input>
+              </semantic-form-autocomplete-input> 
+            </bs-col>
+            <bs-col sm='6'>              
             </bs-col>
         </bs-row>
-        
+        <!-- Venue -->
+        <bs-row>
+
+        </bs-row>
+
+
         <!-- Performance Serie (ConsistOf) -->
         <bs-row>
           <bs-col sm='12'>  
@@ -279,12 +282,8 @@
           </bs-col>
         </bs-row>
 
-
         <hr/>
-
-
         <!-- ======================================== Performance Single ========================================  -->
-
         <bs-row>
             <bs-col sm='12'>
 
