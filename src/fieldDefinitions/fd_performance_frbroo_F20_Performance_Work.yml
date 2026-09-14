@@ -1,0 +1,112 @@
+fields:
+  
+  - id: PerformanceWork_R12_is_realised_in
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_R12_is_realised_in
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    domain: frbroo:F20_Performance_Work
+    queries:
+      - select: 'SELECT ?value ?label WHERE { ?value frbroo:R12_is_realised_in $subject . }'
+      - insert: 'INSERT { ?value frbroo:R12_is_realised_in $subject . } WHERE { }'
+      - delete: 'DELETE { ?value frbroo:R12_is_realised_in $subject . } WHERE { }'
+
+  - id: PerformanceWork_P2_has_type
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_P2_has_type
+    label: Genre
+    datatype: xsd:anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E74_Group
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    queries:
+      - select: 'SELECT ?value ?label WHERE { $subject crm:P2_has_type ?value }'
+      - insert: 'INSERT { $subject crm:P2_has_type ?value } WHERE { }'
+      - delete: 'DELETE { $subject crm:P2_has_type ?value } WHERE { }'
+      - valueSet: 'SELECT $value WHERE {
+          $value a skos:Concept ;
+            skos:inScheme spav:mn .
+        }'
+      - autosuggestion: 'SELECT DISTINCT ?value ?label WHERE {
+          ?value a skos:Concept ;
+            skos:inScheme spav:mn ;
+            rdfs:label|skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          ?label bds:search ?__token__ ;
+            bds:relevance ?score ;
+            bds:matchAllTerms "true" .
+        } LIMIT 100'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:inScheme spav:mn .
+          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
+          OPTIONAL {
+            ?item skos:prefLabel ?label.
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          }
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY LCASE(?label)'
+      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+          ?item skos:broader ?parent .
+          ?parent rdfs:label|skos:prefLabel ?parentLabel.
+      }'
+      childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent . 
+          OPTIONAL {
+            ?item skos:prefLabel ?label.
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          }
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mn ;
+          skos:prefLabel ?label .
+        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        ?label bds:search ?__token__ ;
+          bds:matchAllTerms "true" ;
+          bds:relevance ?score .
+        OPTIONAL { ?item skos:broader ?child. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+      ORDER BY DESC (?score) (?label)
+      LIMIT 200'
+
+  - id: PerformanceWork_InLanguage
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_InLanguage
+    label: Linguage
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT $value WHERE { $subject schema:inLanguage $value }'
+      - insert: 'INSERT { $subject schema:inLanguage $value } WHERE {}'
+      - delete: 'DELETE { $subject schema:inLanguage $value } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value a skos:Concept .
+            $value skos:inScheme spav:lg ;
+              skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .            
+          } LIMIT 10'
+
+  - id: PerformanceWork_SubTitleLanguage
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_SubTitleLanguage
+    label: Sub-title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT $value WHERE { $subject schema:subtitleLanguage $value }'
+      - insert: 'INSERT { $subject schema:subtitleLanguage $value } WHERE {}'
+      - delete: 'DELETE { $subject schema:subtitleLanguage $value } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value a skos:Concept .
+            $value skos:inScheme spav:lg ;
+              skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) 
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
+          } LIMIT 10'
+

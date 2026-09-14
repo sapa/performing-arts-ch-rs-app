@@ -1,0 +1,90 @@
+fields:
+ 
+  - id: PerformancePlan_MusicTitle
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MusicTitle
+    label: Has music title
+    datatype: xsd:langString
+    queries:
+      - select: 'SELECT $value WHERE { $subject spao:hasMusicTitle $value }'
+      - insert: 'INSERT { $subject spao:hasMusicTitle $value } WHERE {}'
+      - delete: 'DELETE { $subject spao:hasMusicTitle $value } WHERE {}'
+
+  - id: PerformancePlan_R14_incorporates
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_R14_incorporates
+    label: Incorporates
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT $value WHERE { $subject frbroo:R14_incorporates $value }'
+      - insert: 'INSERT { $subject frbroo:R14_incorporates $value } WHERE {}'
+      - delete: 'DELETE { $subject frbroo:R14_incorporates $value } WHERE {}'
+      - autosuggestion: 'SELECT $value $label 
+            WHERE {
+              ?value a frbroo:F22_Self-Contained_Expression ;
+                        rdfs:label ?label .
+              FILTER(regex(str(?value),"/u/", "i")) 
+              ?label bds:search $__token__ ;
+                bds:relevance ?score ; 
+                bds:matchAllTerms "true" .
+            } LIMIT 10' 
+
+  - id: PerformancePlan_Title_Label_Value
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan__TitleLabel_Value
+    label: Title
+    datatype: xsd:langString
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {       
+          $subject rdf:value ?value .          
+        }'
+      - insert: 'INSERT { $subject rdf:value $value . 
+                          ?parent rdfs:label $value . }
+                  WHERE { 
+                  BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
+                  }'
+      - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
+
+  - id: PerformancePlan_RDFSLabel
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_RDFSLabel
+    datatype: xsd:langString
+    domain: http://www.w3.org/2000/01/rdf-schema#label
+    queries:
+      - select: 'SELECT $value WHERE { $subject rdfs:label $value }'
+      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
+
+  - id: PerformancePlan_P67_is_referred_to_by
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P67_is_referred_to_by
+    label: Is referred to by
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }'
+      - insert: 'INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+
+  - id: PerformancePlan_P102_has_title
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P102_has_title
+    label: Title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
+      - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'
+      - delete: 'DELETE { $subject crm:P102_has_title $value . } WHERE {}'
+
+  - id: PerformancePlan_IdentifierBy
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy
+    label: Identifier
+    datatype: xsd:anyURI
+    queries:
+    - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
+    - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+    - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+
+  - id: PerformancePlan_isOrWasDescribedBy
+    label: RecordSource
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }'
+      - insert: 'INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'

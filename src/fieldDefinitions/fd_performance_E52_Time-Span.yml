@@ -1,0 +1,34 @@
+fields:
+ 
+  - id: E52DateValue
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateValue
+    label: Date Value
+    datatype: http://www.w3.org/2001/XMLSchema#date
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { 
+                  ?subject crm:P82a_begin_of_the_begin ?value .
+                }'
+      - insert: 'INSERT { 
+          $subject crm:P82a_begin_of_the_begin ?value . 
+          $subject crm:P82b_end_of_the_end ?value .
+        } WHERE {}'
+      - delete: 'DELETE { 
+            $subject crm:P82a_begin_of_the_begin ?value . 
+            $subject crm:P82b_end_of_the_end ?value . 
+          } WHERE {}'
+
+  - id: E52DateLabel
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/E52DateLabel
+    label: Date Label
+    description: A short comment that helps to identify the entity.
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    domain: http://www.w3.org/2002/07/owl#Class
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
+      - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
+      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
+

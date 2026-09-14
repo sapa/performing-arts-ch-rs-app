@@ -1,0 +1,205 @@
+fields:
+
+  - id: Activity_HasType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_HasType
+    label: Type
+    datatype: xsd:anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+            skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
+          ?item skos:inScheme spav:mu ;
+          skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mu ;
+        skos:prefLabel ?label .
+        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        ?label bds:search ?__token__ ; 
+          bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200' 
+
+  - id: Activity_AdditionalType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_AdditionalType
+    label: Second
+    datatype: xsd:anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
+      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+            skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
+          ?item skos:inScheme spav:mu ;
+          skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mu ;
+        skos:prefLabel ?label .
+        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        ?label bds:search ?__token__ ; 
+        bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200'  
+
+  - id: Activity_CarriedOutBy
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Actor
+    label: Carried out by
+    datatype: xsd:anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
+    queries:
+      - select: 'SELECT ?value ?label WHERE {
+        $subject crm:P14_carried_out_by ?value .
+        ?value rdfs:label ?labelTmp .          
+        BIND(IF(CONTAINS(STR(?value),"/u/"),CONCAT(?labelTmp,"  ","(unreconciled /u)"),?labelTmp) AS ?label)
+      }'
+      - insert: 'INSERT {
+        $subject crm:P14_carried_out_by ?value.
+      } WHERE {}'
+      - autosuggestion: 'SELECT DISTINCT ?value ?label ?score WHERE {
+        ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          crm:P131_is_identified_by [ rdf:value ?ll ] .
+        
+        BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator)
+        FILTER(?type_indicator = "a")
+        
+        SERVICE bds:search {
+          ?ll bds:search ?__token__ ;
+          bds:minRelevance "0.1" ;
+          bds:relevance ?score ; 
+          bds:matchAllTerms "true" .
+        }
+
+        ?value rdfs:label ?l .
+        OPTIONAL {
+          ?value crm:P3_has_note [
+          crm:P2_has_type spav:eoept ;
+          rdf:value ?note ]
+        }
+        BIND(IF(BOUND(?note), CONCAT(?l, " (", ?note, ")"), ?l) AS ?label)
+      } ORDER BY DESC (?score)
+      LIMIT 10' 
+
+  - id: Activity_Certainty
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Certainty
+    label: Certainty
+    datatype: xsd:anyURI
+    minOccurs: 0
+    maxOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:certainty $value. }'
+      - insert: 'INSERT { $subject rico:certainty $value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:certainty $value .} WHERE {}'
+      - valueSet: 'SELECT $value WHERE { 
+              VALUES ( $value ) {
+              ( spav:ctddd )
+              ( spav:ctprb )
+              ( spav:ctuct )
+              }
+            }'
+
+  - id: Activity_Index
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Index
+    label: Index
+    datatype: xsd:integer
+    maxOccurs: 1
+    domain: https://www.ica.org/standards/RiC/ontology#RecordResource
+    queries:
+      - select: 'SELECT $value WHERE { $subject olo:index $value. }'
+      - insert: 'INSERT { $subject olo:index $value. } WHERE {}'
+      - delete: 'DELETE { $subject olo:index $value. } WHERE {}'
+
+  - id: Activity_Label
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Label
+    label: Label
+    datatype: xsd:string
+    domain: http://www.w3.org/2002/07/owl#Class
+    maxOccurs: 1
+    queries: 
+      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
+      - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
+      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
