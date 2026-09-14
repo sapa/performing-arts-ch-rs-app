@@ -170,12 +170,17 @@ fields:
       LIMIT 30'
 
   - id: PerformanceSerie_P8_took_place_on_or_within
-    label: &Venue_label took place on or within
-    datatype: &Venue_datatype xsd:anyURI
-    domain: &Venue_domain frbroo:F31_Performance
-    range: &Venue_range crm:E22_Man-Made_Object
-    queries: &Venue_query
-      - select: 'SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. FILTER(CONTAINS(STR(?value),"/o/"))}'
+    label: took place on or within
+    datatype: xsd:anyURI
+    domain: frbroo:F31_Performance
+    range: crm:E22_Man-Made_Object
+    queries:
+      - select: 'SELECT ?value 
+                 WHERE { 
+                    $subject crm:P8_took_place_on_or_within ?value. 
+                    ?value rdfs:label ?labelTmp .
+                    BIND(IF(CONTAINS(STR(?value),"/u/"),CONCAT(?labelTmp,"  ","(unreconciled /u)"),?labelTmp) AS ?label)
+                }'
       - insert: 'INSERT { $subject crm:P8_took_place_on_or_within $value. } WHERE {}'
       - delete: 'DELETE { $subject crm:P8_took_place_on_or_within $value. } WHERE {}'
       - autosuggestion: 'SELECT DISTINCT ?value ?label WHERE {
@@ -184,42 +189,44 @@ fields:
           ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
 
           {
-            ?value rdfs:label ?label .          
-            ?label bds:search $__token__ .
-            ?label bds:relevance ?score .
-            ?label bds:matchAllTerms "true" .
+            ?value rdfs:label ?l .            
           }
           UNION
           {
-            ?value rdfs:label ?label .
-            ?value crm:P102_has_title/rdf:value ?titleValue .          
-            ?titleValue bds:search $__token__ .
-            ?titleValue bds:relevance ?score .
-            ?titleValue bds:matchAllTerms "true" .
+            ?value crm:P102_has_title/rdf:value ?l .            
           }
 
-        } LIMIT 10'
+          SERVICE bds:search {
+            ?l bds:search ?__token__ ;
+            bds:minRelevance "0.1" ;
+            bds:relevance ?score ; 
+            bds:matchAllTerms "true" .
+          }
+          
+          OPTIONAL {
+            SELECT ?value (GROUP_CONCAT(DISTINCT ?venue2Label) AS ?venue2Title)
+            WHERE {
+              ?venue2 a crm:E22_Man-Made_Object .
+              ?venue2 crm:P46_is_composed_of ?value .
+              ?venue2 crm:P2_has_type ?type .
+              ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
 
-  - id: PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within
-    label: *Venue_label
-    datatype: *Venue_datatype
-    domain: *Venue_domain
-    range: *Venue_range
-    queries:
-      - <<: *Venue_query
-        select: 'SELECT ?value WHERE { $subject crm:P8_took_place_on_or_within ?value. FILTER(CONTAINS(STR(?value),"/u/"))  }'
-        autosuggestion: 'SELECT ?value ?label 
-          WHERE {
-            ?value a crm:E22_Man-Made_Object ;
-                crm:P2_has_type ?type ;
-                rdfs:label ?label .
-            ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
-            FILTER(CONTAINS(STR(?s),"/u/"))
-            ?label bds:search $__token__ ;
-                  bds:relevance ?score ; 
-                  bds:matchAllTerms "true" .
-          } LIMIT 10'
+              {
+                ?venue2 rdfs:label ?venue2Label .
+              }
+              UNION {
+                ?venue2 crm:P102_has_title/rdf:value ?venue2Label .
+              }
+            } GROUP BY ?value
+          }
+        
+          BIND(IF(BOUND(?venue2Title), CONCAT(?l, " ("), ?l) AS ?l1)
+          BIND(IF(BOUND(?venue2Title), CONCAT(?l1, "composed ", ?venue2Title), ?l1) AS ?l2)
+          BIND(IF(BOUND(?venue2Title), CONCAT(?l2, ")"), ?l2) AS ?l3)
+          
+          BIND(CONCAT(?l3, " - ...", SUBSTR(STR(?value), STRLEN("http://data.performing-arts.ch/o/")+30)) AS ?label)
+
+        } LIMIT 10'
 
   - id: PerformanceSerie_VenueLabel
     label: Label
@@ -576,15 +583,6 @@ fields:
               WHERE { 
                 BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
               }'
-
-  - id: PerformanceSingle_P1_is_identified_by
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P1_is_identified_by
-    label: Identifier
-    datatype: xsd:anyURI
-    queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }'
-      - insert: 'INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }'
-      - delete: 'DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }'
 
   - id: PerformanceSingle_P1_is_identified_by
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_P1_is_identified_by
