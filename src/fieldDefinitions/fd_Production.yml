@@ -1,0 +1,371 @@
+fields:
+  #********************************************************
+  #            Performance Work
+  #********************************************************
+
+  - id: PerformanceWork_R12_is_realised_in
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_R12_is_realised_in
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    domain: frbroo:F20_Performance_Work
+    queries:
+      - select: 'SELECT ?value ?label WHERE { ?value frbroo:R12_is_realised_in $subject . }'
+      - insert: 'INSERT { ?value frbroo:R12_is_realised_in $subject . } WHERE { }'
+      - delete: 'DELETE { ?value frbroo:R12_is_realised_in $subject . } WHERE { }'
+
+  - id: PerformanceWork_P2_has_type
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_P2_has_type
+    label: Genre
+    datatype: xsd:anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E74_Group
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    queries:
+      - select: 'SELECT ?value ?label WHERE { $subject crm:P2_has_type ?value }'
+      - insert: 'INSERT { $subject crm:P2_has_type ?value } WHERE { }'
+      - delete: 'DELETE { $subject crm:P2_has_type ?value } WHERE { }'
+      - valueSet: 'SELECT $value WHERE {
+          $value a skos:Concept ;
+            skos:inScheme spav:mn .
+        }'
+      - autosuggestion: 'SELECT DISTINCT ?value ?label WHERE {
+          ?value a skos:Concept ;
+            skos:inScheme spav:mn ;
+            rdfs:label|skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          ?label bds:search ?__token__ ;
+            bds:relevance ?score ;
+            bds:matchAllTerms "true" .
+        } LIMIT 100'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:inScheme spav:mn .
+          FILTER(NOT EXISTS { ?item skos:broader ?parent. })
+          OPTIONAL {
+            ?item skos:prefLabel ?label.
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          }
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY LCASE(?label)'
+      parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
+          ?item skos:broader ?parent .
+          ?parent rdfs:label|skos:prefLabel ?parentLabel.
+      }'
+      childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent . 
+          OPTIONAL {
+            ?item skos:prefLabel ?label.
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          }
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mn ;
+          skos:prefLabel ?label .
+        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        ?label bds:search ?__token__ ;
+          bds:matchAllTerms "true" ;
+          bds:relevance ?score .
+        OPTIONAL { ?item skos:broader ?child. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+      ORDER BY DESC (?score) (?label)
+      LIMIT 200'
+
+  - id: PerformanceWork_InLanguage
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_InLanguage
+    label: Linguage
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT $value WHERE { $subject schema:inLanguage $value }'
+      - insert: 'INSERT { $subject schema:inLanguage $value } WHERE {}'
+      - delete: 'DELETE { $subject schema:inLanguage $value } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value a skos:Concept .
+            $value skos:inScheme spav:lg ;
+              skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .            
+          } LIMIT 10'
+
+  - id: PerformanceWork_SubTitleLanguage
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceWork_SubTitleLanguage
+    label: Sub-title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT $value WHERE { $subject schema:subtitleLanguage $value }'
+      - insert: 'INSERT { $subject schema:subtitleLanguage $value } WHERE {}'
+      - delete: 'DELETE { $subject schema:subtitleLanguage $value } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value a skos:Concept .
+            $value skos:inScheme spav:lg ;
+              skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) 
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
+          } LIMIT 10'
+
+  #********************************************************
+  #            Performance Plan
+  #********************************************************
+
+  - id: PerformancePlan_MusicTitle
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/MusicTitle
+    label: Has music title
+    datatype: xsd:langString
+    queries:
+      - select: 'SELECT $value WHERE { $subject spao:hasMusicTitle $value }'
+      - insert: 'INSERT { $subject spao:hasMusicTitle $value } WHERE {}'
+      - delete: 'DELETE { $subject spao:hasMusicTitle $value } WHERE {}'
+
+  - id: PerformancePlan_R14_incorporates
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_R14_incorporates
+    label: Incorporates
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT $value WHERE { $subject frbroo:R14_incorporates $value }'
+      - insert: 'INSERT { $subject frbroo:R14_incorporates $value } WHERE {}'
+      - delete: 'DELETE { $subject frbroo:R14_incorporates $value } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value crm:P10_falls_within ?season ;
+            rdfs:label ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) 
+            FILTER(regex(str(?season),"/s/", "i")) 
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true" .
+          } LIMIT 10' 
+
+  - id: PerformancePlan_Title_Label_Value
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan__TitleLabel_Value
+    label: Title
+    datatype: xsd:langString
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE {       
+          $subject rdf:value ?value .          
+        }'
+      - insert: 'INSERT { $subject rdf:value $value . 
+                          ?parent rdfs:label $value . }
+                  WHERE { 
+                  BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
+                  }'
+      - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
+
+  - id: PerformancePlan_RDFSLabel
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_RDFSLabel
+    datatype: xsd:langString
+    domain: http://www.w3.org/2000/01/rdf-schema#label
+    queries:
+      - select: 'SELECT $value WHERE { $subject rdfs:label $value }'
+      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
+
+  - id: PerformancePlan_P67_is_referred_to_by
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P67_is_referred_to_by
+    label: Is referred to by
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }'
+      - insert: 'INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+      - delete: 'DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
+
+  - id: PerformancePlan_P102_has_title
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P102_has_title
+    label: Title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
+      - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'
+      - delete: 'DELETE { $subject crm:P102_has_title $value . } WHERE {}'
+
+  - id: PerformancePlan_IdentifierBy
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/IdentifierBy
+    label: Identifier
+    datatype: xsd:anyURI
+    queries:
+    - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
+    - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+    - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+
+  - id: PerformancePlan_isOrWasDescribedBy
+    label: RecordSource
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }'
+      - insert: 'INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'
+      - delete: 'DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}'
+
+  # *******************************************************
+  #     Expression creation: Performance Plan
+  # *******************************************************
+
+  - id: ExpressionCreation_PerformancePlan_R17_created
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreation_PerformancePlan_R17_created
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    domain: frbroo:F28_Expression_Creation
+    queries:
+      - select: 'SELECT $value WHERE { $value frbroo:R17_created $subject }'
+      - insert: 'INSERT { $value frbroo:R17_created $subject } WHERE {}'
+      - delete: 'DELETE { $value frbroo:R17_created $subject } WHERE {}'
+
+  - id: ExpressionCreation_PP_PerformanceWork
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreation_CreatedARealisationOf
+    datatype: xsd:anyURI
+    minOccurs: 0
+    maxOccurs: 1
+    domain: frbroo:F28_Expression_Creation
+    queries:
+      - select: 'SELECT $value WHERE { ?subject frbroo:R19_created_a_realisation_of $value . }'
+      - insert: 'INSERT { $value frbroo:R19_created_a_realisation_of ?pw . } WHERE {}'
+      - delete: 'DELETE { $value frbroo:R19_created_a_realisation_of ?pw . } WHERE {}'
+
+  - id: ExpressionCreation_PerformancePlan_ConsistOf
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreation_PerformancePlan_ConsistOf
+    label: Activity
+    minOccurs: 1
+    datatype: xsd:anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }'
+      - insert: 'INSERT { $subject crm:P9_consists_of ?value . } WHERE {}'
+      - delete: 'DELETE { $subject crm:P9_consists_of ?value . } WHERE {}'
+
+  - id: ExpressionCreation_PerformancePlan_Activity_HasType
+    label: Type
+    datatype: xsd:anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+                  skos:broader spav:mupwo ;
+                  skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:inScheme spav:mu ;
+                skos:broader spav:mupwo ;
+                skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mu ;
+              skos:broader+  spav:mupwo ;
+              skos:prefLabel ?label .
+        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        ?label bds:search ?__token__ ; 
+          bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200'
+
+  - id: ExpressionCreation_PerformancePlan_Activity_AdditionalType
+    label: Second
+    datatype: xsd:anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
+      - delete: 'DELETE { $subject schema:additionalType $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+                  skos:broader spav:mupwo ;
+                  skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:inScheme spav:mu ;
+                skos:broader spav:mupwo ;
+                skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) 
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) 
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mu ;
+              skos:broader+  spav:mupwo ;
+              skos:prefLabel ?label .
+        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        ?label bds:search ?__token__ ; 
+          bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200'
