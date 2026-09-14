@@ -1,0 +1,77 @@
+fields:
+  #********************************************************
+  #            Non-Performative Expression
+  #********************************************************
+
+  - id: Non_Performative_Expression_P102_has_title
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Non_Performative_Expression_P102_has_title
+    label: Title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
+      - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'
+      - delete: 'DELETE { $subject crm:P102_has_title $value . } WHERE {}'
+
+  - id: Non_Performative_Expression_Label
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Non_Performative_Expression_Label
+    label: Label
+    description: A short comment that helps to identify the entity.
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    domain: http://www.w3.org/2002/07/owl#Class
+    minOccurs: 0
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
+      - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
+      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
+
+  #********************************************************
+  #  Expression creation: Non-Performative Expression
+  #********************************************************
+    
+  - id: ExpressionCreation_NPE_frbroo_R17_created
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreation_NPE_frbroo_R17_created
+    datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
+    domain: frbroo:F28_Expression_Creation
+    queries:
+      - select: 'SELECT $value WHERE { $value frbroo:R17_created $subject . } '
+      - insert: 'INSERT { $value frbroo:R17_created $subject . }  WHERE { }'
+      - delete: 'DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}'
+
+  - id: ExpressionCreation_NPE_frbroo_ConsistOf
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreation_NPE_frbroo_ConsistOf
+    label: Activity
+    minOccurs: 1
+    datatype: xsd:anyURI
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }'
+      - insert: 'INSERT { $subject crm:P9_consists_of ?value . } WHERE {}'
+      - delete: 'DELETE { $subject crm:P9_consists_of ?value . } WHERE {}' 
+
+  - id: ExpressionCreation_NPE_frbroo_P14_carried_out_by
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/ExpressionCreation_NPE_frbroo_P14_carried_out_by
+    label: Carried out by
+    datatype: xsd:anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E39_Actor
+    queries:
+      - select: 'SELECT ?value ?label WHERE {
+          $subject crm:P14_carried_out_by ?value .
+          ?value rdfs:label ?labelTmp .          
+          BIND(IF(CONTAINS(STR(?value),"/u/"),CONCAT(?labelTmp,"  ","(unreconciled /u)"),?labelTmp) AS ?label)
+        }'
+      - insert: 'INSERT {
+          $subject crm:P14_carried_out_by ?value.
+        } WHERE {}'
+      - autosuggestion: 'SELECT $value ?label WHERE {
+          $value rdf:type/rdfs:subClassOf* crm:E39_Actor ;
+          rdfs:label ?label .
+          FILTER(CONTAINS(STR($value),"/a/") || CONTAINS(STR($value),"/u/") ) 
+          ?label bds:search $__token__ ;
+            bds:relevance ?score ;
+            bds:matchAllTerms "true"
+        } LIMIT 10'
