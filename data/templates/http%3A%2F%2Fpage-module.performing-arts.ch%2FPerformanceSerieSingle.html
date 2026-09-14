@@ -21,7 +21,6 @@
         [[> PerformanceSerie_P2_has_type]],
         [[> PerformanceSerie_R25_performed]],
         [[> PerformanceSerie_P8_took_place_on_or_within]],
-        [[> PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within]],
         [[> SameAs]],
         [[> PerformanceSerie_P102_has_title]],
         [[> PerformanceSerie_P67i_is_referred_to_by]],
@@ -45,6 +44,14 @@
               <semantic-form-autocomplete-input for="PerformanceSerie_R25_performed"></semantic-form-autocomplete-input>  
             </bs-col>  
         </bs-row>
+
+        <!-- Label Serie -->
+        <bs-row>
+            <bs-col sm='12'>
+              <semantic-form-text-input for="PerformanceSerie_Label" languages='["en","de","it","fr"]'></semantic-form-text-input>
+            </bs-col>
+        </bs-row>
+        <p><small><em>(This will also automatically create a "Title" entry)</em></small></p>
 
         <!-- Performance Serie (Title) -->
         <bs-row>
@@ -74,13 +81,6 @@
             </bs-col>            
         </bs-row>
 
-        <!-- Label Serie -->
-        <bs-row>
-            <bs-col sm='6'>
-              <semantic-form-text-input for="PerformanceSerie_Label" languages='["en","de","it","fr"]'></semantic-form-text-input>
-            </bs-col>
-        </bs-row>
-
         <!-- Season - Type -->
         <bs-row>
             <bs-col sm='6'>
@@ -96,11 +96,7 @@
         <bs-row>
             <bs-col sm='6'>
               <!-- Venue -->
-              <semantic-form-autocomplete-input for="PerformanceSerie_P8_took_place_on_or_within"></semantic-form-autocomplete-input> 
-            </bs-col>
-            <bs-col sm='6'>
-              <!-- Venue /u/ -->
-              <semantic-form-autocomplete-input for="PerformanceSerie_Filter_PerformanceSerie_P8_took_place_on_or_within" placeholder='Venue /u/'>
+              <semantic-form-autocomplete-input for="PerformanceSerie_P8_took_place_on_or_within" placeholder='Search venue /o or create venue /u ...'>
                 <semantic-form 
                   new-subject-template="http://data.performing-arts.ch/u/{{UUID}}" 
                   persistence="ldp"
@@ -115,13 +111,20 @@
                   <!-- Venue Label -->
                   <semantic-form-text-input for="PerformanceSerie_VenueLabel"></semantic-form-text-input>
                   <br/>
-                  <button name="submit" class="btn btn-secondary">Create Venue</button>
+                  <button name="submit" class="btn btn-secondary">Create Venue /u/</button>
                 
                 </semantic-form>
-              </semantic-form-autocomplete-input>
+              </semantic-form-autocomplete-input> 
+            </bs-col>
+            <bs-col sm='6'>              
             </bs-col>
         </bs-row>
-        
+        <!-- Venue -->
+        <bs-row>
+
+        </bs-row>
+
+
         <!-- Performance Serie (ConsistOf) -->
         <bs-row>
           <bs-col sm='12'>  
@@ -279,12 +282,8 @@
           </bs-col>
         </bs-row>
 
-
         <hr/>
-
-
         <!-- ======================================== Performance Single ========================================  -->
-
         <bs-row>
             <bs-col sm='12'>
 
