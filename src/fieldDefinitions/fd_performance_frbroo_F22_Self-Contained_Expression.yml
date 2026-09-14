@@ -1,0 +1,23 @@
+fields:
+
+  - id: Non_Performative_Expression_P102_has_title
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Non_Performative_Expression_P102_has_title
+    label: Title
+    datatype: xsd:anyURI
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
+      - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'
+      - delete: 'DELETE { $subject crm:P102_has_title $value . } WHERE {}'
+
+  - id: Non_Performative_Expression_Label
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Non_Performative_Expression_Label
+    label: Label
+    description: A short comment that helps to identify the entity.
+    datatype: http://www.w3.org/2001/XMLSchema#string
+    domain: http://www.w3.org/2002/07/owl#Class
+    minOccurs: 0
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
+      - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
+      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
+
