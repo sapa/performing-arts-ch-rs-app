@@ -175,7 +175,7 @@ fields:
     domain: frbroo:F31_Performance
     range: crm:E22_Man-Made_Object
     queries:
-      - select: 'SELECT ?value 
+      - select: 'SELECT ?value ?label
                  WHERE { 
                     $subject crm:P8_took_place_on_or_within ?value. 
                     ?value rdfs:label ?labelTmp .
@@ -221,7 +221,7 @@ fields:
           }
         
           BIND(IF(BOUND(?venue2Title), CONCAT(?l, " ("), ?l) AS ?l1)
-          BIND(IF(BOUND(?venue2Title), CONCAT(?l1, "composed ", ?venue2Title), ?l1) AS ?l2)
+          BIND(IF(BOUND(?venue2Title), CONCAT(?l1, ?venue2Title), ?l1) AS ?l2)
           BIND(IF(BOUND(?venue2Title), CONCAT(?l2, ")"), ?l2) AS ?l3)
           
           BIND(CONCAT(?l3, " - ...", SUBSTR(STR(?value), STRLEN("http://data.performing-arts.ch/o/")+30)) AS ?label)
