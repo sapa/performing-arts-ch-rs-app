@@ -59,7 +59,7 @@ fields:
     label: Internal Identifier
     datatype: xsd:string
     domain: rico:Identifier
-    range: xsd:string
+    range: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     minOccurs: 1
     maxOccurs: 1
     queries:
