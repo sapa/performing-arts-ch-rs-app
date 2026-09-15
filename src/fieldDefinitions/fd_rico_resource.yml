@@ -41,7 +41,7 @@ fields:
           ?item a ?typeofRecord .
           FILTER(NOT EXISTS { ?item rico:isOrWasIncludedIn ?parent. })
           ?item rico:name ?label.
-          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          
           OPTIONAL { ?child rico:isOrWasIncludedIn ?item. }
           BIND(BOUND(?child) AS ?hasChildren)
           VALUES (?typeofRecord) { 
@@ -53,7 +53,7 @@ fields:
       parentsQuery: 'SELECT DISTINCT ?item ?parent ?parentLabel WHERE {
           ?item rico:isOrWasIncludedIn ?parent.
           ?parent rico:name ?parentLabel.
-          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          
         }'
       childrenQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
           ?item rico:isOrWasIncludedIn ?parent.
@@ -83,7 +83,7 @@ fields:
             (rico:RecordSet)
           }
         }
-        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        
         OPTIONAL { ?child rico:isOrWasIncludedIn ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       } ORDER BY ASC (?label)'
