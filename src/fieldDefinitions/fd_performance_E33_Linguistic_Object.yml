@@ -58,7 +58,7 @@ fields:
   - id: LinguisticObject_Value
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_Note_Value
     label: Value
-    datatype: xsd:string
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     minOccurs: 1
     maxOccurs: 1
     queries:
