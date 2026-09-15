@@ -100,7 +100,6 @@ fields:
   - id: ExpressionCreation_PerformancePlan_Activity_AdditionalType
     label: Second
     datatype: xsd:anyURI
-    minOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
       - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
