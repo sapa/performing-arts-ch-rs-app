@@ -487,6 +487,29 @@ BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
         "iri" : "Non_Performative_Expression_Label"
     }
 [[/inline]]
+ [[#*inline "Non_Performative_Expression_Activity_HasType"]]
+    {
+        "id" : "Non_Performative_Expression_Activity_HasType",
+
+            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+?item skos:inScheme spav:mu ; skos:broader spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "Non_Performative_Expression_Activity_HasType"
+    }
+[[/inline]]
  [[#*inline "ExpressionCreation_NPE_frbroo_R17_created"]]
     {
         "id" : "ExpressionCreation_NPE_frbroo_R17_created",
@@ -572,7 +595,7 @@ OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChil
         "id" : "RecordNote",
 
             "label": "[[i18n "field_note" bundle="sapa-fields"]]",
-            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
             "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
                 "selectPattern" : "SELECT $value WHERE { $subject spao:hasNote $value. }",
                 "insertPattern" : "INSERT { $subject spao:hasNote $value. } WHERE { }",

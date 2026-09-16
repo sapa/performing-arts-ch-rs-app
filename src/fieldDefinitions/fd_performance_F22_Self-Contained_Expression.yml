@@ -21,3 +21,67 @@ fields:
       - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
       - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
 
+  - id: Non_Performative_Expression_Activity_HasType
+    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Non_Performative_Expression_Activity_HasType
+    label: Type
+    datatype: xsd:anyURI
+    minOccurs: 1
+    domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
+    range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
+    queries:
+      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
+      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
+      - autosuggestion: 'SELECT $value $label WHERE {
+            $value skos:inScheme spav:mu ;
+              skos:broader spav:munpw ;
+              skos:prefLabel ?label .
+            FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+            ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
+          } LIMIT 10'
+    treePatterns:
+      type: full
+      rootsQuery: 'SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          
+          ?item skos:inScheme spav:mu ;
+            skos:broader spav:munpw ;
+            skos:prefLabel ?label .
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      childrenQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      parentsQuery: '
+        SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+          ?item skos:broader ?parent.
+          ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label.
+          FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+          OPTIONAL { ?child skos:broader ?item. }
+          BIND(BOUND(?child) AS ?hasChildren)
+        }
+        ORDER BY (?label)'
+      searchQuery: 'PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#>
+        SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE {
+        ?item skos:inScheme spav:mu ;
+          skos:broader+ spav:munpw ;
+          skos:prefLabel ?label .
+        FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
+        ?label bds:search ?__token__ ; 
+          bds:relevance ?score ; bds:matchAllTerms "true"
+        OPTIONAL { ?child skos:broader ?item. }
+        BIND(BOUND(?child) AS ?hasChildren)
+      }
+        ORDER BY DESC (?score) (?label)
+        LIMIT 200' 
