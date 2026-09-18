@@ -91,12 +91,13 @@
         </bs-tab>
         [[/if]]
 
-        [[#if (hasPermission "sparql:*:*:*")]]
-        <bs-tab event-key='Edit' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
-            [[> sapaModule:NonPerformativeWork]]
-        </bs-tab>
-        [[/if]]
-        
+        [[#if (ask "ASK { ?? a frbroo:F22_Self-Contained_Expression . FILTER(CONTAINS(STR(??),'/k/')) }")]]
+            [[#if (hasPermission "sparql:*:*:*")]]            
+            <bs-tab event-key='Edit' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+                [[> sapaModule:NonPerformativeWork]]
+            </bs-tab>
+            [[/if]]
+        [[/if]]        
         
         [[> sapaModule:AdminTabs]]
 
