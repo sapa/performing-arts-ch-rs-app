@@ -89,7 +89,7 @@
         <!-- ================================= Performance Plan ================================= -->        
         <bs-row>
           <!-- Incorporates -->
-          <bs-col sm="8">
+          <bs-col sm="12">
             <semantic-form-autocomplete-input for="PerformancePlan_R14_incorporates"></semantic-form-autocomplete-input>
           </bs-col>
         </bs-row>  
@@ -176,13 +176,13 @@
         </semantic-form-composite-input>
         <!-- Music title -->
         <bs-row>
-          <bs-col sm="10">
+          <bs-col sm="12">
             <semantic-form-text-input for="PerformancePlan_MusicTitle"></semantic-form-text-input>            
           </bs-col>
         </bs-row> 
         <!-- Notes -->
         <bs-row>
-          <bs-col sm='10'>
+          <bs-col sm='12'>
             <semantic-form-composite-input for="PerformancePlan_P67_is_referred_to_by"
               new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
               fields='[
@@ -226,7 +226,7 @@
                 <bs-col sm='6'>
                   <semantic-form-tree-picker-input for="Rico_recordResourceSourceOfInformation"></semantic-form-tree-picker-input>
                 </bs-col>
-                <bs-col sm='5'>
+                <bs-col sm='6'>
                   <semantic-form-text-input multiline=true for="RecordNote"></semantic-form-text-input>    
                 </bs-col>
               </bs-row> 
@@ -237,19 +237,19 @@
         </bs-row>
         <!-- Comments -->
         <bs-roW>
-          <bs-col sm="10">
+          <bs-col sm="12">
             <semantic-form-text-input for="RDFSComment" multiline="true"></semantic-form-text-input>
           </bs-col>          
         </bs-roW>
         <!-- ID externe -->
         <bs-row>          
-          <bs-col sm="10">
+          <bs-col sm="12">
             <semantic-form-text-input for="SameAs"></semantic-form-text-input>
           </bs-col>          
         </bs-row>
         <!-- Identifier -->
         <bs-row>
-          <bs-col sm='10'>
+          <bs-col sm='12'>
             <semantic-form-composite-input for="PerformancePlan_IdentifierBy"
               new-subject-template='http://data.performing-arts.ch/w/{{UUID}}'
               fields='[
