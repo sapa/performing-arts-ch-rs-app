@@ -23,9 +23,7 @@ fields:
 
   - id: PerformanceSerie_Label
     label: Label
-    description: A short comment that helps to identify the entity.
-    datatype: http://www.w3.org/2001/XMLSchema#string
-    domain: http://www.w3.org/2002/07/owl#Class
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     minOccurs: 1
     maxOccurs: 1
     queries:
@@ -351,8 +349,8 @@ fields:
     datatype: xsd:anyURI
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
-      - select: 'SELECT ?value WHERE { $subject crm:P2_has_type $value. }'
-      - insert: 'INSERT { $subject crm:P2_has_type $value . } WHERE {}'
+      - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
+      - insert: 'INSERT { $subject schema:additionalType $value . } WHERE {}'
       - autosuggestion: 'SELECT $value $label WHERE {
             $value skos:inScheme spav:mu ;
                 skos:broader spav:muadd ;

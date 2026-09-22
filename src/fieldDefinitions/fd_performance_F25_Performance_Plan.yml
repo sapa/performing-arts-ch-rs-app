@@ -17,15 +17,51 @@ fields:
       - select: 'SELECT $value WHERE { $subject frbroo:R14_incorporates $value }'
       - insert: 'INSERT { $subject frbroo:R14_incorporates $value } WHERE {}'
       - delete: 'DELETE { $subject frbroo:R14_incorporates $value } WHERE {}'
-      - autosuggestion: 'SELECT $value $label 
-            WHERE {
-              ?value a frbroo:F22_Self-Contained_Expression ;
-                        rdfs:label ?label .
-              FILTER(regex(str(?value),"/u/", "i")) 
-              ?label bds:search $__token__ ;
+      - autosuggestion: 'SELECT ?value ?label
+          WHERE {
+            ?value a frbroo:F22_Self-Contained_Expression ;
+                  rdfs:label ?title .
+            
+            ?title bds:search $__token__ ;
                 bds:relevance ?score ; 
                 bds:matchAllTerms "true" .
-            } LIMIT 10' 
+
+            ?F28_EC frbroo:R17_created ?value .
+
+            OPTIONAL {
+              SELECT ?F28_EC (GROUP_CONCAT(DISTINCT ?singleActivityLabel; separator=", ") AS ?F28Label)
+              WHERE {
+                ?F28_EC a frbroo:F28_Expression_Creation .
+                ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
+
+                ?F28_EC crm:P9_consists_of ?activity .
+                ?activity crm:P2_has_type ?activityType .
+                ?activityType skos:broader* spav:muiuk .
+                ?activityType skos:prefLabel ?activityTypeLabel . FILTER(lang(?activityTypeLabel) = "en")
+
+                OPTIONAL
+                {
+                  SELECT ?F28_EC ?activityType (GROUP_CONCAT(STR(?agentLabel); separator=", ") AS ?agentLabels)
+                  WHERE {
+                    ?F28_EC a frbroo:F28_Expression_Creation .
+                    ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
+                    ?F28_EC crm:P9_consists_of ?activity .
+                    ?activity crm:P2_has_type ?activityType .
+                    ?activityType skos:broader* spav:muiuk .
+                    ?activity crm:P14_carried_out_by ?agent .
+                    ?agent rdfs:label ?agentLabel .
+                  }
+                  GROUP BY ?F28_EC ?activityType
+                }
+                
+                BIND(CONCAT(STR(?activityTypeLabel),": ",?agentLabels) AS ?singleActivityLabel)
+              }
+              GROUP BY ?F28_EC
+            }
+
+            BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), " (", ?F28Label, ")"), STR(?title)) AS ?label)
+
+          } LIMIT 10' 
 
   - id: PerformancePlan_Title_Label_Value
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan__TitleLabel_Value
@@ -75,9 +111,12 @@ fields:
     label: Identifier
     datatype: xsd:anyURI
     queries:
-    - select: 'SELECT ?value WHERE { $subject crm:P1_is_identified_by/rdf:value ?value . }'
-    - insert: 'INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
-    - delete: 'DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }'
+    - select: 'SELECT ?value 
+               WHERE { 
+                  $subject crm:P1_is_identified_by ?value . 
+              }'
+    - insert: 'INSERT { $subject crm:P1_is_identified_by ?value . } WHERE { }'
+    - delete: 'DELETE { $subject crm:P1_is_identified_by ?value . } WHERE { }'
 
   - id: PerformancePlan_isOrWasDescribedBy
     label: RecordSource

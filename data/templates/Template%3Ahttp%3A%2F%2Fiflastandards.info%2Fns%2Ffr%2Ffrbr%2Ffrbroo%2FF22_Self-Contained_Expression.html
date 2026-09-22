@@ -50,8 +50,8 @@
                   
 
                 </bs-col>
+                <!-- Productions -->
                 <bs-col sm="4">
-                    <!-- Productions -->
                     <semantic-query
                         query='Select ?production_label ?productions
                                 Where {
@@ -65,7 +65,10 @@
                                     {{#each bindings}}{{#if @first}}{{else}}, {{/if}}{{#if production_label.value}}<semantic-link iri="{{productions.value}}"><p class="text-item" style="white-space: pre-line;">{{production_label.value}}</p></semantic-link>{{/if}}{{/each}}
                                   </div>'>
                     </semantic-query>
-
+                </bs-col>
+                <!-- external resources -->
+                <bs-col sm="4">
+                    [[> sapaModule:ExternalResources]]
                 </bs-col>
             </bs-row>
 
@@ -91,12 +94,13 @@
         </bs-tab>
         [[/if]]
 
-        [[#if (hasPermission "sparql:*:*:*")]]
-        <bs-tab event-key='Edit' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
-            [[> sapaModule:NonPerformativeWork]]
-        </bs-tab>
-        [[/if]]
-        
+        [[#if (ask "ASK { ?? a frbroo:F22_Self-Contained_Expression . FILTER(CONTAINS(STR(??),'/k/')) }")]]
+            [[#if (hasPermission "sparql:*:*:*")]]            
+            <bs-tab event-key='Edit' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
+                [[> sapaModule:NonPerformativeWork]]
+            </bs-tab>
+            [[/if]]
+        [[/if]]        
         
         [[> sapaModule:AdminTabs]]
 

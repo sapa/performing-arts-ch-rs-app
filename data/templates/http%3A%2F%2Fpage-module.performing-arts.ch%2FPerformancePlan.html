@@ -34,6 +34,29 @@
         <div style="display: none;">
           <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F25_Performance_Plan"]]'></semantic-form-hidden-input>
         </div>
+
+        <!-- Title --> 
+        <semantic-form-composite-input for="PerformancePlan_P102_has_title"
+          new-subject-template='/title'
+          fields='[
+              [[> RDFtype]],
+              [[> TitleType]],
+              [[> PerformancePlan_Title_Label_Value]]                
+            ]'
+        >
+          <div style="display: none;">
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='2'>
+              <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
+            </bs-col>
+            <bs-col sm='8'>
+              <semantic-form-text-input for="PerformancePlan_Title_Label_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
+            </bs-col>
+          </bs-row>
+        </semantic-form-composite-input>
+
         <!-- ================================= Performance Work ================================= -->
         <semantic-form-composite-input for="PerformanceWork_R12_is_realised_in"
           new-subject-template='http://data.performing-arts.ch/u/{{UUID}}'
@@ -65,130 +88,12 @@
         <hr/>
         <!-- ================================= Performance Plan ================================= -->        
         <bs-row>
-          <!-- ID externe -->
-          <bs-col sm="6">
-            <semantic-form-text-input for="SameAs"></semantic-form-text-input>
-          </bs-col>
-          <!-- Music title -->
-          <bs-col sm="6">
-            <semantic-form-text-input for="PerformancePlan_MusicTitle"></semantic-form-text-input>            
-          </bs-col>
-        </bs-row>
-        <bs-roW>
-          <!-- Comments -->
-          <bs-col sm="4">
-            <semantic-form-text-input for="RDFSComment" multiline="true"></semantic-form-text-input>
-          </bs-col>
           <!-- Incorporates -->
-          <bs-col sm="8">
+          <bs-col sm="12">
             <semantic-form-autocomplete-input for="PerformancePlan_R14_incorporates"></semantic-form-autocomplete-input>
           </bs-col>
-        </bs-roW>
-        <!-- Title --> 
-        <semantic-form-composite-input for="PerformancePlan_P102_has_title"
-          new-subject-template='/title'
-          fields='[
-              [[> RDFtype]],
-              [[> TitleType]],
-              [[> PerformancePlan_Title_Label_Value]]                
-            ]'
-        >
-          <div style="display: none;">
-            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>
-          </div>
-          <bs-row>
-            <bs-col sm='2'>
-              <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
-            </bs-col>
-            <bs-col sm='8'>
-              <semantic-form-text-input for="PerformancePlan_Title_Label_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
-            </bs-col>
-          </bs-row>
-        </semantic-form-composite-input>
-        <!-- Label for default is Title Value -->
-        <div style="display: none;">
-          <semantic-form-text-input for="PerformancePlan_RDFSLabel"></semantic-form-text-input>
-        </div>  
-        <bs-row>
-          <!-- Identifier -->
-          <bs-col sm='6'>
-            <semantic-form-composite-input for="PerformancePlan_IdentifierBy"
-              new-subject-template='/identifier'
-              fields='[
-                  [[> RDFtype]],
-                  [[> E42_Identifier_Type]],
-                  [[> E42_Identifier_Value]]
-                ]'
-            > 
-          <div style="display: none;">
-            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E42_Identifier"]]'></semantic-form-hidden-input>
-          </div>
-          <bs-row>
-            <bs-col sm='4'>
-              <semantic-form-tree-picker-input for="E42_Identifier_Type"></semantic-form-tree-picker-input>
-            </bs-col>
-            <bs-col sm='8'>
-              <semantic-form-text-input for="E42_Identifier_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>
-            </bs-col>
-          </bs-row>
-            </semantic-form-composite-input>
-          </bs-col>
-          <!-- Notes -->
-          <bs-col sm='6'>
-            <semantic-form-composite-input for="PerformancePlan_P67_is_referred_to_by"
-              new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
-              fields='[
-                  [[> RDFtype]],
-                  [[> LinguisticObject_Type]],
-                  [[> LinguisticObject_Value]]
-                ]'
-            > 
-            <div style="display: none;">
-              <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E33_Linguistic_Object"]]'></semantic-form-hidden-input>
-            </div>
-            <bs-row>
-              <bs-col sm='4'>
-                <semantic-form-tree-picker-input for="LinguisticObject_Type"></semantic-form-tree-picker-input>
-              </bs-col>
-              <bs-col sm='8'>
-                <semantic-form-text-input for="LinguisticObject_Value" multiline=true languages='["en","de","it","fr"]' ></semantic-form-text-input>              
-              </bs-col>
-            </bs-row>
-            </semantic-form-composite-input>
-          </bs-col>
-        </bs-row>
-        <!-- Record Sources-->
-        <bs-row>
-          <bs-col sm='12'>
-            <semantic-form-composite-input for="PerformancePlan_isOrWasDescribedBy"
-              new-subject-template='http://data.performing-arts.ch/n/{{UUID}}'
-              fields='[
-                  [[> RDFtype]],
-                  [[> Rico_hasDocumentaryFormType]],
-                  [[> Rico_recordResourceSourceOfInformation]],
-                  [[> RecordNote]]
-                ]'
-            >
-              <div style="display: none;">
-                <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "rico:Record"]]'></semantic-form-hidden-input>
-                <semantic-form-hidden-input for="Rico_hasDocumentaryFormType" default-value='[[resolvePrefix "spav:dfaut"]]'></semantic-form-hidden-input>
-              </div>
-              <bs-row>
-                <bs-col sm='6'>
-                  <semantic-form-tree-picker-input for="Rico_recordResourceSourceOfInformation"></semantic-form-tree-picker-input>
-                </bs-col>
-                <bs-col sm='5'>
-                  <semantic-form-text-input multiline=true for="RecordNote"></semantic-form-text-input>    
-                </bs-col>
-              </bs-row> 
-            </semantic-form-composite-input>
-          </bs-col>
-          <bs-col sm='10'>            
-          </bs-col>
-        </bs-row>
-
-        <hr/>
-        <!-- ================================= Expression creation: Performance Plan ================================= -->
+        </bs-row>  
+        <!-- ================================= Expression creation: Performance Plan (Activity) ================================= -->
         <semantic-form-composite-input for="ExpressionCreation_PerformancePlan_R17_created"
           new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
           fields='[
@@ -269,6 +174,109 @@
             </semantic-form-composite-input>
           </bs-row>
         </semantic-form-composite-input>
+        <!-- Music title -->
+        <bs-row>
+          <bs-col sm="12">
+            <semantic-form-text-input for="PerformancePlan_MusicTitle"></semantic-form-text-input>            
+          </bs-col>
+        </bs-row> 
+        <!-- Notes -->
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-composite-input for="PerformancePlan_P67_is_referred_to_by"
+              new-subject-template='http://data.performing-arts.ch/x/{{UUID}}'
+              fields='[
+                  [[> RDFtype]],
+                  [[> LinguisticObject_Type]],
+                  [[> LinguisticObject_Value]]
+                ]'
+            > 
+            <div style="display: none;">
+              <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E33_Linguistic_Object"]]'></semantic-form-hidden-input>
+            </div>
+            <bs-row>
+              <bs-col sm='4'>
+                <semantic-form-tree-picker-input for="LinguisticObject_Type"></semantic-form-tree-picker-input>
+              </bs-col>
+              <bs-col sm='8'>
+                <semantic-form-text-input for="LinguisticObject_Value" multiline=true languages='["en","de","it","fr"]' ></semantic-form-text-input>              
+              </bs-col>
+            </bs-row>
+            </semantic-form-composite-input>
+          </bs-col>
+        
+        </bs-row>
+        <!-- Record Sources-->
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-composite-input for="PerformancePlan_isOrWasDescribedBy"
+              new-subject-template='http://data.performing-arts.ch/n/{{UUID}}'
+              fields='[
+                  [[> RDFtype]],
+                  [[> Rico_hasDocumentaryFormType]],
+                  [[> Rico_recordResourceSourceOfInformation]],
+                  [[> RecordNote]]
+                ]'
+            >
+              <div style="display: none;">
+                <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "rico:Record"]]'></semantic-form-hidden-input>
+                <semantic-form-hidden-input for="Rico_hasDocumentaryFormType" default-value='[[resolvePrefix "spav:dfaut"]]'></semantic-form-hidden-input>
+              </div>
+              <bs-row>
+                <bs-col sm='6'>
+                  <semantic-form-tree-picker-input for="Rico_recordResourceSourceOfInformation"></semantic-form-tree-picker-input>
+                </bs-col>
+                <bs-col sm='6'>
+                  <semantic-form-text-input multiline=true for="RecordNote"></semantic-form-text-input>    
+                </bs-col>
+              </bs-row> 
+            </semantic-form-composite-input>
+          </bs-col>
+          <bs-col sm='10'>            
+          </bs-col>
+        </bs-row>
+        <!-- Comments -->
+        <bs-roW>
+          <bs-col sm="12">
+            <semantic-form-text-input for="RDFSComment" multiline="true"></semantic-form-text-input>
+          </bs-col>          
+        </bs-roW>
+        <!-- ID externe -->
+        <bs-row>          
+          <bs-col sm="12">
+            <semantic-form-text-input for="SameAs"></semantic-form-text-input>
+          </bs-col>          
+        </bs-row>
+        <!-- Identifier -->
+        <bs-row>
+          <bs-col sm='12'>
+            <semantic-form-composite-input for="PerformancePlan_IdentifierBy"
+              new-subject-template='http://data.performing-arts.ch/w/{{UUID}}'
+              fields='[
+                  [[> RDFtype]],
+                  [[> E42_Identifier_Type]],
+                  [[> E42_Identifier_Value]]
+                ]'
+            > 
+          <div style="display: none;">
+            
+            <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E42_Identifier"]]'></semantic-form-hidden-input>
+          </div>
+          <bs-row>
+            <bs-col sm='4'>
+              <semantic-form-tree-picker-input for="E42_Identifier_Type"></semantic-form-tree-picker-input>
+            </bs-col>
+            <bs-col sm='8'>
+              <semantic-form-text-input for="E42_Identifier_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>
+            </bs-col>
+          </bs-row>
+            </semantic-form-composite-input>
+          </bs-col>
+        </bs-row>
+        <!-- Label for default is Title Value -->
+        <div style="display: none;">
+          <semantic-form-text-input for="PerformancePlan_RDFSLabel"></semantic-form-text-input>
+        </div>  
         <br/>
         <!-- ================================= Button ================================= -->
         <semantic-form-errors></semantic-form-errors>

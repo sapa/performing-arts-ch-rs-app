@@ -419,37 +419,21 @@
                >
             </semantic-query>  
 
-            <!-- External Resource -->
-            <semantic-query
-              query='
-                SELECT ?sameAs
-                WHERE {
-                  ?? owl:sameAs ?sameAs .
-                }
-              '
-              template='<p>
-                          {{#each bindings}}
-                            {{#if @first}}
-                              <semantic-link iri="{{sameAs.value}}" class="text-link-action" target="_blank">
-                                {{sameAs.value}}
-                              </semantic-link>
-                            {{/if}}
-                          {{/each}}
-                        </p>'
-              >
-          
-            </semantic-query>
+            <!-- external resources -->
+            [[> sapaModule:ExternalResources]]
 
             [[#if (hasPermission "forms:ldp:*")]]
             <semantic-query 
                 query='SELECT ?id WHERE {
-                  ?? crm:P1_is_identified_by [
+                  ?P1Single crm:P9i_forms_part_of ?? .
+                  ?P1Single crm:P1_is_identified_by [
                     a crm:E42_Identifier ;
                     rdf:value ?id ] .
                 }'
             template='<div><h5>RepID</h5>{{#each bindings}}<p>{{id.value}}</p>{{/each}}</div>'>
             </semantic-query>
             [[/if]]
+            
             <!-- record sets 
             <semantic-tree
               query='SELECT DISTINCT ?node ?parent WHERE {

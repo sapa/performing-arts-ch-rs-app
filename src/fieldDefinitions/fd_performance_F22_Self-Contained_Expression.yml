@@ -13,7 +13,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Non_Performative_Expression_Label
     label: Label
     description: A short comment that helps to identify the entity.
-    datatype: http://www.w3.org/2001/XMLSchema#string
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     domain: http://www.w3.org/2002/07/owl#Class
     minOccurs: 0
     queries:
