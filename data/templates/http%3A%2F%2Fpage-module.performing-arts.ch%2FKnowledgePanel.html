@@ -10,7 +10,7 @@
         <!--Description -->
         <p>
             <semantic-query
-                query="SELECT ?description WHERE {
+                query="SELECT ?description ?desc_name WHERE {
                     ?? a ?class .
                     FILTER(CONTAINS(STR(?class), 'RiC') || CONTAINS(STR(?class), 'frbroo'))
                     OPTIONAL { ?? crm:P2_has_type ?crmtype . }
@@ -21,8 +21,15 @@
                     }
                     OPTIONAL { ?? rico:hasRecordSetType ?record_set_type . }
                     BIND(IF(BOUND(?timespan), ?timespan, IF(BOUND(?genre), ?genre, IF(BOUND(?crmtype), ?crmtype, IF(BOUND(?record_set_type), ?record_set_type, ?class)))) AS ?description)
-                    }"
-                template='{{#each bindings}}[[> addComma]]<mp-label iri="{{description.value}}"></mp-label>{{/each}}'>
+                    BIND(STRAFTER(STR(?description),'frbroo/') AS ?desc_name)
+                }"
+                template='{{#each bindings}}[[> addComma]]
+                    {{#if (eq description.value "http://iflastandards.info/ns/fr/frbr/frbroo/F22_Self-Contained_Expression") }}
+                        <span>[[i18n "F22_Self-Contained_Expression" bundle="performing-arts-ch"]]</span>                        
+                    {{else}}
+                        <mp-label iri="{{description.value}}"></mp-label>
+                    {{/if}}
+                {{/each}}'>
             </semantic-query>
         </p>
 
