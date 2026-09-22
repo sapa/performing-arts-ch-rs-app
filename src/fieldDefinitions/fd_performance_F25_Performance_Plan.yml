@@ -29,13 +29,14 @@ fields:
             ?F28_EC frbroo:R17_created ?value .
 
             OPTIONAL {
-              SELECT ?F28_EC (GROUP_CONCAT(?singleActivityLabel; separator=", ") AS ?F28Label)
+              SELECT ?F28_EC (GROUP_CONCAT(DISTINCT ?singleActivityLabel; separator=", ") AS ?F28Label)
               WHERE {
                 ?F28_EC a frbroo:F28_Expression_Creation .
                 ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
 
                 ?F28_EC crm:P9_consists_of ?activity .
                 ?activity crm:P2_has_type ?activityType .
+                ?activityType skos:broader* spav:muiuk .
                 ?activityType skos:prefLabel ?activityTypeLabel . FILTER(lang(?activityTypeLabel) = "en")
 
                 OPTIONAL
@@ -46,6 +47,7 @@ fields:
                     ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
                     ?F28_EC crm:P9_consists_of ?activity .
                     ?activity crm:P2_has_type ?activityType .
+                    ?activityType skos:broader* spav:muiuk .
                     ?activity crm:P14_carried_out_by ?agent .
                     ?agent rdfs:label ?agentLabel .
                   }
@@ -57,7 +59,7 @@ fields:
               GROUP BY ?F28_EC
             }
 
-            BIND(CONCAT(STR(?title), " (",?F28Label,")") AS ?label)
+            BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), " (", ?F28Label, ")"), STR(?title)) AS ?label)
 
           } LIMIT 10' 
 

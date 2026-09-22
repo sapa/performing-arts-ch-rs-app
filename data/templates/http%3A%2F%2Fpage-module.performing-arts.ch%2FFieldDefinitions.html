@@ -60,11 +60,11 @@
                 "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a frbroo:F22_Self-Contained_Expression ; rdfs:label ?title .
 ?title bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" .
 ?F28_EC frbroo:R17_created ?value .
-OPTIONAL { SELECT ?F28_EC (GROUP_CONCAT(?singleActivityLabel; separator=\", \") AS ?F28Label) WHERE { ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
-?F28_EC crm:P9_consists_of ?activity . ?activity crm:P2_has_type ?activityType . ?activityType skos:prefLabel ?activityTypeLabel . FILTER(lang(?activityTypeLabel) = \"en\")
-OPTIONAL { SELECT ?F28_EC ?activityType (GROUP_CONCAT(STR(?agentLabel); separator=\", \") AS ?agentLabels) WHERE { ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression . ?F28_EC crm:P9_consists_of ?activity . ?activity crm:P2_has_type ?activityType . ?activity crm:P14_carried_out_by ?agent . ?agent rdfs:label ?agentLabel . } GROUP BY ?F28_EC ?activityType }
+OPTIONAL { SELECT ?F28_EC (GROUP_CONCAT(DISTINCT ?singleActivityLabel; separator=\", \") AS ?F28Label) WHERE { ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
+?F28_EC crm:P9_consists_of ?activity . ?activity crm:P2_has_type ?activityType . ?activityType skos:broader* spav:muiuk . ?activityType skos:prefLabel ?activityTypeLabel . FILTER(lang(?activityTypeLabel) = \"en\")
+OPTIONAL { SELECT ?F28_EC ?activityType (GROUP_CONCAT(STR(?agentLabel); separator=\", \") AS ?agentLabels) WHERE { ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression . ?F28_EC crm:P9_consists_of ?activity . ?activity crm:P2_has_type ?activityType . ?activityType skos:broader* spav:muiuk . ?activity crm:P14_carried_out_by ?agent . ?agent rdfs:label ?agentLabel . } GROUP BY ?F28_EC ?activityType }
 BIND(CONCAT(STR(?activityTypeLabel),\": \",?agentLabels) AS ?singleActivityLabel) } GROUP BY ?F28_EC }
-BIND(CONCAT(STR(?title), \" (\",?F28Label,\")\") AS ?label)
+BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), \" (\", ?F28Label, \")\"), STR(?title)) AS ?label)
 } LIMIT 10",
         "iri" : "PerformancePlan_R14_incorporates"
     }
@@ -125,8 +125,8 @@ BIND(CONCAT(STR(?title), \" (\",?F28Label,\")\") AS ?label)
             "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by ?identifier . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by ?identifier . } WHERE { }",
+                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by ?value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by ?value . } WHERE { }",
         "iri" : "PerformancePlan_IdentifierBy"
     }
 [[/inline]]
@@ -4327,7 +4327,7 @@ BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
 
             "label": "[[i18n "field_label" bundle="sapa-fields"]]",
             "description" : "A short comment that helps to identify the entity.",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
             "domain" : "http://www.w3.org/2002/07/owl#Class",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
                 "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
