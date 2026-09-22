@@ -424,13 +424,16 @@
 
             [[#if (hasPermission "forms:ldp:*")]]
             <semantic-query 
-                query='SELECT ?id WHERE {
-                  ?P1Single crm:P9i_forms_part_of ?? .
-                  ?P1Single crm:P1_is_identified_by [
+                query='SELECT ?typeLabel ?id 
+                WHERE {
+                  ?? crm:P1_is_identified_by [
                     a crm:E42_Identifier ;
+                    crm:P2_has_type ?idType ;
                     rdf:value ?id ] .
+                  ?idType skos:prefLabel ?typeLabel 
+                  FILTER(LANGMATCHES(LANG(?typeLabel), ?__userPreferredLanguage__))
                 }'
-            template='<div><h5>RepID</h5>{{#each bindings}}<p>{{id.value}}</p>{{/each}}</div>'>
+            template='<div><h5>Identifiers</h5>{{#each bindings}}<p>{{typeLabel.value}}: {{id.value}}</p>{{/each}}</div>'>
             </semantic-query>
             [[/if]]
             
