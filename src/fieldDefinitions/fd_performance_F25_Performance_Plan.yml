@@ -20,28 +20,46 @@ fields:
       - autosuggestion: 'SELECT ?value ?label
           WHERE {
             ?value a frbroo:F22_Self-Contained_Expression ;
-                  rdfs:label ?labelTmp .
-            ?F28_EC frbroo:R17_created ?value .
-            ?F28_EC a frbroo:F28_Expression_Creation .
-            ?F28_EC crm:P9_consists_of ?activiy .
-            ?activiy crm:P2_has_type ?voc_type .
-            OPTIONAL {
-              Select ?voc_type (CONCAT("(",?typeActivityLabel,": ",GROUP_CONCAT(DISTINCT ?agents;separator=", "),")") AS ?TypeOfActivities)
-              Where {
-                ?voc_type skos:inScheme ?inScheme ;
-                          skos:prefLabel ?typeActivityLabel .
-                ?voc_type skos:narrower ?child .
-                ?child rdf:type skos:Concept .
-                ?child skos:prefLabel ?agents .                
-              }
-              GROUP BY ?voc_type ?typeActivityLabel
-            }
-            BIND(IF(BOUND(?voc_type),CONCAT(?labelTmp," ",?TypeOfActivities),?labelTmp) AS ?label)
-            FILTER(regex(str(?value),"/u/", "i"))
-            ?label bds:search $__token__ ;
+                  rdfs:label ?title .
+            
+            ?title bds:search $__token__ ;
                 bds:relevance ?score ; 
                 bds:matchAllTerms "true" .
-          } limit 10' 
+
+            ?F28_EC frbroo:R17_created ?value .
+
+            OPTIONAL {
+              SELECT ?F28_EC (GROUP_CONCAT(?singleActivityLabel; separator=", ") AS ?F28Label)
+              WHERE {
+                ?F28_EC a frbroo:F28_Expression_Creation .
+                ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
+
+                ?F28_EC crm:P9_consists_of ?activity .
+                ?activity crm:P2_has_type ?activityType .
+                ?activityType skos:prefLabel ?activityTypeLabel . FILTER(lang(?activityTypeLabel) = "en")
+
+                OPTIONAL
+                {
+                  SELECT ?F28_EC ?activityType (GROUP_CONCAT(STR(?agentLabel); separator=", ") AS ?agentLabels)
+                  WHERE {
+                    ?F28_EC a frbroo:F28_Expression_Creation .
+                    ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
+                    ?F28_EC crm:P9_consists_of ?activity .
+                    ?activity crm:P2_has_type ?activityType .
+                    ?activity crm:P14_carried_out_by ?agent .
+                    ?agent rdfs:label ?agentLabel .
+                  }
+                  GROUP BY ?F28_EC ?activityType
+                }
+                
+                BIND(CONCAT(STR(?activityTypeLabel),": ",?agentLabels) AS ?singleActivityLabel)
+              }
+              GROUP BY ?F28_EC
+            }
+
+            BIND(CONCAT(STR(?title), " (",?F28Label,")") AS ?label)
+
+          } LIMIT 10' 
 
   - id: PerformancePlan_Title_Label_Value
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan__TitleLabel_Value

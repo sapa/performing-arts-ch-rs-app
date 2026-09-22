@@ -1,108 +1,4 @@
 
- [[#*inline "Activity_HasType"]]
-    {
-        "id" : "Activity_HasType",
-
-            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { FILTER(NOT EXISTS { ?item skos:broader ?parent. }) ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "Activity_HasType"
-    }
-[[/inline]]
- [[#*inline "Activity_AdditionalType"]]
-    {
-        "id" : "Activity_AdditionalType",
-
-            "label": "[[i18n "field_second" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { FILTER(NOT EXISTS { ?item skos:broader ?parent. }) ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType $value. }",
-                "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "Activity_AdditionalType"
-    }
-[[/inline]]
- [[#*inline "Activity_CarriedOutBy"]]
-    {
-        "id" : "Activity_CarriedOutBy",
-
-            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
-                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ; crm:P131_is_identified_by [ rdf:value ?ll ] .
-BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\")
-SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
-?value rdfs:label ?l . OPTIONAL { ?value crm:P3_has_note [ crm:P2_has_type spav:eoept ; rdf:value ?note ] } BIND(IF(BOUND(?note), CONCAT(?l, \" (\", ?note, \")\"), ?l) AS ?label) } ORDER BY DESC (?score) LIMIT 10",
-        "iri" : "Activity_CarriedOutBy"
-    }
-[[/inline]]
- [[#*inline "Activity_Certainty"]]
-    {
-        "id" : "Activity_Certainty",
-
-            "label": "[[i18n "field_certainty" bundle="sapa-fields"]]",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-                "selectPattern" : "SELECT ?value WHERE { $subject rico:certainty $value. }",
-                "insertPattern" : "INSERT { $subject rico:certainty $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject rico:certainty $value .} WHERE {}",
-                "valueSetPattern" : "SELECT $value WHERE { VALUES ( $value ) { ( spav:ctddd ) ( spav:ctprb ) ( spav:ctuct ) } }",
-        "iri" : "Activity_Certainty"
-    }
-[[/inline]]
- [[#*inline "Activity_Index"]]
-    {
-        "id" : "Activity_Index",
-
-            "label": "[[i18n "field_index" bundle="sapa-fields"]]",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:integer",
-            "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
-                "selectPattern" : "SELECT $value WHERE { $subject olo:index $value. }",
-                "insertPattern" : "INSERT { $subject olo:index $value. } WHERE {}",
-                "deletePattern" : "DELETE { $subject olo:index $value. } WHERE {}",
-        "iri" : "Activity_Index"
-    }
-[[/inline]]
- [[#*inline "Activity_Label"]]
-    {
-        "id" : "Activity_Label",
-
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:string",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "Activity_Label"
-    }
-[[/inline]]
  [[#*inline "E42_Identifier_Type"]]
     {
         "id" : "E42_Identifier_Type",
@@ -140,244 +36,103 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
         "iri" : "E42_Identifier_Value"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_P10_falls_within"]]
+ [[#*inline "PerformancePlan_MusicTitle"]]
     {
-        "id" : "PerformanceSerie_P10_falls_within",
+        "id" : "PerformancePlan_MusicTitle",
 
-            "label": "[[i18n "field_season" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E4_Period"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P10_falls_within ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P10_falls_within ?value . } WHERE {} ",
-                "deletePattern" : "DELETE { $subject crm:P10_falls_within ?value . } WHERE {} ",
-                "autosuggestionPattern" : "SELECT DISTINCT $value $label WHERE { ?value a crm:E4_Period  . ?value rdfs:label ?searchedLabel . FILTER(contains(str(?value),\"/s/\")) ?searchedLabel bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . ?value rdfs:label ?label . FILTER(lang(?label) = \"en\") } LIMIT 10",
-        "iri" : "PerformanceSerie_P10_falls_within"
+            "label": "[[i18n "field_has_music_title" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:langString",
+                "selectPattern" : "SELECT $value WHERE { $subject spao:hasMusicTitle $value }",
+                "insertPattern" : "INSERT { $subject spao:hasMusicTitle $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject spao:hasMusicTitle $value } WHERE {}",
+        "iri" : "PerformancePlan_MusicTitle"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_Label"]]
+ [[#*inline "PerformancePlan_R14_incorporates"]]
     {
-        "id" : "PerformanceSerie_Label",
+        "id" : "PerformancePlan_R14_incorporates",
 
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value . $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value $value . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) }",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "PerformanceSerie_Label"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_additionalType"]]
-    {
-        "id" : "PerformanceSerie_additionalType",
-
+            "label": "[[i18n "field_incorporates" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
-            "domain" : "frbroo:F31_Performance",
-                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType ?value. }",
-                "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
-        "iri" : "PerformanceSerie_additionalType"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_P2_has_type"]]
-    {
-        "id" : "PerformanceSerie_P2_has_type",
-
-            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:hl ; skos:broader+ spav:hlser ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:hl ; skos:broader+ spav:hlser ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:hl ; skos:broader+ spav:hlser ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
-        "iri" : "PerformanceSerie_P2_has_type"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_R25_performed"]]
-    {
-        "id" : "PerformanceSerie_R25_performed",
-
-            "label": "[[i18n "field_performed" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "frbroo:R25_performed",
-                "selectPattern" : "SELECT ?value WHERE { $subject frbroo:R25_performed $value }",
-                "insertPattern" : "INSERT { $subject frbroo:R25_performed ?value. } WHERE {}",
-                "deletePattern" : "DELETE { $subject frbroo:R25_performed ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE {
-?value a frbroo:F25_Performance_Plan ; crm:P102_has_title [ rdf:value ?ll ] . SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
-?value rdfs:label ?l .
-OPTIONAL { SELECT ?value (GROUP_CONCAT(?producer) AS ?producers) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:muwgo . ?activity crm:P14_carried_out_by/rdfs:label ?producer . } GROUP BY ?value }
-OPTIONAL { SELECT ?value (GROUP_CONCAT(?director) AS ?directors) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:mutnt . ?activity crm:P14_carried_out_by/rdfs:label ?director . } GROUP BY ?value }
-BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?producers), CONCAT(?l1, \"production \", ?producers), ?l1) AS ?l2) BIND(IF(BOUND(?producers) && BOUND(?directors), CONCAT(?l2, \", \"), ?l2) AS ?l3) BIND(IF(BOUND(?directors), CONCAT(?l3, \"direction \", ?directors), ?l3) AS ?l4) BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l4, \")\"), ?l4) AS ?l5)
-BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/w/\")+30)) AS ?label)
-} ORDER BY DESC (?score) ?label LIMIT 30",
-        "iri" : "PerformanceSerie_R25_performed"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_P8_took_place_on_or_within"]]
-    {
-        "id" : "PerformanceSerie_P8_took_place_on_or_within",
-
-            "label": "[[i18n "field_took_place_on_or_within" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "frbroo:F31_Performance",
-            "range" : ["crm:E22_Man-Made_Object"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P8_took_place_on_or_within ?value. ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
-                "insertPattern" : "INSERT { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object . ?value crm:P2_has_type ?type . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
-{ ?value rdfs:label ?l . } UNION { ?value crm:P102_has_title/rdf:value ?l . }
-SERVICE bds:search { ?l bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
-OPTIONAL { SELECT ?value (GROUP_CONCAT(DISTINCT ?venue2Label) AS ?venue2Title) WHERE { ?venue2 a crm:E22_Man-Made_Object . ?venue2 crm:P46_is_composed_of ?value . ?venue2 crm:P2_has_type ?type . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
-{ ?venue2 rdfs:label ?venue2Label . } UNION { ?venue2 crm:P102_has_title/rdf:value ?venue2Label . } } GROUP BY ?value }
-BIND(IF(BOUND(?venue2Title), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?venue2Title), CONCAT(?l1, ?venue2Title), ?l1) AS ?l2) BIND(IF(BOUND(?venue2Title), CONCAT(?l2, \")\"), ?l2) AS ?l3)
-BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/o/\")+30)) AS ?label)
+                "selectPattern" : "SELECT $value WHERE { $subject frbroo:R14_incorporates $value }",
+                "insertPattern" : "INSERT { $subject frbroo:R14_incorporates $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject frbroo:R14_incorporates $value } WHERE {}",
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a frbroo:F22_Self-Contained_Expression ; rdfs:label ?title .
+?title bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" .
+?F28_EC frbroo:R17_created ?value .
+OPTIONAL { SELECT ?F28_EC (GROUP_CONCAT(?singleActivityLabel; separator=\", \") AS ?F28Label) WHERE { ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
+?F28_EC crm:P9_consists_of ?activity . ?activity crm:P2_has_type ?activityType . ?activityType skos:prefLabel ?activityTypeLabel . FILTER(lang(?activityTypeLabel) = \"en\")
+OPTIONAL { SELECT ?F28_EC ?activityType (GROUP_CONCAT(STR(?agentLabel); separator=\", \") AS ?agentLabels) WHERE { ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression . ?F28_EC crm:P9_consists_of ?activity . ?activity crm:P2_has_type ?activityType . ?activity crm:P14_carried_out_by ?agent . ?agent rdfs:label ?agentLabel . } GROUP BY ?F28_EC ?activityType }
+BIND(CONCAT(STR(?activityTypeLabel),\": \",?agentLabels) AS ?singleActivityLabel) } GROUP BY ?F28_EC }
+BIND(CONCAT(STR(?title), \" (\",?F28Label,\")\") AS ?label)
 } LIMIT 10",
-        "iri" : "PerformanceSerie_P8_took_place_on_or_within"
+        "iri" : "PerformancePlan_R14_incorporates"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_VenueLabel"]]
+ [[#*inline "PerformancePlan_Title_Label_Value"]]
     {
-        "id" : "PerformanceSerie_VenueLabel",
-
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "PerformanceSerie_VenueLabel"
-    }
-[[/inline]]
- [[#*inline "Activity_ActorLabel"]]
-    {
-        "id" : "Activity_ActorLabel",
-
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "Activity_ActorLabel"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_P102_has_title"]]
-    {
-        "id" : "PerformanceSerie_P102_has_title",
+        "id" : "PerformancePlan_Title_Label_Value",
 
             "label": "[[i18n "field_title" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
-        "iri" : "PerformanceSerie_P102_has_title"
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:langString",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdf:value ?value . }",
+                "insertPattern" : "INSERT { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { BIND(IRI(REPLACE(STR($subject),\"/title\",\"\")) AS ?parent) }",
+                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
+        "iri" : "PerformancePlan_Title_Label_Value"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_P67i_is_referred_to_by"]]
+ [[#*inline "PerformancePlan_RDFSLabel"]]
     {
-        "id" : "PerformanceSerie_P67i_is_referred_to_by",
+        "id" : "PerformancePlan_RDFSLabel",
+
+            "xsdDatatype" : "xsd:langString",
+            "domain" : "http://www.w3.org/2000/01/rdf-schema#label",
+                "selectPattern" : "SELECT $value WHERE { $subject rdfs:label $value }",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "PerformancePlan_RDFSLabel"
+    }
+[[/inline]]
+ [[#*inline "PerformancePlan_P67_is_referred_to_by"]]
+    {
+        "id" : "PerformancePlan_P67_is_referred_to_by",
 
             "label": "[[i18n "field_is_referred_to_by" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }",
-        "iri" : "PerformanceSerie_P67i_is_referred_to_by"
+        "iri" : "PerformancePlan_P67_is_referred_to_by"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_ConsistOf"]]
+ [[#*inline "PerformancePlan_P102_has_title"]]
     {
-        "id" : "PerformanceSerie_ConsistOf",
+        "id" : "PerformancePlan_P102_has_title",
 
-            "label": "[[i18n "field_activity" bundle="sapa-fields"]]",
+            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E7_Activity"],
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
-        "iri" : "PerformanceSerie_ConsistOf"
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
+        "iri" : "PerformancePlan_P102_has_title"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_P1_is_identified_by"]]
+ [[#*inline "PerformancePlan_IdentifierBy"]]
     {
-        "id" : "PerformanceSerie_P1_is_identified_by",
+        "id" : "PerformancePlan_IdentifierBy",
 
             "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
-        "iri" : "PerformanceSerie_P1_is_identified_by"
+                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by ?value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by ?value . } WHERE { }",
+        "iri" : "PerformancePlan_IdentifierBy"
     }
 [[/inline]]
- [[#*inline "PerformanceSerie_Activity_HasType"]]
+ [[#*inline "PerformancePlan_isOrWasDescribedBy"]]
     {
-        "id" : "PerformanceSerie_Activity_HasType",
-
-            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader spav:mupse ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:mupse ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader spav:mupse ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "PerformanceSerie_Activity_HasType"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_Activity_AdditionalType"]]
-    {
-        "id" : "PerformanceSerie_Activity_AdditionalType",
-
-            "label": "[[i18n "field_second" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader spav:muadd ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:muadd ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader spav:muadd ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "PerformanceSerie_Activity_AdditionalType"
-    }
-[[/inline]]
- [[#*inline "PerformanceSerie_isOrWasDescribedBy"]]
-    {
-        "id" : "PerformanceSerie_isOrWasDescribedBy",
+        "id" : "PerformancePlan_isOrWasDescribedBy",
 
             "label": "[[i18n "field_recordsource" bundle="sapa-fields"]]",
             "minOccurs" : "1",
@@ -386,221 +141,7 @@ BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }",
                 "insertPattern" : "INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
                 "deletePattern" : "DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
-        "iri" : "PerformanceSerie_isOrWasDescribedBy"
-    }
-[[/inline]]
- [[#*inline "TitleType"]]
-    {
-        "id" : "TitleType",
-
-            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:go ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) FILTER(NOT EXISTS { ?item skos:broader ?parent. }) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:go ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P2_has_type $value . } WHERE {}",
-                "valueSetPattern" : "SELECT ?value WHERE { ?value skos:inScheme spav:go . }",
-        "iri" : "TitleType"
-    }
-[[/inline]]
- [[#*inline "TitleValue"]]
-    {
-        "id" : "TitleValue",
-
-            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:langString",
-                "selectPattern" : "SELECT ?value WHERE { $parent crm:P102_has_title $subject . $subject rdf:value ?value . }",
-                "insertPattern" : "INSERT { $subject rdf:value $value . } WHERE { }",
-                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
-        "iri" : "TitleValue"
-    }
-[[/inline]]
- [[#*inline "LinguisticObject_Type"]]
-    {
-        "id" : "LinguisticObject_Type",
-
-            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:eo ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) FILTER(NOT EXISTS { ?item skos:broader ?parent. }) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:eo ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type ?value }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type ?value . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P2_has_type ?value . } WHERE { }",
-                "valueSetPattern" : "SELECT ?value WHERE { ?value skos:inScheme spav:eo . }",
-        "iri" : "LinguisticObject_Type"
-    }
-[[/inline]]
- [[#*inline "LinguisticObject_Value"]]
-    {
-        "id" : "LinguisticObject_Value",
-
-            "label": "[[i18n "field_value" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdf:value ?value . }",
-                "insertPattern" : "INSERT { $subject rdf:value ?value . } WHERE { }",
-                "deletePattern" : "DELETE { $subject rdf:value ?value . } WHERE {}",
-        "iri" : "LinguisticObject_Value"
-    }
-[[/inline]]
- [[#*inline "Non_Performative_Expression_P102_has_title"]]
-    {
-        "id" : "Non_Performative_Expression_P102_has_title",
-
-            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
-        "iri" : "Non_Performative_Expression_P102_has_title"
-    }
-[[/inline]]
- [[#*inline "Non_Performative_Expression_Label"]]
-    {
-        "id" : "Non_Performative_Expression_Label",
-
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "Non_Performative_Expression_Label"
-    }
-[[/inline]]
- [[#*inline "Non_Performative_Expression_Activity_HasType"]]
-    {
-        "id" : "Non_Performative_Expression_Activity_HasType",
-
-            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE {
-?item skos:inScheme spav:mu ; skos:broader spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
-                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "Non_Performative_Expression_Activity_HasType"
-    }
-[[/inline]]
- [[#*inline "ExpressionCreation_NPE_frbroo_R17_created"]]
-    {
-        "id" : "ExpressionCreation_NPE_frbroo_R17_created",
-
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "frbroo:F28_Expression_Creation",
-                "selectPattern" : "SELECT $value WHERE { $value frbroo:R17_created $subject . } ",
-                "insertPattern" : "INSERT { $value frbroo:R17_created $subject . }  WHERE { }",
-                "deletePattern" : "DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}",
-        "iri" : "ExpressionCreation_NPE_frbroo_R17_created"
-    }
-[[/inline]]
- [[#*inline "ExpressionCreation_NPE_frbroo_ConsistOf"]]
-    {
-        "id" : "ExpressionCreation_NPE_frbroo_ConsistOf",
-
-            "label": "[[i18n "field_activity" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E7_Activity"],
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
-        "iri" : "ExpressionCreation_NPE_frbroo_ConsistOf"
-    }
-[[/inline]]
- [[#*inline "ExpressionCreation_NPE_frbroo_P14_carried_out_by"]]
-    {
-        "id" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by",
-
-            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
-                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
-    }
-[[/inline]]
- [[#*inline "Rico_hasDocumentaryFormType"]]
-    {
-        "id" : "Rico_hasDocumentaryFormType",
-
-            "label": "[[i18n "field_documentary_form_type" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject rico:hasDocumentaryFormType ?value . }",
-                "insertPattern" : "INSERT { $subject rico:hasDocumentaryFormType $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject rico:hasDocumentaryFormType $value . } WHERE {}",
-        "iri" : "Rico_hasDocumentaryFormType"
-    }
-[[/inline]]
- [[#*inline "Rico_recordResourceSourceOfInformation"]]
-    {
-        "id" : "Rico_recordResourceSourceOfInformation",
-
-            "label": "[[i18n "field_record_resource" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "treePatterns": {
-                "type": "full",
-                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item a ?typeofRecord . FILTER(NOT EXISTS { ?item rico:isOrWasIncludedIn ?parent. }) ?item rico:name ?label.
-OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) VALUES (?typeofRecord) { (rico:Record) (rico:RecordSet) } } ORDER BY (?label)",
-                "childrenQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item rico:isOrWasIncludedIn ?parent. ?item rico:name ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "parentsQuery": "SELECT DISTINCT ?item ?parent ?parentLabel WHERE { ?item rico:isOrWasIncludedIn ?parent. ?parent rico:name ?parentLabel.
-}",
-                "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { { ?item a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } UNION { BIND(URI(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\")) AS ?item) ?item a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } }
-OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY ASC (?label)"
-            },
-                "selectPattern" : "SELECT ?value WHERE { $subject rico:recordResourceSourceOfInformation ?value . }",
-                "insertPattern" : "INSERT { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}",
-                "autosuggestionPattern" : " SELECT DISTINCT $value ?label WHERE { $value a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" }LIMIT 100",
-        "iri" : "Rico_recordResourceSourceOfInformation"
-    }
-[[/inline]]
- [[#*inline "RecordNote"]]
-    {
-        "id" : "RecordNote",
-
-            "label": "[[i18n "field_note" bundle="sapa-fields"]]",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
-                "selectPattern" : "SELECT $value WHERE { $subject spao:hasNote $value. }",
-                "insertPattern" : "INSERT { $subject spao:hasNote $value. } WHERE { }",
-                "deletePattern" : "DELETE { $subject spao:hasNote $value. } WHERE { }",
-        "iri" : "RecordNote"
+        "iri" : "PerformancePlan_isOrWasDescribedBy"
     }
 [[/inline]]
  [[#*inline "Activity_Type"]]
@@ -4199,104 +3740,34 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "RDFSLabel"
     }
 [[/inline]]
- [[#*inline "PerformancePlan_MusicTitle"]]
+ [[#*inline "E52DateValue"]]
     {
-        "id" : "PerformancePlan_MusicTitle",
+        "id" : "E52DateValue",
 
-            "label": "[[i18n "field_has_music_title" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:langString",
-                "selectPattern" : "SELECT $value WHERE { $subject spao:hasMusicTitle $value }",
-                "insertPattern" : "INSERT { $subject spao:hasMusicTitle $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject spao:hasMusicTitle $value } WHERE {}",
-        "iri" : "PerformancePlan_MusicTitle"
-    }
-[[/inline]]
- [[#*inline "PerformancePlan_R14_incorporates"]]
-    {
-        "id" : "PerformancePlan_R14_incorporates",
-
-            "label": "[[i18n "field_incorporates" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT $value WHERE { $subject frbroo:R14_incorporates $value }",
-                "insertPattern" : "INSERT { $subject frbroo:R14_incorporates $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject frbroo:R14_incorporates $value } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a frbroo:F22_Self-Contained_Expression ; rdfs:label ?labelTmp . ?F28_EC frbroo:R17_created ?value . ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC crm:P9_consists_of ?activiy . ?activiy crm:P2_has_type ?voc_type . OPTIONAL { Select ?voc_type (CONCAT(\"(\",?typeActivityLabel,\": \",GROUP_CONCAT(DISTINCT ?agents;separator=\", \"),\")\") AS ?TypeOfActivities) Where { ?voc_type skos:inScheme ?inScheme ; skos:prefLabel ?typeActivityLabel . ?voc_type skos:narrower ?child . ?child rdf:type skos:Concept . ?child skos:prefLabel ?agents . } GROUP BY ?voc_type ?typeActivityLabel } BIND(IF(BOUND(?voc_type),CONCAT(?labelTmp,\" \",?TypeOfActivities),?labelTmp) AS ?label) FILTER(regex(str(?value),\"/u/\", \"i\")) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } limit 10",
-        "iri" : "PerformancePlan_R14_incorporates"
-    }
-[[/inline]]
- [[#*inline "PerformancePlan_Title_Label_Value"]]
-    {
-        "id" : "PerformancePlan_Title_Label_Value",
-
-            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
+            "label": "[[i18n "field_date_value" bundle="sapa-fields"]]",
             "minOccurs" : "1",
             "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:langString",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdf:value ?value . }",
-                "insertPattern" : "INSERT { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { BIND(IRI(REPLACE(STR($subject),\"/title\",\"\")) AS ?parent) }",
-                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
-        "iri" : "PerformancePlan_Title_Label_Value"
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#date",
+                "selectPattern" : "SELECT ?value WHERE { ?subject crm:P82a_begin_of_the_begin ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P82a_begin_of_the_begin ?value . $subject crm:P82b_end_of_the_end ?value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P82a_begin_of_the_begin ?value . $subject crm:P82b_end_of_the_end ?value . } WHERE {}",
+        "iri" : "E52DateValue"
     }
 [[/inline]]
- [[#*inline "PerformancePlan_RDFSLabel"]]
+ [[#*inline "E52DateLabel"]]
     {
-        "id" : "PerformancePlan_RDFSLabel",
+        "id" : "E52DateLabel",
 
-            "xsdDatatype" : "xsd:langString",
-            "domain" : "http://www.w3.org/2000/01/rdf-schema#label",
-                "selectPattern" : "SELECT $value WHERE { $subject rdfs:label $value }",
+            "label": "[[i18n "field_date_label" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "PerformancePlan_RDFSLabel"
-    }
-[[/inline]]
- [[#*inline "PerformancePlan_P67_is_referred_to_by"]]
-    {
-        "id" : "PerformancePlan_P67_is_referred_to_by",
-
-            "label": "[[i18n "field_is_referred_to_by" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }",
-        "iri" : "PerformancePlan_P67_is_referred_to_by"
-    }
-[[/inline]]
- [[#*inline "PerformancePlan_P102_has_title"]]
-    {
-        "id" : "PerformancePlan_P102_has_title",
-
-            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
-        "iri" : "PerformancePlan_P102_has_title"
-    }
-[[/inline]]
- [[#*inline "PerformancePlan_IdentifierBy"]]
-    {
-        "id" : "PerformancePlan_IdentifierBy",
-
-            "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by ?value . } WHERE { }",
-                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by ?value . } WHERE { }",
-        "iri" : "PerformancePlan_IdentifierBy"
-    }
-[[/inline]]
- [[#*inline "PerformancePlan_isOrWasDescribedBy"]]
-    {
-        "id" : "PerformancePlan_isOrWasDescribedBy",
-
-            "label": "[[i18n "field_recordsource" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-                "selectPattern" : "SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }",
-                "insertPattern" : "INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
-        "iri" : "PerformancePlan_isOrWasDescribedBy"
+        "iri" : "E52DateLabel"
     }
 [[/inline]]
  [[#*inline "PerformanceWork_R12_is_realised_in"]]
@@ -4362,25 +3833,158 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "PerformanceWork_SubTitleLanguage"
     }
 [[/inline]]
- [[#*inline "E52DateValue"]]
+ [[#*inline "TitleType"]]
     {
-        "id" : "E52DateValue",
+        "id" : "TitleType",
 
-            "label": "[[i18n "field_date_value" bundle="sapa-fields"]]",
+            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
             "minOccurs" : "1",
             "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#date",
-                "selectPattern" : "SELECT ?value WHERE { ?subject crm:P82a_begin_of_the_begin ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P82a_begin_of_the_begin ?value . $subject crm:P82b_end_of_the_end ?value . } WHERE {}",
-                "deletePattern" : "DELETE { $subject crm:P82a_begin_of_the_begin ?value . $subject crm:P82b_end_of_the_end ?value . } WHERE {}",
-        "iri" : "E52DateValue"
+            "xsdDatatype" : "xsd:anyURI",
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:go ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) FILTER(NOT EXISTS { ?item skos:broader ?parent. }) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:go ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P2_has_type $value . } WHERE {}",
+                "valueSetPattern" : "SELECT ?value WHERE { ?value skos:inScheme spav:go . }",
+        "iri" : "TitleType"
     }
 [[/inline]]
- [[#*inline "E52DateLabel"]]
+ [[#*inline "TitleValue"]]
     {
-        "id" : "E52DateLabel",
+        "id" : "TitleValue",
 
-            "label": "[[i18n "field_date_label" bundle="sapa-fields"]]",
+            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:langString",
+                "selectPattern" : "SELECT ?value WHERE { $parent crm:P102_has_title $subject . $subject rdf:value ?value . }",
+                "insertPattern" : "INSERT { $subject rdf:value $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
+        "iri" : "TitleValue"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_P10_falls_within"]]
+    {
+        "id" : "PerformanceSerie_P10_falls_within",
+
+            "label": "[[i18n "field_season" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E4_Period"],
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P10_falls_within ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P10_falls_within ?value . } WHERE {} ",
+                "deletePattern" : "DELETE { $subject crm:P10_falls_within ?value . } WHERE {} ",
+                "autosuggestionPattern" : "SELECT DISTINCT $value $label WHERE { ?value a crm:E4_Period  . ?value rdfs:label ?searchedLabel . FILTER(contains(str(?value),\"/s/\")) ?searchedLabel bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . ?value rdfs:label ?label . FILTER(lang(?label) = \"en\") } LIMIT 10",
+        "iri" : "PerformanceSerie_P10_falls_within"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_Label"]]
+    {
+        "id" : "PerformanceSerie_Label",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value . $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value $value . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) }",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "PerformanceSerie_Label"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_additionalType"]]
+    {
+        "id" : "PerformanceSerie_additionalType",
+
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "frbroo:F31_Performance",
+                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType ?value. }",
+                "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
+        "iri" : "PerformanceSerie_additionalType"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_P2_has_type"]]
+    {
+        "id" : "PerformanceSerie_P2_has_type",
+
+            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:hl ; skos:broader+ spav:hlser ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:hl ; skos:broader+ spav:hlser ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:hl ; skos:broader+ spav:hlser ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" . } LIMIT 10",
+        "iri" : "PerformanceSerie_P2_has_type"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_R25_performed"]]
+    {
+        "id" : "PerformanceSerie_R25_performed",
+
+            "label": "[[i18n "field_performed" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "frbroo:R25_performed",
+                "selectPattern" : "SELECT ?value WHERE { $subject frbroo:R25_performed $value }",
+                "insertPattern" : "INSERT { $subject frbroo:R25_performed ?value. } WHERE {}",
+                "deletePattern" : "DELETE { $subject frbroo:R25_performed ?value. } WHERE {}",
+                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE {
+?value a frbroo:F25_Performance_Plan ; crm:P102_has_title [ rdf:value ?ll ] . SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
+?value rdfs:label ?l .
+OPTIONAL { SELECT ?value (GROUP_CONCAT(?producer) AS ?producers) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:muwgo . ?activity crm:P14_carried_out_by/rdfs:label ?producer . } GROUP BY ?value }
+OPTIONAL { SELECT ?value (GROUP_CONCAT(?director) AS ?directors) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:mutnt . ?activity crm:P14_carried_out_by/rdfs:label ?director . } GROUP BY ?value }
+BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?producers), CONCAT(?l1, \"production \", ?producers), ?l1) AS ?l2) BIND(IF(BOUND(?producers) && BOUND(?directors), CONCAT(?l2, \", \"), ?l2) AS ?l3) BIND(IF(BOUND(?directors), CONCAT(?l3, \"direction \", ?directors), ?l3) AS ?l4) BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l4, \")\"), ?l4) AS ?l5)
+BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/w/\")+30)) AS ?label)
+} ORDER BY DESC (?score) ?label LIMIT 30",
+        "iri" : "PerformanceSerie_R25_performed"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_P8_took_place_on_or_within"]]
+    {
+        "id" : "PerformanceSerie_P8_took_place_on_or_within",
+
+            "label": "[[i18n "field_took_place_on_or_within" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "frbroo:F31_Performance",
+            "range" : ["crm:E22_Man-Made_Object"],
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P8_took_place_on_or_within ?value. ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
+                "insertPattern" : "INSERT { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P8_took_place_on_or_within $value. } WHERE {}",
+                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label WHERE { ?value a crm:E22_Man-Made_Object . ?value crm:P2_has_type ?type . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
+{ ?value rdfs:label ?l . } UNION { ?value crm:P102_has_title/rdf:value ?l . }
+SERVICE bds:search { ?l bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
+OPTIONAL { SELECT ?value (GROUP_CONCAT(DISTINCT ?venue2Label) AS ?venue2Title) WHERE { ?venue2 a crm:E22_Man-Made_Object . ?venue2 crm:P46_is_composed_of ?value . ?venue2 crm:P2_has_type ?type . ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
+{ ?venue2 rdfs:label ?venue2Label . } UNION { ?venue2 crm:P102_has_title/rdf:value ?venue2Label . } } GROUP BY ?value }
+BIND(IF(BOUND(?venue2Title), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?venue2Title), CONCAT(?l1, ?venue2Title), ?l1) AS ?l2) BIND(IF(BOUND(?venue2Title), CONCAT(?l2, \")\"), ?l2) AS ?l3)
+BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/o/\")+30)) AS ?label)
+} LIMIT 10",
+        "iri" : "PerformanceSerie_P8_took_place_on_or_within"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_VenueLabel"]]
+    {
+        "id" : "PerformanceSerie_VenueLabel",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
             "description" : "A short comment that helps to identify the entity.",
             "minOccurs" : "1",
             "maxOccurs" : "1",
@@ -4389,7 +3993,129 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
                 "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "E52DateLabel"
+        "iri" : "PerformanceSerie_VenueLabel"
+    }
+[[/inline]]
+ [[#*inline "Activity_ActorLabel"]]
+    {
+        "id" : "Activity_ActorLabel",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "Activity_ActorLabel"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_P102_has_title"]]
+    {
+        "id" : "PerformanceSerie_P102_has_title",
+
+            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
+        "iri" : "PerformanceSerie_P102_has_title"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_P67i_is_referred_to_by"]]
+    {
+        "id" : "PerformanceSerie_P67i_is_referred_to_by",
+
+            "label": "[[i18n "field_is_referred_to_by" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P67i_is_referred_to_by ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }",
+        "iri" : "PerformanceSerie_P67i_is_referred_to_by"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_ConsistOf"]]
+    {
+        "id" : "PerformanceSerie_ConsistOf",
+
+            "label": "[[i18n "field_activity" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E7_Activity"],
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
+        "iri" : "PerformanceSerie_ConsistOf"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_P1_is_identified_by"]]
+    {
+        "id" : "PerformanceSerie_P1_is_identified_by",
+
+            "label": "[[i18n "field_identifier" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P1_is_identified_by ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
+        "iri" : "PerformanceSerie_P1_is_identified_by"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_Activity_HasType"]]
+    {
+        "id" : "PerformanceSerie_Activity_HasType",
+
+            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader spav:mupse ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:mupse ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader spav:mupse ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "PerformanceSerie_Activity_HasType"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_Activity_AdditionalType"]]
+    {
+        "id" : "PerformanceSerie_Activity_AdditionalType",
+
+            "label": "[[i18n "field_second" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader spav:muadd ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:muadd ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader spav:muadd ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "PerformanceSerie_Activity_AdditionalType"
+    }
+[[/inline]]
+ [[#*inline "PerformanceSerie_isOrWasDescribedBy"]]
+    {
+        "id" : "PerformanceSerie_isOrWasDescribedBy",
+
+            "label": "[[i18n "field_recordsource" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }",
+                "insertPattern" : "INSERT { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:isOrWasDescribedBy ?value . } WHERE {}",
+        "iri" : "PerformanceSerie_isOrWasDescribedBy"
     }
 [[/inline]]
  [[#*inline "PerformanceSingle_P9i_forms_part_of"]]
@@ -4501,6 +4227,288 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "insertPattern" : "INSERT { $subject crm:P1_is_identified_by $value . } WHERE { }",
                 "deletePattern" : "DELETE { $subject crm:P1_is_identified_by $value . } WHERE { }",
         "iri" : "PerformanceSingle_P1_is_identified_by"
+    }
+[[/inline]]
+ [[#*inline "ExpressionCreation_NPE_frbroo_R17_created"]]
+    {
+        "id" : "ExpressionCreation_NPE_frbroo_R17_created",
+
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "frbroo:F28_Expression_Creation",
+                "selectPattern" : "SELECT $value WHERE { $value frbroo:R17_created $subject . } ",
+                "insertPattern" : "INSERT { $value frbroo:R17_created $subject . }  WHERE { }",
+                "deletePattern" : "DELETE { $value a frbroo:F28_Expression_Creation . } WHERE {}",
+        "iri" : "ExpressionCreation_NPE_frbroo_R17_created"
+    }
+[[/inline]]
+ [[#*inline "ExpressionCreation_NPE_frbroo_ConsistOf"]]
+    {
+        "id" : "ExpressionCreation_NPE_frbroo_ConsistOf",
+
+            "label": "[[i18n "field_activity" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E7_Activity"],
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P9_consists_of ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P9_consists_of ?value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P9_consists_of ?value . } WHERE {}",
+        "iri" : "ExpressionCreation_NPE_frbroo_ConsistOf"
+    }
+[[/inline]]
+ [[#*inline "ExpressionCreation_NPE_frbroo_P14_carried_out_by"]]
+    {
+        "id" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by",
+
+            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
+                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
+    }
+[[/inline]]
+ [[#*inline "LinguisticObject_Type"]]
+    {
+        "id" : "LinguisticObject_Type",
+
+            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:eo ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) FILTER(NOT EXISTS { ?item skos:broader ?parent. }) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:eo ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type ?value }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type ?value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject crm:P2_has_type ?value . } WHERE { }",
+                "valueSetPattern" : "SELECT ?value WHERE { ?value skos:inScheme spav:eo . }",
+        "iri" : "LinguisticObject_Type"
+    }
+[[/inline]]
+ [[#*inline "LinguisticObject_Value"]]
+    {
+        "id" : "LinguisticObject_Value",
+
+            "label": "[[i18n "field_value" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdf:value ?value . }",
+                "insertPattern" : "INSERT { $subject rdf:value ?value . } WHERE { }",
+                "deletePattern" : "DELETE { $subject rdf:value ?value . } WHERE {}",
+        "iri" : "LinguisticObject_Value"
+    }
+[[/inline]]
+ [[#*inline "Non_Performative_Expression_P102_has_title"]]
+    {
+        "id" : "Non_Performative_Expression_P102_has_title",
+
+            "label": "[[i18n "field_title" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
+                "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P102_has_title $value . } WHERE {}",
+        "iri" : "Non_Performative_Expression_P102_has_title"
+    }
+[[/inline]]
+ [[#*inline "Non_Performative_Expression_Label"]]
+    {
+        "id" : "Non_Performative_Expression_Label",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "Non_Performative_Expression_Label"
+    }
+[[/inline]]
+ [[#*inline "Non_Performative_Expression_Activity_HasType"]]
+    {
+        "id" : "Non_Performative_Expression_Activity_HasType",
+
+            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE {
+?item skos:inScheme spav:mu ; skos:broader spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+ spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:broader spav:munpw ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "Non_Performative_Expression_Activity_HasType"
+    }
+[[/inline]]
+ [[#*inline "Rico_hasDocumentaryFormType"]]
+    {
+        "id" : "Rico_hasDocumentaryFormType",
+
+            "label": "[[i18n "field_documentary_form_type" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:hasDocumentaryFormType ?value . }",
+                "insertPattern" : "INSERT { $subject rico:hasDocumentaryFormType $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:hasDocumentaryFormType $value . } WHERE {}",
+        "iri" : "Rico_hasDocumentaryFormType"
+    }
+[[/inline]]
+ [[#*inline "Rico_recordResourceSourceOfInformation"]]
+    {
+        "id" : "Rico_recordResourceSourceOfInformation",
+
+            "label": "[[i18n "field_record_resource" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item a ?typeofRecord . FILTER(NOT EXISTS { ?item rico:isOrWasIncludedIn ?parent. }) ?item rico:name ?label.
+OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) VALUES (?typeofRecord) { (rico:Record) (rico:RecordSet) } } ORDER BY (?label)",
+                "childrenQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item rico:isOrWasIncludedIn ?parent. ?item rico:name ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": "SELECT DISTINCT ?item ?parent ?parentLabel WHERE { ?item rico:isOrWasIncludedIn ?parent. ?parent rico:name ?parentLabel.
+}",
+                "searchQuery": "SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { { ?item a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } UNION { BIND(URI(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\")) AS ?item) ?item a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } }
+OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY ASC (?label)"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:recordResourceSourceOfInformation ?value . }",
+                "insertPattern" : "INSERT { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:recordResourceSourceOfInformation $value . } WHERE {}",
+                "autosuggestionPattern" : " SELECT DISTINCT $value ?label WHERE { $value a ?typeRecordOfValue ; rico:name ?label . VALUES (?typeRecordOfValue) { (rico:Record) (rico:RecordSet) } FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" }LIMIT 100",
+        "iri" : "Rico_recordResourceSourceOfInformation"
+    }
+[[/inline]]
+ [[#*inline "RecordNote"]]
+    {
+        "id" : "RecordNote",
+
+            "label": "[[i18n "field_note" bundle="sapa-fields"]]",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
+                "selectPattern" : "SELECT $value WHERE { $subject spao:hasNote $value. }",
+                "insertPattern" : "INSERT { $subject spao:hasNote $value. } WHERE { }",
+                "deletePattern" : "DELETE { $subject spao:hasNote $value. } WHERE { }",
+        "iri" : "RecordNote"
+    }
+[[/inline]]
+ [[#*inline "Activity_HasType"]]
+    {
+        "id" : "Activity_HasType",
+
+            "label": "[[i18n "field_type" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E55_Type"],
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { FILTER(NOT EXISTS { ?item skos:broader ?parent. }) ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
+                "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "Activity_HasType"
+    }
+[[/inline]]
+ [[#*inline "Activity_AdditionalType"]]
+    {
+        "id" : "Activity_AdditionalType",
+
+            "label": "[[i18n "field_second" bundle="sapa-fields"]]",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "treePatterns": {
+                "type": "full",
+                "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { FILTER(NOT EXISTS { ?item skos:broader ?parent. }) ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+            },
+                "selectPattern" : "SELECT ?value WHERE { $subject schema:additionalType $value. }",
+                "insertPattern" : "INSERT { $subject schema:additionalType $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject schema:additionalType $value . } WHERE {}",
+                "autosuggestionPattern" : "SELECT $value $label WHERE { $value skos:inScheme spav:mu ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
+        "iri" : "Activity_AdditionalType"
+    }
+[[/inline]]
+ [[#*inline "Activity_CarriedOutBy"]]
+    {
+        "id" : "Activity_CarriedOutBy",
+
+            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
+                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
+                "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ; crm:P131_is_identified_by [ rdf:value ?ll ] .
+BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\")
+SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
+?value rdfs:label ?l . OPTIONAL { ?value crm:P3_has_note [ crm:P2_has_type spav:eoept ; rdf:value ?note ] } BIND(IF(BOUND(?note), CONCAT(?l, \" (\", ?note, \")\"), ?l) AS ?label) } ORDER BY DESC (?score) LIMIT 10",
+        "iri" : "Activity_CarriedOutBy"
+    }
+[[/inline]]
+ [[#*inline "Activity_Certainty"]]
+    {
+        "id" : "Activity_Certainty",
+
+            "label": "[[i18n "field_certainty" bundle="sapa-fields"]]",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:anyURI",
+            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
+                "selectPattern" : "SELECT ?value WHERE { $subject rico:certainty $value. }",
+                "insertPattern" : "INSERT { $subject rico:certainty $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject rico:certainty $value .} WHERE {}",
+                "valueSetPattern" : "SELECT $value WHERE { VALUES ( $value ) { ( spav:ctddd ) ( spav:ctprb ) ( spav:ctuct ) } }",
+        "iri" : "Activity_Certainty"
+    }
+[[/inline]]
+ [[#*inline "Activity_Index"]]
+    {
+        "id" : "Activity_Index",
+
+            "label": "[[i18n "field_index" bundle="sapa-fields"]]",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:integer",
+            "domain" : "https://www.ica.org/standards/RiC/ontology#RecordResource",
+                "selectPattern" : "SELECT $value WHERE { $subject olo:index $value. }",
+                "insertPattern" : "INSERT { $subject olo:index $value. } WHERE {}",
+                "deletePattern" : "DELETE { $subject olo:index $value. } WHERE {}",
+        "iri" : "Activity_Index"
+    }
+[[/inline]]
+ [[#*inline "Activity_Label"]]
+    {
+        "id" : "Activity_Label",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "xsd:string",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "Activity_Label"
     }
 [[/inline]]
  [[#*inline "ExpressionCreation_PerformancePlan_R17_created"]]
