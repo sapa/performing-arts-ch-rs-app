@@ -251,7 +251,7 @@
         <bs-row>
           <bs-col sm='10'>
             <semantic-form-composite-input for="PerformancePlan_IdentifierBy"
-              new-subject-template='/identifier'
+              new-subject-template='http://data.performing-arts.ch/w/{{UUID}}'
               fields='[
                   [[> RDFtype]],
                   [[> E42_Identifier_Type]],
@@ -259,6 +259,7 @@
                 ]'
             > 
           <div style="display: none;">
+            
             <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E42_Identifier"]]'></semantic-form-hidden-input>
           </div>
           <bs-row>
