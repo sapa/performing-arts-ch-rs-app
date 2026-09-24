@@ -250,7 +250,7 @@
                     {{#each bindings}}
                       <h5>Production</h5>
                       {{#if @first}}
-                        <semantic-link iri="{{Production.value}}" class="text-link-action" target="_blank">
+                        <semantic-link iri="{{Production.value}}" target="_blank">
                           {{ProductionLabel.value}}
                         </semantic-link>
                       {{/if}}
@@ -273,7 +273,7 @@
                           {{#each bindings}}
                             <h5>Performances</h5>
                             {{#if @first}}
-                              <semantic-link iri="{{single.value}}" class="text-link-action" target="_blank">
+                              <semantic-link iri="{{single.value}}" target="_blank">
                                 {{E52TimeSpan_Label.value}}
                               </semantic-link>
                             {{/if}}
