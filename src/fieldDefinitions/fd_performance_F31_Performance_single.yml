@@ -133,7 +133,7 @@ fields:
           ?newUri rdfs:label ?dateString .
           $subject rdfs:label ?dateStringSingle .
         } WHERE {
-          BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+          BIND(IF(CONTAINS(STR(?newUri),"/date"),IRI(CONCAT(STR($subject),"/date")),?newUri) AS ?newUri)
           BIND(STR($value) as ?dateString)
           BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
         }'

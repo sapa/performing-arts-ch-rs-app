@@ -235,170 +235,32 @@
 
           </bs-col>
           <bs-col sm="4">
-                  
-            <!-- creation functions - direction -->
-            [[> sapaModule:ShowActivities function="spav:mucbq"]]
-          
-            <!-- creation functions - stage direction -->
-            [[> sapaModule:ShowActivities function="spav:mutnt"]]
-          
-            <!-- creation functions - assistant stage direction -->
-            [[> sapaModule:ShowActivities function="spav:mugkn"]]
-            
-            <!-- creation functions - film direction -->
-            [[> sapaModule:ShowActivities function="spav:muctj"]]
-            
-            <!-- creation functions - dramaturgy -->
-            [[> sapaModule:ShowActivities function="spav:musim"]]
-            
-            <!-- creation functions - choreography -->
-            [[> sapaModule:ShowActivities function="spav:mubbv"]]
-            
-            <!-- creation functions - conductor -->
-            [[> sapaModule:ShowActivities function="spav:muqfg"]]
-            
-            <!-- creation functions - choral conductor -->
-            [[> sapaModule:ShowActivities function="spav:mufcc"]]
-
-            <!-- creation functions - stage design -->
-            [[> sapaModule:ShowActivities function="spav:mulga"]]
-
-            <!-- creation functions - light -->
-            [[> sapaModule:ShowActivities function="spav:murni"]]
-
-            <!-- creation functions - costume design -->
-            [[> sapaModule:ShowActivities function="spav:muecs"]]
-
-            <!-- creation functions - video -->
-            [[> sapaModule:ShowActivities function="spav:muqju"]]
-
-            <!-- creation functions - camera -->
-            [[> sapaModule:ShowActivities function="spav:mujig"]]
-
-              <!-- creation functions - projection -->
-            [[> sapaModule:ShowActivities function="spav:mufwk"]]
-
-            <!-- creation functions - sound -->
-            [[> sapaModule:ShowActivities function="spav:muxzh"]]
-
-            <!-- reference functions - authorship -->
-            [[> sapaModule:ShowActivities function="spav:muiuk"]]
-
-            <!-- reference functions - libretto -->
-            [[> sapaModule:ShowActivities function="spav:mujmh"]]
-
-            <!-- reference functions - lyrics -->
-            [[> sapaModule:ShowActivities function="spav:muvhj"]]
-            
-            <!-- reference functions - adaption -->
-            [[> sapaModule:ShowActivities function="spav:mudcw"]]
-            
-            <!-- reference functions - translation -->
-            [[> sapaModule:ShowActivities function="spav:muwyo"]]
-            
-            <!-- reference functions - added text -->
-            [[> sapaModule:ShowActivities function="spav:mupvk"]]
-          
-            <!-- reference functions - added lyrics -->
-            [[> sapaModule:ShowActivities function="spav:muzua"]]
-            
-            <!-- reference functions - screenplay -->
-            [[> sapaModule:ShowActivities function="spav:mupot"]]
-            
-            <!-- reference functions - composition -->
-            [[> sapaModule:ShowActivities function="spav:mufbo"]]
-            
-            <!-- performance functions - acting -->
-            [[> sapaModule:ShowActivities function="spav:munib"]]
-            
-            <!-- performance functions - dance -->
-            [[> sapaModule:ShowActivities function="spav:mulcp"]]
-            
-            <!-- performance functions - performance -->
-            [[> sapaModule:ShowActivities function="spav:muawx"]]
-          
-            <!-- performance functions - pantomine -->
-            [[> sapaModule:ShowActivities function="spav:mujhq"]]
-
-            <!-- performance functions - puppet show -->
-            [[> sapaModule:ShowActivities function="spav:muhkf"]]
-            
-            <!-- performance functions - music performance -->
-            [[> sapaModule:ShowActivities function="spav:muiim"]]
-            
-            <!-- performance functions - singing -->
-            [[> sapaModule:ShowActivities function="spav:muygg"]]
-
-            <!-- performance functions - intrumental performance -->
-            [[> sapaModule:ShowActivities function="spav:mupah"]]
               
-            <!-- performance functions - oeil extérieure -->
-            [[> sapaModule:ShowActivities function="spav:mudat"]]
-
-            <!-- performance functions - narration -->
-            [[> sapaModule:ShowActivities function="spav:muacs"]]
-
-            <!-- performance functions - host -->
-            [[> sapaModule:ShowActivities function="spav:mupfz"]]
-
-            <!-- performance functions - moderation -->
-            [[> sapaModule:ShowActivities function="spav:mumnc"]]
-            
-            <!-- performance functions - contribution -->
-            [[> sapaModule:ShowActivities function="spav:munuj"]]
-
-            <!-- ============== Performance Single ============== -->
-
-            <!-- Date Label -->
-            <semantic-query 
-              query='SELECT ?E52sinlabel
-                    WHERE {
-                      ?? crm:P4_has_time-span ?E52sin. 
-                      ?E52sin rdfs:label ?E52sinlabel
-                    } '
-              template='<p>{{#each bindings}}{{#if @first}}<strong>{{E52sinlabel.value}}</strong>{{else}}<br>{{E52sinlabel.value}}{{/if}}{{/each}}</p>'
-            >
-            </semantic-query>  
-
-            <!-- Type -->
-            <semantic-query 
-              query='SELECT DISTINCT ?F31sinTypeValue
-                    WHERE {
-                      ?? crm:P2_has_type ?F31sinType .
-                      ?F31sinType skos:prefLabel ?F31sinTypeValue .
-
-                    } '
-              template='<p>{{#each bindings}}{{#if @first}}<strong>{{F31sinTypeValue.value}}</strong>{{else}}<br>{{F31sinTypeValue.value}}{{/if}}{{/each}}</p>'
-            >
-            </semantic-query>
-        
-          </bs-col>
-          <bs-col sm="4">
-
-            <!-- Production -->
-            <semantic-query
-              query='
-                SELECT ?Production ?ProductionLabel
-                WHERE {
-                  ?? frbroo:R25_performed ?Production. 
-                  ?Production rdfs:label ?ProductionLabel .
-                }
-              '
-              template='<p>
-                          {{#each bindings}}
-                            {{#if @first}}
-                              <semantic-link iri="{{Production.value}}" class="text-link-action" target="_blank">
-                                {{ProductionLabel.value}}
-                              </semantic-link>
-                            {{/if}}
-                          {{/each}}
-                        </p>'
-              >
-          
-            </semantic-query>
-
-            <!-- Performance Serie - E52TimeSpan Label -->
-            <semantic-query 
+            [[# if (ask "ASK { ?? a frbroo:F31_Performance . ?? schema:additionalType spav:hlser . }")]]
+              <!-- Production -->
+              <semantic-query
+                query='
+                  SELECT ?Production ?ProductionLabel
+                  WHERE {
+                    ?? frbroo:R25_performed ?Production. 
+                    ?Production rdfs:label ?ProductionLabel .
+                  }
+                '
+                template='<p>
+                    {{#each bindings}}
+                      <h5>Production</h5>
+                      {{#if @first}}
+                        <semantic-link iri="{{Production.value}}" target="_blank">
+                          {{ProductionLabel.value}}
+                        </semantic-link>
+                      {{/if}}
+                    {{/each}}
+                  </p>'
+                >          
+              </semantic-query>
+              
+              <!-- Performance Serie - E52TimeSpan Label -->
+              <semantic-query 
               query='SELECT ?single ?E52TimeSpan_Label
                 WHERE {
                   ?single crm:P9i_forms_part_of ?? .
@@ -409,28 +271,172 @@
                 }'
                 template='<p>
                           {{#each bindings}}
+                            <h5>Performances</h5>
                             {{#if @first}}
-                              <semantic-link iri="{{single.value}}" class="text-link-action" target="_blank">
+                              <semantic-link iri="{{single.value}}" target="_blank">
                                 {{E52TimeSpan_Label.value}}
                               </semantic-link>
                             {{/if}}
                           {{/each}}
                         </p>'
                >
-            </semantic-query>  
+              </semantic-query>  
+
+            [[else]]
+              <!-- creation functions - direction -->
+              [[> sapaModule:ShowActivities function="spav:mucbq"]]
+            
+              <!-- creation functions - stage direction -->
+              [[> sapaModule:ShowActivities function="spav:mutnt"]]
+            
+              <!-- creation functions - assistant stage direction -->
+              [[> sapaModule:ShowActivities function="spav:mugkn"]]
+              
+              <!-- creation functions - film direction -->
+              [[> sapaModule:ShowActivities function="spav:muctj"]]
+              
+              <!-- creation functions - dramaturgy -->
+              [[> sapaModule:ShowActivities function="spav:musim"]]
+              
+              <!-- creation functions - choreography -->
+              [[> sapaModule:ShowActivities function="spav:mubbv"]]
+              
+              <!-- creation functions - conductor -->
+              [[> sapaModule:ShowActivities function="spav:muqfg"]]
+              
+              <!-- creation functions - choral conductor -->
+              [[> sapaModule:ShowActivities function="spav:mufcc"]]
+
+              <!-- creation functions - stage design -->
+              [[> sapaModule:ShowActivities function="spav:mulga"]]
+
+              <!-- creation functions - light -->
+              [[> sapaModule:ShowActivities function="spav:murni"]]
+
+              <!-- creation functions - costume design -->
+              [[> sapaModule:ShowActivities function="spav:muecs"]]
+
+              <!-- creation functions - video -->
+              [[> sapaModule:ShowActivities function="spav:muqju"]]
+
+              <!-- creation functions - camera -->
+              [[> sapaModule:ShowActivities function="spav:mujig"]]
+
+                <!-- creation functions - projection -->
+              [[> sapaModule:ShowActivities function="spav:mufwk"]]
+
+              <!-- creation functions - sound -->
+              [[> sapaModule:ShowActivities function="spav:muxzh"]]
+
+              <!-- reference functions - authorship -->
+              [[> sapaModule:ShowActivities function="spav:muiuk"]]
+
+              <!-- reference functions - libretto -->
+              [[> sapaModule:ShowActivities function="spav:mujmh"]]
+
+              <!-- reference functions - lyrics -->
+              [[> sapaModule:ShowActivities function="spav:muvhj"]]
+              
+              <!-- reference functions - adaption -->
+              [[> sapaModule:ShowActivities function="spav:mudcw"]]
+              
+              <!-- reference functions - translation -->
+              [[> sapaModule:ShowActivities function="spav:muwyo"]]
+              
+              <!-- reference functions - added text -->
+              [[> sapaModule:ShowActivities function="spav:mupvk"]]
+            
+              <!-- reference functions - added lyrics -->
+              [[> sapaModule:ShowActivities function="spav:muzua"]]
+              
+              <!-- reference functions - screenplay -->
+              [[> sapaModule:ShowActivities function="spav:mupot"]]
+              
+              <!-- reference functions - composition -->
+              [[> sapaModule:ShowActivities function="spav:mufbo"]]
+              
+              <!-- performance functions - acting -->
+              [[> sapaModule:ShowActivities function="spav:munib"]]
+              
+              <!-- performance functions - dance -->
+              [[> sapaModule:ShowActivities function="spav:mulcp"]]
+              
+              <!-- performance functions - performance -->
+              [[> sapaModule:ShowActivities function="spav:muawx"]]
+          
+              <!-- performance functions - pantomine -->
+              [[> sapaModule:ShowActivities function="spav:mujhq"]]
+
+              <!-- performance functions - puppet show -->
+              [[> sapaModule:ShowActivities function="spav:muhkf"]]
+              
+              <!-- performance functions - music performance -->
+              [[> sapaModule:ShowActivities function="spav:muiim"]]
+              
+              <!-- performance functions - singing -->
+              [[> sapaModule:ShowActivities function="spav:muygg"]]
+
+              <!-- performance functions - intrumental performance -->
+              [[> sapaModule:ShowActivities function="spav:mupah"]]
+                
+              <!-- performance functions - oeil extérieure -->
+              [[> sapaModule:ShowActivities function="spav:mudat"]]
+
+              <!-- performance functions - narration -->
+              [[> sapaModule:ShowActivities function="spav:muacs"]]
+
+              <!-- performance functions - host -->
+              [[> sapaModule:ShowActivities function="spav:mupfz"]]
+
+              <!-- performance functions - moderation -->
+              [[> sapaModule:ShowActivities function="spav:mumnc"]]
+              
+              <!-- performance functions - contribution -->
+              [[> sapaModule:ShowActivities function="spav:munuj"]]
+
+              <!-- ============== Performance Single ============== -->
+
+              <!-- Date Label -->
+              <semantic-query 
+                query='SELECT ?E52sinlabel
+                      WHERE {
+                        ?? crm:P4_has_time-span ?E52sin. 
+                        ?E52sin rdfs:label ?E52sinlabel
+                      } '
+                template='<p>{{#each bindings}}{{#if @first}}<strong>{{E52sinlabel.value}}</strong>{{else}}<br>{{E52sinlabel.value}}{{/if}}{{/each}}</p>'
+              >
+              </semantic-query>  
+
+              <!-- Type -->
+              <semantic-query 
+                query='SELECT DISTINCT ?F31sinTypeValue
+                      WHERE {
+                        ?? crm:P2_has_type ?F31sinType .
+                        ?F31sinType skos:prefLabel ?F31sinTypeValue .
+
+                      } '
+                template='<p>{{#each bindings}}{{#if @first}}<strong>{{F31sinTypeValue.value}}</strong>{{else}}<br>{{F31sinTypeValue.value}}{{/if}}{{/each}}</p>'
+              >
+              </semantic-query>
+            [[/if]]
+          </bs-col>
+          <bs-col sm="4">
 
             <!-- external resources -->
             [[> sapaModule:ExternalResources]]
 
             [[#if (hasPermission "forms:ldp:*")]]
             <semantic-query 
-                query='SELECT ?id WHERE {
-                  ?P1Single crm:P9i_forms_part_of ?? .
-                  ?P1Single crm:P1_is_identified_by [
+                query='SELECT ?typeLabel ?id 
+                WHERE {
+                  ?? crm:P1_is_identified_by [
                     a crm:E42_Identifier ;
+                    crm:P2_has_type ?idType ;
                     rdf:value ?id ] .
+                  ?idType skos:prefLabel ?typeLabel 
+                  FILTER(LANGMATCHES(LANG(?typeLabel), ?__userPreferredLanguage__))
                 }'
-            template='<div><h5>RepID</h5>{{#each bindings}}<p>{{id.value}}</p>{{/each}}</div>'>
+            template='<div><h5>Identifiers</h5>{{#each bindings}}<p>{{typeLabel.value}}: {{id.value}}</p>{{/each}}</div>'>
             </semantic-query>
             [[/if]]
             
