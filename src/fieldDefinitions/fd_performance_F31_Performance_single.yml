@@ -121,7 +121,8 @@ fields:
                     ?newUri rdfs:label ?dateString .
                     $subject rdfs:label ?dateStringSingle .
                   } WHERE {
-                    BIND(IRI(CONCAT(STR($subject),"/date")) AS ?newUri)
+                    $subject crm:P4_has_time-span ?hasTIME .
+                    BIND(IF(BOUND(?hasTIME),IRI(CONCAT(STR($subject),"/date")),?hasTIME) AS ?newUri)
                     BIND(STR($value) as ?dateString)
                     BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
                   }'
@@ -132,11 +133,7 @@ fields:
           ?newUri crm:P82b_end_of_the_end $value .
           ?newUri rdfs:label ?dateString .
           $subject rdfs:label ?dateStringSingle .
-        } WHERE {
-          BIND(IF(CONTAINS(STR(?newUri),"/date"),IRI(CONCAT(STR($subject),"/date")),?newUri) AS ?newUri)
-          BIND(STR($value) as ?dateString)
-          BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
-        }'
+        } WHERE {}'
 
   - id: PerformanceSingle_Title_Label
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_Title_Label

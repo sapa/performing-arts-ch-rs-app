@@ -1,7 +1,7 @@
 [[#*inline "chosen-function"]][[#if function]][[function]][[else]]{{function}}[[/if]][[/inline]]
 
 <semantic-query 
-    query='SELECT ?function ?actor ?class ?index ?activitylabel ?activitycomment ?bool WHERE {
+    query='SELECT ?function ?actor ?class ?index ?activitylabel ?activitycomment ?bool ?bEC ?expressioncreation WHERE {
         [[#if function]]
             BIND(?? as ?subject)
         [[else]]
@@ -24,17 +24,32 @@
         OPTIONAL { ?activity rdfs:label ?activitylabel . }
         OPTIONAL { ?activity rdfs:comment ?activitycomment . }
         BIND(IF(!CONTAINS(STR($actor), "/u/"), "true","") AS ?bool)
+        BIND(IF(BOUND(?expressioncreation), "true","") AS ?bEC)
         } ORDER BY ASC(?index)'
-    template='<div>
-        {{#ifCond bindings.length ">" 0}}<h5><mp-label iri="{{bindings.0.function.value}}"></mp-label></h5>{{/ifCond}}
-        <ul class="list-unstyled">
-        {{#each bindings}}
-        {{#if bool.value}} 
-        <li><semantic-link iri="{{actor.value}}"></semantic-link>{{#if activitylabel}} ({{activitylabel.value}}){{/if}}{{#if activitycomment}} [{{activitycomment.value}}]{{/if}}</li>
-        {{else}}
-        <li><mp-label iri="{{actor.value}}"></mp-label>{{#if activitylabel}} ({{activitylabel.value}}){{/if}}{{#if activitycomment}} [{{activitycomment.value}}]{{/if}}</li>
-        {{/if}}
-        {{/each}}
-        </ul></div>'>
+    template='
+        <div>
+            {{#ifCond bindings.length ">" 0}}<h5><mp-label iri="{{bindings.0.function.value}}"></mp-label></h5>{{/ifCond}}
+            <ul class="list-unstyled">
+            {{#each bindings}}
+                <li style="margin-bottom: 0.5em;">
+                    {{# if bEC.value }}
+                    <div id="nonPerformativeWork" style="background-color: hsl(240, 15%, 94%); display: initial;">
+                    {{/if}}
+
+                    {{#if bool.value}} 
+                        <semantic-link iri="{{actor.value}}"></semantic-link>                        
+                    {{else}}
+                       <mp-label iri="{{actor.value}}"></mp-label>                        
+                    {{/if}}
+
+                    {{#if activitylabel}} ({{activitylabel.value}}){{/if}}{{#if activitycomment}} [{{activitycomment.value}}]{{/if}}
+                    
+                    {{# if bEC.value }}
+                    </div>
+                    {{/if}}
+                </li>
+            {{/each}}
+            </ul>
+        </div>'>
 </semantic-query>
 

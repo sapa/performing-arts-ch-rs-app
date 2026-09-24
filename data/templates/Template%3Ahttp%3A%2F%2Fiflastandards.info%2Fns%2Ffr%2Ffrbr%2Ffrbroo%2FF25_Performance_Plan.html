@@ -62,20 +62,28 @@
               </semantic-query>
 
               <!-- producer & season -->
+              <!-- performance functions - Production -->
+              [[> sapaModule:ShowActivities function="spav:muwgo"]] 
               <semantic-query 
                   query='SELECT ?producer ?unidentified ?season
                   WHERE {
-                      ?expressioncreation frbroo:R17_created ?? ;
-                          crm:P9_consists_of ?production .
-                      ?production crm:P2_has_type spav:muwgo ;
-                          crm:P14_carried_out_by ?producer .
-                      OPTIONAL {
+                     ?expressioncreation frbroo:R17_created ?? .
+                     OPTIONAL {
                           ?expressioncreation crm:P10_falls_within ?season .
                           FILTER(CONTAINS(STR(?season), "/s/"))
                       }
                       BIND(IF(CONTAINS(STR($producer), "/u/"), "true", "") AS ?unidentified)
                   }'
-              template='<h5>production</h5><p>{{#each bindings}}{{#if @first}}{{else}}, {{/if}}{{#if unidentified.value}}<mp-label iri="{{producer.value}}"></mp-label>{{else}}<semantic-link iri="{{producer.value}}"></semantic-link>{{/if}}{{#if @last}}{{#if season}}<br><semantic-link iri="{{season.value}}"></semantic-link>{{/if}}{{/if}}{{/each}}</p>'>
+              template='<h5>production</h5><p>{{#each bindings}}
+                                                  {{#if @first}}{{else}}, 
+                                                  {{/if}}
+                                                  {{#if unidentified.value}}
+                                                    <mp-label iri="{{producer.value}}"></mp-label>
+                                                  {{else}}
+                                                    <semantic-link iri="{{producer.value}}"></semantic-link>
+                                                  {{/if}}
+                                                  {{#if @last}}
+                                                  {{#if season}}<br><semantic-link iri="{{season.value}}"></semantic-link>{{/if}}{{/if}}{{/each}}</p>'>
               </semantic-query>
 
               <!-- description -->
