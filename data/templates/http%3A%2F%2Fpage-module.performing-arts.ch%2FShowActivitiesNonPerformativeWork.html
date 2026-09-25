@@ -1,0 +1,49 @@
+<semantic-query
+  query="SELECT DISTINCT ?nonPerformativeWork
+        WHERE {
+            ?? frbroo:R14_incorporates ?nonPerformativeWork .
+            ?expressioncreation frbroo:R17_created ?nonPerformativeWork .
+        }" 
+  template='{{> template-NonPerformativeWork }}'>>
+
+<template id='template-NonPerformativeWork'>
+
+    {{#each bindings}}
+        <div class="sapa-parts-module-nonperformativework">
+            
+            <h5><semantic-link iri="{{nonPerformativeWork.value}}"></semantic-link></h5>
+            <semantic-query 
+            query='SELECT DISTINCT ?typeActivity ?actor ?index ?activitylabel ?activitycomment ?bool
+            WHERE {
+                BIND(<{{nonPerformativeWork.value}}> AS ?nPerformaceWork)
+                ?expressioncreation frbroo:R17_created ?nPerformaceWork ;
+                                    crm:P9_consists_of ?activity .
+                ?activity crm:P2_has_type ?typeActivity ;
+                            crm:P14_carried_out_by ?actor .
+                OPTIONAL { ?activity olo:index ?index . }
+                OPTIONAL { ?activity rdfs:label ?activitylabel . }
+                OPTIONAL { ?activity rdfs:comment ?activitycomment . }
+                BIND(IF(!CONTAINS(STR($actor), "/u/"), "true","") AS ?bool)
+            } 
+            ORDER BY ASC(?index)'
+            template='{{> template-NonPerformativeWork-Activities }}'
+            >
+            <template id="template-NonPerformativeWork-Activities">
+                <ul class="list-unstyled" style="margin-bottom: 0.3em;">
+                    {{#ifCond bindings.length ">" 0}}<h5><mp-label iri="{{bindings.0.typeActivity.value}}"></mp-label></h5>{{/ifCond}}
+                    {{#each bindings}}
+                        <li style="margin-bottom: 0.3em;">
+                            {{#if bool.value}} 
+                                <semantic-link iri="{{actor.value}}"></semantic-link>                        
+                            {{else}}
+                            <mp-label iri="{{actor.value}}"></mp-label>                        
+                            {{/if}}
+                            {{#if activitylabel}} ({{activitylabel.value}}){{/if}}{{#if activitycomment}} [{{activitycomment.value}}]{{/if}}                            
+                        </li>
+                    {{/each}}
+                </ul>
+            </template>    
+            </semantic-query>       
+        </div>
+    {{/each}}
+</template>
