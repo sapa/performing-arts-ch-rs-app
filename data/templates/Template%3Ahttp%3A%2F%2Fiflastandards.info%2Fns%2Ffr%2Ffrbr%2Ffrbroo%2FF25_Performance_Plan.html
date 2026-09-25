@@ -427,6 +427,13 @@
         
       </bs-tab>
       
+       [[#if (ask "ASK { ?? a frbroo:F25_Performance_Plan .}")]]
+        <bs-tab event-key="collections" title='[[i18n "TabCollections" bundle="performing-arts-ch"]]'>
+          [[> sapaModule:CollectionsPerformancePlan]]
+        </bs-tab>
+      [[/if]]
+
+
       [[#if (hasPermission "sparql:*:*:*")]] 
       <bs-tab event-key='Edit' title='[[i18n "TabEdit" bundle="performing-arts-ch"]]'>
       [[> sapaModule:PerformancePlan]]

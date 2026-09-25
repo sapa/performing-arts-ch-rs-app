@@ -1,0 +1,104 @@
+  <bs-row>
+    <bs-col sm="4">
+        [[> module-collections label="Subject of" predicate="rico:hasOrHadSubject"]]        
+    </bs-col>
+    <bs-col sm="4">
+        [[> module-collections_documentby label="Documented by"]]
+    </bs-col>
+    <bs-col sm="4">
+        <semantic-query
+          query='SELECT DISTINCT ?note 
+            WHERE { 
+                ?? a frbroo:F25_Performance_Plan ;
+                    rico:isOrWasDescribedBy ?record .
+                ?record a rico:Record ;
+                    spao:hasNote ?note.
+            }'
+          template='
+            {{#if bindings}}
+            <div>
+                <h5>Document By (Note)</h5>
+                <span>
+                    {{bindings.0.note.value}}
+                </span>
+            </div>
+            {{/if}}
+            '>
+          </semantic-query>
+    </bs-col>
+  </bs-row>
+
+  [[#*inline "module-collections"]]
+    <h5>[[label]]</h5>
+    <semantic-tree
+        query='SELECT DISTINCT ?node ?parent ?identifier ?level ?idTecValue WHERE {
+                {
+                    ?record [[predicate]] ?? ;
+                        rico:isOrWasIncludedIn* ?node .
+                    MINUS { ?record a rico:RecordPart . }
+                } UNION {
+                    ?recordpart [[predicate]] ?? ;
+                        a rico:RecordPart ;
+                        rico:isOrWasConstituentOf ?record .
+                    ?record rico:isOrWasIncludedIn* ?node .
+                }
+                FILTER(ISIRI(?node))
+                FILTER(CONTAINS(STR(?node), "/r/"))
+                OPTIONAL { ?node rico:isOrWasIncludedIn ?parent. FILTER(ISIRI(?parent)) }
+                OPTIONAL { ?node rico:identifier ?identifier }
+                OPTIONAL {
+                    ?node rico:hasOrHadIdentifier ?identifierTec .
+                    ?identifierTec a rico:Identifier ;
+                        crm:P2_has_type spav:idtec ;
+                        rdf:value ?idTecValue
+                    BIND(xsd:integer(STRAFTER(?idTecValue, "-")) AS ?idTecPart2)
+                    BIND(xsd:integer(STRBEFORE(?idTecValue, "-")) AS ?idTecPart1)
+                }
+                OPTIONAL { ?node rico:hasRecordSetType ?rslevel . }
+                BIND(IF(BOUND(?rslevel), ?rslevel, spav:rsitm) AS ?level)
+            } ORDER BY ?idTecPart1 ?idTecPart2 ?identifier'
+        tuple-template='{{>node}}'> 
+        <template id='node'>
+            <span>
+            {{#if identifier}}{{identifier.value}}: {{/if}}<semantic-link uri="{{node.value}}">{{label}}</semantic-link>{{#if level}} (<mp-label iri="{{level.value}}"></mp-label>){{/if}}
+            </span>
+        </template>
+    </semantic-tree>
+[[/inline]]
+
+
+ [[#*inline "module-collections_documentby"]]
+    <h5>[[label]]</h5>
+    <semantic-tree
+        query='SELECT  DISTINCT ?node ?parent ?identifier ?level ?idTecValue
+        WHERE {
+            ?? a frbroo:F25_Performance_Plan ;
+                rico:isOrWasDescribedBy ?record .
+            ?record a rico:Record ; 
+                rico:hasDocumentaryFormType ?type ;
+                rico:recordResourceSourceOfInformation* ?node .
+            MINUS { ?record a rico:RecordPart . }
+            FILTER(ISIRI(?node))
+            FILTER(CONTAINS(STR(?node), "/r/"))
+            OPTIONAL { ?node rico:isOrWasIncludedIn ?parent. FILTER(ISIRI(?parent)) }
+            OPTIONAL { ?node rico:identifier ?identifier }
+            OPTIONAL {
+                ?node rico:hasOrHadIdentifier ?identifierTec .
+                ?identifierTec a rico:Identifier ;
+                            crm:P2_has_type spav:idtec ;
+                            rdf:value ?idTecValue
+                BIND(xsd:integer(STRAFTER(?idTecValue, "-")) AS ?idTecPart2)
+                BIND(xsd:integer(STRBEFORE(?idTecValue, "-")) AS ?idTecPart1)    
+            }
+            OPTIONAL { ?node rico:hasRecordSetType ?rslevel . }
+            BIND(IF(BOUND(?rslevel), ?rslevel, spav:rsitm) AS ?level)
+            }
+        '
+        tuple-template='{{>node}}'> 
+        <template id='node'>
+            <span>
+            {{#if identifier}}{{identifier.value}}: {{/if}}<semantic-link uri="{{node.value}}">{{label}}</semantic-link>{{#if level}} (<mp-label iri="{{level.value}}"></mp-label>){{/if}}
+            </span>
+        </template>
+    </semantic-tree>
+[[/inline]]
