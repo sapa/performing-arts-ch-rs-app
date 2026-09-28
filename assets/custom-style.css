@@ -421,3 +421,23 @@ span.Tree--leafNode {
   width: 100%;
   height: 600px;
 }
+
+.sapa-parts-module-nonperformativework {
+  background-color: #f1f1f3c5;
+  padding-left: 2%;
+  padding-right: 2%;
+  
+  > h5:first-child {
+    padding-top: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  h6 {
+    margin-bottom: 1rem;
+
+    a {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+  }
+}

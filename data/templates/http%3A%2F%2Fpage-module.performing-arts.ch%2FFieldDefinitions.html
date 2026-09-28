@@ -4478,8 +4478,8 @@ BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), \" (\", ?F28Label, \")\"), STR(?ti
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:date",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P4_has_time-span ?newUri . ?newUri crm:P82a_begin_of_the_begin ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { BIND(IRI(CONCAT(STR($subject),\"/date\")) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
-                "deletePattern" : "DELETE { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { BIND(IF(CONTAINS(STR(?newUri),\"/date\"),IRI(CONCAT(STR($subject),\"/date\")),?newUri) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
+                "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { $subject crm:P4_has_time-span ?hasTIME . BIND(IF(BOUND(?hasTIME),IRI(CONCAT(STR($subject),\"/date\")),?hasTIME) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
+                "deletePattern" : "DELETE { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE {}",
         "iri" : "PerformanceSingle_P4_has_time_span_E52TimeSpanValue"
     }
 [[/inline]]
