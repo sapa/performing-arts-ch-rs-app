@@ -537,21 +537,6 @@ BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
         "iri" : "ExpressionCreation_NPE_frbroo_ConsistOf"
     }
 [[/inline]]
- [[#*inline "ExpressionCreation_NPE_frbroo_P14_carried_out_by"]]
-    {
-        "id" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by",
-
-            "label": "[[i18n "field_carried_out_by" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
-            "xsdDatatype" : "xsd:anyURI",
-            "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
-            "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
-                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
-                "autosuggestionPattern" : "SELECT $value ?label WHERE { $value rdf:type/rdfs:subClassOf* crm:E39_Actor ; rdfs:label ?label . FILTER(CONTAINS(STR($value),\"/a/\") || CONTAINS(STR($value),\"/u/\") ) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" } LIMIT 10",
-        "iri" : "ExpressionCreation_NPE_frbroo_P14_carried_out_by"
-    }
-[[/inline]]
  [[#*inline "Rico_hasDocumentaryFormType"]]
     {
         "id" : "Rico_hasDocumentaryFormType",
@@ -4478,7 +4463,7 @@ BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), \" (\", ?F28Label, \")\"), STR(?ti
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:date",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P4_has_time-span ?newUri . ?newUri crm:P82a_begin_of_the_begin ?value . }",
-                "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { $subject crm:P4_has_time-span ?hasTIME . BIND(IF(BOUND(?hasTIME),IRI(CONCAT(STR($subject),\"/date\")),?hasTIME) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
+                "insertPattern" : "INSERT { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE { $subject crm:P4_has_time-span ?hasTIME . BIND(IF(BOUND(?hasTIME),?hasTIME,IRI(CONCAT(STR($subject),\"/date\"))) AS ?url0) BIND(IF(CONTAINS(STR(?hasTIME),\"/date\"),?hasTIME,?url0) AS ?newUri) BIND(STR($value) as ?dateString) BIND(CONCAT(\"Performance on the \",STR($value)) as ?dateStringSingle) }",
                 "deletePattern" : "DELETE { $subject crm:P4_has_time-span ?newUri . ?newUri rdf:type crm:E52_Time-Span . ?newUri crm:P82a_begin_of_the_begin $value . ?newUri crm:P82b_end_of_the_end $value . ?newUri rdfs:label ?dateString . $subject rdfs:label ?dateStringSingle . } WHERE {}",
         "iri" : "PerformanceSingle_P4_has_time_span_E52TimeSpanValue"
     }
