@@ -1,7 +1,7 @@
 [[#*inline "chosen-function"]][[#if function]][[function]][[else]]{{function}}[[/if]][[/inline]]
 
 <semantic-query 
-    query='SELECT ?function ?actor ?class ?index ?activitylabel ?activitycomment ?bool ?bEC ?expressioncreation WHERE {
+    query='SELECT ?function ?actor ?class ?index ?activitylabel ?activitycomment ?bool WHERE {
         [[#if function]]
             BIND(?? as ?subject)
         [[else]]
@@ -24,7 +24,6 @@
         OPTIONAL { ?activity rdfs:label ?activitylabel . }
         OPTIONAL { ?activity rdfs:comment ?activitycomment . }
         BIND(IF(!CONTAINS(STR($actor), "/u/"), "true","") AS ?bool)
-        BIND(IF(BOUND(?expressioncreation), "true","") AS ?bEC)
         } ORDER BY ASC(?index)'
     template='
         <div>
@@ -32,10 +31,7 @@
             <ul class="list-unstyled">
             {{#each bindings}}
                 <li style="margin-bottom: 0.5em;">
-                    {{# if bEC.value }}
-                    <div id="nonPerformativeWork" style="background-color: hsl(240, 15%, 94%); display: initial;">
-                    {{/if}}
-
+            
                     {{#if bool.value}} 
                         <semantic-link iri="{{actor.value}}"></semantic-link>                        
                     {{else}}
@@ -44,9 +40,6 @@
 
                     {{#if activitylabel}} ({{activitylabel.value}}){{/if}}{{#if activitycomment}} [{{activitycomment.value}}]{{/if}}
                     
-                    {{# if bEC.value }}
-                    </div>
-                    {{/if}}
                 </li>
             {{/each}}
             </ul>
