@@ -22,9 +22,10 @@
                             (spav:gogja 4)
                             (spav:gowgn 5)
                         }
+                        FILTER(LANGMATCHES(LANG(?title_value), ?__userPreferredLanguage__))
                         } ORDER BY ASC(?order)'
                         template='<div>
-                                    <p>{{#each bindings}}{{#if @first}}<strong><mp-label iri="{{title_type.value}}"></mp-label></    strong>{{else}}<br>{{title_type.value}}{{/if}}{{/each}}</p>
+                                    <p>{{#each bindings}}{{#if @first}}<strong><mp-label iri="{{title_type.value}}"></mp-label></strong>{{else}}<br>{{title_type.value}}{{/if}}{{/each}}</p>
                                     <p>{{#each bindings}}{{#if @first}}{{title_value.value}}{{else}}<br>{{title_value.value}}{{/if}}{{/each}}</p>
                                      
                                   </div>'>
