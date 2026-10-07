@@ -59,6 +59,7 @@ fields:
               GROUP BY ?F28_EC
             }
 
+            FILTER(!CONTAINS(STR(?value),"/u/") )
             BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), " (", ?F28Label, ")"), STR(?title)) AS ?label)
 
           } LIMIT 10' 
