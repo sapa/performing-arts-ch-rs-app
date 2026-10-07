@@ -101,6 +101,8 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P102_has_title
     label: Title
     datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
       - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'

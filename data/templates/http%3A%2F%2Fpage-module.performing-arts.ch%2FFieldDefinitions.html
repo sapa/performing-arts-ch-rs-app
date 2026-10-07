@@ -4257,6 +4257,8 @@ BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), \" (\", ?F28Label, \")\"), STR(?ti
         "id" : "PerformancePlan_P102_has_title",
 
             "label": "[[i18n "field_title" bundle="sapa-fields"]]",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P102_has_title ?value . }",
                 "insertPattern" : "INSERT { $subject crm:P102_has_title $value . } WHERE {}",
