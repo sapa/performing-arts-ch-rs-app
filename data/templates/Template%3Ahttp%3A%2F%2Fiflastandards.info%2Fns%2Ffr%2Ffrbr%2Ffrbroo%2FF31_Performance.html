@@ -270,12 +270,15 @@
                   ?singleDate rdfs:label ?E52TimeSpan_Label .
                 }'
                 template='<p>
+                          {{#ifCond bindings.length ">" 0}}<h5>Performances</h5>{{/ifCond}}
                           {{#each bindings}}
-                            <h5>Performances</h5>
                             {{#if @first}}
-                              <semantic-link iri="{{single.value}}" target="_blank">
+                              <div id="sapa-parts-module">
+                                <br/>
+                                <semantic-link iri="{{single.value}}" target="_blank">
                                 {{E52TimeSpan_Label.value}}
                               </semantic-link>
+                              </div>
                             {{/if}}
                           {{/each}}
                         </p>'
