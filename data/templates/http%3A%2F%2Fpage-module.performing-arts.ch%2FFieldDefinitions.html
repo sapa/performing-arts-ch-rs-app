@@ -95,7 +95,7 @@ SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:
 
             "label": "[[i18n "field_label" bundle="sapa-fields"]]",
             "maxOccurs" : "1",
-            "xsdDatatype" : "xsd:string",
+            "xsdDatatype" : "xsd:langString",
             "domain" : "http://www.w3.org/2002/07/owl#Class",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
                 "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
