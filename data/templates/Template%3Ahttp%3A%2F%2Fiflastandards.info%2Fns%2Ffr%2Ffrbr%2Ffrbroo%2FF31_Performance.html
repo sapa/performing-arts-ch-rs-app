@@ -231,7 +231,10 @@
                         {{VenueLabel.value}}
                     </semantic-link>{{/if}}{{/each}}</p>'
           >
-          </semantic-query>
+            </semantic-query>
+
+            <!-- Activities -->
+            [[> sapaModule:ShowActivitiesGeneric]]
 
           </bs-col>
           <bs-col sm="4">
@@ -286,6 +289,7 @@
               </semantic-query>  
 
             [[else]]
+
               <!-- creation functions - direction -->
               [[> sapaModule:ShowActivities function="spav:mucbq"]]
             
