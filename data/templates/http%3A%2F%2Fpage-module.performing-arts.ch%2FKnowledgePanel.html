@@ -3,9 +3,7 @@
         <mp-resource-thumbnail iri='[[this]]'></mp-resource-thumbnail>
     </div>
     <div class="sari-page-header-content">
-        <h1>
-            <mp-label iri='[[this]]'></mp-label>
-        </h1>
+        <h1><mp-label iri='[[this]]'></mp-label></h1>
 
         <!--Description -->
         <p>
@@ -15,12 +13,13 @@
                     FILTER(CONTAINS(STR(?class), 'RiC') || CONTAINS(STR(?class), 'frbroo'))
                     OPTIONAL { ?? crm:P2_has_type ?crmtype . }
                     OPTIONAL { ?? crm:P4_has_time-span ?timespan . }
+                    OPTIONAL { ?? schema:additionalType ?additionalType . }
                     OPTIONAL {
                         ?work frbroo:R12_is_realised_in ?? ;
                             crm:P2_has_type ?genre .
                     }
                     OPTIONAL { ?? rico:hasRecordSetType ?record_set_type . }
-                    BIND(IF(BOUND(?timespan), ?timespan, IF(BOUND(?genre), ?genre, IF(BOUND(?crmtype), ?crmtype, IF(BOUND(?record_set_type), ?record_set_type, ?class)))) AS ?description)
+                    BIND(IF(BOUND(?timespan), ?timespan, IF(BOUND(?additionalType), ?additionalType, IF(BOUND(?genre), ?genre,IF(BOUND(?crmtype), ?crmtype, IF(BOUND(?record_set_type), ?record_set_type, ?class))))) AS ?description)
                     BIND(STRAFTER(STR(?description),'frbroo/') AS ?desc_name)
                 }"
                 template='{{#each bindings}}[[> addComma]]
