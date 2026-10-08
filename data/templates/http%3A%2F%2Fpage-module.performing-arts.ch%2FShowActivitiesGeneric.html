@@ -1,0 +1,69 @@
+[[#*inline "chosen-function"]][[#if function]][[function]][[else]]{{function}}[[/if]][[/inline]]
+
+<semantic-query 
+    query="SELECT DISTINCT ?subject ?functionType WHERE {
+                [[#if function]]
+                    BIND(?? as ?subject)
+                [[else]]
+                    BIND(<{{resource}}> AS ?subject)    
+                [[/if]]
+
+                {
+                    ?expressioncreation frbroo:R17_created ?subject ;
+                        crm:P9_consists_of ?activity .
+                }
+                UNION {
+                    ?subject crm:P9_consists_of ?activity .
+                }
+                ?activity crm:P2_has_type ?functionType .
+                OPTIONAL { ?activity olo:index ?index . }
+            } 
+            ORDER BY ASC(?index)"
+    template='{{> activities_generic}}' 
+    >
+
+<template id='activities_generic'>
+    {{#each bindings}}
+    <semantic-query 
+    query='SELECT ?actor ?class ?index ?activitylabel ?activitycomment ?addType ?bool WHERE {
+            
+        BIND(<{{subject.value}}> AS ?subjectType)
+        BIND(<{{functionType.value}}> as ?hasType)
+
+        {
+            ?expressioncreation frbroo:R17_created ?subjectType ;
+                crm:P9_consists_of ?activity .
+        } UNION {
+            ?subjectType crm:P9_consists_of ?activity .
+        }
+        ?activity crm:P2_has_type ?hasType ;
+            crm:P14_carried_out_by ?actor .
+        OPTIONAL { ?activity olo:index ?index . }
+        OPTIONAL { ?activity schema:additionalType ?addType . }
+        OPTIONAL { ?activity rdfs:label ?activitylabel . }
+        OPTIONAL { ?activity rdfs:comment ?activitycomment . }
+        BIND(IF(!CONTAINS(STR($actor), "/u/"), "true","") AS ?bool)
+        } ORDER BY ASC(?index)'
+    template='
+        {{#ifCond bindings.length ">" 0}}<div><h5><mp-label iri="{{functionType.value}}"></mp-label></h5></div>{{/ifCond}}
+        <ul class="list-unstyled">
+        {{#each bindings}}
+            <li style="margin-bottom: 0.5em;">
+                
+                {{#if bool.value}} 
+                    <semantic-link iri="{{actor.value}}"></semantic-link> {{#if addType.value}}(<mp-label iri="{{addType.value}}"></mp-label>){{/if}}
+
+                {{else}}
+                    <mp-label iri="{{actor.value}}"></mp-label> {{#if addType.value}}(<mp-label iri="{{addType.value}}"></mp-label>){{/if}}
+                {{/if}}
+
+                {{#if activitylabel}} ({{activitylabel.value}}){{/if}}{{#if activitycomment}} [{{activitycomment.value}}]{{/if}}
+                
+            </li>
+        {{/each}}
+        </ul>
+        '>
+    </semantic-query>
+    {{/each}}
+</template>
+</semantic-query>
