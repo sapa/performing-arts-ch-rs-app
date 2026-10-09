@@ -8,7 +8,7 @@
 
 
 <template id='template-NonPerformativeWork'>
-
+    {{# if bindings.length}}<h5>Non-Performative Work</h5>{{/if}}
     {{#each bindings}}
         <div class="sapa-parts-module-nonperformativework">
             <!-- Non-Performative Expression -->
@@ -69,3 +69,4 @@
         </div>
     {{/each}}
 </template>
+</semantic-query>
