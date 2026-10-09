@@ -261,30 +261,6 @@
               </semantic-query>
               [[/if]]
 
-            <!-- record sets -->
-            <semantic-query
-            query='SELECT DISTINCT ?record ?identifier WHERE { 
-              {
-                ?record rico:hasOrHadSubject ?? ;
-                  a rico:RecordSet .
-              } UNION {
-                ?record rico:hasOrHadSubject ?? ;
-                  a rico:Record .
-              } UNION {
-                ?recordpart rico:hasOrHadSubject ?? ;
-                  a rico:RecordPart ;
-                  rico:isOrWasConstituentOf ?record .
-              }
-              OPTIONAL {
-                ?record rico:identifier ?identifier .
-              }
-            }'
-            template='<div><h5>[[i18n "TabCollections" bundle="performing-arts-ch"]]</h5>
-                <ul class="list-unstyled">{{#each bindings}}
-                    <li>{{#if identifier}}{{identifier.value}}: {{/if}}<semantic-link iri="{{record.value}}"></semantic-link></li>
-                {{/each}}</ul></div>'>
-            </semantic-query>     
-            
             <!-- external resources -->
             [[> sapaModule:ExternalResources ]]
             
@@ -301,11 +277,13 @@
                   ?vimeo_url rico:hasCarrierType spav:fvonl .
                   BIND(STRAFTER(STR(?vimeo_url), 'vimeo.com/') AS ?vimeo_id)
               }"
-              template='<div>
+              template='
+                    <br/>
+                    <div>
                       {{#each bindings}}
                       <iframe src="https://player.vimeo.com/video/{{vimeo_id.value}}" frameborder="0" style="width:100%; height:300px; " webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                       {{/each}}
-              </div>'>
+                    </div>'>
             </semantic-query>
 
           </bs-col>
