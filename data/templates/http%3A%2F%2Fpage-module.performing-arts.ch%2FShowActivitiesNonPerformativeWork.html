@@ -9,11 +9,23 @@
 
 <template id='template-NonPerformativeWork'>
     {{# if bindings.length}}<h5>Non-Performative Work</h5>{{/if}}
+    
     {{#each bindings}}
         <div class="sapa-parts-module-nonperformativework">
             <!-- Non-Performative Expression -->
-            <h5><semantic-link iri="{{nonPerformativeWork.value}}"></semantic-link></h5>
-
+            <!-- Title of the Non-Performative Work -->
+            <semantic-query 
+                query='Select DISTINCT ?nPerformaceWork ?label
+                        WHERE {
+                            BIND(<{{nonPerformativeWork.value}}> AS ?nPerformaceWork)
+                            OPTIONAL { ?nPerformaceWork rdfs:label ?NPE_label . }
+                            BIND(IF(BOUND(?NPE_label),?NPE_label,"[untitled]") AS ?label)
+                        }'
+                template='
+                        <h5><semantic-link iri="{{bindings.0.nPerformaceWork.value}}">{{bindings.0.label.value}}</semantic-link></h5>'
+                        
+                >
+            </semantic-query>
             <semantic-query 
                 query='SELECT DISTINCT ?nPerformaceWork ?typeActivity
                 WHERE {
