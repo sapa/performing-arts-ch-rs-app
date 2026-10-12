@@ -4249,7 +4249,7 @@ fields:
     label: Subject
     datatype: xsd:anyURI
     domain: https://www.ica.org/standards/RiC/ontology#RecordResource
-    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
+    range: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan, http://iflastandards.info/ns/fr/frbr/frbroo/F31_Performance, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, https://www.ica.org/standards/RiC/ontology#Agent, https://www.ica.org/standards/RiC/ontology#Concept, https://www.ica.org/standards/RiC/ontology#Thing
     queries:
       - select: 'SELECT $value WHERE {
           $subject rico:hasOrHadSubject $value . 
@@ -4268,6 +4268,7 @@ fields:
             (rico:Family "group" "Gruppe" "groupe" "gruppo")
             (rico:Record "Record" "Record" "Record" "Record")
             (frbroo:F26_Recording "recording" "Aufnahme" "enregistrement" "registrazione")
+            (frbroo:F31_Performance  "performance" "Aufführung" "performance" "performance")
             (frbroo:F25_Performance_Plan "production" "Produktion" "production" "produzion")
             (crm:E22_Man-Made_Object "venue" "Spielstätte" "lieu de représentation" "teatro")
           }
@@ -4287,11 +4288,18 @@ fields:
             $value rdf:type ?type ;
               rdfs:label|rico:name ?item_label .
           }
+
+          OPTIONAL { 
+            $value schema:additionalType [ skos:prefLabel ?aTypeLabel ] .
+            FILTER(LANG(?aTypeLabel) = ?lang)      
+          }
+          BIND(IF(BOUND(?aTypeLabel),?aTypeLabel,"") AS ?AdditionalTypelabel)
+
           BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator)
-          FILTER(?type_indicator = "a" || ?type_indicator = "r" || ?type_indicator = "w"  || ?type_indicator = "o")
+          FILTER(?type_indicator = "a" || ?type_indicator = "r" || ?type_indicator = "w"  || ?type_indicator = "o" || ?type_indicator = "f")
           OPTIONAL { $value crm:P2_has_type ?crmtype. }
           FILTER((?type != crm:E22_Man-Made_Object) || (?crmtype = spav:dwmkn))
-          BIND(CONCAT(?item_label, " (", ?type_label, IF(BOUND(?place_label), CONCAT(", ", ?place_label), ""), ")") AS ?label)
+          BIND(CONCAT(?item_label, " (", IF(BOUND(?aTypeLabel),?aTypeLabel,?type_label), IF(BOUND(?place_label), CONCAT(", ", ?place_label), ""), ")") AS ?label)
         } LIMIT 100'
 
   - id: RecordResourceSubjectU
