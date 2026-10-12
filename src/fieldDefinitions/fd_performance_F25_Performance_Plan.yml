@@ -103,7 +103,6 @@ fields:
     label: Title
     datatype: xsd:anyURI
     minOccurs: 1
-    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
       - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'
