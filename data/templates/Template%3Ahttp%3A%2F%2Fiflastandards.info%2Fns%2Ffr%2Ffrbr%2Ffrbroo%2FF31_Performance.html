@@ -37,7 +37,7 @@
               template='<p>
                   {{#each bindings}}
                     {{#if @first}}
-                      <semantic-link iri="{{UriSeason.value}}" class="text-link-action" target="_blank">
+                      <semantic-link iri="{{UriSeason.value}}" target="_blank">
                           {{saisonLabel.value}}
                       </semantic-link>{{/if}}{{/each}}</p>'
               >
@@ -231,7 +231,10 @@
                         {{VenueLabel.value}}
                     </semantic-link>{{/if}}{{/each}}</p>'
           >
-          </semantic-query>
+            </semantic-query>
+
+            <!-- Activities -->
+            [[> sapaModule:ShowActivitiesGeneric function="true"]]
 
           </bs-col>
           <bs-col sm="4">
@@ -270,12 +273,15 @@
                   ?singleDate rdfs:label ?E52TimeSpan_Label .
                 }'
                 template='<p>
+                          {{#ifCond bindings.length ">" 0}}<h5>Performances</h5>{{/ifCond}}
                           {{#each bindings}}
-                            <h5>Performances</h5>
                             {{#if @first}}
-                              <semantic-link iri="{{single.value}}" target="_blank">
+                              <div id="sapa-parts-module">
+                                <br/>
+                                <semantic-link iri="{{single.value}}" target="_blank">
                                 {{E52TimeSpan_Label.value}}
                               </semantic-link>
+                              </div>
                             {{/if}}
                           {{/each}}
                         </p>'
@@ -283,6 +289,7 @@
               </semantic-query>  
 
             [[else]]
+
               <!-- creation functions - direction -->
               [[> sapaModule:ShowActivities function="spav:mucbq"]]
             

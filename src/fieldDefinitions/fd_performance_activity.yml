@@ -196,7 +196,7 @@ fields:
   - id: Activity_Label
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_Label
     label: Label
-    datatype: xsd:string
+    datatype: xsd:langString
     domain: http://www.w3.org/2002/07/owl#Class
     maxOccurs: 1
     queries: 

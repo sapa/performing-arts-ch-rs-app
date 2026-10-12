@@ -59,6 +59,7 @@ fields:
               GROUP BY ?F28_EC
             }
 
+            FILTER(!CONTAINS(STR(?value),"/u/") )
             BIND(IF(BOUND(?F28Label), CONCAT(STR(?title), " (", ?F28Label, ")"), STR(?title)) AS ?label)
 
           } LIMIT 10' 
@@ -101,6 +102,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P102_has_title
     label: Title
     datatype: xsd:anyURI
+    minOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
       - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'

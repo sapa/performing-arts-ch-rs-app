@@ -121,9 +121,11 @@ fields:
                     ?newUri rdfs:label ?dateString .
                     $subject rdfs:label ?dateStringSingle .
                   } WHERE {
-                    $subject crm:P4_has_time-span ?hasTIME .
-                    BIND(IF(BOUND(?hasTIME),?hasTIME,IRI(CONCAT(STR($subject),"/date"))) AS ?url0)
-                    BIND(IF(CONTAINS(STR(?hasTIME),"/date"),?hasTIME,?url0) AS ?newUri)
+                    OPTIONAL {
+                      $subject crm:P4_has_time-span ?hasTIME .
+                    }
+                    BIND(IF(!BOUND(?hasTIME),IRI(CONCAT(STR($subject),"/date")),?hasTIME) AS ?url0)
+                    BIND(IF(BOUND(?hasTIME) && CONTAINS(STR(?hasTIME),"/date"),?hasTIME,?url0) AS ?newUri)
                     BIND(STR($value) as ?dateString)
                     BIND(CONCAT("Performance on the ",STR($value)) as ?dateStringSingle)
                   }'
