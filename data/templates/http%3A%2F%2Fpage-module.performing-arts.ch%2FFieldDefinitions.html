@@ -77,20 +77,9 @@ FILTER(!CONTAINS(STR(?value),\"/u/\") ) BIND(IF(BOUND(?F28Label), CONCAT(STR(?ti
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:langString",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdf:value ?value . }",
-                "insertPattern" : "INSERT { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { BIND(IRI(REPLACE(STR($subject),\"/title\",\"\")) AS ?parent) }",
-                "deletePattern" : "DELETE { $subject rdf:value $value . } WHERE { }",
+                "insertPattern" : "INSERT { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { OPTIONAL { $subject ^crm:P102_has_title ?parentSubject . } BIND(IF(CONTAINS(STR($parentSubject),\"/title\"),IRI(REPLACE(STR($parentSubject),\"/title\",\"\")),?parentSubject) AS ?parent) }",
+                "deletePattern" : "DELETE { $subject rdf:value $value . ?parent rdfs:label $value . } WHERE { OPTIONAL { $subject ^crm:P102_has_title ?parentSubject . } BIND(IF(CONTAINS(STR($parentSubject),\"/title\"),IRI(REPLACE(STR($parentSubject),\"/title\",\"\")),?parentSubject) AS ?parent) }",
         "iri" : "PerformancePlan_Title_Label_Value"
-    }
-[[/inline]]
- [[#*inline "PerformancePlan_RDFSLabel"]]
-    {
-        "id" : "PerformancePlan_RDFSLabel",
-
-            "xsdDatatype" : "xsd:langString",
-            "domain" : "http://www.w3.org/2000/01/rdf-schema#label",
-                "selectPattern" : "SELECT $value WHERE { $subject rdfs:label $value }",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "PerformancePlan_RDFSLabel"
     }
 [[/inline]]
  [[#*inline "PerformancePlan_P67_is_referred_to_by"]]
@@ -227,7 +216,8 @@ FILTER(!CONTAINS(STR(?value),\"/u/\") ) BIND(IF(BOUND(?F28Label), CONCAT(STR(?ti
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
                 "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
-                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
+                "insertPattern" : "INSERT { $subject crm:P14_carried_out_by $value . } WHERE {}",
+                "deletePattern" : "DELETE { $subject crm:P14_carried_out_by $value . } WHERE {}",
                 "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ; crm:P131_is_identified_by [ rdf:value ?ll ] .
 BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\")
 SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
@@ -4099,6 +4089,22 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
         "iri" : "PerformanceSingle_P1_is_identified_by"
     }
 [[/inline]]
+ [[#*inline "Activity_ActorLabel"]]
+    {
+        "id" : "Activity_ActorLabel",
+
+            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
+            "description" : "A short comment that helps to identify the entity.",
+            "minOccurs" : "1",
+            "maxOccurs" : "1",
+            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
+            "domain" : "http://www.w3.org/2002/07/owl#Class",
+                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
+                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
+        "iri" : "Activity_ActorLabel"
+    }
+[[/inline]]
  [[#*inline "Non_Performative_Expression_P102_has_title"]]
     {
         "id" : "Non_Performative_Expression_P102_has_title",
@@ -4410,22 +4416,6 @@ BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
         "iri" : "PerformanceSerie_VenueLabel"
     }
 [[/inline]]
- [[#*inline "Activity_ActorLabel"]]
-    {
-        "id" : "Activity_ActorLabel",
-
-            "label": "[[i18n "field_label" bundle="sapa-fields"]]",
-            "description" : "A short comment that helps to identify the entity.",
-            "minOccurs" : "1",
-            "maxOccurs" : "1",
-            "xsdDatatype" : "http://www.w3.org/2001/XMLSchema#string",
-            "domain" : "http://www.w3.org/2002/07/owl#Class",
-                "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
-                "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
-        "iri" : "Activity_ActorLabel"
-    }
-[[/inline]]
  [[#*inline "PerformanceSerie_P102_has_title"]]
     {
         "id" : "PerformanceSerie_P102_has_title",
@@ -4523,7 +4513,6 @@ BIND(CONCAT(?l3, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing
         "id" : "PerformanceSerie_isOrWasDescribedBy",
 
             "label": "[[i18n "field_recordsource" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }",

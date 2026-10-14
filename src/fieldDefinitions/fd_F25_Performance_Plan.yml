@@ -77,17 +77,18 @@ fields:
       - insert: 'INSERT { $subject rdf:value $value . 
                           ?parent rdfs:label $value . }
                   WHERE { 
-                  BIND(IRI(REPLACE(STR($subject),"/title","")) AS ?parent)
+                    OPTIONAL { $subject ^crm:P102_has_title ?parentSubject . }
+                    BIND(IF(CONTAINS(STR($parentSubject),"/title"),IRI(REPLACE(STR($parentSubject),"/title","")),?parentSubject) AS ?parent)
                   }'
-      - delete: 'DELETE { $subject rdf:value $value . } WHERE { }'
+      - delete: 'DELETE { 
+                    $subject rdf:value $value . 
+                    ?parent rdfs:label $value .
+                  } 
+                WHERE {
+                  OPTIONAL { $subject ^crm:P102_has_title ?parentSubject . }
+                  BIND(IF(CONTAINS(STR($parentSubject),"/title"),IRI(REPLACE(STR($parentSubject),"/title","")),?parentSubject) AS ?parent)
+                }'
 
-  - id: PerformancePlan_RDFSLabel
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_RDFSLabel
-    datatype: xsd:langString
-    domain: http://www.w3.org/2000/01/rdf-schema#label
-    queries:
-      - select: 'SELECT $value WHERE { $subject rdfs:label $value }'
-      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
 
   - id: PerformancePlan_P67_is_referred_to_by
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P67_is_referred_to_by
