@@ -15,13 +15,13 @@
       form-id='performancePlan'
       fields='[
         [[> RDFtype]],
+        [[> PerformancePlan_Label]],
         [[> PerformanceWork_R12_is_realised_in]],
         [[> PerformancePlan_MusicTitle]],
         [[> RDFSComment]],
         [[> SameAs]],
         [[> PerformancePlan_R14_incorporates]],
         [[> PerformancePlan_P102_has_title]],
-        [[> PerformancePlan_RDFSLabel]],
         [[> PerformancePlan_IdentifierBy]],
         [[> PerformancePlan_P67_is_referred_to_by]],
         [[> ExpressionCreation_PerformancePlan_R17_created]],
@@ -35,24 +35,32 @@
           <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "frbroo:F25_Performance_Plan"]]'></semantic-form-hidden-input>
         </div>
 
+        <!-- Label Production -->
+        <bs-row>
+            <bs-col sm='12'>
+              <semantic-form-text-input for="PerformancePlan_Label" languages='["en","de","it","fr"]'></semantic-form-text-input>
+            </bs-col>
+        </bs-row>
+        <p><small><em>(This will also automatically create a "Title" entry)</em></small></p>
+
         <!-- Title --> 
         <semantic-form-composite-input for="PerformancePlan_P102_has_title"
           new-subject-template='/title'
           fields='[
               [[> RDFtype]],
               [[> TitleType]],
-              [[> PerformancePlan_Title_Label_Value]]                
+              [[> TitleValue]]                
             ]'
         >
           <div style="display: none;">
             <semantic-form-hidden-input for="RDFtype" default-value='[[resolvePrefix "crm:E35_Title"]]'></semantic-form-hidden-input>
           </div>
           <bs-row>
-            <bs-col sm='2'>
+            <bs-col sm='4'>
               <semantic-form-tree-picker-input for="TitleType"></semantic-form-tree-picker-input>
             </bs-col>
             <bs-col sm='8'>
-              <semantic-form-text-input for="PerformancePlan_Title_Label_Value" languages='["en","de","it","fr"]' ></semantic-form-text-input>                
+              <semantic-form-text-input for="TitleValue" languages='["en","de","it","fr"]'></semantic-form-text-input>                
             </bs-col>
           </bs-row>
         </semantic-form-composite-input>
@@ -272,11 +280,7 @@
           </bs-row>
             </semantic-form-composite-input>
           </bs-col>
-        </bs-row>
-        <!-- Label for default is Title Value -->
-        <div style="display: none;">
-          <semantic-form-text-input for="PerformancePlan_RDFSLabel"></semantic-form-text-input>
-        </div>  
+        </bs-row> 
         <br/>
         <!-- ================================= Button ================================= -->
         <semantic-form-errors></semantic-form-errors>

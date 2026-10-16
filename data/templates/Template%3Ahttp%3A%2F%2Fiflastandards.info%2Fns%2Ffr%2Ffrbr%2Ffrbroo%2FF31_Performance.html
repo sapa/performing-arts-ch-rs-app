@@ -275,14 +275,12 @@
                 template='<p>
                           {{#ifCond bindings.length ">" 0}}<h5>Performances</h5>{{/ifCond}}
                           {{#each bindings}}
-                            {{#if @first}}
                               <div id="sapa-parts-module">
                                 <br/>
                                 <semantic-link iri="{{single.value}}" target="_blank">
                                 {{E52TimeSpan_Label.value}}
                               </semantic-link>
                               </div>
-                            {{/if}}
                           {{/each}}
                         </p>'
                >

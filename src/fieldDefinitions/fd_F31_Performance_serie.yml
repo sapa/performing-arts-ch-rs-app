@@ -235,18 +235,6 @@ fields:
       - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
       - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
 
-  - id: Activity_ActorLabel
-    label: Label
-    description: A short comment that helps to identify the entity.
-    datatype: http://www.w3.org/2001/XMLSchema#string
-    domain: http://www.w3.org/2002/07/owl#Class
-    minOccurs: 1
-    maxOccurs: 1
-    queries:
-      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
-      - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
-      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
-
   - id: PerformanceSerie_P102_has_title
     label: Title
     datatype: xsd:anyURI
@@ -408,7 +396,7 @@ fields:
   - id: PerformanceSerie_isOrWasDescribedBy
     label: RecordSource
     datatype: xsd:anyURI
-    minOccurs: 1
+    minOccurs: 0
     maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }'
