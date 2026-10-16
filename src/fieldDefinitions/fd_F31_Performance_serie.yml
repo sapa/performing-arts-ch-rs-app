@@ -31,10 +31,12 @@ fields:
       - insert: 'INSERT { 
         $subject rdfs:label $value .        
         $subject crm:P102_has_title ?mainTitle .
-        ?mainTitle rdf:value $value .
+        ?mainTitle rdf:value ?finalValue .
         ?mainTitle crm:P2_has_type spav:gotlb .
       } WHERE {
         BIND(IRI(CONCAT(STR($subject), "/mainTitle")) AS ?mainTitle)
+        OPTIONAL { ?mainTitle rdf:value ?something . }
+        BIND(IF(BOUND(?something),?something,$value) AS ?finalValue)
       }'
       - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
 
