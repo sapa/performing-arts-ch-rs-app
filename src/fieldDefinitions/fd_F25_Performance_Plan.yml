@@ -64,31 +64,6 @@ fields:
 
           } LIMIT 10' 
 
-  - id: PerformancePlan_Title_Label_Value
-    iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan__TitleLabel_Value
-    label: Title
-    datatype: xsd:langString
-    minOccurs: 1
-    maxOccurs: 1
-    queries:
-      - select: 'SELECT ?value WHERE {       
-          $subject rdf:value ?value .          
-        }'
-      - insert: 'INSERT { $subject rdf:value $value . 
-                          ?parent rdfs:label $value . }
-                  WHERE { 
-                    OPTIONAL { $subject ^crm:P102_has_title ?parentSubject . }
-                    BIND(IF(CONTAINS(STR($parentSubject),"/title"),IRI(REPLACE(STR($parentSubject),"/title","")),?parentSubject) AS ?parent)
-                  }'
-      - delete: 'DELETE { 
-                    $subject rdf:value $value . 
-                    ?parent rdfs:label $value .
-                  } 
-                WHERE {
-                  OPTIONAL { $subject ^crm:P102_has_title ?parentSubject . }
-                  BIND(IF(CONTAINS(STR($parentSubject),"/title"),IRI(REPLACE(STR($parentSubject),"/title","")),?parentSubject) AS ?parent)
-                }'
-
 
   - id: PerformancePlan_P67_is_referred_to_by
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P67_is_referred_to_by
@@ -99,11 +74,27 @@ fields:
       - insert: 'INSERT { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
       - delete: 'DELETE { $subject crm:P67i_is_referred_to_by $value . } WHERE { }'
 
+  - id: PerformancePlan_Label
+    label: Label
+    datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+    minOccurs: 1
+    maxOccurs: 1
+    queries:
+      - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
+      - insert: 'INSERT { 
+        $subject rdfs:label $value .        
+        $subject crm:P102_has_title ?mainTitle .
+        ?mainTitle rdf:value $value .
+        ?mainTitle crm:P2_has_type spav:gotlb .
+      } WHERE {
+        BIND(IRI(CONCAT(STR($subject), "/mainTitle")) AS ?mainTitle)
+      }'
+      - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
+
   - id: PerformancePlan_P102_has_title
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformancePlan_P102_has_title
     label: Title
     datatype: xsd:anyURI
-    minOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject crm:P102_has_title ?value . }'
       - insert: 'INSERT { $subject crm:P102_has_title $value . } WHERE {}'
