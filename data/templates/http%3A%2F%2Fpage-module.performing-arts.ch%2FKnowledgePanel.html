@@ -19,7 +19,20 @@
                             crm:P2_has_type ?genre .
                     }
                     OPTIONAL { ?? rico:hasRecordSetType ?record_set_type . }
-                    BIND(IF(BOUND(?timespan) && !BOUND(?additionalType), ?timespan, IF(BOUND(?timespan) && BOUND(?additionalType), ?additionalType, IF(BOUND(?genre), ?genre,IF(BOUND(?crmtype), ?crmtype, IF(BOUND(?record_set_type), ?record_set_type, ?class))))) AS ?description)
+                    BIND(
+                        IF(BOUND(?timespan) && !BOUND(?additionalType),
+                            ?timespan,
+                        IF(BOUND(?timespan) && BOUND(?additionalType),
+                            ?additionalType,
+                        IF(BOUND(?genre),
+                            ?genre,
+                        IF(BOUND(?crmtype),
+                            ?crmtype,
+                        IF(BOUND(?record_set_type),
+                            ?record_set_type,
+                        ?class
+                    )))))
+                    AS ?description)
                     BIND(STRAFTER(STR(?description),'frbroo/') AS ?desc_name)
                 }"
                 template='{{#each bindings}}[[> addComma]]
