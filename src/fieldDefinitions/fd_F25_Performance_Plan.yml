@@ -118,7 +118,7 @@ fields:
   - id: PerformancePlan_isOrWasDescribedBy
     label: RecordSource
     datatype: xsd:anyURI
-    minOccurs: 1
+    minOccurs: 0
     maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }'
