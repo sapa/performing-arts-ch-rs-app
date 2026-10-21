@@ -2,7 +2,6 @@ fields:
   
   - id: PerformanceSerie_P10_falls_within
     label: Season
-    minOccurs: 1
     maxOccurs: 1
     datatype: xsd:anyURI
     domain: http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan
