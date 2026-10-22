@@ -4317,7 +4317,6 @@ $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mai
         "id" : "PerformancePlan_isOrWasDescribedBy",
 
             "label": "[[i18n "field_recordsource" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:anyURI",
                 "selectPattern" : "SELECT ?value WHERE { $subject rico:isOrWasDescribedBy ?value. }",
@@ -4331,7 +4330,6 @@ $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mai
         "id" : "PerformanceSerie_P10_falls_within",
 
             "label": "[[i18n "field_season" bundle="sapa-fields"]]",
-            "minOccurs" : "1",
             "maxOccurs" : "1",
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://iflastandards.info/ns/fr/frbr/frbroo/F25_Performance_Plan",
@@ -4352,7 +4350,7 @@ $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mai
             "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value . $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value $value . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value . $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
                 "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
         "iri" : "PerformanceSerie_Label"
     }
