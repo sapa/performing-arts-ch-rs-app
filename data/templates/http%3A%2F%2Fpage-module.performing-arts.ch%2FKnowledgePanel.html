@@ -20,9 +20,9 @@
                     }
                     OPTIONAL { ?? rico:hasRecordSetType ?record_set_type . }
                     BIND(
-                        IF(BOUND(?timespan) && !BOUND(?additionalType),
+                        IF(BOUND(?timespan),
                             ?timespan,
-                        IF(BOUND(?timespan) && BOUND(?additionalType),
+                        IF(BOUND(?additionalType),
                             ?additionalType,
                         IF(BOUND(?genre),
                             ?genre,
