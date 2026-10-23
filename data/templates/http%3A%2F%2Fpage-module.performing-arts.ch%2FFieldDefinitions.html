@@ -3770,7 +3770,8 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
             "domain" : "http://www.w3.org/2002/07/owl#Class",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value } WHERE {}",
+                "insertPattern" : "INSERT { $subject rdfs:label $value .
+$subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
                 "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
         "iri" : "Non_Performative_Expression_Label"
     }
