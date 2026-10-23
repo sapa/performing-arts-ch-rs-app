@@ -45,12 +45,11 @@
 
             <!-- Type of Performance Serie -->
             <semantic-query
-              query='Select ?SpavHLLabel
+              query='Select ?SpavHlValue
                     Where {
                       ?? crm:P2_has_type ?SpavHlValue .
-                      ?SpavHlValue skos:inScheme/skos:prefLabel ?SpavHLLabel .
                     }'
-              template='<p>{{#each bindings}}{{#if @first}}{{SpavHLLabel.value}}{{/if}}{{/each}}</p>'>
+              template='<p>{{#each bindings}}{{#if @first}}<mp-label iri="{{SpavHlValue.value}}"></mp-label>{{else}}, <mp-label iri="{{SpavHlValue.value}}"></mp-label>{{/if}}{{/each}}</p>'>
             </semantic-query> 
 
             <!-- Venue Performance Serie -->
