@@ -15,7 +15,8 @@ fields:
     description: A short comment that helps to identify the entity.
     datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     domain: http://www.w3.org/2002/07/owl#Class
-    minOccurs: 0
+    minOccurs: 1
+    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
       - insert: 'INSERT { 
