@@ -18,7 +18,17 @@ fields:
     minOccurs: 0
     queries:
       - select: 'SELECT ?value WHERE { $subject rdfs:label ?value. }'
-      - insert: 'INSERT { $subject rdfs:label $value } WHERE {}'
+      - insert: 'INSERT { 
+        $subject rdfs:label $value .  
+
+        $subject crm:P102_has_title ?mainTitle .
+        ?mainTitle rdf:value ?finalValue .
+        ?mainTitle crm:P2_has_type spav:gotlb .
+      } WHERE {
+        BIND(IRI(CONCAT(STR($subject), "/mainTitle")) AS ?mainTitle)
+        OPTIONAL { ?mainTitle rdf:value ?something . }
+        BIND(IF(BOUND(?something),?something,$value) AS ?finalValue)
+      }'
       - delete: 'DELETE { $subject rdfs:label $value } WHERE {}'
 
   - id: Non_Performative_Expression_Activity_HasType
