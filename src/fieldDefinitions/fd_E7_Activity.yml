@@ -133,7 +133,7 @@ fields:
     queries:
       - select: 'SELECT ?value ?label WHERE {
         $subject crm:P14_carried_out_by ?value .
-        ?value rdfs:label ?labelTmp .          
+        ?value rdfs:label ?labelTmp . FILTER(lang(?labelTmp = "") || lang(?labelTmp = "en"))
         BIND(IF(CONTAINS(STR(?value),"/u/"),CONCAT(?labelTmp,"  ","(unreconciled /u)"),?labelTmp) AS ?label)
       }'
       - insert: 'INSERT {
