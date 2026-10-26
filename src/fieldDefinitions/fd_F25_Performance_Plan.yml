@@ -20,7 +20,7 @@ fields:
       - autosuggestion: 'SELECT ?value ?label
           WHERE {
             ?value a frbroo:F22_Self-Contained_Expression ;
-                  rdfs:label ?title .
+                  crm:P102_has_title [ rdf:value ?title ] .
             
             ?title bds:search $__token__ ;
                 bds:relevance ?score ; 
