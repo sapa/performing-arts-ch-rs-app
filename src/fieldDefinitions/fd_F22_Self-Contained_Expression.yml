@@ -23,6 +23,7 @@ fields:
         $subject rdfs:label $value .  
 
         $subject crm:P102_has_title ?mainTitle .
+        ?mainTitle a crm:E35_Title .
         ?mainTitle rdf:value ?finalValue .
         ?mainTitle crm:P2_has_type spav:gotlb .
       } WHERE {
