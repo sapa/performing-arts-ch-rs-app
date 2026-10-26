@@ -3868,7 +3868,7 @@ $subject crm:P102_has_title ?mainTitle . ?mainTitle a crm:E35_Title . ?mainTitle
             "xsdDatatype" : "xsd:anyURI",
             "domain" : "http://www.cidoc-crm.org/cidoc-crm/E7_Activity",
             "range" : ["http://www.cidoc-crm.org/cidoc-crm/E39_Actor"],
-                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . FILTER(lang(?labelTmp) = \"\") || lang(?labelTmp) = \"en\") BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(?labelTmp,\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
+                "selectPattern" : "SELECT ?value ?label WHERE { $subject crm:P14_carried_out_by ?value . ?value rdfs:label ?labelTmp . FILTER(lang(?labelTmp) = \"\" || lang(?labelTmp) = \"en\") BIND(IF(CONTAINS(STR(?value),\"/u/\"),CONCAT(STR(?labelTmp),\"  \",\"(unreconciled /u)\"),?labelTmp) AS ?label) }",
                 "insertPattern" : "INSERT { $subject crm:P14_carried_out_by ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE { ?value rdf:type/rdfs:subClassOf* crm:E39_Actor ; crm:P131_is_identified_by [ rdf:value ?ll ] .
 BIND(SUBSTR(STR($value), 32 , 1 ) AS ?type_indicator) FILTER(?type_indicator = \"a\")
