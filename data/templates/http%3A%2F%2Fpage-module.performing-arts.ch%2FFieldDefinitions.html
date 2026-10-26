@@ -3772,7 +3772,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
             "domain" : "http://www.w3.org/2002/07/owl#Class",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
                 "insertPattern" : "INSERT { $subject rdfs:label $value .
-$subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
+$subject crm:P102_has_title ?mainTitle . ?mainTitle a crm:E35_Title . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
                 "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
         "iri" : "Non_Performative_Expression_Label"
     }
@@ -4285,7 +4285,7 @@ FILTER(!CONTAINS(STR(?value),\"/u/\") ) BIND(IF(BOUND(?F28Label), CONCAT(STR(?ti
             "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
                 "insertPattern" : "INSERT { $subject rdfs:label $value .
-$subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
+$subject crm:P102_has_title ?mainTitle . ?mainTitle a crm:E35_Title . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
                 "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
         "iri" : "PerformancePlan_Label"
     }
@@ -4352,7 +4352,8 @@ $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mai
             "maxOccurs" : "1",
             "xsdDatatype" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
                 "selectPattern" : "SELECT ?value WHERE { $subject rdfs:label ?value. }",
-                "insertPattern" : "INSERT { $subject rdfs:label $value . $subject crm:P102_has_title ?mainTitle . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
+                "insertPattern" : "INSERT { $subject rdfs:label $value .
+$subject crm:P102_has_title ?mainTitle . ?mainTitle a crm:E35_Title . ?mainTitle rdf:value ?finalValue . ?mainTitle crm:P2_has_type spav:gotlb . } WHERE { BIND(IRI(CONCAT(STR($subject), \"/mainTitle\")) AS ?mainTitle) OPTIONAL { ?mainTitle rdf:value ?something . } BIND(IF(BOUND(?something),?something,$value) AS ?finalValue) }",
                 "deletePattern" : "DELETE { $subject rdfs:label $value } WHERE {}",
         "iri" : "PerformanceSerie_Label"
     }
