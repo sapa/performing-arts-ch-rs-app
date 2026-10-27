@@ -4251,7 +4251,7 @@ OPTIONAL { ?child rico:isOrWasIncludedIn ?item. } BIND(BOUND(?child) AS ?hasChil
                 "selectPattern" : "SELECT $value WHERE { $subject frbroo:R14_incorporates $value }",
                 "insertPattern" : "INSERT { $subject frbroo:R14_incorporates $value } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R14_incorporates $value } WHERE {}",
-                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a frbroo:F22_Self-Contained_Expression ; rdfs:label ?title .
+                "autosuggestionPattern" : "SELECT ?value ?label WHERE { ?value a frbroo:F22_Self-Contained_Expression ; crm:P102_has_title [ rdf:value ?title ] .
 ?title bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" .
 ?F28_EC frbroo:R17_created ?value .
 OPTIONAL { SELECT ?F28_EC (GROUP_CONCAT(DISTINCT ?singleActivityLabel; separator=\", \") AS ?F28Label) WHERE { ?F28_EC a frbroo:F28_Expression_Creation . ?F28_EC frbroo:R17_created/rdf:type frbroo:F22_Self-Contained_Expression .
