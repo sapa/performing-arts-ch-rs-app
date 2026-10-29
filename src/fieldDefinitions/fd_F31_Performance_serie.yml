@@ -188,6 +188,8 @@ fields:
           ?value crm:P2_has_type ?type .
           ?type skos:inScheme <http://vocab.performing-arts.ch/dw> .
 
+          FILTER(STRSTARTS(STR(?value), "http://data.performing-arts.ch/o/"))
+
           {
             ?value rdfs:label ?l .            
           }
