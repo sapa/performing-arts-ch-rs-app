@@ -13,6 +13,8 @@ fields:
   - id: PerformanceSingle_additionalType
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/PerformanceSingle_additionalType
     datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
     domain: frbroo:F31_Performance
     queries:
       - select: 'SELECT ?value WHERE { $subject schema:additionalType ?value. }'

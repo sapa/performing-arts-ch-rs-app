@@ -43,6 +43,8 @@ fields:
 
   - id: PerformanceSerie_additionalType
     datatype: xsd:anyURI
+    minOccurs: 1
+    maxOccurs: 1
     domain: frbroo:F31_Performance
     queries:
       - select: 'SELECT ?value WHERE { $subject schema:additionalType ?value. }'
@@ -276,6 +278,7 @@ fields:
     label: Type
     datatype: xsd:anyURI
     minOccurs: 1
+    maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -338,6 +341,7 @@ fields:
   - id: PerformanceSerie_Activity_AdditionalType
     label: Second
     datatype: xsd:anyURI
+    maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
       - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
