@@ -5,6 +5,7 @@ fields:
     label: Type
     datatype: xsd:anyURI
     minOccurs: 1
+    maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     range: http://www.cidoc-crm.org/cidoc-crm/E55_Type
     queries:
@@ -66,6 +67,7 @@ fields:
     iri: http://performing-arts.ch/ldp-assets/fieldDefinitionContainer/Activity_AdditionalType
     label: Second
     datatype: xsd:anyURI
+    maxOccurs: 1
     domain: http://www.cidoc-crm.org/cidoc-crm/E7_Activity
     queries:
       - select: 'SELECT ?value WHERE { $subject schema:additionalType $value. }'
