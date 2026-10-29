@@ -60,7 +60,6 @@ fields:
     label: Value
     datatype: http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
     minOccurs: 1
-    maxOccurs: 1
     queries:
       - select: 'SELECT ?value WHERE { $subject rdf:value ?value . }'
       - insert: 'INSERT { $subject rdf:value ?value . } WHERE { }'
