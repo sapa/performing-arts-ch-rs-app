@@ -35,6 +35,7 @@
             </ul>
           </template>>
         </semantic-query>
+        
         <!-- season -->
         <semantic-query
           query="SELECT ?season WHERE {
@@ -53,33 +54,6 @@
               </ul>
             </template>
         </semantic-query>
-
-        <!-- organiser 
-        <semantic-query
-          query="SELECT ?group WHERE {
-            BIND(<{{performance.value}}> AS ?PerfSerie)
-            ?PerfSerie a frbroo:F31_Performance ;
-                        frbroo:R25_performed ?PerfPlan;
-                      schema:additionalType spav:hlser ; 
-                      crm:P9_consists_of ?Activity. 
-            ?Activity a crm:E7_Activity; 
-                        crm:P2_has_type <http://vocab.performing-arts.ch/mupro>;#programmation 
-                        crm:P14_carried_out_by ?group.
-          }"
-          template="{{> template-organiser}}"
-        >
-          <template id="template-organiser">
-            <h5>[[i18n "field_organised_by" bundle="sapa-fields"]]</h5>
-            <ul class="list-unstyled">
-              {{#each bindings}}
-                <li>
-                  <mp-label iri="{{group.value}}"></mp-label>
-                </li>
-              {{/each}}
-              </ul>
-          </template>
-        </semantic-query>
-        -->
 
         <!-- overall responsibility functions - overall responsibility 
         {{> sapaModule:ShowActivities function="spav:mures" resource=performance.value}}
@@ -138,7 +112,9 @@
             </template>
         </semantic-query>
 
+        <!-- Activities -->
         {{> sapaModule:ShowActivitiesGeneric function="false" resource=performance.value}}
+        
 
         <hr />
       </div>
