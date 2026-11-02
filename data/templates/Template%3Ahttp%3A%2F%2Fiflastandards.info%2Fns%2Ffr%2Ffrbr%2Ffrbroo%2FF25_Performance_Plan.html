@@ -67,7 +67,7 @@
                       ?work frbroo:R12_is_realised_in ?? ;
                             schema:subtitleLanguage ?subtitle .
                     }'
-              template='<div><h5>Subtitle</h5><p>{{#each bindings}}{{#if @first}}<mp-label iri="{{subtitle.value}}"></mp-label>{{else}}, <mp-label iri="{{subtitle.value}}"></mp-label>{{/if}}{{/each}}</p>'>
+              template='<div><h5>[[i18n "field_subtitle_language" bundle="sapa-fields"]]</h5><p>{{#each bindings}}{{#if @first}}<mp-label iri="{{subtitle.value}}"></mp-label>{{else}}, <mp-label iri="{{subtitle.value}}"></mp-label>{{/if}}{{/each}}</p>'>
               </semantic-query>  
 
 
