@@ -90,7 +90,9 @@ fields:
               skos:broader+  spav:mupwo ;
               skos:prefLabel ?label .
         FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__))
-        FILTER(CONTAINS(?label, ?__token__))
+        ?label bds:search $__token__ ;
+              bds:relevance ?score ; 
+              bds:matchAllTerms "true"
         OPTIONAL { ?child skos:broader ?item. }
         BIND(BOUND(?child) AS ?hasChildren)
       }
