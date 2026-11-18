@@ -3684,7 +3684,7 @@ WHERE { BIND (IRI(CONCAT(\"http://data.performing-arts.ch/w/\" , STR(UUID())) ) 
                 "rootsQuery": "SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader spav:mupwo ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "childrenQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
                 "parentsQuery": " SELECT DISTINCT ?item ?label ?hasChildren WHERE { ?item skos:broader ?parent. ?item (rdfs:label|skos:prefLabel|rdf:value|dc:title|rico:name|rico:identifier) ?label. FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY (?label)",
-                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+  spav:mupwo ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search ?__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
+                "searchQuery": "PREFIX lookup: <http://www.metaphacts.com/ontologies/platform/repository/lookup#> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX Repository: <http://www.metaphacts.com/ontologies/repository#> SELECT DISTINCT ?item ?label ?score ?hasChildren WHERE { ?item skos:inScheme spav:mu ; skos:broader+  spav:mupwo ; skos:prefLabel ?label . FILTER(LANGMATCHES(LANG(?label), ?__userPreferredLanguage__)) ?label bds:search $__token__ ; bds:relevance ?score ; bds:matchAllTerms \"true\" OPTIONAL { ?child skos:broader ?item. } BIND(BOUND(?child) AS ?hasChildren) } ORDER BY DESC (?score) (?label) LIMIT 200"
             },
                 "selectPattern" : "SELECT ?value WHERE { $subject crm:P2_has_type $value. }",
                 "insertPattern" : "INSERT { $subject crm:P2_has_type $value . } WHERE {}",
@@ -4411,12 +4411,13 @@ $subject crm:P102_has_title ?mainTitle . ?mainTitle a crm:E35_Title . ?mainTitle
                 "insertPattern" : "INSERT { $subject frbroo:R25_performed ?value. } WHERE {}",
                 "deletePattern" : "DELETE { $subject frbroo:R25_performed ?value. } WHERE {}",
                 "autosuggestionPattern" : "SELECT DISTINCT ?value ?label ?score WHERE {
-?value a frbroo:F25_Performance_Plan ; crm:P102_has_title [ rdf:value ?ll ] . SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
+{ ?value a frbroo:F25_Performance_Plan . ?value crm:P102_has_title [ rdf:value ?ll ] .
+SERVICE bds:search { ?ll bds:search ?__token__ ; bds:minRelevance \"0.1\" ; bds:relevance ?score ; bds:matchAllTerms \"true\" . }
 ?value rdfs:label ?l .
 OPTIONAL { SELECT ?value (GROUP_CONCAT(?producer) AS ?producers) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:muwgo . ?activity crm:P14_carried_out_by/rdfs:label ?producer . } GROUP BY ?value }
 OPTIONAL { SELECT ?value (GROUP_CONCAT(?director) AS ?directors) WHERE { ?value ^frbroo:R17_created/crm:P9_consists_of ?activity . ?activity crm:P2_has_type spav:mutnt . ?activity crm:P14_carried_out_by/rdfs:label ?director . } GROUP BY ?value }
 BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l, \" (\"), ?l) AS ?l1) BIND(IF(BOUND(?producers), CONCAT(?l1, \"production \", ?producers), ?l1) AS ?l2) BIND(IF(BOUND(?producers) && BOUND(?directors), CONCAT(?l2, \", \"), ?l2) AS ?l3) BIND(IF(BOUND(?directors), CONCAT(?l3, \"direction \", ?directors), ?l3) AS ?l4) BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l4, \")\"), ?l4) AS ?l5)
-BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/w/\")+30)) AS ?label)
+BIND(CONCAT(?l5, \" - ...\", SUBSTR(STR(?value), STRLEN(\"http://data.performing-arts.ch/w/\")+30)) AS ?label) } UNION { BIND(URI(REPLACE(?__token__, \"[\\\\\\\\|*]\", \"\")) AS ?value) ?value a frbroo:F25_Performance_Plan . ?value rdf:type ?type ; crm:P102_has_title/rdf:value ?label . }
 } ORDER BY DESC (?score) ?label LIMIT 30",
         "iri" : "PerformanceSerie_R25_performed"
     }

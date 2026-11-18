@@ -127,8 +127,10 @@ fields:
       - delete: 'DELETE { $subject frbroo:R25_performed ?value. } WHERE {}'
       - autosuggestion: 'SELECT DISTINCT ?value ?label ?score WHERE {
 
-          ?value a frbroo:F25_Performance_Plan ;
-            crm:P102_has_title [ rdf:value ?ll ] .
+        {
+          ?value a frbroo:F25_Performance_Plan .
+          ?value crm:P102_has_title [ rdf:value ?ll ] .
+          
           SERVICE bds:search {
             ?ll bds:search ?__token__ ;
             bds:minRelevance "0.1" ;
@@ -136,35 +138,42 @@ fields:
             bds:matchAllTerms "true" .
           }
 
-        ?value rdfs:label ?l .
-        
-        OPTIONAL {
-          SELECT ?value (GROUP_CONCAT(?producer) AS ?producers)
-          WHERE {
-            ?value ^frbroo:R17_created/crm:P9_consists_of ?activity .
-            ?activity crm:P2_has_type spav:muwgo .
-            ?activity crm:P14_carried_out_by/rdfs:label ?producer .
+          ?value rdfs:label ?l .
+          
+          OPTIONAL {
+            SELECT ?value (GROUP_CONCAT(?producer) AS ?producers)
+            WHERE {
+              ?value ^frbroo:R17_created/crm:P9_consists_of ?activity .
+              ?activity crm:P2_has_type spav:muwgo .
+              ?activity crm:P14_carried_out_by/rdfs:label ?producer .
+            }
+            GROUP BY ?value
           }
-          GROUP BY ?value
-        }
 
-        OPTIONAL {
-          SELECT ?value (GROUP_CONCAT(?director) AS ?directors)
-          WHERE {
-            ?value ^frbroo:R17_created/crm:P9_consists_of ?activity .
-            ?activity crm:P2_has_type spav:mutnt .
-            ?activity crm:P14_carried_out_by/rdfs:label ?director .
+          OPTIONAL {
+            SELECT ?value (GROUP_CONCAT(?director) AS ?directors)
+            WHERE {
+              ?value ^frbroo:R17_created/crm:P9_consists_of ?activity .
+              ?activity crm:P2_has_type spav:mutnt .
+              ?activity crm:P14_carried_out_by/rdfs:label ?director .
+            }
+            GROUP BY ?value
           }
-          GROUP BY ?value
+
+          BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l, " ("), ?l) AS ?l1)
+          BIND(IF(BOUND(?producers), CONCAT(?l1, "production ", ?producers), ?l1) AS ?l2)
+          BIND(IF(BOUND(?producers) && BOUND(?directors), CONCAT(?l2, ", "), ?l2) AS ?l3)
+          BIND(IF(BOUND(?directors), CONCAT(?l3, "direction ", ?directors), ?l3) AS ?l4)
+          BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l4, ")"), ?l4) AS ?l5)
+
+          BIND(CONCAT(?l5, " - ...", SUBSTR(STR(?value), STRLEN("http://data.performing-arts.ch/w/")+30)) AS ?label)
         }
-
-        BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l, " ("), ?l) AS ?l1)
-        BIND(IF(BOUND(?producers), CONCAT(?l1, "production ", ?producers), ?l1) AS ?l2)
-        BIND(IF(BOUND(?producers) && BOUND(?directors), CONCAT(?l2, ", "), ?l2) AS ?l3)
-        BIND(IF(BOUND(?directors), CONCAT(?l3, "direction ", ?directors), ?l3) AS ?l4)
-        BIND(IF(BOUND(?producers) || BOUND(?directors), CONCAT(?l4, ")"), ?l4) AS ?l5)
-
-        BIND(CONCAT(?l5, " - ...", SUBSTR(STR(?value), STRLEN("http://data.performing-arts.ch/w/")+30)) AS ?label)
+        UNION {
+          BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
+          ?value a frbroo:F25_Performance_Plan .
+          ?value rdf:type ?type ;
+            crm:P102_has_title/rdf:value ?label .
+        }
 
       } ORDER BY DESC (?score) ?label
       LIMIT 30'
