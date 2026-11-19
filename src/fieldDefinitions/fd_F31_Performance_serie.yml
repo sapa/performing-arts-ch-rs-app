@@ -171,8 +171,7 @@ fields:
         UNION {
           BIND(URI(REPLACE(?__token__, "[\\\\\\\\|*]", "")) AS ?value)
           ?value a frbroo:F25_Performance_Plan .
-          ?value rdf:type ?type ;
-            crm:P102_has_title/rdf:value ?label .
+          ?value rdfs:label ?label .
         }
 
       } ORDER BY DESC (?score) ?label
